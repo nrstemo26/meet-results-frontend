@@ -167,10 +167,14 @@ function MeetChart(){
           ],
     }) 
 
+    const options={
+      responsive : true, 
+      // maintainAspectRatio : false,
+  }
     
     return (
         <div className="border-2 rounded border-slate-500 overflow-hidden shadow-md">
-            <Chart type="scatter" data={meetData} />
+            <Chart type="scatter" data={meetData} options={options}/>
         </div>
     )
 }
