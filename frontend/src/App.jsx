@@ -1,30 +1,23 @@
 import './App.css'
-import {useState} from 'react'
-import Header from './components/Header'
+import {useState } from 'react'
 import MeetDashboard from './components/MeetDashboard/MeetDashboard'
 import LifterDashboard from './components/LifterDashboard/LifterDashboard'
-// import MobileNav from './components/MobileNav'
-
+import Navbar from './components/Navbar/Navbar'
 
 function App() {
-  const [showMeet, setShowMeet] = useState(false)
+  const [showMeet, setShowMeet] = useState(true)
+  
   
   const handleClick = () =>{
     setShowMeet(curr=> !curr)
   }
 
   return (
-  //   <div className='bg-slate-500 h-full  '>
-    <div className='h-full'>
-      <Header isMobile={true}/>
-      <button className="border-4 border-orange-700" onClick={()=> handleClick()}>switch dashboards</button>
+      <div className='h-full'>
+      <Navbar />
+      <button className="m-2 border-4 rounded-lg p-3 border-primary-500" onClick={()=> handleClick()}>switch dashboards</button>
       {showMeet ?<MeetDashboard /> :
       <LifterDashboard/> }
-      {/* <LifterDashboard></LifterDashboard> */}
-      {/* <MeetDashboard></MeetDashboard> */}
-      {/* <MobileNav/> */}
-
-
     </div>
   )
 }
