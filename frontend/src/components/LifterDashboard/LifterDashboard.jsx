@@ -1,6 +1,8 @@
 import TopSinclairs from "../MeetDashboard/TopSinclairs";
 import Insights from '../MeetDashboard/Insights'
 import LifterChart from "./LifterChart";
+import BestLifts from "./BestLits";
+import AllTotals from "./AllTotals";
 
 
 
@@ -13,9 +15,9 @@ function LifterDashboard(){
 
         
         <div className="my-2 flex justify-evenly">
-          <TopSinclairs ></TopSinclairs>
-          <Insights></Insights>
-          <Insights></Insights>
+          <BestLifts />
+          <AllTotals />
+          <Insights />
         </div>
         </div>
     )
