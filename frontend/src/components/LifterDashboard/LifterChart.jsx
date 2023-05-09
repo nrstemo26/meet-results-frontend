@@ -173,7 +173,7 @@ function LifterChart(){
     }
     
     return (
-        <div className="border-2 rounded border-slate-500 overflow-hidden shadow-md">
+        <div className="border-2 rounded bg-white overflow-hidden shadow-md">
             <Chart className='min-h-[300px]' type="scatter" data={meetData} options={options} />
         </div>
     )
