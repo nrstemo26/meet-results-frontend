@@ -1,4 +1,5 @@
 import { FiX } from "react-icons/fi";
+import PropTypes from 'prop-types'
 
 
 const Sidebar = ({toggleMenu}) =>{
@@ -15,4 +16,10 @@ const Sidebar = ({toggleMenu}) =>{
     )
 }
 
+Sidebar.propTypes= {
+    toggleMenu: PropTypes.func
+}
+
+
 export default Sidebar;
+
