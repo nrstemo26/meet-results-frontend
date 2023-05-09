@@ -8,13 +8,13 @@ function App() {
   
   
   const toggleDashboard = () =>{
-    setShowMeet(curr=> !curr)
+    setShowMeet( curr => !curr)
   }
 
   return (
       <div className='h-full'>
       <Navbar />
-      <button className="m-2 border-4 rounded-lg p-3 border-primary-500" onClick={()=> toggleDashboard()}>switch dashboards</button>
+      <button className="btn" onClick={()=> toggleDashboard()}>switch dashboards</button>
       
       <Dashboard showMeet={showMeet}/>
     </div>
