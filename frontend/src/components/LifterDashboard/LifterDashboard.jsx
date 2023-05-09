@@ -1,4 +1,3 @@
-import TopSinclairs from "../MeetDashboard/TopSinclairs";
 import Insights from '../MeetDashboard/Insights'
 import LifterChart from "./LifterChart";
 import BestLifts from "./BestLits";
@@ -13,7 +12,7 @@ function LifterDashboard(){
           <LifterChart/>
 
         
-        <div className="my-2 flex justify-evenly">
+        <div className="my-2 flex flex-wrap gap-2 justify-evenly">
           <BestLifts />
           <AllTotals />
           <Insights />

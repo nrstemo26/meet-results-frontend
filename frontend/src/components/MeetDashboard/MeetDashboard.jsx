@@ -12,10 +12,11 @@ function MeetDashboard(){
           <MeetChart ></MeetChart>
 
         
-        <div className="my-2 flex justify-evenly">
-          <TopSinclairs ></TopSinclairs>
-          <Insights></Insights>
-          <Insights></Insights>
+        {/* <div className="my-2 flex flex-wrap gap-2 justify-evenly"> */}
+        <div className="bg-red-200 my-2 flex flex-row flex-wrap gap-2 ">
+          <TopSinclairs></TopSinclairs>
+          <Insights className='flex-auto'></Insights>
+          <Insights className='flex-auto'></Insights>
         </div>
         </div>
     )
