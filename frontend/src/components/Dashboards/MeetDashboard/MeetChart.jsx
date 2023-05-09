@@ -174,7 +174,8 @@ function MeetChart(){
     
     return (
         <div className="border-2 rounded bg-white overflow-hidden shadow-md">
-            <Chart className='min-h-[300px]' type="scatter" data={meetData} options={options}/>
+            {/* <Chart className='min-h-[300px]' type="scatter" data={meetData} options={options}/> */}
+            <Chart className='w-[600] h-[400px]' type="scatter" data={meetData} options={options}/>
         </div>
     )
 }
