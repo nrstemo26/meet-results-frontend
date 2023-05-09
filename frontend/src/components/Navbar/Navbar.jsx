@@ -23,7 +23,7 @@ const Navbar = () =>{
 
 
     return(
-        <div className='bg-primary-500 text-white flex justify-around p-4'>
+        <div className='bg-primary-500 text-white flex justify-around p-4 shadow-md'>
             {isMobile? <MobileNav/> : <DesktopNav/>}
         </div>
     )
