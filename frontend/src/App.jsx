@@ -1,7 +1,5 @@
 import './App.css'
 import {useState } from 'react'
-import MeetDashboard from './components/Dashboards/MeetDashboard/MeetDashboard'
-import LifterDashboard from './components/Dashboards/LifterDashboard/LifterDashboard'
 import Navbar from './components/Navbar/Navbar'
 import Dashboard from './components/Dashboards/Dashboard'
 
