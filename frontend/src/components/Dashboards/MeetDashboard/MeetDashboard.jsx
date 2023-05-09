@@ -6,9 +6,7 @@ import Insights from './Insights'
 
 function MeetDashboard(){
     return (
-        <div className="p-3 m-4 overflow-hidden shadow-lg">
-
-
+        <>
           <div className="bg-secondary-500 p-5 rounded-xl">
             <h1 className="text-center text-2xl font-bold">Dashboard: 2016 Dummy Meet Open</h1>
             <MeetChart ></MeetChart>
@@ -21,7 +19,7 @@ function MeetDashboard(){
           <Insights className='flex-auto'></Insights>
           <Insights className='flex-auto'></Insights>
         </div>
-        </div>
+        </>
     )
 }
 

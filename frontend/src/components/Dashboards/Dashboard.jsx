@@ -6,14 +6,12 @@ import PropTypes from 'prop-types'
 
 const Dashboard = ({showMeet})=>{
     return(
-        <div>
+        <div className="p-2 m-2 overflow-hidden shadow-lg lg:w-[80%] lg:m-auto">
             {showMeet ? 
             <MeetDashboard /> :
             <LifterDashboard/> }
         </div>
     )
-
-
 }
 
 
