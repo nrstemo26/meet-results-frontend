@@ -11,6 +11,42 @@
 }
 
 
+.grid-area{
+  display: grid;
+  grid-auto-columns: 1fr;
+  gap: .5rem;
+  grid-template-areas:
+  'dashboard'
+  'sinclair'
+  'insight'
+  'insight-2'
+}
+
+.grid-dash{
+  grid-area: dashboard;
+}
+.grid-sinclair{
+  grid-area: sinclair;
+}
+.grid-insight{
+  grid-area: insight;
+}
+.grid-insight-2{
+  grid-area: insight-2;
+}
+
+@media(min-width: 640px){
+ 
+  .grid-area{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-areas:
+    'dashboard dashboard  sinclair'
+    'insight insight  insight-2'
+    'insight insight  insight-2';
+  }
+}
+
 
 @layer components{
   .btn { 
@@ -29,7 +65,5 @@
     @apply mx-4 border-b-2 border-primary-300 hover:border-2 shadow-sm;
   }
 
-  .grid-foo{
-    @apply grid col-span-1;
-  }
 }
+
