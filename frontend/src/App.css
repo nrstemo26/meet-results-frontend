@@ -25,5 +25,8 @@
   .dashboard-wrapper{
     @apply p-2 m-2 overflow-hidden shadow-lg lg:w-[80%] lg:m-auto
   }
+  .sidebar-element{
+    @apply mx-4 border-b-2 border-primary-300 hover:border-2 shadow-sm;
+  }
 
 }
