@@ -8,7 +8,7 @@ function MeetDashboard(){
     return (
         <>
           <div className="bg-secondary-500 p-5 rounded-xl">
-            <h1 className="text-center text-2xl font-bold">Dashboard: 2016 Dummy Meet Open</h1>
+            <h1 className="text-center text-orange-100 text-3xl font-medium">Dashboard: 2016 Dummy Meet Open</h1>
             <MeetChart ></MeetChart>
           </div>
 
