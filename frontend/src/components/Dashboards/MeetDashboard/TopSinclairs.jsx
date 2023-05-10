@@ -11,6 +11,13 @@ function TopSinclairs(){
               <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg">Lifter 4: ###Sinclair</a>
               <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg">Lifter 5: ###Sinclair</a>
           </div>
+          <div className="text-center flex flex-col gap-2">
+              <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg">Lifter 1: ###Sinclair</a>
+              <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg">Lifter 2: ###Sinclair</a>
+              <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg">Lifter 3: ###Sinclair</a>
+              <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg">Lifter 4: ###Sinclair</a>
+              <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg">Lifter 5: ###Sinclair</a>
+          </div>
         </div>
     )
 }

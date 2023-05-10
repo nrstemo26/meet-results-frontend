@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 const Dashboard = ({showMeet})=>{
     return(
-        <div className="p-2 m-2 overflow-hidden shadow-lg lg:w-[80%] lg:m-auto">
+        <div className="p-2 m-2 overflow-hidden shadow-lg grid-area lg:w-[80%] lg:m-auto">
             {showMeet ? 
             <MeetDashboard /> :
             <LifterDashboard/> }
