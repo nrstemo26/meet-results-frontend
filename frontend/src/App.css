@@ -29,4 +29,7 @@
     @apply mx-4 border-b-2 border-primary-300 hover:border-2 shadow-sm;
   }
 
+  .grid-foo{
+    @apply grid col-span-1;
+  }
 }
