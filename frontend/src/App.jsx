@@ -12,9 +12,9 @@ function App() {
   }
 
   return (
-      <div className='h-full'>
+      <div className='font-serif h-full'>
       <Navbar />
-      <button className="btn" onClick={()=> toggleDashboard()}>switch dashboards</button>
+      <button className="btn" onClick={()=> toggleDashboard()}>switch dashboards</button>  
       
       <Dashboard showMeet={showMeet}/>
     </div>
