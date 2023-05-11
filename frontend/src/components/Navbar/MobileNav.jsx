@@ -1,12 +1,14 @@
 import { useState } from "react"
 import Sidebar from "./Sidebar"
-import {FiMenu } from 'react-icons/fi'
+import { FiMenu } from 'react-icons/fi'
+import PropTypes from 'prop-types'
 
-function MobileNav(){
+function MobileNav({setIsSidebarOpen}){
     const [isOpen, setIsOpen] = useState(false)
     
     const toggleMenu = () => {
         setIsOpen(!isOpen)
+        setIsSidebarOpen(curr => !curr)
     }
 
     return(
@@ -20,5 +22,10 @@ function MobileNav(){
     </>
     )
 }
+
+MobileNav.propTypes = {
+    setIsSidebarOpen : PropTypes.func
+  
+  }
 
 export default MobileNav
