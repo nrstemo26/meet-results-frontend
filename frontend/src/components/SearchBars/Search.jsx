@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
+import {useDispatch} from 'react-redux'
+import { getAllAthletes } from "../../redux/lifterSlice";
+
 
 const lifterData = [
     // "athletes": [
@@ -90,6 +93,8 @@ const lifterData = [
     // }
 
 const Search = () => {
+  const dispatch = useDispatch()
+
   const [users, setUsers] = useState(lifterData);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -101,11 +106,13 @@ const Search = () => {
       //get all the lifter data then set it as users
       //const response = await fetch('/api/users');
       //const data = await response.json();
-      setUsers(lifterData);
+      const athletes = (await dispatch(getAllAthletes())).payload.athletes
+      console.log(athletes)
+      setUsers(athletes);
     };
 
     fetchUsers();
-  }, []);
+  }, [dispatch]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -116,7 +123,7 @@ const Search = () => {
   );
 
     return (
-        <div>
+        <div className=" text-center">
             <SearchBar onSearch={handleSearch} />
             <UserList users={filteredUsers} />
         </div>
