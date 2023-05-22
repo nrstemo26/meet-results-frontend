@@ -174,7 +174,7 @@ function LifterChart(){
     
     return (
         <div className="chart-wrapper ">
-            <Chart className='min-h-[300px]' type="scatter" data={meetData} options={options} />
+            <Chart  type="scatter" data={meetData} options={options} />
         </div>
     )
 }
