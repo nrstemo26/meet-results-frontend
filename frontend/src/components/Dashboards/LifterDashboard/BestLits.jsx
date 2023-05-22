@@ -1,7 +1,6 @@
 
 function BestLifts({stats}){
 
-    console.log(stats)
     return(
         (!stats? <div>no stats</div>:
         (        
