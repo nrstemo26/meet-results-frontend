@@ -4,17 +4,13 @@ import { useEffect, useState } from "react"
 function AllTotals({ meetHistory  }){
 
     const organizeByDate = () =>{
-        let dateArr = Object.keys(meetHistory).sort((a,b)=>{
-            console.log(meetHistory[a]['Date'].split(' ')[3] +' vs '+ meetHistory[b]['Date'].split(' ')[3])
+        return Object.keys(meetHistory).sort((a,b)=>{
            a = meetHistory[a]['Date'].split(' ')[3] 
            b =  meetHistory[b]['Date'].split(' ')[3]
- 
            return a < b;
         })
-        return dateArr
     }
     const renderResults = (arr) => {
-        console.log(arr)
         return arr.map((meet)=>{
             let meetData = meetHistory[meet]
             let [day, month, year] = meetData["Date"].split(' ').slice(1,4)
