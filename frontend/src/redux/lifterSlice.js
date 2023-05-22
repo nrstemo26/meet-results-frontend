@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const baseUrl = 'http://172.16.15.141:5000/api/v1/athlete/'
+const baseUrl = 'http://192.168.1.139:5000/api/v1/'
+
 
 
 // const initialState ={
@@ -9,20 +10,33 @@ const baseUrl = 'http://172.16.15.141:5000/api/v1/athlete/'
 // }
 
 export const getAthlete = createAsyncThunk(
-    '/',
+    '/api/v1/athlete/',
     async(id) => {
     // async(id, thunkAPI) => {
         // id = "Nathan%20Stemo"
+        let urlPath = 'athlete/'
         id = "Jessie%20Stemo"
         try{
           
-            const response =  await axios.get(baseUrl + id)
+            const response =  await axios.get(baseUrl+ urlPath + id)
             return response.data
 
         }catch(error){
             console.log(error)
         }
     }
+)
+export const getAllAthletes = createAsyncThunk(
+  'api/v1/athletes',
+  async()=>{
+    let urlPath = 'all_athletes'
+    try{
+      const response = await axios.get(baseUrl + urlPath)
+      return response.data;
+    }catch(error){
+      console.log(error)
+    }
+  }
 )
 
 
