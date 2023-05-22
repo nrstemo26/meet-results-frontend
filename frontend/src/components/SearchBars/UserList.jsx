@@ -1,9 +1,7 @@
 
 
-const UserList = ({ users, searchQuery }) => {
-//    const filteredUsers = users.filter((user) =>
-//         user.toLowerCase().includes(searchQuery.toLowerCase())
-//    );
+const UserList = ({ users }) => {
+
 
   return (
     <div>

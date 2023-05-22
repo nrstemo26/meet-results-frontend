@@ -90,16 +90,15 @@ const lifterData = [
     // }
 
 const Search = () => {
-//   const [users, setUsers] = useState([]);
   const [users, setUsers] = useState(lifterData);
   const [searchQuery, setSearchQuery] = useState('');
-
-  console.log(users)
 
   useEffect(() => {
     // Fetch users from backend API or any other data source
     // and update the `users` state
     const fetchUsers = async () => {
+
+      //get all the lifter data then set it as users
       //const response = await fetch('/api/users');
       //const data = await response.json();
       setUsers(lifterData);
@@ -113,13 +112,12 @@ const Search = () => {
   };
 
   const filteredUsers = users.filter((user) =>
-    // user.name.toLowerCase().includes(searchQuery.toLowerCase())
     user.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
     return (
         <div>
-            <SearchBar onSearch={handleSearch} searchQuery={searchQuery}  />
+            <SearchBar onSearch={handleSearch} />
             <UserList users={filteredUsers} />
         </div>
     )
