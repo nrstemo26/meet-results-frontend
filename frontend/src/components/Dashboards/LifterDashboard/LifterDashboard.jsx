@@ -8,8 +8,9 @@ import {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {getAthlete} from '../../../redux/lifterSlice'
 
-
 function LifterDashboard({userId='nathan'}){
+ 
+  // console.log(window.location.pathname)
   const [id, setId] =useState('');
   const [meetHistory, setMeetHistory] = useState(null)
   const [stats, setStats] = useState(null)
@@ -17,7 +18,7 @@ function LifterDashboard({userId='nathan'}){
 
   useEffect(()=>{
     const getUserData = async()=>{
-      const {id, meet_history,stats} = (await dispatch(getAthlete())).payload
+      const {id, meet_history,stats} = (await dispatch(getAthlete(window.location.pathname))).payload
       setId(id)
       setMeetHistory(meet_history)
       setStats(stats)
