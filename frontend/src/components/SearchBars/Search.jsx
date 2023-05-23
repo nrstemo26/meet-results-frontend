@@ -99,15 +99,8 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    // Fetch users from backend API or any other data source
-    // and update the `users` state
     const fetchUsers = async () => {
-
-      //get all the lifter data then set it as users
-      //const response = await fetch('/api/users');
-      //const data = await response.json();
       const athletes = (await dispatch(getAllAthletes())).payload.athletes
-      console.log(athletes)
       setUsers(athletes);
     };
 
