@@ -43,7 +43,7 @@ function App() {
       <Routes>
         <Route path="/api/v1/search" element={<Search/>}/>
         
-        <Route path="/api/v1/lifter/:id" element={<Dashboard showMeet={false}/>}/>
+        <Route path="/api/v1/athlete/:id" element={<Dashboard showMeet={false}/>}/>
         <Route path="/api/v1/meet" element={<Dashboard showMeet={true}/>}/>
         
         
