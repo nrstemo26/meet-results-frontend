@@ -2,13 +2,12 @@ import Insights from '../MeetDashboard/Insights'
 import LifterChart from "./LifterChart";
 import BestLifts from "./BestLits";
 import AllTotals from "./AllTotals";
+
 import {useState, useEffect} from 'react'
-// import axios from 'axios'
-// const baseUrl = 'http://192.168.1.247:5000/api/v1/athlete/Nathan%20Stemo'
 import {useDispatch} from 'react-redux'
 import {getAthlete} from '../../../redux/lifterSlice'
 
-function LifterDashboard({userId='nathan'}){
+function LifterDashboard(){
  
   // console.log(window.location.pathname)
   const [id, setId] =useState('');
@@ -18,7 +17,9 @@ function LifterDashboard({userId='nathan'}){
 
   useEffect(()=>{
     const getUserData = async()=>{
-      const {id, meet_history,stats} = (await dispatch(getAthlete(window.location.pathname))).payload
+      const {id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
+      const data = (await dispatch(getAthlete(window.location.pathname))).payload
+      console.log(data)
       setId(id)
       setMeetHistory(meet_history)
       setStats(stats)
@@ -26,7 +27,7 @@ function LifterDashboard({userId='nathan'}){
       // console.log('history',meet_history)
     }
     getUserData()
-  },[dispatch, userId])
+  },[dispatch])
   
   
   
