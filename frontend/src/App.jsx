@@ -16,9 +16,19 @@ function Home(){
     <h2>Home</h2>
   )
 }
-function Contact(){
+function Login(){
   return(
-    <h2>Contact</h2>
+    <h2>Login</h2>
+  )
+}
+function About(){
+  return(
+    <h2>About</h2>
+  )
+}
+function Insights(){
+  return(
+    <h2>Insights</h2>
   )
 }
 
@@ -38,13 +48,13 @@ function App() {
   return (
     <Router>
     <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
-      <Navbar setIsSidebarOpen={setIsSidebarOpen} />
     
+        <Navbar setIsSidebarOpen={setIsSidebarOpen} />
       <Routes>
-        <Route path="/api/v1/search" element={<Search/>}/>
+        <Route path="/api/v1/athletes" element={<Search/>}/>
         
         <Route path="/api/v1/athlete/:id" element={<Dashboard showMeet={false}/>}/>
-        <Route path="/api/v1/meet" element={<Dashboard showMeet={true}/>}/>
+        <Route path="/api/v1/meets" element={<Dashboard showMeet={true}/>}/>
         
         
         {/* 
@@ -52,8 +62,10 @@ function App() {
         <Route path="/api/v1/lifter" element={<LifterDashboard/>}/>
         <Route path="/api/v1/meet" element={<MeetDashboard/>}/>
          */}
+        <Route path="/api/v1/insights"  element={<Insights/>}/>
         <Route path="/" element={<Home/>}/>
-        <Route path='/contact' element={<Contact/>}/>
+        <Route path="/about" element={<About/>}/>
+        <Route path='/login' element={<Login/>}/>
       </Routes>
 
     </div>
