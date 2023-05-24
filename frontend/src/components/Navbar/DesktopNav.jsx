@@ -1,5 +1,5 @@
 // import { useState } from 'react';
-
+import { Link } from 'react-router-dom'
 
 
 function DesktopNav() {
@@ -7,10 +7,18 @@ function DesktopNav() {
     <>
         {/* <div className="bg-orange-800 text-white flex justify-between p-4"> */}
             <div className="flex gap-2">
-                <a href="#">Home</a>
-                <a href="#">Meets</a>
-                <a href="#">Lifters</a>
-                <a href="#">Insights</a>
+               <Link to="/">
+                <div>Home</div>
+                </Link> 
+               <Link to="/api/v1/meets">
+                <div>Meets</div>
+                </Link> 
+               <Link to="/api/v1/athletes">
+                <div>Lifters</div>
+                </Link> 
+               <Link to="/api/v1/insights">
+                <div>Insights</div>
+                </Link> 
             </div>
             
             <div>
@@ -18,7 +26,9 @@ function DesktopNav() {
             </div>
 
             <div>
-                <a href="#">Login/Register</a>
+                <Link to='/login'>
+                    <div>Login/Register</div>
+                </Link>
             </div>
         {/* </div> */}
     </>
