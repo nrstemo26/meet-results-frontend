@@ -1,13 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const baseUrl = 'http://172.16.15.141:5000'
 
+const baseUrl = 'http://192.168.1.139:5000'
 
-
-// const initialState ={
-//     athlete:'jessie stemo'
-// }
 
 export const getAthlete = createAsyncThunk(
     '/api/v1/athlete/',
