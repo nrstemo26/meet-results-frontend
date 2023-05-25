@@ -3,7 +3,7 @@ import {useState } from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
 
-
+import Session from './components/Session/Session'
 import Navbar from './components/Navbar/Navbar'
 import Dashboard from './components/Dashboards/Dashboard'
 import Search from './components/SearchBars/Search'
@@ -52,7 +52,7 @@ function App() {
         <Navbar setIsSidebarOpen={setIsSidebarOpen} />
       <Routes>
         <Route path="/api/v1/athletes" element={<Search/>}/>
-        
+        <Route path="/api/v1/session" element={<Session/>} />
         <Route path="/api/v1/athlete/:id" element={<Dashboard showMeet={false}/>}/>
         <Route path="/api/v1/meets" element={<Dashboard showMeet={true}/>}/>
         
@@ -62,6 +62,7 @@ function App() {
         <Route path="/api/v1/lifter" element={<LifterDashboard/>}/>
         <Route path="/api/v1/meet" element={<MeetDashboard/>}/>
          */}
+
         <Route path="/api/v1/insights"  element={<Insights/>}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/about" element={<About/>}/>
