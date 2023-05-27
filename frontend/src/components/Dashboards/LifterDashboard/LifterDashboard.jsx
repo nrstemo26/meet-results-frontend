@@ -8,19 +8,18 @@ import {useDispatch} from 'react-redux'
 import {getAthlete} from '../../../redux/lifterSlice'
 
 function LifterDashboard(){
- 
-  // console.log(window.location.pathname)
-  const [id, setId] =useState('');
+  
+  const [id, setId] = useState('');
   const [meetHistory, setMeetHistory] = useState(null)
   const [stats, setStats] = useState(null)
   const dispatch = useDispatch();
 
   useEffect(()=>{
     const getUserData = async()=>{
-      const {id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
+      const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
       const data = (await dispatch(getAthlete(window.location.pathname))).payload
       console.log(data)
-      setId(id)
+      setId(_athlete_id)
       setMeetHistory(meet_history)
       setStats(stats)
       // console.log('stats',stats)
@@ -28,27 +27,7 @@ function LifterDashboard(){
     }
     getUserData()
   },[dispatch])
-  
-  
-  
-  
-  // const [athlete, setAthlete] = useState('')
-  // useEffect(()=>{
-  //   const fetchData = async () => {
-  //     try{
-  //       const res = await axios.get(baseUrl)
-  //       setAthlete(res.data)
-  //       console.log(res)
-  //       console.log('data returned')
-  //       console.log(res.data)
-  //     }catch(error){
-  //       console.error(error)
-  //     }
-  //   }
-  //   fetchData()
 
-      
-  //   },[])
     
     return (
       <>
@@ -70,26 +49,3 @@ function LifterDashboard(){
   
   export default LifterDashboard;
   
-  
-  
-  // import {useSelector, useDispatch} from 'react-redux'
-  // import {decrement, increment} from '../../../redux/counterSlice'
-  
-  // const count = useSelector((state) => state.counter.value)
-  // const dispatch = useDispatch()
-
-{/* <div>
-<button
-aria-label="Increment value"
-onClick={() => dispatch(increment())}
-    >
-    Increment
-    </button>
-    <span>{count}</span>
-    <button
-      aria-label="Decrement value"
-      onClick={() => dispatch(decrement())}
-    >
-      Decrement
-    </button>
-  </div> */}
