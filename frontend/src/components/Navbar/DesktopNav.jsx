@@ -16,6 +16,9 @@ function DesktopNav() {
                <Link to="/api/v1/athletes">
                 <div>Lifters</div>
                 </Link> 
+               <Link to="/api/v1/session">
+                <div>Session Builder</div>
+                </Link> 
                <Link to="/api/v1/insights">
                 <div>Insights</div>
                 </Link> 

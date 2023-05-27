@@ -10,6 +10,7 @@ const Sidebar = ({toggleMenu}) =>{
             <Link onClick={toggleMenu} to='/'><div className='sidebar-element'>Home</div></Link>
             <Link onClick={toggleMenu} to='/api/v1/meets'><div className='sidebar-element'>Meets</div></Link>
             <Link onClick={toggleMenu} to='/api/v1/athletes'><div className='sidebar-element'>Lifters</div></Link>
+            <Link onClick={toggleMenu} to='/api/v1/session'><div className='sidebar-element'>Session Builder</div></Link>
             <Link onClick={toggleMenu} to='/api/v1/insights'><div className='sidebar-element'>Insights</div></Link>
             <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About Us</div></Link>
             <Link onClick={toggleMenu} to='/login'><div className='sidebar-element'>Login/Sign Up</div></Link>
