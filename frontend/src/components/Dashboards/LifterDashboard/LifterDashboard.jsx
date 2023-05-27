@@ -22,8 +22,6 @@ function LifterDashboard(){
       setId(_athlete_id)
       setMeetHistory(meet_history)
       setStats(stats)
-      // console.log('stats',stats)
-      // console.log('history',meet_history)
     }
     getUserData()
   },[dispatch])
@@ -33,7 +31,6 @@ function LifterDashboard(){
       <>
           <div className='bg-secondary-500 p-5 rounded-xl'>
             <h1 className="text-center text-2xl font-bold">{id ? id : 'loading'} Dashboard</h1>
-            {/* <h1 className="text-center text-2xl font-bold">John Bars Lifter Dashboard</h1> */}
             <LifterChart/>
           </div>
 

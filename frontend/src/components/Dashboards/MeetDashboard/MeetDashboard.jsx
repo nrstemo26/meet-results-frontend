@@ -12,8 +12,6 @@ function MeetDashboard(){
             <MeetChart ></MeetChart>
           </div>
 
-        
-        {/* <div className="my-2 flex flex-wrap gap-2 justify-evenly"> */}
         <div className="my-2 flex flex-row flex-wrap gap-2 ">
           <TopSinclairs></TopSinclairs>
           <Insights className='flex-auto'></Insights>

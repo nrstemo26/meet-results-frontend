@@ -3,9 +3,7 @@ import {Link } from 'react-router-dom'
 const UserList = ({ users ,isSession, setSessionAthletes}) => {
   
   const nameToQueryString = (str) =>{
-    // console.log(str)
     let queryString = str.split(/\s+/).join('%20')
-    // console.log('bout to return ',queryString)
     return queryString
   }
 
@@ -17,14 +15,15 @@ const UserList = ({ users ,isSession, setSessionAthletes}) => {
     let lis = []
     for( let i = 0; i<amount; i++){
       if(users[i]){
-      let user = users[i];
-      //can i delay doing the name->query string function??
-      if(isSession){
-        lis.push(<div className='border-primary-500 p-2 border-2 m-2 hover:text-white hover:bg-primary-500 hover:cursor-pointer' key={user}  onClick={(e)=> handleClick(e)}>{user}</div> )  
+        let user = users[i];
+        //can i delay doing the name->query string function??
+        if(isSession){
+          lis.push(<div className='border-primary-500 p-2 border-2 m-2 hover:text-white hover:bg-primary-500 hover:cursor-pointer' key={user}  onClick={(e)=> handleClick(e)}>{user}</div> )  
+        }else{
+          lis.push(<Link to={`/api/v1/athlete/${nameToQueryString(user)}`} ><div className='border-primary-500 p-2 border-2 m-2 hover:text-white hover:bg-primary-500 hover:cursor-pointer' key={user} >{user}</div></Link> )
+        }
       }else{
-        lis.push(<Link to={`/api/v1/athlete/${nameToQueryString(user)}`} ><div className='border-primary-500 p-2 border-2 m-2 hover:text-white hover:bg-primary-500 hover:cursor-pointer' key={user} >{user}</div></Link> )
-      }
-      // lis.push(<Link to={`/api/v1/lifter/${nameToQueryString(user)}`} ><div className='border-primary-500 p-2 border-2 m-2 hover:text-white hover:bg-primary-500 hover:cursor-pointer' key={user} onClick={handleClick}>{user}</div></Link> )
+        break;
       }
     }
     return lis;

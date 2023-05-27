@@ -8,20 +8,18 @@ function Session(){
     return(
         <div className='flex w-100'>
             <div className='w-2/4' >
-            <Search isSession={true} setSessionAthletes={setSessionAthletes}></Search>
-        
+                <Search isSession={true} setSessionAthletes={setSessionAthletes}></Search>
             </div>
+
             <div className='w-2/4'>
-                <h1>athletes watching</h1>
-                <ul>
-                    {sessionAthletes.map((item)=>(
-                        <SessionAthlete key={item} name={item} />
-                        // <li key={item}>{item}</li>  
-                    )
-                    )}
-                </ul>
+              <h1>athletes watching</h1>
+              <ul>
+                {sessionAthletes.map((item)=>(
+                  <SessionAthlete key={item} name={item} />
+                )
+                )}
+              </ul>
             </div>
-           
         </div>
     )
 }

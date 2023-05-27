@@ -4,7 +4,7 @@ import {getAthlete} from "../../redux/lifterSlice"
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
 import { organizeByDate, renderSessionResults } from '../../utilities/date_utils';
 
-function SessionAthlete({name }){
+function SessionAthlete({ name }){
     const [areMeetsVisible, setAreMeetsVisible] = useState(false)
     const [meetHistory, setMeetHistory] = useState(null)
     const [stats, setStats] = useState(null)
@@ -13,8 +13,6 @@ function SessionAthlete({name }){
     useEffect(()=>{
       const getUserData = async()=>{
         const {meet_history, stats} = (await dispatch(getAthlete('/api/v1/athlete/'+name))).payload
-        const data = (await dispatch(getAthlete('/api/v1/athlete/'+name))).payload
-        console.log(data)
         setMeetHistory(meet_history)
         setStats(stats)
       }
@@ -22,9 +20,7 @@ function SessionAthlete({name }){
     },[dispatch, name])
 
     
-    const toggleMeetHistory = ()=>{
-        setAreMeetsVisible((curr)=>!curr)
-    }
+    const toggleMeetHistory = () => setAreMeetsVisible((curr)=>!curr)
     
     return(
         <div className='border-2 border-primary-800 m-2 p-2'>

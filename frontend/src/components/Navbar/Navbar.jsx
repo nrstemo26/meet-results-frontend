@@ -3,11 +3,6 @@ import MobileNav from './MobileNav'
 import DesktopNav from './DesktopNav'
 import PropTypes from 'prop-types'
 
-//need to import set sidebar open prop from app
-//then need to pass into the mobile nave so that when its
-//clicked we can actually do some shib
-
-
 const Navbar = ({setIsSidebarOpen}) =>{
   
   const [isMobile, setIsMobile] = useState(()=>{
@@ -23,7 +18,6 @@ const Navbar = ({setIsSidebarOpen}) =>{
     }
   }
 
-    // create an event listener
     useEffect(() => {
       window.addEventListener("resize", handleResize)
     })
