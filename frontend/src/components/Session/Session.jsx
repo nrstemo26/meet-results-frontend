@@ -1,20 +1,22 @@
 import Search from '../SearchBars/Search'
+import SessionAthlete from './SessionAthlete';
 import { useState } from 'react';
 
 function Session(){
     const [sessionAthletes, setSessionAthletes] = useState([]);
 
     return(
-        <div className='flex'>
+        <div className='flex w-100'>
             <div className='w-2/4' >
             <Search isSession={true} setSessionAthletes={setSessionAthletes}></Search>
-
+        
             </div>
-            <div>
+            <div className='w-2/4'>
                 <h1>athletes watching</h1>
                 <ul>
                     {sessionAthletes.map((item)=>(
-                        <li key={item}>{item}</li>
+                        <SessionAthlete key={item} name={item} />
+                        // <li key={item}>{item}</li>  
                     )
                     )}
                 </ul>
