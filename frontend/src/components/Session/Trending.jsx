@@ -1,6 +1,7 @@
 import {useDispatch} from 'react-redux'
-import { getAllAthletes } from "../../redux/lifterSlice";
 import { useEffect, useState } from "react";
+import { getTrendingAthletes } from "../../redux/lifterSlice";
+import UserList from '../SearchBars/UserList';
 
 function Trending(){
     const dispatch = useDispatch();
@@ -9,8 +10,10 @@ function Trending(){
 
     useEffect(()=>{
         const fetchUsers = async()=>{
-            let athletes = (await dispatch(getAllAthletes())).payload.athletes
-            athletes = athletes.splice(0,20);
+            let athletes = (await dispatch(getTrendingAthletes())).payload.data
+            // if(athletes.length > 20){
+                athletes = athletes.splice(0,20);
+            // }
             setAthletes(athletes)
         }
         fetchUsers()
@@ -20,11 +23,12 @@ function Trending(){
     return(
         <div>
                 <h1>trending page</h1>
-               {athletes.map((el)=>{
+                <UserList users={athletes}></UserList>
+               {/* {athletes.map((el)=>{
                 return(
                     <div key={el}>{el}</div>
                 )
-               })}
+               })} */}
         </div>
     )
 }
