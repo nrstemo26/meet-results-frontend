@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {getAthlete} from "../../redux/lifterSlice"
 import BestLifts from '../Dashboards/LifterDashboard/BestLits';
 import {FiArrowDown} from 'react-icons/fi'
-import { organizeByDate } from '../../utilities/date_utils';
+import { organizeByDate, renderSessionResults } from '../../utilities/date_utils';
 
 function SessionAthlete({name }){
     const [areMeetsVisible, setAreMeetsVisible] = useState(false)
@@ -60,10 +60,7 @@ function SessionAthlete({name }){
                 <div>last 5 meets</div>
                 <FiArrowDown/>
             </div>
-            {areMeetsVisible && meetHistory ? renderResults(organizeByDate(meetHistory)) :''}
-            {/* {meetHistory? renderResults(organizeByDate()) :'no meet history'} */}
-            {/* <div>Comp Prs: {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}</div> */}
-            {/* <BestLifts stats={stats}></BestLifts> */}
+            {areMeetsVisible && meetHistory ? renderSessionResults(organizeByDate(meetHistory), meetHistory) :''}
         </div>
     )
 }
