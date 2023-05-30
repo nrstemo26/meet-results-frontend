@@ -14,7 +14,7 @@ import MeetDashboard from './components/Dashboards/Meet/Dashboard'
 import { HomeComponent as HomeComponent} from './components/LoadingWrapperSandbox'
 
 
-
+// dummy components until i get to making all of these pages
 function Home(){
   return(
     <HomeComponent/>
