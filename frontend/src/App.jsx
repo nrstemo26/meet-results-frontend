@@ -2,9 +2,7 @@ import './App.css'
 import {useState } from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
-import {Spinner as Spinner} from './pages/Spinner'
 import { NotFound } from './pages/NotFound'
-
 import Session from './components/Session/Session'
 import Navbar from './components/Navbar/Navbar'
 import Dashboard from './components/Dashboards/Dashboard'
@@ -12,10 +10,14 @@ import Search from './components/SearchBars/Search'
 import LifterDashboard from './components/Dashboards/LifterDashboard/LifterDashboard'
 import MeetDashboard from './components/Dashboards/MeetDashboard/MeetDashboard'
 
+//imports a wrapper for data loading needs work tho
+import { HomeComponent as HomeComponent} from './components/LoadingWrapperSandbox'
+
+
 
 function Home(){
   return(
-    <h2>Home</h2>
+    <HomeComponent/>
   )
 }
 function Login(){
@@ -55,6 +57,7 @@ function App() {
       <Routes>
         <Route path="*" element={<NotFound/>}/>
         <Route path="/api/v1/athletes" element={<Search/>}/>
+        {/* <Route path="/api/v1/athletes" element={<NewWrapper/>}/> */}
         <Route path="/api/v1/session" element={<Session/>} />
         <Route path="/api/v1/athlete/:id" element={<Dashboard showMeet={false}/>}/>
         <Route path="/api/v1/meets" element={<Dashboard showMeet={true}/>}/>
