@@ -2,6 +2,8 @@ import './App.css'
 import {useState } from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
+import {Spinner as Spinner} from './pages/Spinner'
+import { NotFound } from './pages/NotFound'
 
 import Session from './components/Session/Session'
 import Navbar from './components/Navbar/Navbar'
@@ -49,8 +51,9 @@ function App() {
     <Router>
     <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
     
-        <Navbar setIsSidebarOpen={setIsSidebarOpen} />
+      <Navbar setIsSidebarOpen={setIsSidebarOpen} />
       <Routes>
+        <Route path="*" element={<NotFound/>}/>
         <Route path="/api/v1/athletes" element={<Search/>}/>
         <Route path="/api/v1/session" element={<Session/>} />
         <Route path="/api/v1/athlete/:id" element={<Dashboard showMeet={false}/>}/>
