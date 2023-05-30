@@ -3,7 +3,7 @@ import { Chart, Scatter } from 'react-chartjs-2'
 import { Chart as ChartJS } from 'chart.js/auto'
 
 
-function LifterChart(){
+function AthleteChart(){
     const meetSnData = [
         {
             x:'Meet 1',
@@ -179,4 +179,4 @@ function LifterChart(){
     )
 }
 
-export default LifterChart;
+export default AthleteChart;

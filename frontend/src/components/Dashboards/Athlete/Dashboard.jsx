@@ -1,5 +1,5 @@
-import Insights from '../MeetDashboard/Insights'
-import LifterChart from "./LifterChart";
+import Insights from '../Meet/Insights'
+import AthleteChart from "./AthleteChart";
 import BestLifts from "./BestLits";
 import AllTotals from "./AllTotals";
 
@@ -7,7 +7,7 @@ import {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {getAthlete} from '../../../redux/lifterSlice'
 
-function LifterDashboard(){
+const Dashboard = ()=>{
   
   const [id, setId] = useState('');
   const [meetHistory, setMeetHistory] = useState(null)
@@ -17,8 +17,9 @@ function LifterDashboard(){
   useEffect(()=>{
     const getUserData = async()=>{
       const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
-      const data = (await dispatch(getAthlete(window.location.pathname))).payload
-      console.log(data)
+      // const data = (await dispatch(getAthlete(window.location.pathname))).payload
+      // console.log(data)
+      
       setId(_athlete_id)
       setMeetHistory(meet_history)
       setStats(stats)
@@ -28,10 +29,11 @@ function LifterDashboard(){
 
     
     return (
-      <>
+      <div className='dashboard-container'>
+      {/* // <div className='dashboard-container'> */}
           <div className='bg-secondary-500 p-5 rounded-xl'>
             <h1 className="text-center text-2xl font-bold">{id ? id : 'loading'} Dashboard</h1>
-            <LifterChart/>
+            <AthleteChart/>
           </div>
 
         
@@ -40,9 +42,9 @@ function LifterDashboard(){
           <AllTotals meetHistory={meetHistory}/>
           <Insights />
         </div>
-      </>
+      </div>
     )
   }
   
-  export default LifterDashboard;
+  export {Dashboard};
   

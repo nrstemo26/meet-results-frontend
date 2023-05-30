@@ -5,10 +5,10 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import { NotFound } from './pages/NotFound'
 import Session from './components/Session/Session'
 import Navbar from './components/Navbar/Navbar'
-import Dashboard from './components/Dashboards/Dashboard'
+
 import Search from './components/SearchBars/Search'
-import LifterDashboard from './components/Dashboards/LifterDashboard/LifterDashboard'
-import MeetDashboard from './components/Dashboards/MeetDashboard/MeetDashboard'
+import {Dashboard as AthleteDashboard} from './components/Dashboards/Athlete/Dashboard'
+import MeetDashboard from './components/Dashboards/Meet/Dashboard'
 
 //imports a wrapper for data loading needs work tho
 import { HomeComponent as HomeComponent} from './components/LoadingWrapperSandbox'
@@ -38,8 +38,7 @@ function Insights(){
 
 
 function App() {
-  const [showMeet, setShowMeet] = useState(true)
-  const [selectedComponent, setSelectedComponent] = useState('meet')
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)  
   
   const toggleDashboard = () =>{
@@ -56,18 +55,14 @@ function App() {
       <Navbar setIsSidebarOpen={setIsSidebarOpen} />
       <Routes>
         <Route path="*" element={<NotFound/>}/>
-        <Route path="/api/v1/athletes" element={<Search/>}/>
-        {/* <Route path="/api/v1/athletes" element={<NewWrapper/>}/> */}
         <Route path="/api/v1/session" element={<Session/>} />
-        <Route path="/api/v1/athlete/:id" element={<Dashboard showMeet={false}/>}/>
-        <Route path="/api/v1/meets" element={<Dashboard showMeet={true}/>}/>
         
+        <Route path="/api/v1/athletes" element={<Search/>}/>
+        <Route path="/api/v1/athlete/:id" element={<AthleteDashboard/>}/>
         
-        {/* 
-        should probably look like this but my css is messed up
-        <Route path="/api/v1/lifter" element={<LifterDashboard/>}/>
-        <Route path="/api/v1/meet" element={<MeetDashboard/>}/>
-         */}
+        <Route path="/api/v1/meets" element={<MeetDashboard/>}/>
+        <Route path="/api/v1/meet/:id" element={<MeetDashboard/>}/>
+        
 
         <Route path="/api/v1/insights"  element={<Insights/>}/>
         <Route path="/" element={<Home/>}/>
