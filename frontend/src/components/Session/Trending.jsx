@@ -1,6 +1,6 @@
 import {useDispatch} from 'react-redux'
 import { useEffect, useState } from "react";
-import { getTrendingAthletes } from "../../redux/lifterSlice";
+import { getTrendingAthletes } from "../../features/lifterSlice";
 import UserList from '../SearchBars/UserList';
 
 function Trending(){

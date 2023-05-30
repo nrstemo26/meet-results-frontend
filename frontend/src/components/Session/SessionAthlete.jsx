@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from "react-redux";
-import {getAthlete} from "../../redux/lifterSlice"
+import {getAthlete} from "../../features/lifterSlice"
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
 import { organizeByDate, renderSessionResults } from '../../lib/date_utils';
 

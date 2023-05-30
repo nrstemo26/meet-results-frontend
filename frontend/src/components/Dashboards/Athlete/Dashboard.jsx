@@ -5,7 +5,7 @@ import AllTotals from "./AllTotals";
 
 import {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
-import {getAthlete} from '../../../redux/lifterSlice'
+import {getAthlete} from '../../../features/lifterSlice'
 
 const Dashboard = ()=>{
   
@@ -19,7 +19,7 @@ const Dashboard = ()=>{
       const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
       // const data = (await dispatch(getAthlete(window.location.pathname))).payload
       // console.log(data)
-      
+
       setId(_athlete_id)
       setMeetHistory(meet_history)
       setStats(stats)

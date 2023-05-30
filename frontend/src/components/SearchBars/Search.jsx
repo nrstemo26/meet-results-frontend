@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
 import {useDispatch} from 'react-redux'
-import { getAllAthletes } from "../../redux/lifterSlice";
+import { getAllAthletes } from "../../features/lifterSlice";
 import Trending from '../Session/Trending'
 
 const Search = ({isSession, setSessionAthletes}) => {

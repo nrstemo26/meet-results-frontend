@@ -1,5 +1,5 @@
 import {configureStore } from '@reduxjs/toolkit'
-import lifterReducer from '../redux/lifterSlice'
+import lifterReducer from '../features/lifterSlice'
 
 export const store = configureStore({
     reducer: {
