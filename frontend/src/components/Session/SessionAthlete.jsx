@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from "react-redux";
 import {getAthlete} from "../../redux/lifterSlice"
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
-import { organizeByDate, renderSessionResults } from '../../utilities/date_utils';
+import { organizeByDate, renderSessionResults } from '../../lib/date_utils';
 
 function SessionAthlete({ name }){
     const [areMeetsVisible, setAreMeetsVisible] = useState(false)
