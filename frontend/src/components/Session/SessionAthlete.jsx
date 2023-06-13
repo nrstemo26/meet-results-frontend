@@ -30,7 +30,7 @@ function SessionAthlete({ name }){
 
             <div className='flex justify-between' onClick={()=>toggleMeetHistory()}>
                 {areMeetsVisible ? 
-                (<><div>hide last 5 meets</div><FiArrowUp/></>) : (<><div>show last 5 meets</div><FiArrowDown/></>)}
+                (<><div className='cursor-pointer'>hide last 5 meets</div><FiArrowUp/></>) : (<><div className='cursor-pointer'>show last 5 meets</div><FiArrowDown/></>)}
             </div>
             {areMeetsVisible && meetHistory ? renderSessionResults(organizeByDate(meetHistory), meetHistory) :''}
         </div>
