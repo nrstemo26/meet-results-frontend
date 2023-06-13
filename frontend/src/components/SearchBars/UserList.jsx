@@ -8,7 +8,9 @@ const UserList = ({ users ,isSession, setSessionAthletes}) => {
   }
 
    const handleClick = (e) =>{
-    setSessionAthletes(arr=>[...arr,e.target.textContent])
+    console.log('hello there')
+    console.log(e.target.textContent)
+    setSessionAthletes(arr => [...arr, e.target.textContent] )
    }
 
   const renderUsers = (amount) => {

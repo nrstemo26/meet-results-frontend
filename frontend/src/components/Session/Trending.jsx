@@ -2,8 +2,9 @@ import {useDispatch} from 'react-redux'
 import { useEffect, useState } from "react";
 import { getTrendingAthletes } from "../../features/lifterSlice";
 import UserList from '../SearchBars/UserList';
+// import { setsEqual } from 'chart.js/dist/helpers/helpers.core';
 
-function Trending(){
+function Trending({ setSessionAthletes }){
     const dispatch = useDispatch();
     const [athletes, setAthletes] = useState([])
 
@@ -21,7 +22,7 @@ function Trending(){
     return(
         <div>
             <h1>trending page</h1>
-            <UserList users={athletes}></UserList>
+            <UserList users={athletes} isSession={true} setSessionAthletes={setSessionAthletes}></UserList>
         </div>
     )
 }
