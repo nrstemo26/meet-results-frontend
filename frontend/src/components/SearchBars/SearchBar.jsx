@@ -11,6 +11,7 @@ const SearchBar = ({ onSearch }) => {
           type="text"
           onChange={handleSearch}
           placeholder="Search by name"
+          className="search-bar"
         />
       );
 }
