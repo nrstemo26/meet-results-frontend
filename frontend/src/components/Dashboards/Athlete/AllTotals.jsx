@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { organizeByNewestDate,organizeByOldestDate, renderTotalResults } from "../../../lib/date_utils"
+import { organizeByNewestDate, renderTotalResults } from "../../../lib/date_utils"
 
 
 function AllTotals({ meetHistory }){
