@@ -48,8 +48,8 @@ export const getTrendingAthletes = createAsyncThunk(
 )
 
 
-export const lifterSlice = createSlice({
-    name: "lifter",
+export const athleteSlice = createSlice({
+    name: "athlete",
     initialState: {data: null, loading: false, error: null},
     reducers:{},
     extraReducers: (builder) => {
@@ -69,5 +69,5 @@ export const lifterSlice = createSlice({
 })
 
 
-export default lifterSlice.reducer
+export default athleteSlice.reducer
 

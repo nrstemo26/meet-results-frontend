@@ -5,7 +5,7 @@ import AllTotals from "./AllTotals";
 
 import {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
-import {getAthlete} from '../../../features/lifterSlice'
+import {getAthlete} from '../../../features/athleteSlice'
 
 const Dashboard = ()=>{
   
