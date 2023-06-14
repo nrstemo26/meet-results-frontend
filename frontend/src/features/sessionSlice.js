@@ -24,6 +24,9 @@ export const sessionSlice = createSlice({
 })
 
 export const {addToSession, removeFromSession} = sessionSlice.actions
+
+//i dont need this necessarily
+//i can just call useSelector(state=>state.session.athletes where needed)
 export const selectSession = (state) => state.session.athletes;
 
 export default sessionSlice.reducer
