@@ -4,7 +4,7 @@ import { getTrendingAthletes } from "../../features/lifterSlice";
 import UserList from '../SearchBars/UserList';
 
 
-function Trending( ){
+function Trending({isSession}){
     const dispatch = useDispatch();
     const [athletes, setAthletes] = useState([])
 
@@ -22,7 +22,7 @@ function Trending( ){
     return(
         <div>
             <h1>trending page</h1>
-            <UserList users={athletes} isSession={true}></UserList>
+            <UserList users={athletes} isSession={isSession}></UserList>
         </div>
     )
 }
