@@ -1,14 +1,15 @@
 import Search from '../SearchBars/Search'
 import SessionAthlete from './SessionAthlete';
-import { useState } from 'react';
+import {useSelector} from 'react-redux'
+import {selectSession} from '../../features/sessionSlice'
 
 function Session(){
-    const [sessionAthletes, setSessionAthletes] = useState([]);
+    const sessionAthletes = useSelector(selectSession);
 
     return(
         <div className='flex w-100'>
             <div className='w-2/4' >
-                <Search isSession={true} setSessionAthletes={setSessionAthletes}></Search>
+                <Search isSession={true} ></Search>
             </div>
 
             <div className='w-2/4'>

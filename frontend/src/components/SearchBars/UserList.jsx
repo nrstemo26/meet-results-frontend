@@ -1,17 +1,18 @@
 import {Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addToSession } from '../../features/sessionSlice'
 
-const UserList = ({ users ,isSession, setSessionAthletes}) => {
-  
+const UserList = ({ users ,isSession }) => {
+  const dispatch = useDispatch()
+
   const nameToQueryString = (str) =>{
     let queryString = str.split(/\s+/).join('%20')
     return queryString
   }
 
    const handleClick = (e) =>{
-    console.log('hello there')
-    console.log(e.target.textContent)
-    setSessionAthletes(arr => [...arr, e.target.textContent] )
-   }
+    dispatch(addToSession(e.target.textContent))
+  }
 
   const renderUsers = (amount) => {
     let lis = []

@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux'
 import { getAllAthletes } from "../../features/lifterSlice";
 import Trending from '../Session/Trending'
 
-const Search = ({isSession, setSessionAthletes}) => {
+const Search = ({isSession }) => {
   const dispatch = useDispatch()
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,8 +31,8 @@ const Search = ({isSession, setSessionAthletes}) => {
         <div className=" text-center">
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
-            <UserList users={filteredUsers} isSession={isSession} setSessionAthletes={setSessionAthletes} />
-            : <Trending setSessionAthletes={setSessionAthletes} />}
+            <UserList users={filteredUsers} isSession={isSession}  />
+            : <Trending />}
             
         </div>
     )
