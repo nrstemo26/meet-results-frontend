@@ -4,7 +4,7 @@ import {getAthlete} from "../../features/lifterSlice"
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
 import {TiDeleteOutline} from 'react-icons/ti'
 import { removeFromSession } from '../../features/sessionSlice';
-import { organizeByDate, renderSessionResults } from '../../lib/date_utils';
+import { organizeByNewestDate, renderSessionResults } from '../../lib/date_utils';
 
 function SessionAthlete({ name }){
     const [areMeetsVisible, setAreMeetsVisible] = useState(false)
@@ -41,7 +41,7 @@ function SessionAthlete({ name }){
                 {areMeetsVisible ? 
                 (<><div className='cursor-pointer'>hide last 5 meets</div><FiArrowUp/></>) : (<><div className='cursor-pointer'>show last 5 meets</div><FiArrowDown/></>)}
             </div>
-            {areMeetsVisible && meetHistory ? renderSessionResults(organizeByDate(meetHistory), meetHistory) :''}
+            {areMeetsVisible && meetHistory ? renderSessionResults(organizeByNewestDate(meetHistory), meetHistory) :''}
         </div>
     )
 }
