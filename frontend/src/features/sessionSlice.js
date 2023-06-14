@@ -3,17 +3,20 @@
 // remove lifter from session
 // get the array of lifters
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const sessionSlice = createSlice({
     name: 'session',
     initialState: {athletes:[], loading:false, error:null},
     reducers:{
-        addToSession: (state)=>{
-            state.athletes.push('nathan stemo')
+        addToSession: (state, action)=>{
+            state.athletes.push(action.payload)
         },
-        removeFromSession: ( state )=>{
-            const newState = [...state.athletes].slice(0,state.athletes.length-1)
+        removeFromSession: ( state, action )=>{
+            const newState = state.athletes.filter((el)=>{
+                return el != action.payload
+            })
+           
             return {  state,  athletes: newState }
         }
     },
