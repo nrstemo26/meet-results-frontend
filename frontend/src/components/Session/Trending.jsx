@@ -1,11 +1,14 @@
-import {useDispatch} from 'react-redux'
+import { useDispatch,useSelector} from 'react-redux'
 import { useEffect, useState } from "react";
-import { getTrendingAthletes } from "../../features/lifterSlice";
+import { getTrendingAthletes } from "../../features/athleteSlice";
 import UserList from '../SearchBars/UserList';
 
 
-function Trending({isSession}){
+function Trending({ isSession }){
     const dispatch = useDispatch();
+    const fooathletes = useSelector((state)=>{
+        return state.session.athletes
+    })
     const [athletes, setAthletes] = useState([])
 
 

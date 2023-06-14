@@ -3,7 +3,7 @@ import { organizeByNewestDate, renderSessionResults } from '../../lib/date_utils
 
 import { useDispatch } from "react-redux";
 import { removeFromSession } from '../../features/sessionSlice';
-import { getAthlete } from "../../features/lifterSlice"
+import { getAthlete } from "../../features/athleteSlice"
 
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
 import {TiDeleteOutline} from 'react-icons/ti'
@@ -18,7 +18,7 @@ function SessionAthlete({ name }){
     
     useEffect(()=>{
       const getUserData = async()=>{
-        const {meet_history, stats} = (await dispatch(getAthlete('/api/v1/athlete/'+name))).payload
+        const {meet_history, stats} = (await dispatch(getAthlete('/api/v1/athlete/' + name))).payload
         setMeetHistory(meet_history)
         setStats(stats)
       }
@@ -62,7 +62,7 @@ function SessionAthlete({ name }){
             ''
         }
         
-        <Link to={`/api/v1/athlete/${name}`}><a className='btn border-2 p-1 m-0'>athlete page</a></Link>
+        <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-0'>athlete page</Link>
       </div>
     )
 }
