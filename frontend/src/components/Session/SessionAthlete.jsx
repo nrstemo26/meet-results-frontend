@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
+import { organizeByNewestDate, renderSessionResults } from '../../lib/date_utils';
+
 import { useDispatch } from "react-redux";
-import {getAthlete} from "../../features/lifterSlice"
+import { removeFromSession } from '../../features/sessionSlice';
+import { getAthlete } from "../../features/lifterSlice"
+
 import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
 import {TiDeleteOutline} from 'react-icons/ti'
-import { removeFromSession } from '../../features/sessionSlice';
-import { organizeByNewestDate, renderSessionResults } from '../../lib/date_utils';
+
 import { Link } from 'react-router-dom';
 
 function SessionAthlete({ name }){
@@ -35,7 +38,7 @@ function SessionAthlete({ name }){
           <h1>{name}</h1>
           <TiDeleteOutline onClick={(e)=> handleDelete(e)}/>
         </div>
-        
+
         {
         stats? 
           <div>Comp Prs: {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}</div>
