@@ -1,6 +1,7 @@
 import {Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addToSession } from '../../features/sessionSlice'
+import PropTypes from 'prop-types';
 
 const UserList = ({ users ,isSession }) => {
   const dispatch = useDispatch()
@@ -9,9 +10,9 @@ const UserList = ({ users ,isSession }) => {
     let queryString = str.split(/\s+/).join('%20')
     return queryString
   }
-
+  
    const handleClick = (e) =>{
-    dispatch(addToSession(e.target.textContent))
+     dispatch(addToSession(e.target.textContent))
   }
 
   const renderUsers = (amount) => {
@@ -43,5 +44,10 @@ const UserList = ({ users ,isSession }) => {
     </div>
   );
 }
+
+UserList.propTypes = {
+  users: PropTypes.array,
+  isSession: PropTypes.bool
+};
 
 export default UserList;

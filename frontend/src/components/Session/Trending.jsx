@@ -2,15 +2,19 @@ import { useDispatch,useSelector} from 'react-redux'
 import { useEffect, useState } from "react";
 import { getTrendingAthletes } from "../../features/athleteSlice";
 import UserList from '../SearchBars/UserList';
+import PropTypes from 'prop-types';
 
 
 function Trending({ isSession }){
     const dispatch = useDispatch();
+
     const fooathletes = useSelector((state)=>{
         return state.session.athletes
     })
-    const [athletes, setAthletes] = useState([])
+    console.log(fooathletes)
 
+    const [athletes, setAthletes] = useState([])
+    
 
     useEffect(()=>{
         const fetchUsers = async()=>{
@@ -20,7 +24,7 @@ function Trending({ isSession }){
         }
         fetchUsers()
     },[dispatch])
-
+    
 
     return(
         <div>
@@ -29,5 +33,9 @@ function Trending({ isSession }){
         </div>
     )
 }
+
+Trending.propTypes = {
+  isSession: PropTypes.bool
+};
 
 export default Trending;

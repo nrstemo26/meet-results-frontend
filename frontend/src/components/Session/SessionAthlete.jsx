@@ -9,10 +9,12 @@ import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
 import {TiDeleteOutline} from 'react-icons/ti'
 
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 
 function SessionAthlete({ name }){
-    const [areMeetsVisible, setAreMeetsVisible] = useState(false)
-    const [meetHistory, setMeetHistory] = useState(null)
+  const [areMeetsVisible, setAreMeetsVisible] = useState(false)
+  const [meetHistory, setMeetHistory] = useState(null)
     const [stats, setStats] = useState(null)
     const dispatch = useDispatch();
     
@@ -24,14 +26,14 @@ function SessionAthlete({ name }){
       }
       getUserData()
     },[dispatch, name])
-
+    
     
     const toggleMeetHistory = () => setAreMeetsVisible((curr)=>!curr)
     
     const handleDelete = (e) =>{
       dispatch(removeFromSession(e.target.parentNode.firstChild.textContent))
     }
-
+    
     return(
       <div className='border-2 border-primary-800 m-2 p-2'>
         <div className='flex justify-between'>
@@ -41,30 +43,34 @@ function SessionAthlete({ name }){
 
         {
         stats? 
-          <div>Comp Prs: {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}</div>
+        <div>Comp Prs: {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}</div>
         : 
-          'loading stats'
-        }
+        'loading stats'
+      }
 
         <div className='flex justify-between' onClick={()=>toggleMeetHistory()}>
             {
               areMeetsVisible ? 
                (<><div className='cursor-pointer'>hide last 5 meets</div><FiArrowUp/></>) 
               :
-               (<><div className='cursor-pointer'>show last 5 meets</div><FiArrowDown/></>)
+              (<><div className='cursor-pointer'>show last 5 meets</div><FiArrowDown/></>)
             }
         </div>
         
         {
           areMeetsVisible && meetHistory ? 
-            renderSessionResults(organizeByNewestDate(meetHistory), meetHistory) 
+          renderSessionResults(organizeByNewestDate(meetHistory), meetHistory) 
           :
-            ''
+          ''
         }
         
         <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-0'>athlete page</Link>
       </div>
     )
-}
-
-export default SessionAthlete;
+  }
+  
+  SessionAthlete.propTypes = {
+    name: PropTypes.string
+  };
+  
+  export default SessionAthlete;

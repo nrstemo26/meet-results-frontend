@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux'
+import { getAllAthletes } from "../../features/athleteSlice";
+
+import PropTypes from 'prop-types';
+
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
-import {useDispatch} from 'react-redux'
-import { getAllAthletes } from "../../features/athleteSlice";
 import Trending from '../Session/Trending'
 
-const Search = ({isSession }) => {
+
+
+const Search = ({ isSession }) => {
   const dispatch = useDispatch()
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,4 +43,10 @@ const Search = ({isSession }) => {
     )
 }
 
+Search.propTypes = {
+  isSession: PropTypes.bool
+};
+
 export default Search;
+
+
