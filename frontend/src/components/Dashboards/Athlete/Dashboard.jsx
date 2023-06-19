@@ -2,12 +2,14 @@ import Insights from '../Meet/Insights'
 import AthleteChart from "./AthleteChart";
 import BestLifts from "./BestLits";
 import AllTotals from "./AllTotals";
-
-import {useState, useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import {getAthlete} from '../../../features/athleteSlice'
 import { Spinner } from '../../../pages/Spinner';
-import { Navigate } from 'react-router-dom';
+import { Error } from '../../../pages/Error';
+
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAthlete } from '../../../features/athleteSlice'
+
+
 
 let urlArray = window.location.pathname.split('/')
 let athleteName = urlArray[urlArray.length - 1]
@@ -15,7 +17,7 @@ let athleteName = urlArray[urlArray.length - 1]
 
 const Dashboard = ()=>{
   const dispatch = useDispatch();
-  const {data, isLoading, isError, message} = useSelector( (state) => state.athlete  )
+  const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
   
   
   useEffect(()=>{
@@ -26,25 +28,24 @@ const Dashboard = ()=>{
     const getUserData = async()=>{
       dispatch(getAthlete(athleteName))
       // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
-      // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
-      // const data = (await dispatch(getAthlete(window.location.pathname))).payload
-      // console.log(data)
-
+      
+      
       // setId(_athlete_id)
       // setMeetHistory(meet_history)
       // setStats(stats)
     }
     getUserData()
-
-  },[dispatch,isError])
+  },[dispatch, isError, isSuccess, message ])
   
   if(isLoading){
     return <Spinner/>
   }
+  if(isError){
+    return <Error/>
+  }
   
     return (
       <div className='dashboard-container'>
-      {/* // <div className='dashboard-container'> */}
           <div className='bg-secondary-500 p-5 rounded-xl'>
             <h1 className="text-center text-2xl font-bold">{data ? data['_athlete_id'] : 'loading'} Dashboard</h1>
             {/* <h1 className="text-center text-2xl font-bold">{id ? id : 'loading'} Dashboard</h1> */}
