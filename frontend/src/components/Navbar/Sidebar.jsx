@@ -15,13 +15,14 @@ const Sidebar = ({toggleMenu}) =>{
       <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About Us</div></Link>
       <Link onClick={toggleMenu} to='/login'><div className='sidebar-element'>Login</div></Link>
       <Link onClick={toggleMenu} to='/register'><div className='sidebar-element'>Register</div></Link>
+      <Link onClick={toggleMenu} to='/account'><div className='sidebar-element'>Account</div></Link>
         
     </div>
-)
+  )
 }
 
 Sidebar.propTypes= {
-    toggleMenu: PropTypes.func
+  toggleMenu: PropTypes.func
 }
 
 
