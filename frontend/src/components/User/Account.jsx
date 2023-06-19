@@ -11,16 +11,16 @@ const Account = () => {
             className="w-16 h-16 rounded-full mr-4"
           />
           <div>
-            <h2 className="text-xl font-bold">nickystamos</h2>
+            <h2 className="text-xl text-primary-950 font-bold">nickystamos</h2>
             <p className="text-gray-600">Athlete</p>
           </div>
         </div>
         <div className="flex items-center">
-          <p className="text-l font-bold mr-2">Oracle Rating:</p>
+          <p className="text-l text-primary-950 font-bold mr-2">Oracle Rating:</p>
           <p className="text-m ml-2">1250</p>
         </div>
         <div className="flex items-center">
-          <p className="text-l font-bold mr-2">Rank:</p>
+          <p className="text-l text-primary-950 font-bold mr-2">Rank:</p>
           <span role="img" aria-label="Bearded Wizard" className="text-xl">
             🧙‍♂️
           </span>
