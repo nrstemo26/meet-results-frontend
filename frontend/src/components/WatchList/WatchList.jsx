@@ -1,10 +1,10 @@
 import Search from '../SearchBars/Search'
-import SessionAthlete from './SessionAthlete';
+import WatchListAthlete from './WatchListAthlete';
 import {useSelector} from 'react-redux'
 import {selectSession} from '../../features/sessionSlice'
 
-function Session(){
-    const sessionAthletes = useSelector(selectSession);
+function WatchList(){
+    const WatchListAthletes = useSelector(selectSession);
 
     return(
         <div className='flex w-100'>
@@ -15,8 +15,8 @@ function Session(){
             <div className='w-2/4'>
               <h1>athletes watching</h1>
               <ul>
-                {sessionAthletes.map((item)=>(
-                  <SessionAthlete key={item} name={item} />
+                {WatchListAthletes.map((item)=>(
+                  <WatchListAthlete key={item} name={item} />
                 )
                 )}
               </ul>
@@ -25,4 +25,5 @@ function Session(){
     )
 }
 
-export default Session
+export default WatchList
+

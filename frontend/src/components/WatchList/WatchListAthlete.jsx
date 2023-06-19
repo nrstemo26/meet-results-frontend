@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 
-function SessionAthlete({ name }){
+function WatchListAthlete({ name }){
   const [areMeetsVisible, setAreMeetsVisible] = useState(false)
   const [meetHistory, setMeetHistory] = useState(null)
     const [stats, setStats] = useState(null)
@@ -69,8 +69,8 @@ function SessionAthlete({ name }){
     )
   }
   
-  SessionAthlete.propTypes = {
+  WatchListAthlete.propTypes = {
     name: PropTypes.string
   };
   
-  export default SessionAthlete;
+  export default WatchListAthlete;
