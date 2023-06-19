@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 
 
 function AllTotals(){
-    const { data:{meet_history} } = useSelector( (state)=> state.athlete )|| 'blah';
+    const { data:{meet_history} } = useSelector( (state)=> state.athlete );
    
 
     return(
