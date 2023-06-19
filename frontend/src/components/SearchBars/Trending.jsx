@@ -1,7 +1,7 @@
 import { useDispatch,useSelector} from 'react-redux'
 import { useEffect, useState } from "react";
 import { getTrendingAthletes } from "../../features/athleteSlice";
-import UserList from '../SearchBars/UserList';
+import UserList from './UserList';
 import PropTypes from 'prop-types';
 
 

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
-import Trending from '../Session/Trending'
+import Trending from './Trending'
 
 
 
@@ -38,7 +38,6 @@ const Search = ({ isSession }) => {
             {searchQuery.length > 0 ? 
             <UserList users={filteredUsers} isSession={isSession}  />
             : <Trending  isSession={isSession}/>}
-            
         </div>
     )
 }
