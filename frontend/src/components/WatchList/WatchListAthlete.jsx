@@ -20,7 +20,7 @@ function WatchListAthlete({ name }){
     
     useEffect(()=>{
       const getUserData = async()=>{
-        const {meet_history, stats} = (await dispatch(getAthlete('/api/v1/athlete/' + name))).payload
+        const {meet_history, stats} = (await dispatch(getAthlete(name))).payload
         setMeetHistory(meet_history)
         setStats(stats)
       }
