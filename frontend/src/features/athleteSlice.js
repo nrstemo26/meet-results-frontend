@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 
-const baseUrl = 'http://192.168.1.139:5000'
+const baseUrl = 'http://127.0.0.1:5000'
 
 
 export const getAthlete = createAsyncThunk(
