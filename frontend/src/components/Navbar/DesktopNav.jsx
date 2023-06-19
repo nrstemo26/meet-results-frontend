@@ -6,30 +6,33 @@ function DesktopNav() {
     return (
     <>
          <div>
-            Site Name + img
+            LIFT ORACLE
         </div>
 
         <div className="flex gap-2">
             <Link to="/">
-            <div>Home</div>
+              <div>Home</div>
             </Link> 
             <Link to="/api/v1/meets">
-            <div>Meets</div>
+              <div>Meets</div>
             </Link> 
             <Link to="/api/v1/athletes">
-            <div>Lifters</div>
+              <div>Lifters</div>
             </Link> 
             <Link to="/api/v1/session">
-            <div>Session Builder</div>
+              <div>Session Builder</div>
             </Link> 
             <Link to="/api/v1/insights">
-            <div>Insights</div>
+              <div>Insights</div>
             </Link> 
         </div>
         
-        <div>
+        <div className="flex gap-2">
             <Link to='/login'>
-                <div>Login/Register</div>
+              <div>Login</div>
+            </Link>
+            <Link to='/register'>
+              <div>Register</div>
             </Link>
         </div>
     </>

@@ -7,8 +7,10 @@ import Session from './components/Session/Session'
 import Navbar from './components/Navbar/Navbar'
 
 import Search from './components/SearchBars/Search'
-import {Dashboard as AthleteDashboard} from './components/Dashboards/Athlete/Dashboard'
+import { Dashboard as AthleteDashboard } from './components/Dashboards/Athlete/Dashboard'
 import MeetDashboard from './components/Dashboards/Meet/Dashboard'
+import Login from './components/User/Login'
+import Register from './components/User/Register'
 
 //imports a wrapper for data loading needs work tho
 import { HomeComponent as HomeComponent} from './components/LoadingWrapperSandbox'
@@ -20,11 +22,7 @@ function Home(){
     <HomeComponent/>
   )
 }
-function Login(){
-  return(
-    <h2>Login</h2>
-  )
-}
+
 function About(){
   return(
     <h2>About</h2>
@@ -68,6 +66,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
       </Routes>
 
     </div>

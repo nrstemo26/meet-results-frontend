@@ -30,7 +30,7 @@ const FeatureRequest = () => {
     <div>
       <div className="fixed bottom-0 right-0 mb-8 mr-8">
         <button 
-          className="text-sm m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-transparent" 
+          className="text-sm btn-alt" 
           onClick={handleOpenModal}>Request a feature.
         </button>
       </div>
@@ -43,7 +43,7 @@ const FeatureRequest = () => {
               onClick={handleCloseModal}>&times;
             </span>
             <p className="text-xl font-bold text-primary-950">Feature Request</p>
-            <p className="mb-4 text-slate-500 font-medium">Yeah, bugs too.</p>
+            <p className="mb-4 text-slate-500 font-medium">Sure yeah, submit bugs too.</p>
             <form onSubmit={handleSubmit}>
               <textarea
                 value={requestText}
@@ -52,7 +52,7 @@ const FeatureRequest = () => {
                 required
                 className="w-full h-24 p-2 border border-primary-200 rounded mb-4"  
               ></textarea>
-              <button className="text-sm m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-transparent" type="submit">Submit</button>
+              <button className="text-sm btn-alt" type="submit">Submit</button>
             </form>
           </div>
         </div>
