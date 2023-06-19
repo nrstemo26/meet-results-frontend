@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import Toast from './Toast';
 
 const FeatureRequest = () => {
   const [showModal, setShowModal] = useState(false);
   const [requestText, setRequestText] = useState('');
+  const [showToast, setShowToast] = useState(false);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -18,13 +20,17 @@ const FeatureRequest = () => {
     // Send feature request to '/feature-request' endpoint
     console.log('Submitting feature request:', requestText);
     handleCloseModal();
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 5000);
   };
 
   return (
     <div>
       <div className="fixed bottom-0 right-0 mb-8 mr-8">
         <button 
-          className="m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-primary-400" 
+          className="text-sm m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-transparent" 
           onClick={handleOpenModal}>Request a feature.
         </button>
       </div>
@@ -46,10 +52,13 @@ const FeatureRequest = () => {
                 required
                 className="w-full h-24 p-2 border border-primary-200 rounded mb-4"  
               ></textarea>
-              <button className="m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-primary-400" type="submit">Submit</button>
+              <button className="text-sm m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-transparent" type="submit">Submit</button>
             </form>
           </div>
         </div>
+      )}
+      {showToast && (
+        <Toast message="TY. The Oracle appreciates your feedback." onClose={() => setShowToast(false)} type="success" />
       )}
     </div>
   );
