@@ -7,8 +7,12 @@ import {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {getAthlete} from '../../../features/athleteSlice'
 
+let urlArray = window.location.pathname.split('/')
+let athleteName = urlArray[urlArray.length - 1]
+
+
 const Dashboard = ()=>{
-  
+
   const [id, setId] = useState('');
   const [meetHistory, setMeetHistory] = useState(null)
   const [stats, setStats] = useState(null)
@@ -16,7 +20,8 @@ const Dashboard = ()=>{
 
   useEffect(()=>{
     const getUserData = async()=>{
-      const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
+      const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
+      // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(window.location.pathname))).payload
       // const data = (await dispatch(getAthlete(window.location.pathname))).payload
       // console.log(data)
 

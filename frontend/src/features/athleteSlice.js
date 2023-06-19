@@ -2,17 +2,17 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 
-const baseUrl = 'http://127.0.0.1:5000'
+const baseUrl = 'http://127.0.0.1:5000/api/v1/'
 
 
 export const getAthlete = createAsyncThunk(
-    '/api/v1/athlete/',
+    'athlete/',
     async(urlPath) => {
     // async(id, thunkAPI) => {
         // console.log('in slice', urlPath)
         // urlPath = '/api/v1/athlete/Nathan%20Stemo'
         try{
-            const response =  await axios.get(baseUrl+ urlPath )
+            const response =  await axios.get(baseUrl + 'athlete/' + urlPath )
             return response.data
 
         }catch(error){
@@ -22,11 +22,10 @@ export const getAthlete = createAsyncThunk(
 )
 
 export const getAllAthletes = createAsyncThunk(
-  'api/v1/athletes',
+  'athletes',
   async()=>{
-    let urlPath = '/api/v1/athletes'
     try{
-      const response = await axios.get(baseUrl + urlPath)
+      const response = await axios.get(baseUrl + 'athletes')
       return response.data;
     }catch(error){
       console.log(error)
@@ -35,11 +34,10 @@ export const getAllAthletes = createAsyncThunk(
 )
 
 export const getTrendingAthletes = createAsyncThunk(
-  'api/v1/trending_athletes',
+  'trending_athletes',
   async()=>{
-    let urlPath = '/api/v1/trending_athletes'
     try{
-      const response = await axios.get(baseUrl + urlPath)
+      const response = await axios.get(baseUrl + 'trending_athletes')
       return response.data;
     }catch(error){
       console.log(error)
