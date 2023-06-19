@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom'
 function DesktopNav() {
     return (
     <>
+         <div>
+            Site Name + img
+        </div>
+
         <div className="flex gap-2">
             <Link to="/">
             <div>Home</div>
@@ -23,10 +27,6 @@ function DesktopNav() {
             </Link> 
         </div>
         
-        <div>
-            Site Name + img
-        </div>
-
         <div>
             <Link to='/login'>
                 <div>Login/Register</div>

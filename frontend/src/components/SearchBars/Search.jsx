@@ -28,12 +28,11 @@ const Search = ({isSession, setSessionAthletes}) => {
   );
 
     return (
-        <div className=" text-center">
+        <div className="text-center">
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
             <UserList users={filteredUsers} isSession={isSession} setSessionAthletes={setSessionAthletes} />
             : <Trending/>}
-            
         </div>
     )
 }

@@ -10,10 +10,13 @@ export default {
     extend: {},
     colors: {
       ...colors,
-      primary: colors.orange,
-      secondary: colors.slate,
+      primary: colors.blue,
+      secondary: colors.white,
       neutral: colors.gray,
-    }
+    },
+    fontFamily: {
+      sans: ["Open sans",'Helvetica', 'Arial', 'sans-serif'],
+    },
   },
   plugins: [],
 }

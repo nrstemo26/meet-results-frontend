@@ -6,12 +6,12 @@ function Session(){
     const [sessionAthletes, setSessionAthletes] = useState([]);
 
     return(
-        <div className='flex w-100'>
-            <div className='w-2/4' >
+        <div className='sm:flex w-100'>
+            <div className='sm:w-2/4 border-2'>
                 <Search isSession={true} setSessionAthletes={setSessionAthletes}></Search>
             </div>
 
-            <div className='w-2/4'>
+            <div className='sm:w-2/4 border-2'>
               <h1>athletes watching</h1>
               <ul>
                 {sessionAthletes.map((item)=>(

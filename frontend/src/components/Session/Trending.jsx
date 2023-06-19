@@ -19,8 +19,8 @@ function Trending(){
 
 
     return(
-        <div>
-            <h1>trending page</h1>
+        <div className="border-2">
+            <h1>Trending Athletes</h1>
             <UserList users={athletes}></UserList>
         </div>
     )

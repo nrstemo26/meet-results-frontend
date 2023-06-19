@@ -7,11 +7,13 @@ const SearchBar = ({ onSearch }) => {
     };
     
       return (
-        <input
-          type="text"
-          onChange={handleSearch}
-          placeholder="Search by name"
-        />
+          <input
+            type="text"
+            onChange={handleSearch}
+            placeholder="Start typing an athlete's name."
+            className="m-2 p-2 w-80 text-center border-2 border-primary-500"
+          />
+        
       );
 }
 
