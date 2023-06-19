@@ -5,9 +5,16 @@ import axios from 'axios'
 const baseUrl = 'http://127.0.0.1:5000/api/v1/'
 
 
+const initialState = {
+  data: null, 
+  isLoading: false,
+  isError: null,
+  message: ''
+}
+
 export const getAthlete = createAsyncThunk(
-    'athlete/',
-    async(urlPath) => {
+    'athlete',
+    async(urlPath, thunkAPI) => {
     // async(id, thunkAPI) => {
         // console.log('in slice', urlPath)
         // urlPath = '/api/v1/athlete/Nathan%20Stemo'
@@ -16,7 +23,13 @@ export const getAthlete = createAsyncThunk(
             return response.data
 
         }catch(error){
-            console.log(error)
+          const message = (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+          error.toString()
+    
+          return thunkAPI.rejectWithValue(message)
         }
     }
 )
@@ -48,19 +61,21 @@ export const getTrendingAthletes = createAsyncThunk(
 
 export const athleteSlice = createSlice({
     name: "athlete",
-    initialState: {data: null, loading: false, error: null},
+    initialState,
     reducers:{},
     extraReducers: (builder) => {
         builder
           .addCase(getAthlete.pending, (state) => {
-            state.loading = true;
+            state.isLoading = true;
           })
           .addCase(getAthlete.fulfilled, (state, action) => {
-            state.loading = false;
+            state.isLoading = false;
+            state.isSuccess = true;
             state.data = action.payload;
           })
           .addCase(getAthlete.rejected, (state, action) => {
-            state.loading = false;
+            state.isLoading = false;
+            state.isError = true;
             state.error = action.error.message;
           });
       },
