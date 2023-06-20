@@ -75,18 +75,3 @@ function SnatchHistChart(){
 
 export default SnatchHistChart;
 
-
-// const snatchMeetMakes = {
-//     datasets:[{
-//         label: 'scatter dataset',
-//         backgroundColor:'rgba(255,99,132)',
-//         data:meetSnArr
-//     }]
-// }
-// const meetOptions =  {
-//     scales: {
-//     x: {
-//         type: 'category',
-//     }
-//     }
-// }
