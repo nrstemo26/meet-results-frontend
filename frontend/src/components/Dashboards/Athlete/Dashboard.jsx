@@ -8,12 +8,14 @@ import { Error } from '../../../pages/Error';
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAthlete } from '../../../features/athleteSlice'
+import SnatchHistChart from './charts/SnatchHistChart';
+import CjHistChart from './charts/CjHistChart';
+import AllLiftsChart from './charts/AllLiftsChart';
 
 
 
 let urlArray = window.location.pathname.split('/')
 let athleteName = urlArray[urlArray.length - 1]
-
 
 const Dashboard = ()=>{
   const dispatch = useDispatch();
@@ -49,7 +51,14 @@ const Dashboard = ()=>{
           <div className='bg-secondary-500 p-5 rounded-xl'>
             <h1 className="text-center text-2xl font-bold">{data ? data['_athlete_id'] : 'loading'} Dashboard</h1>
             {/* <h1 className="text-center text-2xl font-bold">{id ? id : 'loading'} Dashboard</h1> */}
-            <AthleteChart/>
+            {
+              data?
+              (<AllLiftsChart/>):
+              // (<CjHistChart/>):
+              // (<SnatchHistChart/>):
+              // (<AthleteChart/>):
+              'nothing'
+            }
           </div>
 
         
