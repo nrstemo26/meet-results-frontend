@@ -3,15 +3,26 @@ import { Chart as ChartJS } from 'chart.js/auto'
 import {useSelector } from  'react-redux'
 import 'chartjs-adapter-date-fns'; 
 import { enUS } from 'date-fns/locale'; 
+import {getHighestMake, filterLift, createChartTotals} from '../../../../lib/chart_utils'
 
 function AllLiftsChart(){
     const {data: { chart_data } } = useSelector((state)=>state.athlete)
-    console.log(chart_data)
-    //might need labels??
-    // const meetSnMissLabels = [... new Set(Object.keys(meetSnMiss).map((el) => meetSnMiss[el][2]))] 
+    let snMakes = getHighestMake(chart_data["Snatch"].Make)
+    let cjMakes = getHighestMake(chart_data["Clean & Jerk"].Make)
+   
+    const filteredSnMakes = filterLift(snMakes, cjMakes)
+    const filteredCJMakes = filterLift(cjMakes, filteredSnMakes)
 
-    const cjHistoryData = {
+    const totalData = createChartTotals(filteredSnMakes, filteredCJMakes)
+
+    const historyData = {
         datasets:[
+            {
+                label:'total' ,
+                backgroundColor:'rgba(255, 0, 0)',
+                data: totalData
+                
+            },
             {
                 label:'cj make',
                 backgroundColor:'rgba(0, 150, 255)',
@@ -54,13 +65,14 @@ function AllLiftsChart(){
 
         ]
     }
+    
     const options =  {
         responsive : true, 
         maintainAspectRatio : false,
         plugins:{
             title:{
                 display: true,
-                text: "Clean & Jerk Attempts",
+                text: "All Results Over Time",
             },
             legend:{
                 position: 'bottom'
@@ -70,7 +82,7 @@ function AllLiftsChart(){
             x: {
                 type: 'time',
                 time: {
-                    unit: 'month'
+                    unit: 'year'
                 },
                 adapters:{
                     date: {
@@ -87,7 +99,7 @@ function AllLiftsChart(){
     return (
         <div className="chart-wrapper ">
             {/* <Chart  type="scatter" data="Clean & JerkMeetMakes}  options={meetOptions}/> */}
-            <Chart  type="scatter" data={cjHistoryData}  options={options}/>
+            <Chart  type="scatter" data={historyData}  options={options}/>
         </div>
     )
 }
