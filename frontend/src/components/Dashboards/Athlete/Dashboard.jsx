@@ -41,7 +41,6 @@ const Dashboard = () => {
     }
     if(!requestSent){
       getUserData()
-    }else{
       setRequestSent(true)
     }
   },[dispatch, isError, isSuccess, message ])
