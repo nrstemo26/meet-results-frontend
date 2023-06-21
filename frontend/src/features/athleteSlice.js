@@ -14,12 +14,12 @@ const initialState = {
 
 export const getAthlete = createAsyncThunk(
     'athlete',
-    async(urlPath, thunkAPI) => {
+    async(name, thunkAPI) => {
     // async(id, thunkAPI) => {
         // console.log('in slice', urlPath)
         // urlPath = '/api/v1/athlete/Nathan%20Stemo'
         try{
-            const response =  await axios.get(baseUrl + 'athlete/' + urlPath )
+            const response =  await axios.get(baseUrl + 'athlete/' + name )
             return response.data
 
         }catch(error){
