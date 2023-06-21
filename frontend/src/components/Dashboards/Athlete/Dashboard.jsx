@@ -5,7 +5,7 @@ import AllTotals from "./AllTotals";
 import { Spinner } from '../../../pages/Spinner';
 import { Error } from '../../../pages/Error';
 
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAthlete } from '../../../features/athleteSlice'
 import SnatchHistChart from './charts/SnatchHistChart';
@@ -13,8 +13,10 @@ import CjHistChart from './charts/CjHistChart';
 import AllLiftsChart from './charts/AllLiftsChart';
 
 
-
+//isError isn't changing after they type in the wrong
+//url or an athlete doesnt work
 const Dashboard = () => {
+  const [requestSent, setRequestSent] = useState(false)
   const dispatch = useDispatch();
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
 
@@ -22,7 +24,7 @@ const Dashboard = () => {
   useEffect(()=>{
     // console.log('in use effect')
     if(isError){
-      // console.log('there is an error')
+      console.log('there is an error')
     }
     const getUserData = async()=>{
       const urlArray = window.location.pathname.split('/')
@@ -37,7 +39,11 @@ const Dashboard = () => {
       // setMeetHistory(meet_history)
       // setStats(stats)
     }
-    getUserData()
+    if(!requestSent){
+      getUserData()
+    }else{
+      setRequestSent(true)
+    }
   },[dispatch, isError, isSuccess, message ])
   
   if(isLoading){
