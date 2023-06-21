@@ -15,9 +15,6 @@ const initialState = {
 export const getAthlete = createAsyncThunk(
     'athlete',
     async(name, thunkAPI) => {
-    // async(id, thunkAPI) => {
-        // console.log('in slice', urlPath)
-        // urlPath = '/api/v1/athlete/Nathan%20Stemo'
         try{
             const response =  await axios.get(baseUrl + 'athlete/' + name )
             return response.data
@@ -36,8 +33,12 @@ export const getAthlete = createAsyncThunk(
 
 export const getAllAthletes = createAsyncThunk(
   'athletes',
-  async()=>{
+  async(thunkAPI)=>{
     try{
+      //thunkapi has a function that 
+      //can get any chunk of the state
+      //thunkAPI.getState().sliceofstate.propname.propname
+
       const response = await axios.get(baseUrl + 'athletes')
       return response.data;
     }catch(error){
@@ -71,6 +72,7 @@ export const athleteSlice = createSlice({
           .addCase(getAthlete.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
+            state.isError = false;
             state.data = action.payload;
           })
           .addCase(getAthlete.rejected, (state, action) => {
