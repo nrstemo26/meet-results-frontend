@@ -14,21 +14,22 @@ import AllLiftsChart from './charts/AllLiftsChart';
 
 
 
-let urlArray = window.location.pathname.split('/')
-let athleteName = urlArray[urlArray.length - 1]
-
-const Dashboard = ()=>{
+const Dashboard = () => {
   const dispatch = useDispatch();
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
-  
+
   
   useEffect(()=>{
-    console.log('in use effect')
+    // console.log('in use effect')
     if(isError){
-      console.log('there is an error')
+      // console.log('there is an error')
     }
     const getUserData = async()=>{
-      dispatch(getAthlete(athleteName))
+      const urlArray = window.location.pathname.split('/')
+      const athleteName = urlArray[urlArray.length - 1]
+      if(athleteName != 'athletes'){
+        dispatch(getAthlete(athleteName))
+      }
       // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
       
       
