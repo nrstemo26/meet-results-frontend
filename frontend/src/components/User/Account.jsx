@@ -2,7 +2,7 @@ import React from 'react';
 
 const Account = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex m-4 justify-center items-top h-screen">
       <div className="w-1/3 p-8 bg-white rounded shadow">
         <div className="flex items-center mb-4">
           <img

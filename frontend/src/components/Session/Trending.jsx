@@ -19,10 +19,13 @@ function Trending(){
 
 
     return(
-        <div className="border-2">
-            <h1>Trending Athletes</h1>
-            <UserList users={athletes}></UserList>
-        </div>
+      <div className="shadow m-2 w-1/3 justify-center">
+        <h1 className="text-l">
+            Trending Athletes
+            <span role="img" aria-label="Bearded Wizard" className="text-xl">📈</span>
+        </h1>
+        <UserList users={athletes}></UserList>
+      </div>
     )
 }
 
