@@ -91,10 +91,7 @@ function AllLiftsChart(){
                 }
             }
         }
-    }
-    
-
-    
+    }    
     
     return (
         <div className="chart-wrapper ">

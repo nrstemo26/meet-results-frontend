@@ -5,30 +5,26 @@ import 'chartjs-adapter-date-fns';
 import { enUS } from 'date-fns/locale'; 
 
 function CjHistChart(){
-    const {data: { chart_data } } = useSelector((state)=>state.athlete)
-    
-    //might need labels??
-    // const meetSnMissLabels = [... new Set(Object.keys(meetSnMiss).map((el) => meetSnMiss[el][2]))] 
-
+    const {data: { chart_data: {attempt_history_chart: chart} } } = useSelector((state)=>state.athlete)
     const cjHistoryData = {
         datasets:[
             {
                 label:'make',
                 backgroundColor:'rgba(0, 150, 255)',
-                data: Object.keys(chart_data["Clean & Jerk"].Make).map((el)=>{
+                data: Object.keys(chart["Clean & Jerk"].Make).map((el)=>{
                     return {
-                    x: new Date(chart_data["Clean & Jerk"].Make[el][0]),
-                    y: chart_data["Clean & Jerk"].Make[el][1]
+                    x: new Date(chart["Clean & Jerk"].Make[el][0]),
+                    y: chart["Clean & Jerk"].Make[el][1]
                     }
                 })
             },
             {
                 label:'miss',
                 backgroundColor:'rgba(255, 0, 0)',
-                data:  Object.keys(chart_data["Clean & Jerk"].Miss).map((el)=>{
+                data:  Object.keys(chart["Clean & Jerk"].Miss).map((el)=>{
                     return {
-                      x: new Date(chart_data["Clean & Jerk"].Miss[el][0]),
-                      y: chart_data["Clean & Jerk"].Miss[el][1]
+                      x: new Date(chart["Clean & Jerk"].Miss[el][0]),
+                      y: chart["Clean & Jerk"].Miss[el][1]
                     }
                 })
             },
@@ -67,7 +63,6 @@ function CjHistChart(){
     
     return (
         <div className="chart-wrapper ">
-            {/* <Chart  type="scatter" data="Clean & JerkMeetMakes}  options={meetOptions}/> */}
             <Chart  type="scatter" data={cjHistoryData}  options={options}/>
         </div>
     )
