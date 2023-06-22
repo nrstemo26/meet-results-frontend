@@ -8,9 +8,7 @@ import { Error } from '../../../pages/Error';
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAthlete } from '../../../features/athleteSlice'
-import SnatchHistChart from './charts/SnatchHistChart';
-import CjHistChart from './charts/CjHistChart';
-import AllLiftsChart from './charts/AllLiftsChart';
+import ChartWrapper from './ChartWrapper';
 
 
 //isError isn't changing after they type in the wrong
@@ -55,14 +53,10 @@ const Dashboard = () => {
     return (
       <div className='dashboard-container'>
           <div className='bg-secondary-500 p-5 rounded-xl'>
-            <h1 className="text-center text-2xl font-bold">{data ? data['_athlete_id'] : 'loading'} Dashboard</h1>
-            {/* <h1 className="text-center text-2xl font-bold">{id ? id : 'loading'} Dashboard</h1> */}
+            <h1 className="text-center text-2xl font-bold">{data ? data['_athlete_id'] : 'loading'}</h1>
             {
               data?
-              (<AllLiftsChart/>):
-              // (<CjHistChart/>):
-              // (<SnatchHistChart/>):
-              // (<AthleteChart/>):
+              (<ChartWrapper/>):
               'nothing'
             }
           </div>
