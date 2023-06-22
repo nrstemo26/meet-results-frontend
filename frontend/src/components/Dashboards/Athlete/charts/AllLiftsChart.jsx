@@ -6,9 +6,9 @@ import { enUS } from 'date-fns/locale';
 import {getHighestMake, filterLift, createChartTotals} from '../../../../lib/chart_utils'
 
 function AllLiftsChart(){
-    const {data: { chart_data } } = useSelector((state)=>state.athlete)
-    let snMakes = getHighestMake(chart_data["Snatch"].Make)
-    let cjMakes = getHighestMake(chart_data["Clean & Jerk"].Make)
+    const {data: { chart_data: {attempt_history_chart: chart} } } = useSelector((state)=>state.athlete)
+    let snMakes = getHighestMake(chart["Snatch"].Make)
+    let cjMakes = getHighestMake(chart["Clean & Jerk"].Make)
    
     const filteredSnMakes = filterLift(snMakes, cjMakes)
     const filteredCJMakes = filterLift(cjMakes, filteredSnMakes)
@@ -26,39 +26,39 @@ function AllLiftsChart(){
             {
                 label:'cj make',
                 backgroundColor:'rgba(0, 150, 255)',
-                data: Object.keys(chart_data["Clean & Jerk"].Make).map((el)=>{
+                data: Object.keys(chart["Clean & Jerk"].Make).map((el)=>{
                     return {
-                    x: new Date(chart_data["Clean & Jerk"].Make[el][0]),
-                    y: chart_data["Clean & Jerk"].Make[el][1]
+                    x: new Date(chart["Clean & Jerk"].Make[el][0]),
+                    y: chart["Clean & Jerk"].Make[el][1]
                     }
                 })
             },
             {
                 label:'cj miss',
                 backgroundColor:'rgba(255, 0, 0)',
-                data:  Object.keys(chart_data["Clean & Jerk"].Miss).map((el)=>{
+                data:  Object.keys(chart["Clean & Jerk"].Miss).map((el)=>{
                     return {
-                      x: new Date(chart_data["Clean & Jerk"].Miss[el][0]),
-                      y: chart_data["Clean & Jerk"].Miss[el][1]
+                      x: new Date(chart["Clean & Jerk"].Miss[el][0]),
+                      y: chart["Clean & Jerk"].Miss[el][1]
                     }
                 })
             },{
                 label:'sn make',
                 backgroundColor:'rgb(0, 255, 0)',
-                data: Object.keys(chart_data["Snatch"].Make).map((el)=>{
+                data: Object.keys(chart["Snatch"].Make).map((el)=>{
                     return {
-                    x: new Date(chart_data["Snatch"].Make[el][0]),
-                    y: chart_data["Snatch"].Make[el][1]
+                    x: new Date(chart["Snatch"].Make[el][0]),
+                    y: chart["Snatch"].Make[el][1]
                     }
                 })
             },
             {
                 label:'sn miss',
                 backgroundColor:'rgba(255, 192, 203)',
-                data:  Object.keys(chart_data["Snatch"].Miss).map((el)=>{
+                data:  Object.keys(chart["Snatch"].Miss).map((el)=>{
                     return {
-                      x: new Date(chart_data["Snatch"].Miss[el][0]),
-                      y: chart_data["Snatch"].Miss[el][1]
+                      x: new Date(chart["Snatch"].Miss[el][0]),
+                      y: chart["Snatch"].Miss[el][1]
                     }
                 })
             },
@@ -98,6 +98,7 @@ function AllLiftsChart(){
     
     return (
         <div className="chart-wrapper ">
+            
             {/* <Chart  type="scatter" data="Clean & JerkMeetMakes}  options={meetOptions}/> */}
             <Chart  type="scatter" data={historyData}  options={options}/>
         </div>
