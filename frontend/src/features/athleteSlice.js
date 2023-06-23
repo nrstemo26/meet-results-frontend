@@ -58,7 +58,6 @@ export const getTrendingAthletes = createAsyncThunk(
   'trending_athletes',
   async(data) => {
     try{
-      console.log('sending this stuff:',data)
       const config = {
         params:{
           pageSize: data.pageSize
