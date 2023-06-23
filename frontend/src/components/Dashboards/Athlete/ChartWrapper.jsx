@@ -20,7 +20,6 @@ function ChartWrapper(){
             {selected === 'all' && <AllLiftsChart/>}
             {selected === 'sn' && <SnatchHistChart/>}
             {selected === 'cj' && <CjHistChart/>}
-           show charts
         </div>
     )
 }
