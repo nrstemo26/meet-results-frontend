@@ -17,7 +17,7 @@ function Trending({ isSession }){
             setAthletes(athletes)
         }
         fetchUsers()
-    },[dispatch])
+    },[dispatch,pageSize])
     
 
     return(
