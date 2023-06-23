@@ -9,7 +9,6 @@ import UserList from "./UserList";
 import Trending from './Trending'
 
 
-
 const Search = ({ isSession }) => {
   const dispatch = useDispatch()
   const [users, setUsers] = useState([]);
@@ -17,35 +16,42 @@ const Search = ({ isSession }) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const athletes = (await dispatch(getAllAthletes())).payload.athletes
+      const data = {
+        name: searchQuery,
+        page: 1,
+        pageSize: 20,
+      }
+      const athletes = (await dispatch(getAllAthletes(data))).payload
       setUsers(athletes);
     };
 
     fetchUsers();
-  }, [dispatch]);
+    //dependency array needs to have page in there if pagination is needed
+  }, [dispatch, searchQuery]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-    return (
+  
+  return (
         <div className=" text-center">
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
-            <UserList users={filteredUsers} isSession={isSession}  />
+            <UserList users={users} isSession={isSession}  />
             : <Trending  isSession={isSession}/>}
         </div>
     )
-}
-
-Search.propTypes = {
-  isSession: PropTypes.bool
-};
-
-export default Search;
-
-
+  }
+  
+  Search.propTypes = {
+    isSession: PropTypes.bool
+  };
+  
+  export default Search;
+  
+  //not needed now
+  // const filteredUsers = users.filter((user) =>
+  //   user.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  
