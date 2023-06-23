@@ -10,7 +10,12 @@ export const sessionSlice = createSlice({
     initialState: {athletes:[], loading:false, error:null},
     reducers:{
         addToSession: (state, action)=>{
-            state.athletes.push(action.payload)
+            const athlete = action.payload
+            if(state.athletes.includes(athlete)){
+                return state
+            }else{
+                state.athletes.push(athlete)
+            }
         },
         removeFromSession: ( state, action )=>{
             const newState = state.athletes.filter((el)=>{
