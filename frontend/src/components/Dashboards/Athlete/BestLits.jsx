@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 
 function BestLifts(){
     const { data:{stats} } = useSelector((state) => state.athlete)
-    console.log(stats)
 
     if(stats){
 
@@ -30,7 +29,6 @@ function BestLifts(){
           
         </div>
     ))
-    
     
     
     )
