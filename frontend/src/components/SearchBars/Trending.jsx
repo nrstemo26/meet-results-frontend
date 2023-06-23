@@ -6,14 +6,15 @@ import PropTypes from 'prop-types';
 
 
 function Trending({ isSession }){
+    const [pageSize, setPageSize] = useState(20)
     const dispatch = useDispatch();
     const [athletes, setAthletes] = useState([])
     
 
     useEffect(()=>{
         const fetchUsers = async()=>{
-            const athletes = (await dispatch(getTrendingAthletes())).payload.data
-            setAthletes(athletes.splice(0,20))
+            const athletes = (await dispatch(getTrendingAthletes({pageSize}))).payload
+            setAthletes(athletes)
         }
         fetchUsers()
     },[dispatch])

@@ -56,9 +56,15 @@ export const getAllAthletes = createAsyncThunk(
 
 export const getTrendingAthletes = createAsyncThunk(
   'trending_athletes',
-  async() => {
+  async(data) => {
     try{
-      const response = await axios.get(baseUrl + 'trending_athletes')
+      console.log('sending this stuff:',data)
+      const config = {
+        params:{
+          pageSize: data.pageSize
+        }
+      }
+      const response = await axios.get(baseUrl + 'trending_athletes', config)
       return response.data;
     }catch(error){
       console.log(error)
