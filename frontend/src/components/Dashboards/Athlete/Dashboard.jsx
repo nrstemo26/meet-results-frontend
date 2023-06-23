@@ -1,5 +1,4 @@
 import Insights from '../Meet/Insights'
-import AthleteChart from "./AthleteChart";
 import BestLifts from "./BestLits";
 import AllTotals from "./AllTotals";
 import { Spinner } from '../../../pages/Spinner';
@@ -11,8 +10,7 @@ import { getAthlete } from '../../../features/athleteSlice'
 import ChartWrapper from './ChartWrapper';
 
 
-//isError isn't changing after they type in the wrong
-//url or an athlete doesnt work
+
 const Dashboard = () => {
   const [requestSent, setRequestSent] = useState(false)
   const dispatch = useDispatch();
@@ -20,7 +18,6 @@ const Dashboard = () => {
 
   
   useEffect(()=>{
-    // console.log('in use effect')
     if(isError){
       console.log('there is an error')
     }
@@ -41,7 +38,7 @@ const Dashboard = () => {
       getUserData()
       setRequestSent(true)
     }
-  },[dispatch, isError, isSuccess, message ])
+  },[dispatch, isError, isSuccess, message, requestSent])
   
   if(isLoading){
     return <Spinner/>
