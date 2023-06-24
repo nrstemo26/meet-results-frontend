@@ -14,6 +14,8 @@ const Register = () => {
   const [role, setRole] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,21 +32,35 @@ const Register = () => {
     if (password !== confirmPassword) {
       // Password and password confirmation do not match
       // You can display an error message or perform other actions
+      setToastMessage('Password and password confirmation do not match.');
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
+        setToastMessage('');
       }, 5000);
-      console.log("Password and password confirmation do not match");
       return;
     }
 
     try {
       const response = await axios.post(baseUrl + '/user/register', formData);
       console.log(response.data); // Handle the response as needed
+      setToastMessage('Thank you for registering. Check your email to confirm your account.');
+      setToastType('success')
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setToastMessage('');
+      }, 5000);
   
       // Redirect or perform any other actions after successful registration
     } catch (error) {
       console.error(error);
+      setToastMessage(error.response.data.message);
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setToastMessage('');
+      }, 5000);
       // Handle the error
     }
 
@@ -53,7 +69,7 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-full sm:w-1/3 m:w-1/2 p-8 bg-white rounded shadow">
+      <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
         <h2 className="text-2xl text-primary-950 font-bold mb-4">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -155,7 +171,7 @@ const Register = () => {
         </form>
       </div>
       {showToast && (
-        <Toast message="Password and password confirmation do not match." onClose={() => setShowToast(false)} type="error" />
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
       )}
     </div>
   );

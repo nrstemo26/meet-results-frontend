@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import Toast from '../Widgets/Toast';
 
 const baseUrl = 'http://192.168.86.27:5000'
 
@@ -9,6 +10,9 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,19 +29,26 @@ const Login = () => {
 
       // Store the token in local storage or session storage
       localStorage.setItem('token', token);
-
       navigate('/api/v1/session');
+      
       // e.g., navigate to a dashboard page
     } catch (error) {
       // Handle login error, display error message, etc.
       console.error(error);
+      setToastMessage(error.response.data.message);
+      setToastType('error')
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setToastMessage('');
+      }, 5000);
     }
 
   };
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-1/3 p-8 bg-white rounded shadow">
+      <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -89,6 +100,9 @@ const Login = () => {
           </div>
         </form>
       </div>
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
+      )}
     </div>
   );
 };
