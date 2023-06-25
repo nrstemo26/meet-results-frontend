@@ -72,6 +72,8 @@ export const getTrendingAthletes = createAsyncThunk(
 )
 
 
+
+
 export const athleteSlice = createSlice({
     name: "athlete",
     initialState,

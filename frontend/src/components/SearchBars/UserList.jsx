@@ -36,10 +36,9 @@ const UserList = ({ users ,isSession }) => {
 
   return (
     <div>
-      <h1>Search Results:</h1>
       <div>
         {renderUsers(20)}
-      
+
       </div>
     </div>
   );
