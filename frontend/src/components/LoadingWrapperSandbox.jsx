@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Spinner } from "../pages/Spinner"
+import FeatureRequest from "./Widgets/FeatureRequest"
 
 function withLoading(Component){
     return function WithLoadingComponent({isLoading, ...props}){
@@ -40,7 +41,10 @@ const HomeComponent = ()=>{
     }, []);
     
   return(
-    <WrappedComponent isLoading={isLoading} data={data}/>
+    <div>
+        <WrappedComponent isLoading={isLoading} data={data}/>
+        <FeatureRequest />
+    </div>
   )
 }
 

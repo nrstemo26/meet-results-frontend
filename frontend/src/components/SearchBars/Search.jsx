@@ -16,6 +16,7 @@ const Search = ({ isSession }) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      //page and pageSize could be added to components if wanted
       const data = {
         name: searchQuery,
         page: 1,
@@ -49,9 +50,4 @@ const Search = ({ isSession }) => {
   };
   
   export default Search;
-  
-  //not needed now
-  // const filteredUsers = users.filter((user) =>
-  //   user.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
   
