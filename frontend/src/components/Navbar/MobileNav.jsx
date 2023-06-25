@@ -18,7 +18,7 @@ function MobileNav({setIsSidebarOpen}){
             {isOpen ? '' : <FiMenu className="cursor-pointer" size={30}/>}
         </div>
 
-        <div>Site Name + img</div>   
+        <div>LIFT ORACLE</div>   
     </>
     )
 }
