@@ -1,8 +1,13 @@
+import { useSelector } from "react-redux"
 
-function BestLifts({stats}){
 
-    return(
-        (!stats? <div>no stats</div>:
+function BestLifts(){
+    const { data:{stats} } = useSelector((state) => state.athlete)
+
+    if(stats){
+
+        return(
+            (!stats? <div>no stats</div>:
         (        
         <div className="bg-primary-500 p-6 border-2 rounded-lg border-primary-500 flex flex-col flex-auto overflow-hidden shadow-lg">
           <h1 className="text-lg font-bold">Best Snatch</h1>
@@ -26,8 +31,8 @@ function BestLifts({stats}){
     ))
     
     
-        
     )
+    }
 }
 
 export default BestLifts

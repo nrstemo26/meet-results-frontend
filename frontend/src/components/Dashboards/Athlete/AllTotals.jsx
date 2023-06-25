@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react"
-import { organizeByDate, renderTotalResults } from "../../../lib/date_utils"
+import { organizeByNewestDate, renderTotalResults } from "../../../lib/date_utils"
+import { useSelector } from "react-redux"
 
 
-function AllTotals({ meetHistory }){
+function AllTotals(){
+    const { data:{meet_history} } = useSelector( (state)=> state.athlete );
+   
 
     return(
         <div className="bg-secondary-500 p-6 rounded-lg flex flex-col flex-auto overflow-hidden shadow-lg">          
-            {meetHistory? 
-            renderTotalResults(organizeByDate(meetHistory), meetHistory)   
+            {meet_history? 
+            renderTotalResults(organizeByNewestDate(meet_history), meet_history)   
             :
             <h1>no meet history</h1>}
-        </div>
-           
+        </div>   
     )
-    
 }
 
 export default AllTotals
