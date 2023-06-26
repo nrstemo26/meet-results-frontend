@@ -97,13 +97,13 @@ function AllLiftsChart(){
         watermark: {
 
             image: watermark,
-            x: "24%",
-            y: "8%",
-            width: "50%",
-            height: "85%",
+            x: "0%",
+            y: "0%",
+            width: 275,
+            height: 206.25,
             opacity: 0.1,
-            alignX: "left",
-            alignY: "top",
+            alignX: "middle",
+            alignY: "middle",
             alignToChartArea: true,
             position: "back"
   
@@ -113,8 +113,7 @@ function AllLiftsChart(){
     ChartJS.register(ChartjsPluginWatermark);
 
     return (
-        <div className="chart-wrapper ">
-            
+        <div className="chart-wrapper">
             {/* <Chart  type="scatter" data="Clean & JerkMeetMakes}  options={meetOptions}/> */}
             <Chart  type="scatter" data={historyData}  options={options}/>
         </div>
