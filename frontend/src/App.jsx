@@ -38,14 +38,24 @@ function Insights(){
 
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const updateLoggedInStatus = (status) => {
+    setIsLoggedIn(status);
+    console.log(isLoggedIn);
+  };
+  const handleLogout = () => {
+    // Perform logout logic and update isLoggedIn state accordingly
+    setIsLoggedIn(false);
+  };
   
 
   return (
     <Router>
       <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
       
-        <Navbar setIsSidebarOpen={setIsSidebarOpen} />
+        <Navbar setIsSidebarOpen={setIsSidebarOpen}  isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Routes>
           <Route path="*" element={<NotFound/>}/>
           <Route path="/api/v1/session" element={<WatchList/>} />
@@ -60,8 +70,8 @@ function App() {
           <Route path="/api/v1/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
+          <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
+          <Route path="/register" element={<Register updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Register */}
           <Route path='/account' element={<Account/>}/>
           <Route path="/confirmation/:token" component={Confirmation} />
         </Routes>

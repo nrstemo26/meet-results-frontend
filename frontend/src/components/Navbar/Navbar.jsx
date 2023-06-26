@@ -3,7 +3,7 @@ import MobileNav from './MobileNav'
 import DesktopNav from './DesktopNav'
 import PropTypes from 'prop-types'
 
-const Navbar = ({setIsSidebarOpen}) =>{
+const Navbar = ({setIsSidebarOpen, isLoggedIn, handleLogout}) =>{
   
   const [isMobile, setIsMobile] = useState(()=>{
     if (window.innerWidth < 720) return true; 
@@ -25,7 +25,7 @@ const Navbar = ({setIsSidebarOpen}) =>{
 
     return(
         <div className='bg-primary-500 text-white flex justify-around p-4 shadow-md'>
-            {isMobile? <MobileNav setIsSidebarOpen={setIsSidebarOpen}/> : <DesktopNav/>}
+            {isMobile? <MobileNav setIsSidebarOpen={setIsSidebarOpen} isLoggedIn={isLoggedIn} handleLogout={handleLogout}/> : <DesktopNav isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>}
         </div>
     )
 }
