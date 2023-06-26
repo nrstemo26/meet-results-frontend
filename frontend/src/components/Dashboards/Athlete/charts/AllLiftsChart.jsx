@@ -2,8 +2,11 @@ import { Chart, Scatter } from 'react-chartjs-2'
 import { Chart as ChartJS } from 'chart.js/auto'
 import {useSelector } from  'react-redux'
 import 'chartjs-adapter-date-fns'; 
+import ChartjsPluginWatermark from 'chartjs-plugin-watermark'
 import { enUS } from 'date-fns/locale'; 
 import {getHighestMake, filterLift, createChartTotals} from '../../../../lib/chart_utils'
+import watermark from '../../../../assets/avatar_face_navy.png'
+
 
 function AllLiftsChart(){
     const {data: { chart_data: {attempt_history_chart: chart} } } = useSelector((state)=>state.athlete)
@@ -90,9 +93,25 @@ function AllLiftsChart(){
                     }
                 }
             }
+        },
+        watermark: {
+
+            image: watermark,
+            x: "24%",
+            y: "8%",
+            width: "50%",
+            height: "85%",
+            opacity: 0.1,
+            alignX: "left",
+            alignY: "top",
+            alignToChartArea: true,
+            position: "back"
+  
         }
-    }    
-    
+    }
+
+    ChartJS.register(ChartjsPluginWatermark);
+
     return (
         <div className="chart-wrapper ">
             
