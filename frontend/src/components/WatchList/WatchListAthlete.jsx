@@ -35,7 +35,7 @@ function WatchListAthlete({ name }){
     }
     
     return(
-      <div className='border-2 shadow-lg m-2 p-4'>
+      <div className='shadow-lg m-2 p-4'>
         <div className='flex justify-between'>
           <h1 className='text-xl font-bold text-primary-950'>{name}</h1>
           <TiDeleteOutline onClick={(e)=> handleDelete(e)}/>
@@ -43,7 +43,7 @@ function WatchListAthlete({ name }){
 
         {
         stats? 
-        <div>Comp Prs (Snatch/C&J/Total): {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}</div>
+        <div>Comp PRs (Snatch/C&J/Total): {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}kg</div>
         : 
         'loading stats'
       }

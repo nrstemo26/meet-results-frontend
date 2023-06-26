@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Spinner } from "../pages/Spinner"
 import FeatureRequest from "./Widgets/FeatureRequest"
+import Trending from './SearchBars/Trending'
 
 function withLoading(Component){
     return function WithLoadingComponent({isLoading, ...props}){
@@ -43,6 +44,7 @@ const HomeComponent = ()=>{
   return(
     <div>
         <WrappedComponent isLoading={isLoading} data={data}/>
+        <Trending />
         <FeatureRequest />
     </div>
   )

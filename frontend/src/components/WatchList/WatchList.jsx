@@ -13,7 +13,7 @@ function WatchList(){
             </div>
 
             <div className='w-2/4'>
-              <h1>athletes watching</h1>
+              <h1 className="font-bold text-xl text-primary-950 text-center">Athlete Watchlist</h1>
               <ul>
                 {WatchListAthletes.map((item)=>(
                   <WatchListAthlete key={item} name={item} />

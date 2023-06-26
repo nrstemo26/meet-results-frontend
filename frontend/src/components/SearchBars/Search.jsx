@@ -36,7 +36,7 @@ const Search = ({ isSession }) => {
 
   
   return (
-        <div className=" text-center">
+        <div className="text-center">
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
             <UserList users={users} isSession={isSession}  />
