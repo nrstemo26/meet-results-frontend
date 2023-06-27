@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios'
 import Toast from '../Widgets/Toast';
+import { makeToast } from '../../lib/toast/toast_utils';
 
 const baseUrl = 'http://192.168.86.27:5000'
 
@@ -40,41 +41,19 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('submitting')
 
     if (userData.password !== userData.confirmPassword) {
-      // Password and password confirmation do not match
-      // You can display an error message or perform other actions
-      setToastMessage('Password and password confirmation do not match.');
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-      return;
-    }
-
-    try {
-      const response = await axios.post(baseUrl + '/user/register', userData);
-      console.log(response.data); // Handle the response as needed
-      setToastMessage('Thank you for registering. Check your email to confirm your account.');
-      setToastType('success')
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-  
-      // Redirect or perform any other actions after successful registration
-    } catch (error) {
-      console.error(error);
-      setToastMessage(error.response.data.message);
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-      // Handle the error
+      makeToast('Password and password confirmation do not match.', false, setShowToast, setToastType, setToastMessage)
+    }else{
+      try {
+        const response = await axios.post(baseUrl + '/user/register', userData);
+        console.log(response.data); // Handle the response as needed
+        makeToast('Thank you for registering. Check your email to confirm your account.','success',setShowToast, setToastType, setToastMessage)
+        // Redirect or perform any other actions after successful registration
+      } catch (error) {
+        console.error(error);
+        makeToast(error.response.data.message, false, setShowToast, setToastType, setToastMessage)
+      }
     }
 
     console.log(userData);
