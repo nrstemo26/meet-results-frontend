@@ -3,67 +3,54 @@ import axios from 'axios'
 
 const API_URL = '/api/users/'
 
-// Register user
-const register = async (userData) => {
-  const response = await axios.post(API_URL, userData)
-
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
-  }
-
-  return response.data
-}
-
-// Login user
-const login = async (userData) => {
-  const response = await axios.post(API_URL + 'login', userData)
-
-  if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data))
-  }
-
-  return response.data
-}
-
-// Logout user
-const logout = () => {
-  localStorage.removeItem('user')
-}
-
-
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
-  user: user ? user : null,
-  isError: false,
-  isSuccess: false,
-  isLoading: false,
-  message: '',
+    user: user ? user : null,
+    isError: false,
+    isSuccess: false,
+    isLoading: false,
+    message: '',
 }
 
 // Register user
-export const register1 = createAsyncThunk(
-  'auth/register',
-  async (user, thunkAPI) => {
-    try {
-      return await register(user)
-    } catch (error) {
+export const register = createAsyncThunk(
+    'auth/register',
+    async (user, thunkAPI) => {
+        try {
+            const response = await axios.post(API_URL, user)
+        
+            if (response.data) {
+                 localStorage.setItem('user', JSON.stringify(response.data))
+            }
+        
+            return response.data
+
+        } catch (error) {
       const message =
         (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+            error.toString()
       return thunkAPI.rejectWithValue(message)
     }
   }
-)
+  )
+  
+  // Login user
+export const login = createAsyncThunk(
+    'auth/login',
+    async (user, thunkAPI) => {
+    try {
+        const response = await axios.post(API_URL + 'login', user)
+        
+        if (response.data) {
+          localStorage.setItem('user', JSON.stringify(response.data))
+        }
 
-// Login user
-export const login1 = createAsyncThunk('auth/login', async (user, thunkAPI) => {
-  try {
-    return await login(user)
+        return response.data
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -73,9 +60,12 @@ export const login1 = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   }
 })
 
-export const logout1 = createAsyncThunk('auth/logout', async () => {
-  await logout()
-})
+export const logout = createAsyncThunk(
+    'auth/logout',
+     async () => {
+        await localStorage.removeItem('user')
+    }
+)
 
 export const authSlice = createSlice({
   name: 'auth',
