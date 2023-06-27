@@ -84,7 +84,7 @@ const Register = () => {
               Email
             </label>
             <input
-              type="text"
+              type="email"
               id="email"
               className="w-full border border-gray-300 rounded px-3 py-2"
               value={userData.email}
