@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios'
 import Toast from '../Widgets/Toast';
-import { makeToast as setToastState} from '../../lib/toast/toast_utils';
+import { makeToast_ } from '../../lib/toast/toast_utils';
 
 const baseUrl = 'http://192.168.86.27:5000'
 
@@ -38,25 +38,23 @@ const Register = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
-  const makeToast = setToastState(setShowToast,setToastType, setToastMessage)
+  //initialize make toast to bind the toast state to the function
+  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (userData.password !== userData.confirmPassword) {
-      console.log('not matching')
-      // makeToast('Password and password confirmation do not match.', false, setShowToast, setToastType, setToastMessage)
+      //we call makeToast with a msg and a type
       makeToast('Password and password confirmation do not match.', false)
     }else{
       try {
         const response = await axios.post(baseUrl + '/user/register', userData);
         console.log(response.data); // Handle the response as needed
-        //makeToast('Thank you for registering. Check your email to confirm your account.','success',setShowToast, setToastType, setToastMessage)
         makeToast('Thank you for registering. Check your email to confirm your account.','success')
         // Redirect or perform any other actions after successful registration
       } catch (error) {
         console.error(error);
-        console.log(error)
         // makeToast(error.response.data.message, false, setShowToast, setToastType, setToastMessage)
         makeToast(error.response.data.message, false)
       }
