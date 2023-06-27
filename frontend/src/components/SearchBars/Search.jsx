@@ -22,7 +22,8 @@ const Search = ({ isSession }) => {
         page: 1,
         pageSize: 20,
       }
-      const athletes = (await dispatch(getAllAthletes(data))).payload.data
+      const athletes = (await dispatch(getAllAthletes(data))).payload
+      // const athletes = (await dispatch(getAllAthletes(data))).payload.data
       setUsers(athletes);
     };
 
