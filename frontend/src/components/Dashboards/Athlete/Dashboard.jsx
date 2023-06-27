@@ -50,7 +50,7 @@ const Dashboard = () => {
     return (
       <div className='dashboard-container'>
           <div className='bg-secondary-500 p-5 rounded-xl'>
-            <h1 className="text-center text-2xl font-bold">{data ? data['_athlete_id'] : 'loading'}</h1>
+            <h1 className="text-center text-primary-950 text-2xl font-bold">{data ? data['_athlete_id'] : 'loading'}</h1>
             {
               data?
               (<ChartWrapper/>):
