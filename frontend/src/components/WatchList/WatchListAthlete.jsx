@@ -35,15 +35,15 @@ function WatchListAthlete({ name }){
     }
     
     return(
-      <div className='border-2 border-primary-800 m-2 p-2'>
+      <div className='shadow-lg m-2 p-4'>
         <div className='flex justify-between'>
-          <h1>{name}</h1>
+          <h1 className='text-xl font-bold text-primary-950'>{name}</h1>
           <TiDeleteOutline onClick={(e)=> handleDelete(e)}/>
         </div>
 
         {
         stats? 
-        <div>Comp Prs: {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}</div>
+        <div>Comp PRs (Snatch/C&J/Total): {stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}kg</div>
         : 
         'loading stats'
       }
@@ -51,9 +51,9 @@ function WatchListAthlete({ name }){
         <div className='flex justify-between' onClick={()=>toggleMeetHistory()}>
             {
               areMeetsVisible ? 
-               (<><div className='cursor-pointer'>hide last 5 meets</div><FiArrowUp/></>) 
+               (<><div className='cursor-pointer text-sm pb-4 text-slate-500 hover:text-primary-500'>Hide last 5 meets</div><FiArrowUp/></>) 
               :
-              (<><div className='cursor-pointer'>show last 5 meets</div><FiArrowDown/></>)
+              (<><div className='cursor-pointer text-sm pb-4 text-slate-500 hover:text-primary-500'>Show last 5 meets</div><FiArrowDown/></>)
             }
         </div>
         
@@ -64,7 +64,7 @@ function WatchListAthlete({ name }){
           ''
         }
         
-        <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-0'>athlete page</Link>
+        <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-2 border-primary-950 hover:text-white hover:border-transparent hover:bg-primary-950'>Athlete Page</Link>
       </div>
     )
   }

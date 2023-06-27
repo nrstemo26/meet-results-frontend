@@ -22,7 +22,7 @@ const Search = ({ isSession }) => {
         page: 1,
         pageSize: 20,
       }
-      const athletes = (await dispatch(getAllAthletes(data))).payload
+      const athletes = (await dispatch(getAllAthletes(data))).payload.data
       setUsers(athletes);
     };
 
@@ -36,7 +36,7 @@ const Search = ({ isSession }) => {
 
   
   return (
-        <div className=" text-center">
+        <div className="text-center">
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
             <UserList users={users} isSession={isSession}  />

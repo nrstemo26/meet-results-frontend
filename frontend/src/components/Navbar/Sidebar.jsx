@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 
 
-const Sidebar = ({toggleMenu}) =>{
+const Sidebar = ({toggleMenu, isLoggedIn, handleLogout}) =>{
   return(
     <div className="absolute z-40 top-0 left-0 h-[120vh] w-full m-0 flex flex-col gap-3 bg-white text-black shadow-lg overflow-hidden">
       <FiX className="cursor-pointer self-end mt-4 mr-4" size={30} color= "black" onClick={toggleMenu}/>
@@ -13,10 +13,18 @@ const Sidebar = ({toggleMenu}) =>{
       <Link onClick={toggleMenu} to='/api/v1/session'><div className='sidebar-element'>Session Builder</div></Link>
       <Link onClick={toggleMenu} to='/api/v1/insights'><div className='sidebar-element'>Insights</div></Link>
       <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About Us</div></Link>
-      <Link onClick={toggleMenu} to='/login'><div className='sidebar-element'>Login</div></Link>
-      <Link onClick={toggleMenu} to='/register'><div className='sidebar-element'>Register</div></Link>
-      <Link onClick={toggleMenu} to='/account'><div className='sidebar-element'>Account</div></Link>
-        
+      {isLoggedIn ? (
+        <>
+          <Link onClick={toggleMenu} to="/account"><div className="sidebar-element">Account</div></Link>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <>
+          <Link onClick={toggleMenu} to="/login"><div className="sidebar-element">Login</div></Link>
+          <Link onClick={toggleMenu} to="/register"><div className="sidebar-element">Register</div></Link>
+        </>
+      )}
+            
     </div>
   )
 }
