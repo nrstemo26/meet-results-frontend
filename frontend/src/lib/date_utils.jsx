@@ -41,11 +41,21 @@ export const renderTotalResults = (arr, meetHistory) => {
         let [day, month, year] = meetData["Date"].split(' ').slice(1,4)
         return (
         <>    
-            <h1 className="text-lg font-bold">{meet} on {month} {day}</h1>
-            <div className="text-center flex flex-col gap-2">
-                <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg" key={meet}>{meetData["Best Snatch"]}/{meetData["Best C&J"]}/{meetData["Total"]}</a>
+            <div className="p-1">
+              <h1 className="text-lg font-bold text-primary-950">{meet}</h1>
+              <p className="text-slate-600 text-sm">
+                {month} {day}, {year}
+              </p>
+              <div className="text-center flex flex-col gap-2">
+                  <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg" key={meet}>{meetData["Best Snatch"]}/{meetData["Best C&J"]}/{meetData["Total"]}</a>
+              </div>
             </div>
+            
         </>
         )
     })
 }
+
+
+
+

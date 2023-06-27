@@ -1,5 +1,6 @@
 import { organizeByNewestDate, renderTotalResults } from "../../../lib/date_utils"
 import { useSelector } from "react-redux"
+import renderGridTable from "./GridTable";
 
 
 function AllTotals(){
@@ -9,9 +10,15 @@ function AllTotals(){
     return(
         <div className="bg-secondary-500 p-6 rounded-lg flex flex-col flex-auto overflow-hidden shadow-lg">          
             {meet_history? 
-            renderTotalResults(organizeByNewestDate(meet_history), meet_history)   
+            <>
+                {/* {renderTotalResults(organizeByNewestDate(meet_history), meet_history)} */}
+                <div className="text-sm">
+                    {renderGridTable(meet_history)}
+                </div>
+                
+            </>  
             :
-            <h1>no meet history</h1>}
+            <h1 className="text-primary-950">No meet history.</h1>}
         </div>   
     )
 }
