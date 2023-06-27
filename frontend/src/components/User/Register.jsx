@@ -7,29 +7,42 @@ const baseUrl = 'http://192.168.86.27:5000'
 
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [userData, setUserData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: '',
+    agreeTerms: false,
+  })
+
+  const updateCheckbox = (e)=>{
+    setUserData((userData)=>({
+      ...userData,
+      agreeTerms: e.target.checked
+    }))
+    
+    
+  }
+  
+  const updateUser = (e, property)=>{
+    e.preventDefault()
+    setUserData((userData)=>({
+      ...userData,
+      [property]: e.target.value
+    }))
+    
+  }
+
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle register form submission
-    const formData = {
-      username,
-      email,
-      password,
-      confirmPassword,
-      role,
-      agreeTerms,
-    };
+    console.log('submitting')
 
-    if (password !== confirmPassword) {
+    if (userData.password !== userData.confirmPassword) {
       // Password and password confirmation do not match
       // You can display an error message or perform other actions
       setToastMessage('Password and password confirmation do not match.');
@@ -42,7 +55,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(baseUrl + '/user/register', formData);
+      const response = await axios.post(baseUrl + '/user/register', userData);
       console.log(response.data); // Handle the response as needed
       setToastMessage('Thank you for registering. Check your email to confirm your account.');
       setToastType('success')
@@ -64,7 +77,7 @@ const Register = () => {
       // Handle the error
     }
 
-    console.log(formData);
+    console.log(userData);
   };
 
   return (
@@ -80,8 +93,10 @@ const Register = () => {
               type="text"
               id="username"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              // value={username}
+              value={userData.username}
+              // onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => updateUser(e, 'username')}
               required
             />
           </div>
@@ -93,8 +108,9 @@ const Register = () => {
               type="text"
               id="email"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={userData.email}
+              // onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => updateUser(e,'email')}
               required
             />
           </div>
@@ -106,8 +122,8 @@ const Register = () => {
               type="password"
               id="password"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={userData.password}
+              onChange={(e) => updateUser(e, 'password')}
               required
             />
           </div>
@@ -119,8 +135,8 @@ const Register = () => {
               type="password"
               id="confirmPassword"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={userData.confirmPassword}
+              onChange={(e) => updateUser(e, 'confirmPassword')}
               required
             />
           </div>
@@ -131,8 +147,8 @@ const Register = () => {
             <select
               id="role"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
+              value={userData.role}
+              onChange={(e) => updateUser(e, 'role')}
               required
             >
               <option value="">Select Role</option>
@@ -146,8 +162,9 @@ const Register = () => {
               type="checkbox"
               id="agreeTerms"
               className="mr-2"
-              checked={agreeTerms}
-              onChange={(e) => setAgreeTerms(e.target.checked)}
+              checked={userData.agreeTerms}
+              value={userData.agreeTerms}
+              onChange={(e) => updateCheckbox(e)}
               required
             />
             <label htmlFor="agreeTerms">
