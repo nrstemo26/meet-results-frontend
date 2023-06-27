@@ -38,7 +38,7 @@ function WatchListAthlete({ name }){
       <div className='shadow-lg m-2 p-4'>
         <div className='flex justify-between'>
           <h1 className='text-xl font-bold text-primary-950'>{name}</h1>
-          <TiDeleteOutline className='cursor-pointer'  onClick={(e)=> handleDelete(e)}/>
+          <TiDeleteOutline className='cursor-pointer'  size={'22px'} onClick={(e)=> handleDelete(e)}/>
         </div>
 
         {
@@ -51,9 +51,9 @@ function WatchListAthlete({ name }){
         <div onClick={()=>toggleMeetHistory()}>
             {
               areMeetsVisible ? 
-               (<div className='flex justify-between'><div className='cursor-pointer text-sm pb-4 text-slate-500 hover:text-primary-500'>Hide last 5 meets</div><FiArrowUp className='cursor-pointer'/></div>) 
+               (<div className='flex justify-between'><div className='cursor-pointer text-sm pb-4 text-slate-500 hover:text-primary-500'>Hide last 5 meets</div><FiArrowUp  className='cursor-pointer'/></div>) 
               :
-              (<div className='flex justify-between'><div className='cursor-pointer text-sm pb-4 text-slate-500 hover:text-primary-500'>Show last 5 meets</div><FiArrowDown className='cursor-pointer'/></div>)
+              (<div className='flex justify-between'><div className='cursor-pointer text-sm pb-4 text-slate-500 hover:text-primary-500'>Show last 5 meets</div><FiArrowDown  className='cursor-pointer'/></div>)
             }
         </div>
         
