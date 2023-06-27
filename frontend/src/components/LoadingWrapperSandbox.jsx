@@ -44,7 +44,9 @@ const HomeComponent = ()=>{
   return(
     <div>
         <WrappedComponent isLoading={isLoading} data={data}/>
-        <Trending />
+        <div className="sm:fixed sm:right-0 fixed:mr-8: sm:w-1/3">
+            <Trending />
+        </div>
         <FeatureRequest />
     </div>
   )
