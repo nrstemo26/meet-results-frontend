@@ -22,23 +22,25 @@ function AllLiftsChart(){
         datasets:[
             {
                 label:'total' ,
-                backgroundColor:'rgba(255, 0, 0)',
-                data: totalData
+                backgroundColor:'#069af3',
+                data: totalData,
+                pointRadius: 4,
                 
             },
             {
                 label:'cj make',
-                backgroundColor:'rgba(0, 150, 255)',
+                backgroundColor:'#00ad43',
                 data: Object.keys(chart["Clean & Jerk"].Make).map((el)=>{
                     return {
                     x: new Date(chart["Clean & Jerk"].Make[el][0]),
                     y: chart["Clean & Jerk"].Make[el][1]
                     }
-                })
+                }),
+                pointRadius: 4
             },
             {
                 label:'cj miss',
-                backgroundColor:'rgba(255, 0, 0)',
+                backgroundColor:'#fd411e',
                 data:  Object.keys(chart["Clean & Jerk"].Miss).map((el)=>{
                     return {
                       x: new Date(chart["Clean & Jerk"].Miss[el][0]),
@@ -47,23 +49,25 @@ function AllLiftsChart(){
                 })
             },{
                 label:'sn make',
-                backgroundColor:'rgb(0, 255, 0)',
+                backgroundColor:'#4BFA8E',
                 data: Object.keys(chart["Snatch"].Make).map((el)=>{
                     return {
                     x: new Date(chart["Snatch"].Make[el][0]),
                     y: chart["Snatch"].Make[el][1]
                     }
-                })
+                }),
+                pointRadius: 4
             },
             {
                 label:'sn miss',
-                backgroundColor:'rgba(255, 192, 203)',
+                backgroundColor:'#FD806A',
                 data:  Object.keys(chart["Snatch"].Miss).map((el)=>{
                     return {
                       x: new Date(chart["Snatch"].Miss[el][0]),
                       y: chart["Snatch"].Miss[el][1]
                     }
-                })
+                }),
+                pointRadius: 4
             },
 
         ]
@@ -91,6 +95,12 @@ function AllLiftsChart(){
                     date: {
                         locale: enUS
                     }
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: "Weight (Kg)"
                 }
             }
         },

@@ -10,8 +10,8 @@ function ChartWrapper(){
     
     return (
         <div >
-            <label htmlFor="charts">Choose a chart:</label> 
-            <select value={selected} onChange={(e)=> setSelected(e.target.value)}  > 
+            <label htmlFor="charts" class="text-primary-950">Choose a chart:</label> 
+            <select value={selected} onChange={(e)=> setSelected(e.target.value)}  class="bg-primary-100 m-1"> 
                 <option value="all">All</option> 
                 <option value="cj">Clean and Jerk</option> 
                 <option value="sn">Snatch </option> 

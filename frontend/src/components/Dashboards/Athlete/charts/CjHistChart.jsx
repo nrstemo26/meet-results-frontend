@@ -56,6 +56,12 @@ function CjHistChart(){
                         locale: enUS
                     }
                 }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: "Weight (Kg)"
+                }
             }
         },
         watermark: {
