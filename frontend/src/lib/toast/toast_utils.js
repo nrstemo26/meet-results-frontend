@@ -1,10 +1,7 @@
 
 export const makeToast = (msg, type, setShowToast,setToastType, setToastMessage)=> {
     setToastMessage(msg);
-    if(type){
-        console.log('type exists')
-    }
-    setToastType(type)
+    if(type) setToastType(type)
     setShowToast(true);
     
     setTimeout(() => {
