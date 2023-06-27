@@ -38,6 +38,7 @@ const Register = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
+  
   //initialize make toast to bind the toast state to the function
   const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
 
@@ -55,7 +56,6 @@ const Register = () => {
         // Redirect or perform any other actions after successful registration
       } catch (error) {
         console.error(error);
-        // makeToast(error.response.data.message, false, setShowToast, setToastType, setToastMessage)
         makeToast(error.response.data.message, false)
       }
     }
