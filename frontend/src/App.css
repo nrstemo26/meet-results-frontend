@@ -39,5 +39,14 @@
     @apply p-2 border-2 border-primary-500 my-2 text-center w-5/6  focus:outline-none focus:border-primary-400 focus:text-lg focus:bg-primary-100
   }
 
+  .spinner-image{
+    color: navy;
+    animation: color-change 4s infinite;
+    transition-timing-function: ease-in-out ;
+  }
+}
 
+@keyframes color-change {
+  0%,50% ,100% { color: navy; }
+  25%,75% { color: yellow; }
 }
