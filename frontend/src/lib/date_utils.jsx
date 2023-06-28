@@ -43,7 +43,7 @@ export const renderTotalResults = (arr, meetHistory) => {
         <>    
             <h1 className="text-lg font-bold">{meet} on {month} {day}</h1>
             <div className="text-center flex flex-col gap-2">
-                <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg" key={meet}>{meetData["Best Snatch"]}/{meetData["Best C&J"]}/{meetData["Total"]}</a>
+                <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg font-mono" key={meet}>{meetData["Best Snatch"]}/{meetData["Best C&J"]}/{meetData["Total"]}</a>
             </div>
         </>
         )
