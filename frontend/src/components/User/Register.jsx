@@ -157,13 +157,13 @@ const Register = () => {
           <div className="flex justify-between">
             <button
               type="submit"
-              className="bg-primary-500 hover:bg-blue-950 text-white py-2 px-4 rounded"
+              className="btn-alt"
             >
               Register
             </button>
-            <p className="text-center text-gray-600 mt-4">
+            <p className="text-center text-gray-600 mt-4 p-2">
               Already registered?{' '}
-              <Link to="/login" className="text-primary-500">
+              <Link to="/login" className="text-primary-950 hover:text-cyan-700">
                 Log in here.
               </Link>
             </p>

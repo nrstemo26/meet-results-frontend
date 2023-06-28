@@ -19,7 +19,7 @@
   }
 
   .btn-alt {
-    @apply m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-transparent;
+    @apply m-1 border-2 rounded-sm p-2 border-primary-950  bg-transparent text-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-cyan-700 hover:text-white hover:border-transparent;
   }
 
   .chart-wrapper{
