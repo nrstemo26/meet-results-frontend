@@ -163,7 +163,7 @@ const Register = () => {
             </button>
             <p className="text-center text-gray-600 mt-4 p-2">
               Already registered?{' '}
-              <Link to="/login" className="text-primary-950 hover:text-cyan-700">
+              <Link to="/login" className="text-primary-950 hover:text-primary-500">
                 Log in here.
               </Link>
             </p>

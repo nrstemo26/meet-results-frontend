@@ -95,7 +95,7 @@ const Login = ({ updateLoggedInStatus }) => {
             </button>
             <p className="text-center text-gray-600 mt-4 p-2">
               Need an account?{' '}
-              <Link to="/register" className="text-primary-950 hover:text-cyan-700">
+              <Link to="/register" className="text-primary-950 hover:text-primary-500">
                 Register here.
               </Link>
             </p>
