@@ -40,7 +40,7 @@ const Search = ({ isSession }) => {
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
             <UserList users={users} isSession={isSession}  />
-            : <Trending  isSession={isSession}/>}
+            : <div className="sm:fixed sm:left-0 sm:bottom-0 mb-8 ml-8 text-left"><Trending  isSession={isSession} /></div>}
         </div>
     )
   }

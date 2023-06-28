@@ -43,7 +43,7 @@ function WatchListAthlete({ name }){
 
         {
         stats? 
-        <div>Comp PRs (Snatch/C&J/Total): <div className="font-mono">{stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}kg</div></div>
+        <div>Comp PRs (Snatch/C&J/Total): <div className="font-mono text-xl p-1">{stats["Best Snatch"]}/{stats["Best C&J"]}/{stats["Best Total"]}kg</div></div>
         : 
         'loading stats'
       }
