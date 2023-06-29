@@ -58,13 +58,8 @@ const FeatureRequest = () => {
       }, 5000);
       // Handle the error
     }
-    // Send feature request to '/feature-request' endpoint
-    // console.log(featureRequest);
-    // handleCloseModal();
-    // setShowToast(true);
-    // setTimeout(() => {
-    //   setShowToast(false);
-    // }, 5000);
+
+    handleCloseModal();
   };
 
   return (

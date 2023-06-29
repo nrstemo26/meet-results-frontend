@@ -46,7 +46,7 @@ const HomeComponent = ()=>{
   return(
     <div className='sm:flex w-100'>
         <WrappedComponent isLoading={isLoading} data={data}/>
-        <div className="sm:fixed sm:right-0 sm:m-8 sm:w-1/4">
+        <div className="md:fixed md:right-0 md:m-8 md:w-1/4">
             <Trending />
         </div>
         <FeatureRequest />

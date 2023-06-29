@@ -56,7 +56,7 @@ function WatchListAthlete({ name }){
               (<><div className='cursor-pointer text-sm pb-4 text-primary-400 hover:text-primary-950'>Show last 5 meets</div><FiArrowDown/></>)
             }
         </div>
-        
+      
         {
           areMeetsVisible && meetHistory ? 
           renderSessionResults(organizeByNewestDate(meetHistory), meetHistory) 
@@ -64,7 +64,7 @@ function WatchListAthlete({ name }){
           ''
         }
         
-        <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-2 text-primary-950 border-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-700 hover:text-white hover:border-transparent'>Athlete Page</Link>
+        <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-4 text-primary-950 border-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-700 hover:text-white hover:border-transparent'>Athlete Page</Link>
       </div>
     )
   }
