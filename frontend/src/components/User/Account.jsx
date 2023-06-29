@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const baseUrl = 'http://192.168.86.27:5000'
 
-const Account = () => {
+const Account = ({isLoggedIn}) => {
   const [accountData, setAccountData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAccount = async () => {
+      console.log(isLoggedIn);
+      if (!isLoggedIn) {
+        navigate('/login'); // Redirect to login page if not logged in
+        return;
+      }
+
       const token = localStorage.getItem('token');
       const credentials = btoa(`${token}:unused`);
 
@@ -26,7 +34,7 @@ const Account = () => {
     };
 
     getAccount();
-  }, []); // Empty dependency array to run the effect only once
+  }, [isLoggedIn, navigate]); // Empty dependency array to run the effect only once
 
   return (
     <div className="flex m-4 justify-center items-top h-screen">

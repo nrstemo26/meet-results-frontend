@@ -1,6 +1,6 @@
 import './App.css'
-import {useState } from 'react'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import { NotFound } from './pages/NotFound'
 import WatchList from './components/WatchList/WatchList'
@@ -43,12 +43,20 @@ function App() {
 
   const updateLoggedInStatus = (status) => {
     setIsLoggedIn(status);
+    console.log('Login status updated:', status);
     console.log(isLoggedIn);
   };
   const handleLogout = () => {
-    // Perform logout logic and update isLoggedIn state accordingly
-    setIsLoggedIn(false);
+    
+    localStorage.removeItem('token');
+    setIsLoggedIn(prevIsLoggedIn => !prevIsLoggedIn);
+    window.location.href = '/login';
+
   };
+
+  useEffect(() => {
+    console.log('isLoggedIn:', isLoggedIn);
+  }, [isLoggedIn]);
   
 
   return (
@@ -72,7 +80,7 @@ function App() {
           <Route path="/about" element={<About/>}/>
           <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
           <Route path="/register" element={<Register updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Register */}
-          <Route path='/account' element={<Account/>}/>
+          <Route path='/account' element={<Account isLoggedIn={isLoggedIn} />}/>
           <Route path="/confirmation/:token" component={Confirmation} />
         </Routes>
 
