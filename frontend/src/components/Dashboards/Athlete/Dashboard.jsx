@@ -46,8 +46,9 @@ const Dashboard = () => {
   if(isError){
     return <Error/>
   }
-  
+    console.log(data);
     return (
+      
       <div className='dashboard-container'>
           <div className='bg-secondary-500 p-5 rounded-xl'>
             <h1 className="text-center text-primary-950 text-4xl font-bold m-2">{data ? data['_athlete_id'] : 'loading'}</h1>
