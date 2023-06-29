@@ -23,9 +23,8 @@
   }
 
   .chart-wrapper{
-    @apply border-2 rounded bg-white overflow-hidden shadow-md sm:h-[400px] lg:h-[500px];
+    @apply border-2 rounded bg-white overflow-hidden shadow-md h-96 lg:h-[500px];
     
-    /* //h-[300px] */
   }
 
   .dashboard-container{

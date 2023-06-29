@@ -1,4 +1,4 @@
-
+import { useSelector } from "react-redux"
 
 function Insights (){
     return(
