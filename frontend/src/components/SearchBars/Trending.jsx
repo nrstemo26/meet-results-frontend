@@ -23,6 +23,7 @@ function Trending({ isSession }){
     return(
         <div className="shadow-lg m-2 p-4">
             <h1 className="text-lg text-primary-950 font-bold text-center">Trending Athletes 🔥📈</h1>
+            <p className="text-sm text-center font-bold text-gray-700 border-b border-primary-100">Last 24 Hours</p>
             <UserList users={athletes} isSession={isSession}></UserList>
         </div>
     )
