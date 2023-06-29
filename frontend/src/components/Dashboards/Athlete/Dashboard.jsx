@@ -46,7 +46,7 @@ const Dashboard = () => {
   if(isError){
     return <Error/>
   }
-    console.log(data);
+
     return (
       
       <div className='dashboard-container'>

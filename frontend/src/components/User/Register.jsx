@@ -33,6 +33,7 @@ const Register = () => {
       // Password and password confirmation do not match
       // You can display an error message or perform other actions
       setToastMessage('Password and password confirmation do not match.');
+      setToastType('error')
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
@@ -56,6 +57,7 @@ const Register = () => {
     } catch (error) {
       console.error(error);
       setToastMessage(error.response.data.message);
+      setToastType('error')
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);

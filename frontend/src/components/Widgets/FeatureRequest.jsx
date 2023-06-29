@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 import Toast from './Toast';
+
+const baseUrl = 'http://192.168.86.27:5000'
+// const baseUrl = 'http://98.144.49.136:5000'
 
 const FeatureRequest = () => {
   const [showModal, setShowModal] = useState(false);
   const [requestText, setRequestText] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
+  const [accountData, setAccountData] = useState(null);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -15,15 +22,49 @@ const FeatureRequest = () => {
     setRequestText('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+    const credentials = btoa(`${token}:unused`);
+    const feature_request = requestText
+
+    try {
+      const response = await axios.post(baseUrl + '/user/feature-request', 
+        { feature_request },
+        {
+          headers: {
+            Authorization: `Basic ${credentials}`,
+          },
+        }
+      );
+      console.log(response.data); // Handle the response as needed
+      setToastMessage('TY. The Oracle appreciates your feedback.');
+      setToastType('success')
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setToastMessage('');
+      }, 5000);
+  
+      // Redirect or perform any other actions after successful registration
+    } catch (error) {
+      console.error(error);
+      setToastMessage('Only registered users can submit a feature request.');
+      setToastType('warning')
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setToastMessage('');
+      }, 5000);
+      // Handle the error
+    }
     // Send feature request to '/feature-request' endpoint
-    console.log('Submitting feature request:', requestText);
-    handleCloseModal();
-    setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 5000);
+    // console.log(featureRequest);
+    // handleCloseModal();
+    // setShowToast(true);
+    // setTimeout(() => {
+    //   setShowToast(false);
+    // }, 5000);
   };
 
   return (
@@ -58,7 +99,7 @@ const FeatureRequest = () => {
         </div>
       )}
       {showToast && (
-        <Toast message="TY. The Oracle appreciates your feedback." onClose={() => setShowToast(false)} type="success" />
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
       )}
     </div>
   );
