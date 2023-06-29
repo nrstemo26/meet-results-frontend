@@ -12,7 +12,7 @@ import MeetDashboard from './components/Dashboards/Meet/Dashboard'
 import Login from './components/User/Login'
 import Register from './components/User/Register'
 import Account from './components/User/Account'
-import Confirmation from './components/User/Confirm'
+import Confirmation from './components/User/Confirmation'
 
 //imports a wrapper for data loading needs work tho
 import { HomeComponent as HomeComponent} from './components/LoadingWrapperSandbox'
@@ -81,7 +81,7 @@ function App() {
           <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
           <Route path="/register" element={<Register updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Register */}
           <Route path='/account' element={<Account isLoggedIn={isLoggedIn} />}/>
-          <Route path="/confirmation/:token" component={Confirmation} />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
 
       </div>

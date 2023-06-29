@@ -7,7 +7,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:
+         {
+           'hero_avatar': "url('/assets/avatar_navy.svg)"
+         }
+    },
     colors: {
       ...colors,
       primary: colors.blue,

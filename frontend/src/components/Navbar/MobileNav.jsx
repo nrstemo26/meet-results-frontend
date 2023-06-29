@@ -2,6 +2,7 @@ import { useState } from "react"
 import Sidebar from "./Sidebar"
 import { FiMenu } from 'react-icons/fi'
 import PropTypes from 'prop-types'
+import { Link } from "react-router-dom";
 
 function MobileNav({setIsSidebarOpen, isLoggedIn, handleLogout}){
     const [isOpen, setIsOpen] = useState(false)
@@ -18,7 +19,7 @@ function MobileNav({setIsSidebarOpen, isLoggedIn, handleLogout}){
             {isOpen ? '' : <FiMenu className="cursor-pointer" size={30}/>}
         </div>
 
-        <div>LIFT ORACLE</div>   
+        <Link to='/'><div className=''>LIFT ORACLE</div></Link>
     </>
     )
 }

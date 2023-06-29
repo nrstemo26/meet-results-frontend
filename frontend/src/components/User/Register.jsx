@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Toast from '../Widgets/Toast';
 
@@ -16,6 +16,7 @@ const Register = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,6 +53,7 @@ const Register = () => {
         setShowToast(false);
         setToastMessage('');
       }, 5000);
+      navigate('/login');
   
       // Redirect or perform any other actions after successful registration
     } catch (error) {

@@ -1,4 +1,4 @@
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addToSession } from '../../features/sessionSlice'
 import PropTypes from 'prop-types';

@@ -32,7 +32,7 @@
   }
   
   .sidebar-element{
-    @apply mx-4 p-1 border-b-2 border-primary-300 hover:border-2  hover:bg-primary-200 shadow-sm;
+    @apply mx-4 p-1 border-b border-primary-400 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm;
   }
   .search-bar{
     @apply p-2 border-2 border-primary-500 my-2 text-center w-5/6  focus:outline-none focus:border-primary-400 focus:text-lg focus:bg-primary-100
