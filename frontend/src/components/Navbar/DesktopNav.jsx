@@ -5,7 +5,7 @@ function DesktopNav( {isLoggedIn, handleLogout} ) {
 
   return (
     <>
-      <div>LIFT ORACLE</div>
+      <Link to='/'><div className=''>LIFT ORACLE</div></Link>
 
       <div className="flex gap-2">
         <Link to="/">

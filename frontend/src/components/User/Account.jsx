@@ -56,16 +56,16 @@ const Account = ({isLoggedIn}) => {
               </div>
             </div>
             <div className="flex items-center">
-              <p className="text-xl text-primary-950 font-bold mr-2">
-                Oracle Rating:
-              </p>
-              <p className="text-xl ml-2">{accountData.rating}</p>
+              <p className="text-xl text-primary-950 font-bold mr-2">🧙‍♂️ Oralce Rating:</p>
+              <span role="img" aria-label="Bearded Wizard" className="text-xl">
+                {accountData.rank} 
+              </span>
             </div>
             <div className="flex items-center">
-              <p className="text-xl text-primary-950 font-bold mr-2">Rank:</p>
-              <span role="img" aria-label="Bearded Wizard" className="text-xl">
-                {accountData.rank} 🧙‍♂️
-              </span>
+              <p className="text-xl text-primary-950 font-bold mr-2">
+                Member Since:
+              </p>
+              <p className="text-m ml-2">{accountData.member_since}</p>
             </div>
           </>
         ) : (
