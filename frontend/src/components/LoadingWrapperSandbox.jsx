@@ -16,9 +16,9 @@ function withLoading(Component){
 const MyComponent = ({ data })=>{
     return (
         <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
-            <h2 className="text-primary-950 font-bold text-5xl sm:w-2/3 p-2 pt-16 ml-8">{data.title}</h2>
-            <h2 className="text-primary-950 font-bold text-3xl sm:w-2/3 p-2 mt-4 mx-8 leading-relaxed">{data.subtitle}</h2>
-            <p className="mt-8 ml-8 sm:w-1/3 p-2 text-primary-950 leading-loose font-semibold">{data.description}</p>
+            <h2 className="text-primary-950 font-bold text-5xl p-2 pt-16 ml-8">{data.title}</h2>
+            <h2 className="text-primary-950 font-bold text-3xl p-2 mt-4 mx-8 leading-relaxed">{data.subtitle}</h2>
+            <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">{data.description}</p>
             <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
                 <li>
                     <span className="text-xl">🏋️‍♂️ </span>
