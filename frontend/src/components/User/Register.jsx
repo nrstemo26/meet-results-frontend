@@ -2,73 +2,68 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Toast from '../Widgets/Toast';
+import { makeToast_ } from '../../lib/toast/toast_utils';
 
 const baseUrl = 'http://192.168.86.27:5000'
 // const baseUrl = 'http://98.144.49.136:5000'
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [userData, setUserData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: '',
+    agreeTerms: false,
+  })
+
+  const updateCheckbox = (e)=>{
+    setUserData((userData)=>({
+      ...userData,
+      agreeTerms: e.target.checked
+    }))
+    
+    
+  }
+  
+  const updateUser = (e, property)=>{
+    e.preventDefault()
+    setUserData((userData)=>({
+      ...userData,
+      [property]: e.target.value
+    }))
+    
+  }
+
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
   const navigate = useNavigate();
+  
+  //initialize make toast to bind the toast state to the function
+  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle register form submission
-    const formData = {
-      username,
-      email,
-      password,
-      confirmPassword,
-      role,
-      agreeTerms,
-    };
 
-    if (password !== confirmPassword) {
-      // Password and password confirmation do not match
-      // You can display an error message or perform other actions
-      setToastMessage('Password and password confirmation do not match.');
-      setToastType('error')
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-      return;
+    if (userData.password !== userData.confirmPassword) {
+      //we call makeToast with a msg and a type
+      makeToast('Password and password confirmation do not match.', false)
+    }else{
+      try {
+        const response = await axios.post(baseUrl + '/user/register', userData);
+        console.log(response.data); // Handle the response as needed
+        makeToast('Thank you for registering. Check your email to confirm your account.','success')
+        // Redirect or perform any other actions after successful registration
+      } catch (error) {
+        console.error(error);
+        makeToast(error.response.data.message, false)
+      }
     }
 
-    try {
-      const response = await axios.post(baseUrl + '/user/register', formData);
-      console.log(response.data); // Handle the response as needed
-      setToastMessage('Thank you for registering. Check your email to confirm your account.');
-      setToastType('success')
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-      navigate('/login');
-  
-      // Redirect or perform any other actions after successful registration
-    } catch (error) {
-      console.error(error);
-      setToastMessage(error.response.data.message);
-      setToastType('error')
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-      // Handle the error
-    }
+    console.log(userData);
 
-    console.log(formData);
   };
 
   return (
@@ -84,8 +79,10 @@ const Register = () => {
               type="text"
               id="username"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              // value={username}
+              value={userData.username}
+              // onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => updateUser(e, 'username')}
               required
             />
           </div>
@@ -94,11 +91,12 @@ const Register = () => {
               Email
             </label>
             <input
-              type="text"
+              type="email"
               id="email"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={userData.email}
+              // onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => updateUser(e,'email')}
               required
             />
           </div>
@@ -110,8 +108,8 @@ const Register = () => {
               type="password"
               id="password"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={userData.password}
+              onChange={(e) => updateUser(e, 'password')}
               required
             />
           </div>
@@ -123,8 +121,8 @@ const Register = () => {
               type="password"
               id="confirmPassword"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={userData.confirmPassword}
+              onChange={(e) => updateUser(e, 'confirmPassword')}
               required
             />
           </div>
@@ -135,8 +133,8 @@ const Register = () => {
             <select
               id="role"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
+              value={userData.role}
+              onChange={(e) => updateUser(e, 'role')}
               required
             >
               <option value="">Select Role</option>
@@ -150,8 +148,9 @@ const Register = () => {
               type="checkbox"
               id="agreeTerms"
               className="mr-2"
-              checked={agreeTerms}
-              onChange={(e) => setAgreeTerms(e.target.checked)}
+              checked={userData.agreeTerms}
+              value={userData.agreeTerms}
+              onChange={(e) => updateCheckbox(e)}
               required
             />
             <label htmlFor="agreeTerms">
