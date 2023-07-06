@@ -1,4 +1,4 @@
-import Insights from '../Meet/Insights'
+import Insights from './Insights'
 import BestLifts from "./BestLits";
 import AllTotals from "./AllTotals";
 import { Spinner } from '../../../pages/Spinner';
@@ -46,11 +46,12 @@ const Dashboard = () => {
   if(isError){
     return <Error/>
   }
-  
+
     return (
+      
       <div className='dashboard-container'>
           <div className='bg-secondary-500 p-5 rounded-xl'>
-            <h1 className="text-center text-2xl font-bold">{data ? data['_athlete_id'] : 'loading'}</h1>
+            <h1 className="text-center text-primary-950 text-4xl font-bold m-2">{data ? data['_athlete_id'] : 'loading'}</h1>
             {
               data?
               (<ChartWrapper/>):

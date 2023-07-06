@@ -4,9 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import Toast from '../Widgets/Toast';
 
 const baseUrl = 'http://192.168.86.27:5000'
+// const baseUrl = 'http://98.144.49.136:5000/api/v1/'
 
 
-const Login = () => {
+const Login = ({ updateLoggedInStatus }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -29,6 +30,7 @@ const Login = () => {
 
       // Store the token in local storage or session storage
       localStorage.setItem('token', token);
+      updateLoggedInStatus(true);
       navigate('/api/v1/session');
       
       // e.g., navigate to a dashboard page
@@ -48,8 +50,8 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <div className="w-full sm:w-auto p-8 bg-transparent rounded shadow">
+        <h2 className="text-2xl text-primary-950 font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block font-medium mb-1">
@@ -88,12 +90,12 @@ const Login = () => {
             <label htmlFor="rememberMe">Remember Me</label>
           </div>
           <div className="flex justify-between">
-            <button type="submit" className="bg-primary-500 hover:bg-primary-950 text-white py-2 px-4 rounded">
+            <button type="submit" className="btn-alt">
               Login
             </button>
-            <p className="text-center text-gray-600 mt-4">
+            <p className="text-center text-gray-600 mt-4 p-2">
               Need an account?{' '}
-              <Link to="/register" className="text-primary-500">
+              <Link to="/register" className="text-primary-950 hover:text-primary-500">
                 Register here.
               </Link>
             </p>

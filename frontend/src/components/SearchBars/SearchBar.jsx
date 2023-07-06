@@ -10,7 +10,7 @@ const SearchBar = ({ onSearch }) => {
       <input
       type="text"
       onChange={handleSearch}
-          placeholder="Search by name"
+          placeholder="Start typing an athlete's name..."
           className="search-bar"
           />
           );

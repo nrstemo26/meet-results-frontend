@@ -1,6 +1,6 @@
 import './App.css'
-import {useState } from 'react'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import { NotFound } from './pages/NotFound'
 import WatchList from './components/WatchList/WatchList'
@@ -12,7 +12,7 @@ import MeetDashboard from './components/Dashboards/Meet/Dashboard'
 import Login from './components/User/Login'
 import Register from './components/User/Register'
 import Account from './components/User/Account'
-import Confirmation from './components/User/Confirm'
+import Confirmation from './components/User/Confirmation'
 
 //imports a wrapper for data loading needs work tho
 import { HomeComponent as HomeComponent} from './components/LoadingWrapperSandbox'
@@ -38,14 +38,32 @@ function Insights(){
 
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const updateLoggedInStatus = (status) => {
+    setIsLoggedIn(status);
+    console.log('Login status updated:', status);
+    console.log(isLoggedIn);
+  };
+  const handleLogout = () => {
+    
+    localStorage.removeItem('token');
+    setIsLoggedIn(prevIsLoggedIn => !prevIsLoggedIn);
+    window.location.href = '/login';
+
+  };
+
+  useEffect(() => {
+    console.log('isLoggedIn:', isLoggedIn);
+  }, [isLoggedIn]);
   
 
   return (
     <Router>
       <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
       
-        <Navbar setIsSidebarOpen={setIsSidebarOpen} />
+        <Navbar setIsSidebarOpen={setIsSidebarOpen}  isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Routes>
           <Route path="*" element={<NotFound/>}/>
           <Route path="/api/v1/session" element={<WatchList/>} />
@@ -60,10 +78,10 @@ function App() {
           <Route path="/api/v1/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
-          <Route path='/account' element={<Account/>}/>
-          <Route path="/confirmation/:token" component={Confirmation} />
+          <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
+          <Route path="/register" element={<Register updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Register */}
+          <Route path='/account' element={<Account isLoggedIn={isLoggedIn} />}/>
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
 
       </div>

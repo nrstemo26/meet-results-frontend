@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
 
 const baseUrl = 'http://192.168.86.27:5000'
-
+// const baseUrl = 'http://98.144.49.136:5000'
 
 const Register = () => {
   const [userData, setUserData] = useState({
@@ -38,9 +38,11 @@ const Register = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
+  const navigate = useNavigate();
   
   //initialize make toast to bind the toast state to the function
   const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,6 +63,7 @@ const Register = () => {
     }
 
     console.log(userData);
+
   };
 
   return (
@@ -157,13 +160,13 @@ const Register = () => {
           <div className="flex justify-between">
             <button
               type="submit"
-              className="bg-primary-500 hover:bg-blue-950 text-white py-2 px-4 rounded"
+              className="btn-alt"
             >
               Register
             </button>
-            <p className="text-center text-gray-600 mt-4">
+            <p className="text-center text-gray-600 mt-4 p-2">
               Already registered?{' '}
-              <Link to="/login" className="text-primary-500">
+              <Link to="/login" className="text-primary-950 hover:text-primary-500">
                 Log in here.
               </Link>
             </p>

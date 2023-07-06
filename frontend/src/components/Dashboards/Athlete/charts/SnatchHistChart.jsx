@@ -2,7 +2,9 @@ import { Chart, Scatter } from 'react-chartjs-2'
 import { Chart as ChartJS } from 'chart.js/auto'
 import {useSelector } from  'react-redux'
 import 'chartjs-adapter-date-fns'; 
-import { enUS } from 'date-fns/locale'; 
+import ChartjsPluginWatermark from 'chartjs-plugin-watermark'
+import { enUS } from 'date-fns/locale';
+import watermark from '../../../../assets/avatar_face_navy.png' 
 
 function SnatchHistChart(){
     const {data: { chart_data:{attempt_history_chart: chart} } } = useSelector((state)=>state.athlete)
@@ -55,15 +57,35 @@ function SnatchHistChart(){
                         locale: enUS
                     }
                 }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: "Weight (Kg)"
+                }
             }
+        },
+        watermark: {
+
+            image: watermark,
+            x: "0%",
+            y: "0%",
+            width: 275,
+            height: 206.25,
+            opacity: 0.1,
+            alignX: "middle",
+            alignY: "middle",
+            alignToChartArea: true,
+            position: "back"
+  
         }
     }
     
 
-    
+    ChartJS.register(ChartjsPluginWatermark);
     
     return (
-        <div className="chart-wrapper ">
+        <div className="chart-wrapper">
             <Chart  type="scatter" data={snatchHistoryData}  options={dateMakeOptions}/>
         </div>
     )
