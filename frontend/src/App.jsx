@@ -12,6 +12,7 @@ import MeetDashboard from './components/Dashboards/Meet/Dashboard'
 import Login from './components/User/Login'
 import Register from './components/User/Register'
 import ResetRequest from './components/User/ResetRequest'
+import PasswordReset from './components/User/PasswordReset'
 import Account from './components/User/Account'
 import Confirmation from './components/User/Confirmation'
 
@@ -67,7 +68,7 @@ function App() {
         <Navbar setIsSidebarOpen={setIsSidebarOpen}  isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Routes>
           <Route path="*" element={<NotFound/>}/>
-          <Route path="/api/v1/session" element={<WatchList/>} />
+          <Route path="/api/v1/session" element={<WatchList isLoggedIn={isLoggedIn}/>} />
           
           <Route path="/api/v1/athletes" element={<Search/>}/>
           <Route path="/api/v1/athlete/:id" element={<AthleteDashboard/>}/>
@@ -80,6 +81,7 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/reset-request" element={<ResetRequest/>}/>
+          <Route path="/reset-password" element={<PasswordReset/>}/>
           <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
           <Route path="/register" element={<Register updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Register */}
           <Route path='/account' element={<Account isLoggedIn={isLoggedIn} />}/>
