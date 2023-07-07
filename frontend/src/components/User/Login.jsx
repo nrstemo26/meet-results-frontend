@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Toast from '../Widgets/Toast';
+import { makeToast_ } from '../../lib/toast/toast_utils';
 
 const baseUrl = 'http://192.168.86.27:5000'
 // const baseUrl = 'http://98.144.49.136:5000/api/v1/'
@@ -14,6 +15,7 @@ const Login = ({ updateLoggedInStatus }) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
+  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -79,15 +81,20 @@ const Login = ({ updateLoggedInStatus }) => {
               required
             />
           </div>
-          <div className="flex items-center mb-4">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              className="mr-2"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-            />
-            <label htmlFor="rememberMe">Remember Me</label>
+          <div className="flex justify-between mb-4">
+            <div>
+              <input
+                type="checkbox"
+                id="rememberMe"
+                className="mr-2"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <label htmlFor="rememberMe">Remember Me</label>
+            </div>
+            <Link to="/reset-request" className="text-primary-950 hover:text-primary-500">
+               Forgot your password?
+              </Link>
           </div>
           <div className="flex justify-between">
             <button type="submit" className="btn-alt">

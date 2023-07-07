@@ -11,6 +11,7 @@ import { Dashboard as AthleteDashboard } from './components/Dashboards/Athlete/D
 import MeetDashboard from './components/Dashboards/Meet/Dashboard'
 import Login from './components/User/Login'
 import Register from './components/User/Register'
+import ResetRequest from './components/User/ResetRequest'
 import Account from './components/User/Account'
 import Confirmation from './components/User/Confirmation'
 
@@ -78,6 +79,7 @@ function App() {
           <Route path="/api/v1/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
+          <Route path="/reset-request" element={<ResetRequest/>}/>
           <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
           <Route path="/register" element={<Register updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Register */}
           <Route path='/account' element={<Account isLoggedIn={isLoggedIn} />}/>
