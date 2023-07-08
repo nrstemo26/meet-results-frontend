@@ -12,6 +12,7 @@ const Account = ({isLoggedIn}) => {
   const [accountData, setAccountData] = useState(null);
   const [watchlistData, setWatchlistData] = useState([]);
   const [showWatchlists, setShowWatchlists] = useState(false);
+  const [selectedWatchlist, setSelectedWatchlist] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
@@ -89,6 +90,14 @@ const Account = ({isLoggedIn}) => {
       });
     }
 
+  const handleWatchlistClick = (watchlist) => {
+    if (selectedWatchlist === watchlist) {
+      setSelectedWatchlist(null);
+    } else {
+      setSelectedWatchlist(watchlist);
+    }
+  };
+
   return (
     <div className="flex m-4 justify-center items-top h-full">
       <div className="l:w-1/3 p-8 bg-white rounded shadow">
@@ -131,12 +140,32 @@ const Account = ({isLoggedIn}) => {
                 <h3 className="text-l font-bold text-primary-950">Watchlists:</h3>
                 <ul>
                   {watchlistData.map((watchlist) => (
-                    <div className="flex justify-between flex-row">
-                      <li key={watchlist.id}>{watchlist.watchlist_name}</li>
-                      <div className="text-primary-950 hover:text-primary-400">
-                        <TiDeleteOutline onClick={() => handleDelete(watchlist.watchlist_id)}/>
+                    <div className="flex flex-col">
+                      <div className="flex justify-between flex-row">
+                        <li 
+                          onClick={() => handleWatchlistClick(watchlist)}
+                          className="hover:text-primary-400 cursor-pointer" 
+                          key={watchlist.id}
+                        >
+                            {watchlist.watchlist_name}
+                        </li>
+                        <div className="text-primary-950 hover:text-primary-400 cursor-pointer">
+                          <TiDeleteOutline onClick={() => handleDelete(watchlist.watchlist_id)}/>
+                        </div>
+                        
                       </div>
+                      {selectedWatchlist === watchlist && (
+                        <div className="m-2">
+                          <ul className="mb-2">
+                            {watchlist.athletes.map((name, index) => (
+                              <li key={index}>{name}</li>
+                            ))}
+                          </ul>
+                          <Link to="#" className='btn border p-1 text-xs text-primary-950 border-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-500 hover:text-white hover:border-transparent'>Load Session</Link>
+                        </div>
+                      )}
                     </div>
+                    
                   ))}
                 </ul>
               </div>
