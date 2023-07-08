@@ -73,7 +73,7 @@ function WatchList({isLoggedIn}){
             }
           )
           // console.log(response.data); // Handle the response as needed
-          makeToast(response.data.message, response.data.status)
+          makeToast(response.data.message, response.data.status);
 
         } catch (error) {
           console.error(error);
@@ -91,10 +91,10 @@ function WatchList({isLoggedIn}){
           <div className='sm:w-2/4'>
             <h1 className="font-bold text-xl text-primary-950 text-center">Athlete Watchlist</h1>
             <div className="">
-              <button onClick={handleExport} className="text-primary-950 hover:text-primary-500 m-1">
+              <button onClick={handleExport} className="text-primary-950 text-xl hover:text-primary-400 m-1">
                 <TiDownload />
               </button>
-              <button onClick={handleSave} className="text-primary-950 hover:text-primary-500 m-1">
+              <button onClick={handleSave} className="text-primary-950 text-xl hover:text-primary-400 m-1">
                 <TiFolderAdd />
               </button>
             </div>
