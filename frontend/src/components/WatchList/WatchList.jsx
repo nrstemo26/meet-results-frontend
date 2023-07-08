@@ -90,14 +90,16 @@ function WatchList({isLoggedIn}){
 
           <div className='sm:w-2/4'>
             <h1 className="font-bold text-xl text-primary-950 text-center">Athlete Watchlist</h1>
-            <div className="">
-              <button onClick={handleExport} className="text-primary-950 text-xl hover:text-primary-400 m-1">
-                <TiDownload />
-              </button>
-              <button onClick={handleSave} className="text-primary-950 text-xl hover:text-primary-400 m-1">
-                <TiFolderAdd />
-              </button>
-            </div>
+            {WatchListAthletes.length > 0 && (
+              <div className="">
+                <button onClick={handleExport} className='text-primary-950 text-2xl hover:text-primary-400 m-1'>
+                  <TiDownload />
+                </button>
+                <button onClick={handleSave} className='text-primary-950 text-2xl hover:text-primary-400 m-1'>
+                  <TiFolderAdd />
+                </button>
+              </div>
+            )}
             <ul>
               {WatchListAthletes.map((item)=>(
                 <WatchListAthlete key={item} name={item} />
