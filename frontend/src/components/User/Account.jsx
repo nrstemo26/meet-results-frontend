@@ -7,6 +7,8 @@ const baseUrl = 'http://192.168.86.27:5000'
 
 const Account = ({isLoggedIn}) => {
   const [accountData, setAccountData] = useState(null);
+  const [watchlistData, setWatchlistData] = useState([]);
+  const [showWatchlists, setShowWatchlists] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,10 +34,29 @@ const Account = ({isLoggedIn}) => {
         console.error(error);
         // Handle the error
       }
+
+      try {
+        const response = await axios.get(baseUrl + '/api/v1/watchlists', {
+          headers: {
+            Authorization: `Basic ${credentials}`,
+          },
+        });
+
+        setWatchlistData(response.data.data);
+        console.log(response.data);
+        console.log(watchlistData);
+      } catch (error) {
+        console.error(error);
+        // Handle the error
+      }
     };
 
     getAccount();
   }, [isLoggedIn, navigate]); // Empty dependency array to run the effect only once
+
+  const handleShowWatchlists = () => {
+    setShowWatchlists(!showWatchlists);
+  };
 
   return (
     <div className="flex m-4 justify-center items-top h-screen">
@@ -67,6 +88,26 @@ const Account = ({isLoggedIn}) => {
               </p>
               <p className="text-m ml-2">{accountData.member_since}</p>
             </div>
+            <Link
+              to="#"
+              onClick={handleShowWatchlists}
+              className="text-primary-950 hover:text-primary-500 mt-4"
+            >
+              Saved Watchlists
+            </Link>
+            {showWatchlists && watchlistData.length > 0 && (
+              <div className="mt-4 p-2 shadow-lg">
+                <h3 className="text-l font-bold text-primary-950">Watchlists:</h3>
+                <ul>
+                  {watchlistData.map((watchlist) => (
+                    <li key={watchlist.id}>{watchlist.watchlist_name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {showWatchlists && watchlistData.length === 0 && (
+              <p>You have no saved watchlists.</p>
+            )}
           </>
         ) : (
           <p>Loading...</p>
