@@ -1,7 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-
+import axios from 'axios';
 import { NotFound } from './pages/NotFound'
 import WatchList from './components/WatchList/WatchList'
 import Navbar from './components/Navbar/Navbar'
@@ -18,6 +18,9 @@ import Confirmation from './components/User/Confirmation'
 
 //imports a wrapper for data loading needs work tho
 import { HomeComponent as HomeComponent} from './components/LoadingWrapperSandbox'
+
+const baseUrl = 'http://192.168.86.27:5000'
+// const baseUrl = 'http://98.144.49.136:5000/api/v1/'
 
 
 // dummy components until i get to making all of these pages
@@ -55,6 +58,31 @@ function App() {
     window.location.href = '/login';
 
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Token exists in localStorage, authenticate with the backend
+      axios
+        .post(`${baseUrl}/user/verify-token`, { token }) // Replace with your backend endpoint for token verification
+        .then(response => {
+          const { valid } = response.data; // Assuming the backend returns a validity flag
+  
+          if (valid) {
+            // Token is valid, consider the user as logged in
+            setIsLoggedIn(true);
+          } else {
+            // Token is invalid, remove from localStorage and log the user out
+            localStorage.removeItem('token');
+            setIsLoggedIn(false);
+          }
+        })
+        .catch(error => {
+          console.log('Token verification failed:', error);
+          setIsLoggedIn(false);
+        });
+    }
+  }, []); // Run this effect only once on component mount
 
   useEffect(() => {
     console.log('isLoggedIn:', isLoggedIn);

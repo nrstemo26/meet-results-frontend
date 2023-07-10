@@ -25,6 +25,7 @@ const Login = ({ updateLoggedInStatus }) => {
       const response = await axios.post(baseUrl + '/user/login', {
         username,
         password,
+        rememberMe
       });
 
       // Assuming the response includes a 'token' property
