@@ -1,4 +1,5 @@
 import  {ReactComponent as LogoSvg} from '../assets/avatar_face.svg'
+import { useEffect } from 'react'
 
 const MbSpinner = () => {
     //last path should be the last mustache guy
@@ -42,14 +43,13 @@ const MbSpinner = () => {
         animation(hairSVG,stasheSVG, lastPath)
     }
     
-    
-    setTimeout(stasheLoader,1000)
+    useEffect(()=>{
+        stasheLoader()
+    })
+   
     return(
         <div className='flex flex-col items-center '>
-            <h1 className=''>Getting your data...</h1>
-            <div >
                 <LogoSvg ></LogoSvg>
-            </div>
         </div>
     )
 }
