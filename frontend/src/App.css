@@ -54,26 +54,28 @@
   #logo-hair, #logo-mustache{
     fill: #1c1e37;
   }
-  /* #logo-hair path {
-    animation: color-change .5s;
-    animation-timing-function: ease;
-    animation-fill-mode: forwards;
-    animation-delay: calc(var(--order) * 200ms);
-    animation-iteration-count: 1;
-  } */
+  
   .change-color path{
     animation: color-change .25s;
-    animation-timing-function: ease;
+    animation-timing-function: ease-out;
     animation-fill-mode: forwards;
-    animation-delay: calc(var(--order) * 50ms);
+    animation-delay: calc(var(--order) * 20ms);
+    animation-iteration-count: 1;
+  }
+
+  .change-color-gradient path{
+    animation: color-change-gradient .25s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--order) * 20ms);
     animation-iteration-count: 1;
   }
   .reverse-color path{
     fill: #ffa600;
     animation: reverse-color-change .25s;
-    animation-timing-function: ease;
+    animation-timing-function: ease-out;
     animation-fill-mode: forwards;
-    animation-delay: calc(var(--order) * 50ms);
+    animation-delay: calc(var(--order) * 20ms);
     animation-iteration-count: 1;
   }
 
@@ -83,6 +85,19 @@
 @keyframes color-change {
   0% { fill: #1c1e37; }
   100% { fill: #ffa600; }
+}
+@keyframes color-change-gradient{
+  0% {fill: #eff6ff}
+  10%{fill: #dbeafe}
+  20%{fill: #bfdbfe}
+  30%{fill: #93c5fd}
+  40%{fill: #60a5fa}
+  50%{fill: #3b82f6}
+  60%{fill: #2563eb}
+  70%{fill: #1d4ed8}
+  80%{fill: #1e40af}
+  90%{fill: #1e3a8a}
+  100%{fill: #172554}
 }
 
 @keyframes reverse-color-change{
