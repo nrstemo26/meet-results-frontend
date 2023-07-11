@@ -1,47 +1,49 @@
 import  {ReactComponent as LogoSvg} from '../assets/avatar_face.svg'
 
 const MbSpinner = () => {
-    let lastPath = Array.from(document.querySelectorAll('#logo-hair path'))[19]
-    let svg = document.querySelector('#logo-hair')
-    
+    //last path should be the last mustache guy
+    let lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
+    let hairSVG = document.querySelector('#logo-hair')
+    let stasheSVG = document.querySelector('#logo-mustache')
     let reverse = true;
 
     const onAnimationEnd = () => {
-        svg = document.querySelector('#logo-hair')
-        lastPath = Array.from(document.querySelectorAll('#logo-hair path'))[19]
-        
+        lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
+        hairSVG = document.querySelector('#logo-hair')
+        stasheSVG = document.querySelector('#logo-mustache')
+
         if(reverse){
-            reverseAnimation(svg, lastPath)
+            reverseAnimation(hairSVG,stasheSVG, lastPath)
         }else{
-            animation(svg,lastPath)
+            animation(hairSVG,stasheSVG,lastPath)
         }
         reverse = !reverse;
     }
     
-    const animation = (svg,lastPath) =>{
+    const animation = (hair,stashe,lastPath) =>{
         lastPath.addEventListener('animationend', onAnimationEnd)
-        svg.classList.add('change-color')
-        svg.classList.remove('reverse-color')
+        hair.classList.add('change-color')
+        stashe.classList.add('change-color')
+        hair.classList.remove('reverse-color')
+        stashe.classList.remove('reverse-color')
     }
-    const reverseAnimation = (svg,lastPath)=>{
+    const reverseAnimation = (hair,stashe,lastPath)=>{
         lastPath.addEventListener('animationend', onAnimationEnd)
-        svg.classList.add('reverse-color')
-        svg.classList.remove('change-color')
+        hair.classList.add('reverse-color')
+        stashe.classList.add('reverse-color')
+        hair.classList.remove('change-color')
+        stashe.classList.remove('change-color')
     }
 
-    const logoLoader = () => {
-        svg = document.querySelector('#logo-hair')
-        lastPath = Array.from(document.querySelectorAll('#logo-hair path'))[19]
-        animation(svg, lastPath)
-        let stashe = document.querySelector('#logo-mustache')
-        let paths = Array.from(document.querySelectorAll('#logo-mustache path'))
-        
-    
-        
-        console.log(stashe)
+    const stasheLoader = () => {
+        lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
+        hairSVG = document.querySelector('#logo-hair')
+        stasheSVG = document.querySelector('#logo-mustache')
+        animation(hairSVG,stasheSVG, lastPath)
     }
     
-    setTimeout(logoLoader,1000)
+    
+    setTimeout(stasheLoader,1000)
     return(
         <div className='flex flex-col items-center '>
             <h1 className=''>Getting your data...</h1>
