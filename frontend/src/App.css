@@ -40,13 +40,52 @@
   }
 
   .spinner-image{
-    color: navy;
-    animation: color-change 4s infinite;
-    transition-timing-function: ease-in-out ;
+    /* color: #1c1e37; */
+    
+    /* animation: color-change 4s infinite;
+    transition-timing-function: ease-in-out ; */
   }
+
+  
+  #logo-face{
+    fill: tan;
+  }
+  /* #logo-hair path:nth-of-type(2){ */
+  #logo-hair, #logo-mustache{
+    fill: #1c1e37;
+  }
+  /* #logo-hair path {
+    animation: color-change .5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--order) * 200ms);
+    animation-iteration-count: 1;
+  } */
+  .change-color path{
+    animation: color-change .25s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--order) * 50ms);
+    animation-iteration-count: 1;
+  }
+  .reverse-color path{
+    fill: #ffa600;
+    animation: reverse-color-change .25s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--order) * 50ms);
+    animation-iteration-count: 1;
+  }
+
+  
 }
 
 @keyframes color-change {
-  0%,50% ,100% { color: navy; }
-  25%,75% { color: yellow; }
+  0% { fill: #1c1e37; }
+  100% { fill: #ffa600; }
+}
+
+@keyframes reverse-color-change{
+  0%{ fill: #ffa600; }
+  100% { fill: #1c1e37; }
 }
