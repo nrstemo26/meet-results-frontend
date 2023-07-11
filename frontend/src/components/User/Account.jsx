@@ -32,6 +32,7 @@ const Account = ({isLoggedIn}) => {
 
       try {
         const response = await axios.get(`${baseUrl}/user/account`, {
+
           headers: {
             Authorization: `Basic ${credentials}`,
           },
@@ -117,8 +118,8 @@ const Account = ({isLoggedIn}) => {
               </div>
             </div>
             <div className="flex items-center">
-              <p className="text-xl text-primary-950 font-bold mr-2">🧙‍♂️ Oralce Rating:</p>
-              <span role="img" aria-label="Bearded Wizard" className="text-xl">
+              <p className="text-xl text-primary-950 font-bold mr-2">🧙‍♂️ Oracle Rating:</p>
+              <span role="img" aria-label="Bearded Wizard" className="text-l">
                 {accountData.rank} 
               </span>
             </div>
