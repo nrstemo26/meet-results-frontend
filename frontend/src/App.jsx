@@ -8,6 +8,7 @@ import Navbar from './components/Navbar/Navbar'
 
 import Search from './components/SearchBars/Search'
 import { Dashboard as AthleteDashboard } from './components/Dashboards/Athlete/Dashboard'
+import { Dashboard as AccountDashboard} from './components/Dashboards/Account/Dashboard'
 import MeetDashboard from './components/Dashboards/Meet/Dashboard'
 import Login from './components/User/Login'
 import Register from './components/User/Register'
@@ -92,12 +93,12 @@ function App() {
   return (
     <Router>
       <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
-      
         <Navbar setIsSidebarOpen={setIsSidebarOpen}  isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Routes>
           <Route path="*" element={<NotFound/>}/>
+          {/* this route will need to change...needs an id? */}
           <Route path="/api/v1/session" element={<WatchList isLoggedIn={isLoggedIn}/>} />
-          
+          <Route path="/api/v1/watchlist" element={<AccountDashboard/>} />
           <Route path="/api/v1/athletes" element={<Search/>}/>
           <Route path="/api/v1/athlete/:id" element={<AthleteDashboard/>}/>
           
