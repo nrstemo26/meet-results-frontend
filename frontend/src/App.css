@@ -19,13 +19,12 @@
   }
 
   .btn-alt {
-    @apply m-1 border-2 rounded-sm p-2 border-primary-950  bg-white text-primary-600 hover:bg-primary-950 hover:text-white hover:border-transparent;
+    @apply m-1 border-2 rounded-sm p-2 border-primary-950  bg-transparent text-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-500 hover:text-white hover:border-transparent;
   }
 
   .chart-wrapper{
-    @apply border-2 rounded bg-white overflow-hidden shadow-md sm:h-[400px] lg:h-[500px];
+    @apply border-2 rounded bg-white overflow-hidden shadow-md h-96 lg:h-[500px];
     
-    /* //h-[300px] */
   }
 
   .dashboard-container{
@@ -33,7 +32,7 @@
   }
   
   .sidebar-element{
-    @apply mx-4 p-1 border-b-2 border-primary-300 hover:border-2  hover:bg-primary-200 shadow-sm;
+    @apply mx-4 p-1 border-b border-primary-400 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm;
   }
   .search-bar{
     @apply p-2 border-2 border-primary-500 my-2 text-center w-5/6  focus:outline-none focus:border-primary-400 focus:text-lg focus:bg-primary-100

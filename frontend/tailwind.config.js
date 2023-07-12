@@ -7,7 +7,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:
+         {
+           'hero_avatar': "url('/assets/avatar_navy.svg)"
+         }
+    },
     colors: {
       ...colors,
       primary: colors.blue,
@@ -15,7 +20,8 @@ export default {
       neutral: colors.gray,
     },
     fontFamily: {
-      sans: ["Open sans",'Helvetica', 'Arial', 'sans-serif'],
+      sans: ["Open sans",'Helvetica', 'Arial', 'sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
+      mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
     },
   },
   plugins: [],

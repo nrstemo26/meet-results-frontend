@@ -1,4 +1,4 @@
-import {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addToSession } from '../../features/sessionSlice'
 import PropTypes from 'prop-types';
@@ -22,9 +22,9 @@ const UserList = ({ users ,isSession }) => {
         let user = users[i];
         //can i delay doing the name->query string function??
         if(isSession){
-          lis.push(<div className='border-primary-500 p-1 hover:text-white hover:bg-primary-950 hover:cursor-pointer text-sm' key={user}  onClick={(e)=> handleClick(e)}>{user}</div> )  
+          lis.push(<div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={user}  onClick={(e)=> handleClick(e)}>{user}</div> )  
         }else{
-          lis.push(<Link to={`/api/v1/athlete/${nameToQueryString(user)}`} ><div className='border-primary-500 p-1 hover:text-white hover:bg-primary-950 hover:cursor-pointer text-sm' key={user} >{user}</div></Link> )
+          lis.push(<Link to={`/api/v1/athlete/${nameToQueryString(user)}`} ><div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={user} >{user}</div></Link> )
         }
       }else{
         break;

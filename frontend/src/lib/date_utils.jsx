@@ -20,14 +20,21 @@ export const renderSessionResults = (arr, meetHistory) => {
         let meetData = meetHistory[meet]
         let [day, month, year] = meetData["Date"].split(' ').slice(1,4)
         return (
-        <div className="flex justify-evenly border-2 border-primary-400 p-4 my-2" key={meet}>    
+        <div className="flex justify-evenly gap-2 border text-gray-700 border-primary-950 p-1 my-2" key={meet}>    
             <div>
                 <div>{month}/{day}/{year}</div>
-                <div>Best Lifts:{meetData["Best Snatch"]}/{meetData["Best C&J"]}/{meetData["Total"]}</div>
+                <div className="font-semibold text-primary-950">Best Lifts</div>
+                <div className="font-mono text-primary-950 text-xs md:text-base border bg-gradient-to-r from-primary-200 to-primary-50 border-primary-950 p-1 border-1 rounded-lg">{meetData["Best Snatch"]} / {meetData["Best C&J"]} / {meetData["Total"]}</div>
             </div>
             <div>
-                <div>Sn: {meetData["Snatch Lift 1"]}/{meetData["Snatch Lift 2"]}/{meetData["Snatch Lift 3"]}</div>
-                <div>CJ: {meetData["C&J Lift 1"]}/{meetData["C&J Lift 2"]}/{meetData["C&J Lift 3"]}</div>
+                <div className="font-semibold text-primary-950 border-b border-primary-400">Attempts</div>
+                <div className="text-sm md:text-base">Sn: 
+                    <span className="font-mono text-gray-700 text-xs md:text-base"> {meetData["Snatch Lift 1"]} / {meetData["Snatch Lift 2"]} / {meetData["Snatch Lift 3"]}</span>
+                </div>
+                <div className="text-sm md:text-base">CJ:
+                    <span className="font-mono text-gray-700 text-xs md:text-base"> {meetData["C&J Lift 1"]} / {meetData["C&J Lift 2"]} / {meetData["C&J Lift 3"]}</span>
+                </div>
+                
             </div>
         </div>
         )
@@ -41,9 +48,9 @@ export const renderTotalResults = (arr, meetHistory) => {
         let [day, month, year] = meetData["Date"].split(' ').slice(1,4)
         return (
         <>    
-            <h1 className="text-lg font-bold">{meet} on {month} {day}</h1>
+            <h1 className="text-lg font-bold text-primary-950">{meet} on {month} {day}</h1>
             <div className="text-center flex flex-col gap-2">
-                <a className="bg-white border-2 p-1 px-1 border-orange-700 rounded-lg" key={meet}>{meetData["Best Snatch"]}/{meetData["Best C&J"]}/{meetData["Total"]}</a>
+                <a className="bg-white border-2 p-1 px-1 border-primary-950 text-gray-700 rounded-lg font-mono text-xl" key={meet}>{meetData["Best Snatch"]} / {meetData["Best C&J"]} / {meetData["Total"]}</a>
             </div>
         </>
         )

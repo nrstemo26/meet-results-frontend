@@ -50,8 +50,8 @@ const Login = ({ updateLoggedInStatus }) => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <div className="w-full sm:w-auto p-8 bg-transparent rounded shadow">
+        <h2 className="text-2xl text-primary-950 font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block font-medium mb-1">
@@ -90,12 +90,12 @@ const Login = ({ updateLoggedInStatus }) => {
             <label htmlFor="rememberMe">Remember Me</label>
           </div>
           <div className="flex justify-between">
-            <button type="submit" className="bg-primary-500 hover:bg-primary-950 text-white py-2 px-4 rounded">
+            <button type="submit" className="btn-alt">
               Login
             </button>
-            <p className="text-center text-gray-600 mt-4">
+            <p className="text-center text-gray-600 mt-4 p-2">
               Need an account?{' '}
-              <Link to="/register" className="text-primary-500">
+              <Link to="/register" className="text-primary-950 hover:text-primary-500">
                 Register here.
               </Link>
             </p>

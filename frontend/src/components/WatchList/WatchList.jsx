@@ -7,7 +7,7 @@ function WatchList(){
     const WatchListAthletes = useSelector(selectSession);
 
     return(
-        <div className='sm:flex w-100'>
+        <div className='sm:flex w-100 p-4'>
             <div className='sm:w-2/4' >
                 <Search isSession={true} ></Search>
             </div>
