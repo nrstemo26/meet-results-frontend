@@ -17,7 +17,8 @@ export const getAthlete = createAsyncThunk(
     'athlete',
     async(name, thunkAPI) => {
         try{
-            const response =  await axios.get(baseUrl + 'athlete/' + name )
+            const token = localStorage.getItem('token');
+            const response =  await axios.post(baseUrl + 'athlete/' + name, { token } )
             return response.data
 
         }catch(error){

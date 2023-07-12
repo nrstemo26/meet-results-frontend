@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { removeFromSession } from '../../features/sessionSlice';
 import { getAthlete } from "../../features/athleteSlice"
 
-import {FiArrowDown, FiArrowUp} from 'react-icons/fi'
-import {TiDeleteOutline} from 'react-icons/ti'
+import { FiArrowDown, FiArrowUp } from 'react-icons/fi'
+import { TiDeleteOutline } from 'react-icons/ti'
 
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';

@@ -16,6 +16,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-plugin-watermark": "^2.0.2",
     "date-fns": "^2.30.0",
+    "file-saver": "^2.0.5",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",

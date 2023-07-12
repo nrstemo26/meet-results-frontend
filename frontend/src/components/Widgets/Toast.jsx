@@ -13,7 +13,7 @@ const Toast = ({ message, onClose, type }) => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 mb-8 ml-8">
+    <div className="fixed bottom-0 left-0 mb-8 ml-8 mr-8">
       <div className={`text-white py-2 px-4 rounded ${toastClass}`}>
         <span className="mr-2">{message}</span>
         <button className="text-white font-bold" onClick={onClose}>

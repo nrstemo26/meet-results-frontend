@@ -56,6 +56,7 @@ const Register = () => {
         console.log(response.data); // Handle the response as needed
         makeToast('Thank you for registering. Check your email to confirm your account.','success')
         // Redirect or perform any other actions after successful registration
+        navigate('/login');
       } catch (error) {
         console.error(error);
         makeToast(error.response.data.message, false)
