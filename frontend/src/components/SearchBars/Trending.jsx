@@ -13,7 +13,9 @@ function Trending({ isSession }){
 
     useEffect(()=>{
         const fetchUsers = async()=>{
-            const athletes = (await dispatch(getTrendingAthletes({pageSize}))).payload.data
+            const athletes = (await dispatch(getTrendingAthletes({pageSize}))).payload
+            //could need the .data depending on backend version
+            // const athletes = (await dispatch(getTrendingAthletes({pageSize}))).payload.data
             setAthletes(athletes)
         }
         fetchUsers()
