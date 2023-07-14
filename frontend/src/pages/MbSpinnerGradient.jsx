@@ -1,67 +1,59 @@
 import  {ReactComponent as LogoSvg} from '../assets/avatar_face.svg'
+import { useEffect } from 'react'
 
 //active issues only runs once
 const MbSpinnerGradient = () => {
-    let lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
-    let hairSVG = document.querySelector('#logo-hair')
-    let stasheSVG = document.querySelector('#logo-mustache')
+//last path should be the last mustache guy
+let lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
+let hairSVG = document.querySelector('#logo-hair')
+let stasheSVG = document.querySelector('#logo-mustache')
+let reverse = true;
 
-    const onAnimationEnd = (e) => {
-        console.log(e)
-        console.log('in animation end')
-        lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
-        hairSVG = document.querySelector('#logo-hair')
-        stasheSVG = document.querySelector('#logo-mustache')
+const onAnimationEnd = () => {
+    lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
+    hairSVG = document.querySelector('#logo-hair')
+    stasheSVG = document.querySelector('#logo-mustache')
 
-        hairSVG.classList.remove('change-color-gradient')
-        stasheSVG.classList.remove('change-color-gradient')
-        animation(hairSVG, stasheSVG, lastPath)
-        // lastPath.removeEventListener('animationend',onAnimationEnd)
+    if(reverse){
+        reverseAnimation(hairSVG,stasheSVG, lastPath)
+    }else{
+        animation(hairSVG,stasheSVG,lastPath)
     }
-    
-
-    const animation = (hair,stashe,lastPath) =>{
-        console.log('in animation')
-        console.log(hair.classList)
-        // lastPath.removeEventListener('animationend',onAnimationEnd)
-        // lastPath.addEventListener('animationend', onAnimationEnd)
-        // console.log(hair)
-        // console.log(stashe)
-        lastPath.removeEventListener('animationend', onAnimationEnd,true)
-        hair.classList.remove('change-color-gradient')
-        stashe.classList.remove('change-color-gradient')
-        console.log(hair.classList)
-        
-        hair.classList.add('change-color-gradient')
-        stashe.classList.add('change-color-gradient')
-        lastPath.addEventListener('animationend', onAnimationEnd)
-    }
-    
-
-    const stasheLoader = () => {
-        lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
-        hairSVG = document.querySelector('#logo-hair')
-        stasheSVG = document.querySelector('#logo-mustache')
-        animation(hairSVG,stasheSVG, lastPath)
-
-    }
-    
-    const clearAnimation = (hair, stashe, lastPath) => {
-        lastPath.removeEventListener('animationend', onAnimationEnd,true)
-        hair.classList.remove('change-color-gradient')
-        stashe.classList.remove('change-color-gradient')
-    }
-    
-    // setTimeout(stasheLoader,1000)
-    return(
-        <div className='flex flex-col items-center '>
-            <h1 className=''>Getting your data...</h1>
-            <button onClick={stasheLoader}>play animation</button>
-            <div >
-                <LogoSvg ></LogoSvg>
-            </div>
-        </div>
-    )
+    reverse = !reverse;
 }
+
+const animation = (hair,stashe,lastPath) =>{
+    lastPath.addEventListener('animationend', onAnimationEnd)
+    hair.classList.add('change-color-gradient')
+    stashe.classList.add('change-color-gradient')
+    hair.classList.remove('reverse-color-gradient')
+    stashe.classList.remove('reverse-color-gradient')
+}
+const reverseAnimation = (hair,stashe,lastPath)=>{
+    lastPath.addEventListener('animationend', onAnimationEnd)
+    hair.classList.add('reverse-color-gradient')
+    stashe.classList.add('reverse-color-gradient')
+    hair.classList.remove('change-color-gradient')
+    stashe.classList.remove('change-color-gradient')
+}
+
+const stasheLoader = () => {
+    lastPath = Array.from(document.querySelectorAll('#logo-mustache path'))[47]
+    hairSVG = document.querySelector('#logo-hair')
+    stasheSVG = document.querySelector('#logo-mustache')
+    animation(hairSVG,stasheSVG, lastPath)
+}
+
+useEffect(()=>{
+    stasheLoader()
+})
+
+return(
+    <div className='flex flex-col items-center '>
+        <LogoSvg ></LogoSvg>
+    </div>
+)
+}
+
 
 export { MbSpinnerGradient };
