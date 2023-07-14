@@ -19,35 +19,36 @@ function WatchList({isLoggedIn}){
     const [toastMessage, setToastMessage] = useState('');
     const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
 
-    const handleExport = async () => {
-  
+    const handleExport = () => {
       if (isLoggedIn) {
         const token = localStorage.getItem('token');
         const credentials = btoa(`${token}:unused`);
-
-        try {
-          const response = await axios.post(
-            `${baseUrl}/api/v1/export/watchlist`,
-            { athletes: WatchListAthletes },
-            {
-              headers: {
-                Authorization: `Basic ${credentials}`,
-                'Content-Type': 'application/json', // Set the Content-Type header
-                responseType: 'blob'
-              },
-            }
-          );
-
-          const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          saveAs(blob, 'watchlist.xlsx');
-          
-        } catch (error) {
-          console.error(error);
+    
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${baseUrl}/api/v1/export/watchlist`);
+        xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.responseType = 'blob';
+    
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            saveAs(blob, 'watchlist.xlsx');
+          } else {
+            console.error(xhr.statusText);
+            // Handle the error
+          }
+        };
+    
+        xhr.onerror = function () {
+          console.error('Request failed');
           // Handle the error
-        }
+        };
+    
+        xhr.send(JSON.stringify({ athletes: WatchListAthletes }));
       }
-   
     };
+    
 
     const handleSave = async () => {
       const now = new Date();
