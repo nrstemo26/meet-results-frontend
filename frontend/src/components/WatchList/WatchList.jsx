@@ -10,6 +10,7 @@ import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
 
 const baseUrl = 'http://192.168.86.27:5000';
+// const baseUrl = 'http://192.168.1.139:5000/api/v1/'
 // const baseUrl = 'http://98.144.49.136:5000';
 
 function WatchList({isLoggedIn}){
@@ -32,8 +33,10 @@ function WatchList({isLoggedIn}){
     
         xhr.onload = function () {
           if (xhr.status === 200) {
+            const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+            const filename = getFilenameFromContentDisposition(contentDisposition);
             const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            saveAs(blob, 'watchlist.xlsx');
+            saveAs(blob, filename);
           } else {
             console.error(xhr.statusText);
             // Handle the error
@@ -49,6 +52,14 @@ function WatchList({isLoggedIn}){
       }
     };
     
+    const getFilenameFromContentDisposition = (contentDisposition) => {
+      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      const matches = filenameRegex.exec(contentDisposition);
+      if (matches != null && matches[1]) {
+        return matches[1].replace(/['"]/g, '');
+      }
+      return 'watchlist.xlsx'; // Default filename if unable to extract from header
+    };
 
     const handleSave = async () => {
       const now = new Date();
