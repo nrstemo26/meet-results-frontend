@@ -5,6 +5,7 @@ import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
 
 const baseUrl = 'http://192.168.86.27:5000'
+// const baseUrl = 'http://192.168.1.139:5000'
 // const baseUrl = 'http://98.144.49.136:5000'
 
 const Register = () => {
@@ -56,6 +57,7 @@ const Register = () => {
         console.log(response.data); // Handle the response as needed
         makeToast('Thank you for registering. Check your email to confirm your account.','success')
         // Redirect or perform any other actions after successful registration
+        navigate('/login');
       } catch (error) {
         console.error(error);
         makeToast(error.response.data.message, false)
