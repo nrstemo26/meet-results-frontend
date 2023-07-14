@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 
-const baseUrl = 'http://192.168.1.139:5000/api/v1/'
+const baseUrl = 'http://192.168.86.27:5000/api/v1/'
+// const baseUrl = 'http://192.168.1.139:5000/api/v1/'
 // const baseUrl = 'http://98.144.49.136:5000/api/v1/'
 
 
@@ -17,7 +18,8 @@ export const getAthlete = createAsyncThunk(
     'athlete',
     async(name, thunkAPI) => {
         try{
-            const response =  await axios.get(baseUrl + 'athlete/' + name )
+            const token = localStorage.getItem('token');
+            const response =  await axios.post(baseUrl + 'athlete/' + name, { token } )
             return response.data
 
         }catch(error){
