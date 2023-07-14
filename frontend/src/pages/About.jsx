@@ -23,9 +23,7 @@ const About = () => {
               <li>& many more to come...</li>
             </ul>
             <div>
-                <script async
-                    src="https://js.stripe.com/v3/buy-button.js">
-                </script>
+                
                 <stripe-buy-button
                     buy-button-id="buy_btn_0NTsunUiMszhBUnlaOwffE0u"
                     publishable-key="pk_test_uEKFcjNO1MXNGCbFWJK1eymn"
