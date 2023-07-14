@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import axios from 'axios';
 import { NotFound } from './pages/NotFound'
+import About from './pages/About'
 import WatchList from './components/WatchList/WatchList'
 import Navbar from './components/Navbar/Navbar'
 
@@ -32,11 +33,6 @@ function Home(){
   )
 }
 
-function About(){
-  return(
-    <h2>About</h2>
-  )
-}
 function Insights(){
   return(
     <h2>Insights</h2>
