@@ -105,7 +105,7 @@ function App() {
 
           <Route path="/api/v1/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>
-          <Route path="/about" element={<About/>}/>
+          <Route path="/about" element={<About isLoggedIn={isLoggedIn}/>}/>
           <Route path="/reset-request" element={<ResetRequest/>}/>
           <Route path="/reset-password" element={<PasswordReset/>}/>
           <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
