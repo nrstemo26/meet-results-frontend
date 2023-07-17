@@ -1,7 +1,7 @@
 import Insights from './Insights'
 import BestLifts from "./BestLits";
 import AllTotals from "./AllTotals";
-import { Spinner } from '../../../pages/Spinner';
+import { Spinner } from '../../../pages/Spinners/Spinner';
 import { Error } from '../../../pages/Error';
 
 import { useState, useEffect } from 'react'
@@ -25,6 +25,7 @@ const Dashboard = () => {
       const urlArray = window.location.pathname.split('/')
       const athleteName = urlArray[urlArray.length - 1]
       if(athleteName != 'athletes'){
+        console.log('getting athlete')
         dispatch(getAthlete(athleteName))
       }
       // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
