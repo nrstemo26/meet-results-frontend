@@ -1,4 +1,4 @@
-import  {ReactComponent as LogoSvg} from '../assets/avatar_face.svg'
+import  {ReactComponent as LogoSvg} from '../../assets/avatar_face.svg'
 import { useEffect } from 'react'
 
 //active issues only runs once
