@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
+import axios from 'axios';
 
 import { NotFound } from '../pages/NotFound'
 import WatchList from './WatchList/WatchList'
@@ -14,48 +15,20 @@ import PasswordReset from './User/PasswordReset'
 import Account from './User/Account'
 import Confirmation from './User/Confirmation'
 
+import { Home } from '../pages/Home/Home'
+import { Insights } from '../pages/Insights'
+import { About } from '../pages/About'
 
-//imports a wrapper for data loading needs work tho
-import { HomeComponent as HomeComponent} from './LoadingWrapperSandbox'
-
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://192.168.1.139:5000/api/v1/'
-// const baseUrl = 'http://98.144.49.136:5000/api/v1/'
-
-// dummy components until i get to making all of these pages
-function Home(){
-    return(
-      <HomeComponent/>
-    )
-  }
-  
-  function About(){
-    return(
-      <h2>About</h2>
-    )
-  }
-  function Insights(){
-    return(
-      <h2>Insights</h2>
-    )
-  }
+//insert working url
+const baseUrl = 'http://192.168.0.108:5000'
 
 
-
-function Main() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+function Main({ isLoggedIn, setIsLoggedIn }) {
 
     const updateLoggedInStatus = (status) => {
       setIsLoggedIn(status);
       console.log('Login status updated:', status);
-      console.log(isLoggedIn);
-    };
-    const handleLogout = () => {
-      
-      localStorage.removeItem('token');
-      setIsLoggedIn(prevIsLoggedIn => !prevIsLoggedIn);
-      window.location.href = '/login';
-  
+      // console.log(isLoggedIn);
     };
 
     useEffect(() => {
@@ -89,10 +62,7 @@ function Main() {
 
 
 return (
-    <div className='border-2 border-blue-900'>
-      <h1>
-         main  
-      </h1> 
+    <div >
       <Routes>
           <Route path="*" element={<NotFound/>}/>
           {/* this route will need to change...needs an id? */}
