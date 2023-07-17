@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
+import { baseUrl } from '../../config';
 
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://192.168.1.139:5000'
-// const baseUrl = 'http://98.144.49.136:5000/api/v1/'
 
 
 const Login = ({ updateLoggedInStatus }) => {

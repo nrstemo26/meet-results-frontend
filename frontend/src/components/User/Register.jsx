@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
+import { baseUrl } from '../../config';
 
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://192.168.1.139:5000'
-// const baseUrl = 'http://98.144.49.136:5000'
+
 
 const Register = () => {
   const [userData, setUserData] = useState({
@@ -59,8 +58,9 @@ const Register = () => {
         // Redirect or perform any other actions after successful registration
         navigate('/login');
       } catch (error) {
+        console.log(error)
         console.error(error);
-        makeToast(error.response.data.message, false)
+        // makeToast(error.response.data.message, false)
       }
     }
 
