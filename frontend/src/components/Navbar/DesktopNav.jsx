@@ -20,8 +20,8 @@ function DesktopNav( {isLoggedIn, handleLogout} ) {
         <Link to="/api/v1/session">
           <div>Session Builder</div>
         </Link>
-        <Link to="/api/v1/insights">
-          <div>Insights</div>
+        <Link to="/about">
+          <div>About</div>
         </Link>
       </div>
 
