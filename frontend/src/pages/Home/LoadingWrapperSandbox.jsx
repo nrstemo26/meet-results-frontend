@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { Link } from 'react-router-dom';
-import { Spinner } from "../pages/Spinner"
-import FeatureRequest from "./Widgets/FeatureRequest"
-import Trending from './SearchBars/Trending'
+import { Spinner } from "../Spinners/Spinner"
+import FeatureRequest from "../../components/Widgets/FeatureRequest"
+import Trending from '../../components/SearchBars/Trending'
 
 function withLoading(Component){
     return function WithLoadingComponent({isLoading, ...props}){
