@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
-import { baseUrl } from '../../config';
+
+import { useSelector, useDispatch } from 'react-redux'
+import { login, reset } from '../../features/authSlice';
 
 
 
@@ -11,44 +12,49 @@ const Login = ({ updateLoggedInStatus }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
   const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
+  
+  
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {user, isLoading, isError, isSuccess, message} = useSelector((state)=>state.auth)
+  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(baseUrl + '/user/login', {
-        username,
-        password,
-        rememberMe
-      });
+    
+      const userData = {
+          username,
+          password,
+          rememberMe
+      }
+      await dispatch(login(userData))
+          
+  };
 
-      // Assuming the response includes a 'token' property
-      const { token } = response.data;
-
-      // Store the token in local storage or session storage
-      localStorage.setItem('token', token);
-      updateLoggedInStatus(true);
-      navigate('/api/v1/session');
-      
-      // e.g., navigate to a dashboard page
-    } catch (error) {
-      // Handle login error, display error message, etc.
-      console.error(error);
-      setToastMessage(error.response.data.message);
-      setToastType('error')
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
+  useEffect(()=>{
+    if(isError){
+      makeToast('Wrong username or password','error')
     }
 
-  };
+    if(isSuccess){
+      makeToast('Welcome bro','success')
+
+      //updateLoggedInStatus might be not needed and we can just use the slice
+      updateLoggedInStatus(true)
+      navigate('/api/v1/session')
+    }
+
+
+    //allows for multiple attempts
+    dispatch(reset())
+  },[user, isError, isSuccess, message, navigate, dispatch])
 
   return (
     <div className="flex justify-center items-center h-screen">
