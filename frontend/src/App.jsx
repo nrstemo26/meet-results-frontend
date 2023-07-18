@@ -5,7 +5,8 @@ import Main from './components/Main'
 import Navbar from './components/Navbar/Navbar'
 
 //change to needed url
-const baseUrl = 'http://192.168.0.108:5000'
+// const baseUrl = 'http://192.168.0.108:5000'
+const baseUrl = 'http://192.168.86.27:5000'
 
 
 

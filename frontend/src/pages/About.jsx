@@ -24,8 +24,8 @@ const About = ({isLoggedIn}) => {
         });
 
         setAccountEmail(response.data.email);
-        console.log(accountEmail);
-        const encodedEmail = encodeURIComponent(accountEmail);
+        // console.log(accountEmail);
+        const encodedEmail = encodeURIComponent(response.data.email);
         setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}`);
         
       } catch (error) {
@@ -38,7 +38,7 @@ const About = ({isLoggedIn}) => {
     };
 
     getAccount();
-  }, [isLoggedIn]); // Empty dependency array to run the effect only once
+  }, []); // Empty dependency array to run the effect only once
 
   return(
     <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
@@ -63,11 +63,12 @@ const About = ({isLoggedIn}) => {
           </ul>
           <div>
               
-              <stripe-buy-button
+              {accountEmail && (<stripe-buy-button
                   buy-button-id="buy_btn_0NTsunUiMszhBUnlaOwffE0u"
                   publishable-key="pk_test_uEKFcjNO1MXNGCbFWJK1eymn"
+                  customer-email={accountEmail}
                   >
-              </stripe-buy-button>
+              </stripe-buy-button>)}
           </div>
       </div>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">You can also support Lift Oracle by:</p>

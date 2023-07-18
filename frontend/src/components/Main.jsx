@@ -17,10 +17,11 @@ import Confirmation from './User/Confirmation'
 
 import { Home } from '../pages/Home/Home'
 import { Insights } from '../pages/Insights'
-import { About } from '../pages/About'
+import About from '../pages/About'
 
 //insert working url
-const baseUrl = 'http://192.168.0.108:5000'
+// const baseUrl = 'http://192.168.0.108:5000'
+const baseUrl = 'http://192.168.86.27:5000'
 
 
 function Main({ isLoggedIn, setIsLoggedIn }) {
@@ -77,7 +78,7 @@ return (
 
           <Route path="/api/v1/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>
-          <Route path="/about" element={<About/>}/>
+          <Route path="/about" element={<About isLoggedIn={isLoggedIn}/>}/>
           <Route path="/reset-request" element={<ResetRequest/>}/>
           <Route path="/reset-password" element={<PasswordReset/>}/>
           <Route path="/login" element={<Login updateLoggedInStatus={updateLoggedInStatus} />} /> {/* Pass updateLoggedInStatus prop to Login */}
