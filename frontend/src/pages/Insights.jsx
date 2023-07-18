@@ -1,8 +1,11 @@
-
+import OracleRatings from "../components/Widgets/OracleRatings"
 
 function Insights(){
     return(
-      <h2>Insights and more stuff</h2>
+      <div>
+        <h2>Insights and more stuff</h2>
+        <OracleRatings />
+      </div>
     )
 }
 

@@ -79,12 +79,7 @@ export const getOracleRatings = createAsyncThunk(
   'oracle_ratings',
   async(data) => {
     try{
-      const config = {
-        params:{
-          pageSize: data.pageSize
-        }
-      }
-      const response = await axios.get(baseUrl + 'oracle-ratings', config)
+      const response = await axios.get(baseUrl + 'oracle-ratings')
       return response.data;
     }catch(error){
       console.log(error)
