@@ -28,14 +28,12 @@ const Login = ({ updateLoggedInStatus }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-      const userData = {
+    const userData = {
           username,
           password,
           rememberMe
-      }
-      await dispatch(login(userData))
-          
+    }
+    await dispatch(login(userData))
   };
 
   useEffect(()=>{
