@@ -20,18 +20,16 @@ const initialState = {
 export const register = createAsyncThunk(
     'user/register',
     async (userData, thunkAPI) => {
-        try {
-          // console.log('dispatching action')
-          // console.log(userData)
-          
+        try {     
           const response = await axios.post(API_URL + 'register', userData)
           
-          //when theres an error the rest of this doesn't happen
-          //if there's data it sets the user local storage
+
+          //data is probably not the right property tho
+          //needs to have the token as property
           //can be deleted if we want there to be the verification email
-          if (response.data) {
-              localStorage.setItem('user', JSON.stringify(response.data))
-          }
+          // if (response.data) {
+          //     localStorage.setItem('user', JSON.stringify(response.data))
+          // }
       
           return response.data
 
@@ -58,9 +56,9 @@ export const login = createAsyncThunk(
       //this will add the user/token to local storage
       //data is probably not the right property tho.needs to have the
       //token as property
-      // if (response.data) {
-        // localStorage.setItem('user', JSON.stringify(response.data))
-      // }
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+      }
 
       return response.data
 
