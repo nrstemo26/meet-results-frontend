@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { baseUrl } from '../config'
 
-const API_URL = '/api/users/'
+const API_URL = baseUrl + '/user/'
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem('user'))
@@ -15,28 +16,36 @@ const initialState = {
 }
 
 // Register user
+
 export const register = createAsyncThunk(
-    'auth/register',
-    async (user, thunkAPI) => {
+    'user/register',
+    async (userData, thunkAPI) => {
         try {
-            const response = await axios.post(API_URL, user)
-        
-            if (response.data) {
-                 localStorage.setItem('user', JSON.stringify(response.data))
-            }
-        
-            return response.data
+          // console.log('dispatching action')
+          // console.log(userData)
+          
+          const response = await axios.post(API_URL + 'register', userData)
+          
+          //when theres an error the rest of this doesn't happen
+          //if there's data it sets the user local storage
+          //can be deleted if we want there to be the verification email
+          if (response.data) {
+              localStorage.setItem('user', JSON.stringify(response.data))
+          }
+      
+          return response.data
 
         } catch (error) {
-      const message =
-        (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-            error.message ||
-            error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
+            const message =
+              (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                  error.message ||
+                  error.toString()
+            
+            return thunkAPI.rejectWithValue(message)
+        }
+      }
   )
   
   // Login user
@@ -44,20 +53,24 @@ export const login = createAsyncThunk(
     'auth/login',
     async (user, thunkAPI) => {
     try {
-        const response = await axios.post(API_URL + 'login', user)
-        
-        if (response.data) {
-          localStorage.setItem('user', JSON.stringify(response.data))
-        }
+      const response = await axios.post(API_URL + 'login', user)
+      
+      //this will add the user/token to local storage
+      //data is probably not the right property tho.needs to have the
+      //token as property
+      // if (response.data) {
+        // localStorage.setItem('user', JSON.stringify(response.data))
+      // }
 
-        return response.data
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString()
-    return thunkAPI.rejectWithValue(message)
-  }
+      return response.data
+
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
 })
 
 export const logout = createAsyncThunk(
