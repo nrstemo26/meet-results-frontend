@@ -53,11 +53,12 @@ export const login = createAsyncThunk(
     try {
       const response = await axios.post(API_URL + 'login', user)
       
-      //this will add the user/token to local storage
-      //data is probably not the right property tho.needs to have the
-      //token as property
-      if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
+      if (response.data.token) {
+        const { token } = response.data
+        localStorage.setItem('token', token)
+        
+        // boilerplate code 
+        // localStorage.setItem('user', JSON.stringify(response.data))
       }
 
       return response.data
