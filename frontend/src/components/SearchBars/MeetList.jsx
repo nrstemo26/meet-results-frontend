@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types';
 
 const MeetList = ({ meets }) => {
   const dispatch = useDispatch()
@@ -43,9 +42,6 @@ const MeetList = ({ meets }) => {
   );
 }
 
-MeetList.propTypes = {
-  users: PropTypes.array,
-  isSession: PropTypes.bool
-};
+
 
 export default MeetList;
