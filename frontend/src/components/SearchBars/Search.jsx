@@ -22,8 +22,8 @@ const Search = ({ isSession }) => {
         page: 1,
         pageSize: 20,
       }
-      const athletes = (await dispatch(getAllAthletes(data))).payload
-      // const athletes = (await dispatch(getAllAthletes(data))).payload.data
+      // const athletes = (await dispatch(getAllAthletes(data))).payload
+      const athletes = (await dispatch(getAllAthletes(data))).payload.data
       setUsers(athletes);
     };
 
@@ -38,7 +38,7 @@ const Search = ({ isSession }) => {
   
   return (
         <div className="text-center">
-            <SearchBar onSearch={handleSearch} />
+            <SearchBar onSearch={handleSearch} placeholderText={"Start typing an athlete's name..."}/>
             {searchQuery.length > 0 ? 
             <UserList users={users} isSession={isSession}  />
             : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"><Trending  isSession={isSession} /></div>}
