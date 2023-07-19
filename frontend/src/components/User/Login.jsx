@@ -8,7 +8,7 @@ import { login, reset } from '../../features/authSlice';
 
 
 
-const Login = ({ updateLoggedInStatus }) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -43,9 +43,6 @@ const Login = ({ updateLoggedInStatus }) => {
 
     if(isSuccess){
       makeToast('Welcome bro','success')
-
-      //updateLoggedInStatus might be not needed and we can just use the slice
-      updateLoggedInStatus(true)
       navigate('/api/v1/session')
     }
 
