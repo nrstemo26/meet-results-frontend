@@ -1,7 +1,9 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function DesktopNav( {isLoggedIn, handleLogout} ) {
+
+function DesktopNav( {handleLogout} ) {
+  const user = useSelector((state)=> state.auth.user)
 
   return (
     <>
@@ -25,7 +27,7 @@ function DesktopNav( {isLoggedIn, handleLogout} ) {
         </Link>
       </div>
 
-      {isLoggedIn ? (
+      {user ? (
         // Show account button when user is logged in
         <div className="flex gap-2">
           <Link to="/account">

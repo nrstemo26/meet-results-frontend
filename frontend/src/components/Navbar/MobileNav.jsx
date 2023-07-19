@@ -4,9 +4,13 @@ import { FiMenu } from 'react-icons/fi'
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 
+
+//we dont use isLogged in just pass it around
 function MobileNav({setIsSidebarOpen, isLoggedIn, handleLogout}){
     const [isOpen, setIsOpen] = useState(false)
     
+   
+
     const toggleMenu = () => {
         setIsOpen(!isOpen)
         setIsSidebarOpen(curr => !curr)
