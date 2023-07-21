@@ -4,32 +4,18 @@ import { BrowserRouter as Router} from 'react-router-dom'
 import Main from './components/Main'
 import Navbar from './components/Navbar/Navbar'
 
-//change to needed url
-const baseUrl = 'http://192.168.0.108:5000'
-
-
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogout = () => {  
-    localStorage.removeItem('token');
-    setIsLoggedIn(prevIsLoggedIn => !prevIsLoggedIn);
-    window.location.href = '/login';
-
-  };
-
-
 
   return (
     <Router>
       <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
         {/* get rid of is logged in by having the user slice? */}
-        <Navbar setIsSidebarOpen={setIsSidebarOpen}  isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+        <Navbar setIsSidebarOpen={setIsSidebarOpen}  />
         
         {/* this can get passed props if we need stuff to go from navbar---> main */}
-        <Main isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <Main />
       </div>
       
     </Router>
