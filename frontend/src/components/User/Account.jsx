@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TiDeleteOutline } from 'react-icons/ti'
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
 import defaultAvatar from '../../assets/cyclist_4_color_transparent.png'
+
 import { baseUrl } from '../../config';
+import { useSelector } from 'react-redux';
 
 
-const Account = ({isLoggedIn}) => {
+
+const Account = () => {
+  const user = useSelector((state)=> state.auth.user)
+
   const [accountData, setAccountData] = useState(null);
   const [watchlistData, setWatchlistData] = useState([]);
   const [showWatchlists, setShowWatchlists] = useState(false);
@@ -21,8 +26,8 @@ const Account = ({isLoggedIn}) => {
 
   useEffect(() => {
     const getAccount = async () => {
-      console.log(isLoggedIn);
-      if (!isLoggedIn) {
+      // console.log(isLoggedIn);
+      if (!user) {
         navigate('/login'); // Redirect to login page if not logged in
         return;
       }
@@ -61,7 +66,7 @@ const Account = ({isLoggedIn}) => {
     };
 
     getAccount();
-  }, [isLoggedIn, navigate]); // Empty dependency array to run the effect only once
+  }, [navigate]); // Empty dependency array to run the effect only once
 
   const handleShowWatchlists = () => {
     setShowWatchlists(!showWatchlists);

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 
 //we dont use isLogged in just pass it around
-function MobileNav({setIsSidebarOpen, isLoggedIn, handleLogout}){
+function MobileNav({setIsSidebarOpen, handleLogout}){
     const [isOpen, setIsOpen] = useState(false)
     
    
@@ -18,7 +18,7 @@ function MobileNav({setIsSidebarOpen, isLoggedIn, handleLogout}){
 
     return(
     <>
-        {isOpen? <Sidebar toggleMenu={toggleMenu} isLoggedIn={isLoggedIn} handleLogout={handleLogout}/> :''}
+        {isOpen? <Sidebar toggleMenu={toggleMenu} handleLogout={handleLogout}/> :''}
         <div className="burger-menu z-50" onClick={toggleMenu}>
             {isOpen ? '' : <FiMenu className="cursor-pointer" size={30}/>}
         </div>

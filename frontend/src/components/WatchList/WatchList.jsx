@@ -3,17 +3,18 @@ import { useState } from 'react';
 import { saveAs } from 'file-saver';
 import Search from '../SearchBars/Search'
 import WatchListAthlete from './WatchListAthlete';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import {selectSession} from '../../features/sessionSlice'
 import { TiDownload, TiFolderAdd } from 'react-icons/ti'
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
 
-const baseUrl = 'http://192.168.86.27:5000';
-// const baseUrl = 'http://192.168.1.139:5000/api/v1/'
-// const baseUrl = 'http://98.144.49.136:5000';
+import { baseUrl } from '../../config';
 
-function WatchList({isLoggedIn}){
+function WatchList(){
+  const user = useSelector((state) => state.auth.user)
+  
+
     const WatchListAthletes = useSelector(selectSession);
     const [showToast, setShowToast] = useState(false);
     const [toastType, setToastType] = useState('');
@@ -21,10 +22,11 @@ function WatchList({isLoggedIn}){
     const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
 
     const handleExport = () => {
-      if (isLoggedIn) {
+      if (user) {
         const token = localStorage.getItem('token');
+        // const token = localStorage.getItem('user');
         const credentials = btoa(`${token}:unused`);
-    
+  
         const xhr = new XMLHttpRequest();
         xhr.open('POST', `${baseUrl}/api/v1/export/watchlist`);
         xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
@@ -69,8 +71,11 @@ function WatchList({isLoggedIn}){
         name: timeStamp
       };
 
-      if (isLoggedIn) {
+      if (user) {
         const token = localStorage.getItem('token');
+        
+        //token could be defined like this too
+        //const token = user.token;
         const credentials = btoa(`${token}:unused`);
 
         try {
