@@ -1,69 +1,113 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { baseUrl } from '../config'
 
-const API_URL = '/user/'
 
-// Get user from localStorage
-const user = JSON.parse(localStorage.getItem('user'))
+const API_URL = baseUrl + '/user/'
+
+// const user = JSON.parse(localStorage.getItem('user'))
+const user = localStorage.getItem('token')
 
 const initialState = {
-    user: user ? user : null,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
-    message: '',
+  user: user ? user : null,
+  isError: false,
+  isSuccess: false,
+  isLoading: false,
+  message: '',
 }
 
 // Register user
 export const register = createAsyncThunk(
-    'auth/register',
-    async (user, thunkAPI) => {
-        try {
-            const response = await axios.post(API_URL + 'register', user)
-        
-            if (response.data) {
-                 localStorage.setItem('user', JSON.stringify(response.data))
-            }
-        
-            return response.data
-
+    'user/register',
+    async (userData, thunkAPI) => {
+        try {     
+          const response = await axios.post(API_URL + 'register', userData)
+          
+          
+          //data is probably not the right property tho
+          //needs to have the token as property
+          //can be deleted if we want there to be the verification email
+          // if (response.data) {
+          //     localStorage.setItem('user', JSON.stringify(response.data))
+          // }
+          
+          return response.data
+          
         } catch (error) {
-      const message =
-        (error.response &&
+          const message =
+          (error.response &&
             error.response.data &&
             error.response.data.message) ||
             error.message ||
             error.toString()
-      return thunkAPI.rejectWithValue(message)
+            return thunkAPI.rejectWithValue(message)
+      }
     }
-  }
   )
-  
+              
+              
+              
   // Login user
-export const login = createAsyncThunk(
+  export const login = createAsyncThunk(
     'auth/login',
     async (user, thunkAPI) => {
     try {
-        const response = await axios.post(API_URL + 'login', user)
+      const response = await axios.post(API_URL + 'login', user)
+      
+      if (response.data.token) {
+        const { token } = response.data
+        localStorage.setItem('token', token)
         
-        if (response.data) {
-          localStorage.setItem('user', JSON.stringify(response.data))
-        }
-
-        return response.data
-  } catch (error) {
-    const message =
+        // boilerplate code 
+        // localStorage.setItem('user', JSON.stringify(response.data))
+      }
+      
+      return response.data
+      
+    } catch (error) {
+      const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString()
-    return thunkAPI.rejectWithValue(message)
-  }
+      return thunkAPI.rejectWithValue(message)
+    }
+  })
+
+
+
+  export const verify = createAsyncThunk(
+    'auth/verify',
+    async (token, thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token')
+      if(token){
+        const res = await axios.post(`${baseUrl}/user/verify-token`, {token})
+        const { valid } = res.data;
+        
+        //consider user already logged in
+        if(valid){
+          //return valid??
+          return token;
+        }else{
+          //token invalid remove from local storage and log user out
+          localStorage.removeItem('token');
+          throw new Error('error')
+        }
+      }
+    
+    throw new Error('error')
+
+    } catch (error) {
+      const message = 'token verification rejected'
+      return thunkAPI.rejectWithValue(message)
+    }
 })
 
 export const logout = createAsyncThunk(
     'auth/logout',
-     async () => {
-        await localStorage.removeItem('user')
+    async () => {
+        // await localStorage.removeItem('user')
+        await localStorage.removeItem('token')
     }
 )
 
@@ -103,6 +147,20 @@ export const authSlice = createSlice({
         state.user = action.payload
       })
       .addCase(login.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.user = null
+      })
+      .addCase(verify.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(verify.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.user = action.payload
+      })
+      .addCase(verify.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

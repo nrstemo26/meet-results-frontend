@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { baseUrl } from '../../config';
 
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://192.168.1.139:5000'
-// const baseUrl = 'http://98.144.49.136:5000'
 
 const Confirmation = () => {
   // const { token } = useParams();

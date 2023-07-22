@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
+import { useSelector, useDispatch } from 'react-redux';
+import { register, reset } from '../../features/authSlice';
 
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://192.168.1.139:5000'
-// const baseUrl = 'http://98.144.49.136:5000'
 
 const Register = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  
+  const {user, isLoading, isError, isSuccess, message} = useSelector((state)=>state.auth)
+  
+  const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
+  //initialize make toast to bind the toast state to the function
+  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
+
   const [userData, setUserData] = useState({
     username: '',
     email: '',
@@ -17,14 +26,12 @@ const Register = () => {
     role: '',
     agreeTerms: false,
   })
-
+  
   const updateCheckbox = (e)=>{
     setUserData((userData)=>({
       ...userData,
       agreeTerms: e.target.checked
     }))
-    
-    
   }
   
   const updateUser = (e, property)=>{
@@ -35,39 +42,34 @@ const Register = () => {
     }))
     
   }
-
-  const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
-  const navigate = useNavigate();
   
-  //initialize make toast to bind the toast state to the function
-  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (userData.password !== userData.confirmPassword) {
       //we call makeToast with a msg and a type
       makeToast('Password and password confirmation do not match.', false)
     }else{
-      try {
-        const response = await axios.post(baseUrl + '/user/register', userData);
-        console.log(response.data); // Handle the response as needed
-        makeToast('Thank you for registering. Check your email to confirm your account.','success')
-        // Redirect or perform any other actions after successful registration
-        navigate('/login');
-      } catch (error) {
-        console.error(error);
-        makeToast(error.response.data.message, false)
-      }
+      let response = await dispatch(register(userData));
+      console.log(response);
+    }
+  };
+  
+  useEffect(()=>{
+    if(isError){
+      makeToast(message,'error')
+    }
+    
+    if(isSuccess){
+      makeToast('Thank you for registering. Check your email to confirm your account.','success')
+      navigate('/login')
     }
 
-    console.log(userData);
 
-  };
-
+    //resets state so we can attempt again and so login can work too
+    dispatch(reset())
+  },[user, isError, isSuccess, message, navigate, dispatch])
+  
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-full sm:w-auto p-8 bg-white rounded shadow">

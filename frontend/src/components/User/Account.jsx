@@ -5,9 +5,8 @@ import { TiDeleteOutline } from 'react-icons/ti'
 import Toast from '../Widgets/Toast';
 import { makeToast_ } from '../../lib/toast/toast_utils';
 import defaultAvatar from '../../assets/cyclist_4_color_transparent.png'
+import { baseUrl } from '../../config';
 
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://192.168.1.139:5000'
 
 const Account = ({isLoggedIn}) => {
   const [accountData, setAccountData] = useState(null);
