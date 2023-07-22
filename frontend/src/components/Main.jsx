@@ -19,17 +19,19 @@ import { Insights } from '../pages/Insights'
 import { About } from '../pages/About'
 
 import { useDispatch } from 'react-redux';
-import { verify,reset } from '../features/authSlice';
-
+import { verify, reset } from '../features/authSlice';
 
 function Main() {
   const dispatch = useDispatch()
-
+  
   useEffect(() => {
-    dispatch(verify())
-
-    //resets loading/ error/ etc states
-    dispatch(reset())
+    const verifyUser = async () => { 
+    await dispatch(verify())    
+  }
+  verifyUser();
+  
+  //resets loading/ error/ etc states
+  dispatch(reset())
   }, []); // Run this effect only once on component mount
 
 return (
