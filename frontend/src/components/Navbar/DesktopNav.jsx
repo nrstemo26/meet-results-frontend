@@ -20,7 +20,7 @@ function DesktopNav( {handleLogout} ) {
           <div>Lifters</div>
         </Link>
         <Link to="/api/v1/session">
-          <div>Session Builder</div>
+          <div>Watchlist</div>
         </Link>
         <Link to="/about">
           <div>About</div>
