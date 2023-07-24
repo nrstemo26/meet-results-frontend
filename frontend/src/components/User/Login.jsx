@@ -1,24 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Toast from '../Widgets/Toast';
-import { makeToast_ } from '../../lib/toast/toast_utils';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { login, reset } from '../../features/authSlice';
 
+import {toast} from 'react-toastify'
 
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('');
-  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
-  
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {user, isLoading, isError, isSuccess, message} = useSelector((state)=>state.auth)
@@ -38,11 +31,11 @@ const Login = () => {
 
   useEffect(()=>{
     if(isError){
-      makeToast('Wrong username or password','error')
+      toast.error('wrong username or password')
     }
 
     if(isSuccess){
-      makeToast('Welcome bro','success')
+      toast.success('welcome bruv')
       navigate('/api/v1/session')
     }
 
@@ -110,9 +103,6 @@ const Login = () => {
           </div>
         </form>
       </div>
-      {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
-      )}
     </div>
   );
 };

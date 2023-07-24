@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TiDeleteOutline } from 'react-icons/ti'
-import Toast from '../Widgets/Toast';
-import { makeToast_ } from '../../lib/toast/toast_utils';
 import defaultAvatar from '../../assets/cyclist_4_color_transparent.png'
+import {toast} from 'react-toastify'
 
 import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
@@ -18,10 +17,7 @@ const Account = () => {
   const [watchlistData, setWatchlistData] = useState([]);
   const [showWatchlists, setShowWatchlists] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState(null);
-  const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
-  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -88,7 +84,7 @@ const Account = () => {
     })
       .then((response) => {
         // Handle the successful delete response
-        makeToast(response.data.message, response.data.status)
+        toast(response.data.message)
       })
       .catch((error) => {
         console.error(error);
@@ -184,9 +180,6 @@ const Account = () => {
           <p>Loading...</p>
         )}
       </div>
-      {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
-      )}
     </div>
   );
 };

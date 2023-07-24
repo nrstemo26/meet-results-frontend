@@ -1,19 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Toast from '../Widgets/Toast';
-import { makeToast_ } from '../../lib/toast/toast_utils';
 import { baseUrl } from '../../config';
+import {toast} from 'react-toastify'
 
 const RequestReset = () => {
   const [email, setEmail] = useState('');
-
-  const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
-
-  // initialize makeToast to bind the toast state to the function
-  const makeToast = makeToast_(setShowToast, setToastType, setToastMessage);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,11 +13,12 @@ const RequestReset = () => {
     try {
       const response = await axios.post(baseUrl + '/user/reset-request', { email: email });
       console.log(response.data); // Handle the response as needed
-      // console.log(email);
-      makeToast(response.data.message, response.data.status);
+      toast.success(response.data.message);
+    
     } catch (error) {
       console.error(error);
-      makeToast(error.response.data.message, error.response.data.status);
+      toast.error(error.response.data.message);
+    
     }
 
     setEmail('');
@@ -62,9 +55,6 @@ const RequestReset = () => {
           </div>
         </form>
       </div>
-      {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
-      )}
     </div>
   );
 };

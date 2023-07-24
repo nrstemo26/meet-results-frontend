@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios'
-import Toast from './Toast';
+import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux';
 
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://98.144.49.136:5000'
+import { baseUrl } from '../../config'
+
 
 const FeatureRequest = () => {
+  const user = useSelector((state)=> state.auth.user)
   const [showModal, setShowModal] = useState(false);
   const [requestText, setRequestText] = useState('');
-  const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
+
   const [accountData, setAccountData] = useState(null);
 
   const handleOpenModal = () => {
@@ -28,38 +28,30 @@ const FeatureRequest = () => {
     const credentials = btoa(`${token}:unused`);
     const feature_request = requestText
 
-    try {
-      const response = await axios.post(baseUrl + '/user/feature-request', 
-        { feature_request },
-        {
-          headers: {
-            Authorization: `Basic ${credentials}`,
-          },
-        }
-      );
-      console.log(response.data); // Handle the response as needed
-      setToastMessage('TY. The Oracle appreciates your feedback.');
-      setToastType('success')
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-  
-      // Redirect or perform any other actions after successful registration
-    } catch (error) {
-      console.error(error);
-      setToastMessage('Only registered users can submit a feature request.');
-      setToastType('warning')
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-        setToastMessage('');
-      }, 5000);
-      // Handle the error
+    if(user){
+      try {
+        const response = await axios.post(baseUrl + '/user/feature-request', 
+          { feature_request },
+          {
+            headers: {
+              Authorization: `Basic ${credentials}`,
+            },
+          }
+        );
+        console.log(response.data); // Handle the response as needed
+        toast.info('TY. The Oracle appreciates your feedback.')
+    
+        // Redirect or perform any other actions after successful registration
+      } catch (error) {
+        console.error(error);
+        toast.error('There was an error.')
+        
+      }
+      
+      handleCloseModal()
+    }else{
+      toast.error('Only registered users can submit a feature request.')    
     }
-
-    handleCloseModal();
   };
 
   return (
@@ -92,9 +84,6 @@ const FeatureRequest = () => {
             </form>
           </div>
         </div>
-      )}
-      {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
       )}
     </div>
   );
