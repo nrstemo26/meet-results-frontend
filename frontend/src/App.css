@@ -11,6 +11,13 @@
 }
 
 
+/* how you could style the toasts  */
+/* there has to be a better way than slapping !importants tho */
+/* :root{
+  --toastify-color-info: #172554 !important;
+} */
+
+
 
 @layer components{
   .btn { 
@@ -72,6 +79,7 @@
     animation-delay: calc(var(--order) * 20ms);
     animation-iteration-count: 1;
   }
+
   .reverse-color-gradient path{
     fill:#172554;
     animation: reverse-change-gradient .25s;
@@ -80,6 +88,7 @@
     animation-delay: calc(var(--order) * 20ms);
     animation-iteration-count: 1;
   }
+
 }
 
 
