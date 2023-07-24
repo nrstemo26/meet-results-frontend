@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux';
+import { FiX } from "react-icons/fi";
 
 import { baseUrl } from '../../config'
 
@@ -64,11 +65,10 @@ const FeatureRequest = () => {
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="bg-white rounded p-8 shadow-lg relative">
-            <span 
+            <FiX color='black' size='48px'
               className="absolute top-0 right-0 mt-4 mr-4 p-2 cursor-pointer" 
-              style={{ transform: 'translate(50%, -50%)' }}
-              onClick={toggleModal}>&times;
-            </span>
+              onClick={toggleModal}
+            />
             <p className="text-xl font-bold text-primary-950">Feature Request</p>
             <p className="mb-4 text-slate-500 font-medium">Sure yeah, submit bugs too.</p>
             <form onSubmit={handleSubmit}>
