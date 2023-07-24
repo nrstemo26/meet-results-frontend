@@ -6,8 +6,9 @@ import WatchListAthlete from './WatchListAthlete';
 import { useSelector } from 'react-redux'
 import {selectSession} from '../../features/sessionSlice'
 import { TiDownload, TiFolderAdd } from 'react-icons/ti'
-import Toast from '../Widgets/Toast';
-import { makeToast_ } from '../../lib/toast/toast_utils';
+
+
+import { toast } from 'react-toastify';
 
 import { baseUrl } from '../../config';
 
@@ -16,11 +17,7 @@ function WatchList(){
   
 
     const WatchListAthletes = useSelector(selectSession);
-    const [showToast, setShowToast] = useState(false);
-    const [toastType, setToastType] = useState('');
-    const [toastMessage, setToastMessage] = useState('');
-    const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
-
+   
     const handleExport = () => {
       if (user) {
         const token = localStorage.getItem('token');
@@ -90,8 +87,9 @@ function WatchList(){
             }
           )
           // console.log(response.data); // Handle the response as needed
-          makeToast(response.data.message, response.data.status);
-
+          //what do i do with response.data.status
+          //2nd argument is an options obj
+          toast(response.message.data, {type: response.data.status})
         } catch (error) {
           console.error(error);
         }
@@ -124,9 +122,6 @@ function WatchList(){
               )}
             </ul>
           </div>
-          {showToast && (
-            <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
-          )}
       </div>
     )
 }
