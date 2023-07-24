@@ -77,6 +77,17 @@ export const getTrendingAthletes = createAsyncThunk(
 )
 
 
+export const getOracleRatings = createAsyncThunk(
+  'oracle_ratings',
+  async(data) => {
+    try{
+      const response = await axios.get(baseUrl + 'oracle-ratings')
+      return response.data;
+    }catch(error){
+      console.log(error)
+    }
+  }
+)
 
 
 export const athleteSlice = createSlice({

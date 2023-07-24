@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { baseUrl } from '../config'
 
+
 const API_URL = baseUrl + '/user/'
 
 // const user = JSON.parse(localStorage.getItem('user'))

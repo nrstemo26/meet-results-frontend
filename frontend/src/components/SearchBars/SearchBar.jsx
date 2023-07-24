@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, placeholderText }) => {
   const handleSearch = (e) => {
     const searchQuery = e.target.value;
     onSearch(searchQuery);
@@ -10,7 +10,7 @@ const SearchBar = ({ onSearch }) => {
       <input
       type="text"
       onChange={handleSearch}
-          placeholder="Start typing an athlete's name..."
+          placeholder={placeholderText}
           className="search-bar"
           />
           );

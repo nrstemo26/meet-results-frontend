@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { NotFound } from '../pages/NotFound'
 import WatchList from './WatchList/WatchList'
 import Search from './SearchBars/Search'
+import MeetSearch from './SearchBars/MeetSearch'
 import { Dashboard as AthleteDashboard } from './Dashboards/Athlete/Dashboard'
 import { Dashboard as AccountDashboard} from './Dashboards/Account/Dashboard'
 import MeetDashboard from './Dashboards/Meet/Dashboard'
@@ -16,7 +17,7 @@ import Confirmation from './User/Confirmation'
 
 import { Home } from '../pages/Home/Home'
 import { Insights } from '../pages/Insights'
-import { About } from '../pages/About'
+import About from '../pages/About'
 
 import { useDispatch } from 'react-redux';
 import { verify, reset } from '../features/authSlice';
@@ -44,7 +45,7 @@ return (
           <Route path="/api/v1/athletes" element={<Search/>}/>
           <Route path="/api/v1/athlete/:id" element={<AthleteDashboard/>}/>
           
-          <Route path="/api/v1/meets" element={<MeetDashboard/>}/>
+          <Route path="/api/v1/meets" element={<MeetSearch/>}/>
           <Route path="/api/v1/meet/:id" element={<MeetDashboard/>}/>
           
 

@@ -8,7 +8,7 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
 
 
   return(
-    <div className="absolute z-40 top-0 left-0 h-[120vh] w-full m-0 flex flex-col gap-3 bg-white text-black shadow-lg overflow-hidden">
+    <div className="absolute z-40 top-0 left-0 h-[120vh] w-full m-0 flex flex-col gap-3 bg-white text-black shadow-lg overflow-hidden text-primary-950">
       <FiX className="cursor-pointer self-end mt-4 mr-4" size={30} color= "black" onClick={toggleMenu}/>
       <Link onClick={toggleMenu} to='/'><div className='sidebar-element'>Home</div></Link>
       <Link onClick={toggleMenu} to='/api/v1/meets'><div className='sidebar-element'>Meets</div></Link>
