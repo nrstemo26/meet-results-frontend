@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Toast from '../Widgets/Toast';
-import { makeToast_ } from '../../lib/toast/toast_utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { register, reset } from '../../features/authSlice';
+import {toast} from 'react-toastify'
 
 
 const Register = () => {
@@ -11,12 +10,6 @@ const Register = () => {
   const navigate = useNavigate();
   
   const {user, isLoading, isError, isSuccess, message} = useSelector((state)=>state.auth)
-  
-  const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
-  //initialize make toast to bind the toast state to the function
-  const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
 
   const [userData, setUserData] = useState({
     username: '',
@@ -47,8 +40,7 @@ const Register = () => {
     e.preventDefault();
     
     if (userData.password !== userData.confirmPassword) {
-      //we call makeToast with a msg and a type
-      makeToast('Password and password confirmation do not match.', false)
+      toast.error('Password and password confirmation do not match.')
     }else{
       let response = await dispatch(register(userData));
       console.log(response);
@@ -57,11 +49,11 @@ const Register = () => {
   
   useEffect(()=>{
     if(isError){
-      makeToast(message,'error')
+      toast.error(message)
     }
     
     if(isSuccess){
-      makeToast('Thank you for registering. Check your email to confirm your account.','success')
+      toast.success('Thank you for registering. Check your email to confirm your account.')
       navigate('/login')
     }
 
@@ -177,11 +169,9 @@ const Register = () => {
           </div>
         </form>
       </div>
-      {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
-      )}
     </div>
   );
 };
 
 export default Register;
+

@@ -36,3 +36,21 @@ export const makeToast_ = (setShowToast, setToastType, setToastMessage)=> {
         }, 5000); 
     } 
 }
+
+
+// set up usage
+// import Toast from '../Widgets/Toast';
+// import { makeToast_ } from '../../lib/toast/toast_utils';
+
+// const [showToast, setShowToast] = useState(false);
+// const [toastMessage, setToastMessage] = useState('');
+// const [toastType, setToastType] = useState('');
+// const makeToast = makeToast_(setShowToast,setToastType, setToastMessage)
+
+// actually makes the toast
+// makeToast('Wrong username or password','error')
+
+// in component return statement
+// {showToast && (
+//     <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
+//   )}

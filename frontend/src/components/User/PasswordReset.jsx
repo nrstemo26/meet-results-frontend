@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import Toast from '../Widgets/Toast';
-import { makeToast_ } from '../../lib/toast/toast_utils';
+
 import { baseUrl } from '../../config';
 
+import {toast} from 'react-toastify'
 
 const ResetPassword = () => {
   const searchParams = new URLSearchParams(location.search);
@@ -21,29 +21,23 @@ const ResetPassword = () => {
       [property]: e.target.value,
     }));
   };
-
-  const [showToast, setShowToast] = useState(false);
-  const [toastType, setToastType] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
+  
   const navigate = useNavigate();
-
-  // initialize makeToast to bind the toast state to the function
-  const makeToast = makeToast_(setShowToast, setToastType, setToastMessage);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (userData.password !== userData.confirmPassword) {
-      makeToast('Password and password confirmation do not match.', false);
+      toast.error('Password and password confirmation do not match.')
     } else {
       try {
         const response = await axios.put(baseUrl + `/user/reset-password/${token}`, userData);
         console.log(response.data); // Handle the response as needed
-        makeToast('Password reset successful.', 'success');
+        toast.success('Password reset successful')
         navigate('/login');
       } catch (error) {
         console.error(error);
-        makeToast(error.response.data.message, false);
+        toast.error(error.response.data.message);
       }
     }
 
@@ -95,9 +89,6 @@ const ResetPassword = () => {
           </div>
         </form>
       </div>
-      {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} type={toastType} />
-      )}
     </div>
   );
 };
