@@ -13,14 +13,12 @@ const FeatureRequest = () => {
 
   const [accountData, setAccountData] = useState(null);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setRequestText('');
-  };
+  const toggleModal = () => {
+    setShowModal(state => !state)
+    if(showModal == true){
+      setRequestText('')
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,9 +46,10 @@ const FeatureRequest = () => {
         
       }
       
-      handleCloseModal()
+      toggleModal()
     }else{
-      toast.error('Only registered users can submit a feature request.')    
+      toast.error('Only registered users can submit a feature request. Please log in to submit a request.')    
+      toggleModal()
     }
   };
 
@@ -59,7 +58,7 @@ const FeatureRequest = () => {
       <div className="fixed bottom-0 right-0 mb-8 mr-8">
         <button 
           className="text-sm btn-alt" 
-          onClick={handleOpenModal}>Request a feature.
+          onClick={toggleModal}>Request a feature.
         </button>
       </div>
       {showModal && (
@@ -68,7 +67,7 @@ const FeatureRequest = () => {
             <span 
               className="absolute top-0 right-0 mt-4 mr-4 p-2 cursor-pointer" 
               style={{ transform: 'translate(50%, -50%)' }}
-              onClick={handleCloseModal}>&times;
+              onClick={toggleModal}>&times;
             </span>
             <p className="text-xl font-bold text-primary-950">Feature Request</p>
             <p className="mb-4 text-slate-500 font-medium">Sure yeah, submit bugs too.</p>
