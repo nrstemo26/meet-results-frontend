@@ -5,33 +5,33 @@ import ChartjsPluginWatermark from 'chartjs-plugin-watermark'
 import watermark from '../../../../assets/avatar_face_navy.png'
 
 
-function MeetTotalsChart () {
+function SnatchChartFemale () {
     const {data: chart } = useSelector((state)=>state.meet)
 
-    const maleTotals = chart.mens.chart_data.totals_chart.map((subArray) => ({
-        x: subArray[2], 
-        y: subArray[3],
+    const makes = chart.womens.chart_data.attempt_history_chart["Snatch"].Make.map((subArray) => ({
+        x: subArray[1], 
+        y: subArray[2],
         label: subArray[0] 
     }));
 
-    const femaleTotals = chart.womens.chart_data.totals_chart.map((subArray) => ({
-        x: subArray[2], 
-        y: subArray[3], 
+    const misses = chart.womens.chart_data.attempt_history_chart["Snatch"].Miss.map((subArray) => ({
+        x: subArray[1], 
+        y: subArray[2], 
         label: subArray[0] 
     }));
 
     const totalsData = {
         datasets:[
             {
-                label: "Men",
+                label: "Make",
                 backgroundColor:'#069af3',
-                data: maleTotals,
+                data: makes,
                 pointRadius: 4
             },
             {
-                label: "Women",
+                label: "Miss",
                 backgroundColor:'#FD806A',
-                data: femaleTotals
+                data: misses
             }
         ]
     }
@@ -42,7 +42,7 @@ function MeetTotalsChart () {
         plugins:{
             title:{
                 display: true,
-                text: "Meet Totals by Gender",
+                text: "Female Snatch Attempts",
             },
             legend:{
                 position: 'bottom'
@@ -56,7 +56,7 @@ function MeetTotalsChart () {
                         return `${context.raw.label}`;
                     },
                     label: function (context) {
-                        return `Total: ${context.parsed.y}kg`;
+                        return `Snatch: ${context.parsed.y}kg`;
                     },
                     afterLabel: function (context) {
                         return `BW: ${context.parsed.x}kg`;
@@ -103,4 +103,4 @@ function MeetTotalsChart () {
     )
 }
 
-export default MeetTotalsChart;
+export default SnatchChartFemale;
