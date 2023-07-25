@@ -13,8 +13,8 @@ function ChartWrapper(){
             <label htmlFor="charts" className="text-primary-950 mb-2">Choose a chart:</label> 
             <select value={selected} onChange={(e)=> setSelected(e.target.value)}  className="bg-primary-50 ml-2 mb-2"> 
                 <option value="all">All</option> 
-                <option value="cj">Clean and Jerk</option> 
                 <option value="sn">Snatch </option> 
+                <option value="cj">Clean and Jerk</option> 
             </select>
 
             {selected === 'all' && <AllLiftsChart/>}

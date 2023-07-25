@@ -7,7 +7,7 @@ import { Error } from '../../../pages/Error';
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getMeet } from '../../../features/meetSlice'
-// import ChartWrapper from './ChartWrapper';
+import ChartWrapper from './ChartWrapper';
 
 
 
@@ -47,12 +47,12 @@ const MeetDashboard = () => {
       
       <div className='dashboard-container'>
           <div className='bg-secondary-500 p-5 rounded-xl'>
-            {/* <h1 className="text-center text-primary-950 text-4xl font-bold m-2">{data ? data['_athlete_id'] : 'loading'}</h1> */}
-            {/* {
+            <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{data ? data['headline']['_metadata']['Meet'] : 'loading'}</h1>
+            {
               data?
               (<ChartWrapper/>):
               'nothing'
-            } */}
+            }
           </div>
 
         
