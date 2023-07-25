@@ -1,4 +1,4 @@
-// import AllLiftsChart from "./charts/AllLiftsChart";
+import TotalsChart from "./charts/TotalsChart";
 // import CjHistChart from "./charts/CjHistChart";
 // import SnatchHistChart from "./charts/SnatchHistChart";
 import { useState } from "react";
@@ -19,8 +19,8 @@ function ChartWrapper(){
                 <option value="cj_f">Clean and Jerk Women's</option>  
             </select>
 
-            {/* {selected === 'all' && <AllLiftsChart/>}
-            {selected === 'sn' && <SnatchHistChart/>}
+            {selected === 'all' && <TotalsChart/>}
+            {/* {selected === 'sn' && <SnatchHistChart/>}
             {selected === 'cj' && <CjHistChart/>} */}
         </div>
     )
