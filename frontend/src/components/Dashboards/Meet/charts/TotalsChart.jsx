@@ -35,7 +35,7 @@ function MeetTotalsChart () {
             }
         ]
     }
-    console.log(totalsData)
+    // console.log(totalsData)
     const options =  {
         responsive : true, 
         maintainAspectRatio : false,
@@ -47,6 +47,22 @@ function MeetTotalsChart () {
             legend:{
                 position: 'bottom'
             },
+            tooltip: {
+                callbacks: {
+                    title: function(context) {
+                        // console.log(context)
+                    },
+                    beforeLabel: function (context) {
+                        return `${context.raw.label}`;
+                    },
+                    label: function (context) {
+                        return `${context.parsed.y}kg`;
+                    },
+                    afterLabel: function (context) {
+                        return `BW:${context.parsed.x}kg`;
+                    }
+                }
+            }
         },
         scales: {
             x: {
