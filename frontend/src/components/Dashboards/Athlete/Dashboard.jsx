@@ -6,18 +6,52 @@ import { Error } from '../../../pages/Error';
 
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+
 import { getAthlete } from '../../../features/athleteSlice'
+import { removeFromSession,addToSession } from '../../../features/sessionSlice';
+import{useNavigate} from 'react-router-dom'
+
 import ChartWrapper from './ChartWrapper';
 
 
+import { toast } from 'react-toastify'
+import WatchlistBtn from './WatchlistBtn';
+import WatchlistIcon from './WatchlistIcon';
+
 
 const Dashboard = () => {
-  const [requestSent, setRequestSent] = useState(false)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [requestSent, setRequestSent] = useState(false)
+  const watchlist = useSelector((state) => state.session.athletes)
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
 
+  const [inWatchlist, setInWatchlist]= useState(()=>{
+    const urlArray = window.location.pathname.split('/')
+    const name = urlArray[urlArray.length - 1].split('%20').join(' ')
+    return watchlist.includes(name)
+  })
+
+  const toggleWatchlist = async () =>{
+    const name = data['_athlete_id']
+      const toastOptions = {
+        autoClose:3000,
+        onClick:() => {
+          navigate('/api/v1/session')
+        }
+      }
   
-  useEffect(()=>{
+      if(inWatchlist){
+        await dispatch(removeFromSession(name))
+        toast(`${name} was removed to your watchlist. Click here to see your watchlist`, toastOptions)
+      }else{
+        await dispatch(addToSession(name))
+        toast(`${name} was added to your watchlist.  Click here to see your watchlist`, toastOptions)
+      }
+      setInWatchlist(state=> !state)
+  }
+  
+  useEffect(() => {
     if(isError){
       console.log('there is an error')
     }
@@ -49,15 +83,19 @@ const Dashboard = () => {
   }
 
     return (
-      
       <div className='dashboard-container'>
-          <div className='bg-secondary-500 p-5 rounded-xl'>
-            <h1 className="text-center text-primary-950 text-4xl font-bold m-2">{data ? data['_athlete_id'] : 'loading'}</h1>
+        <div className='bg-secondary-500 p-5 rounded-xl'>
+            {data ? <WatchlistIcon name={data['_athlete_id']} toggleWatchlist={toggleWatchlist} inWatchlist={inWatchlist}/>: 'loading'}
+            {/* <h1 className="text-center text-primary-950 text-4xl font-bold m-2">
+              {data ? data['_athlete_id'] : 'loading'} 
+            </h1> */}
             {
               data?
-              (<ChartWrapper/>):
-              'nothing'
+              (<ChartWrapper toggleWatchlist={toggleWatchlist} inWatchlist={inWatchlist}/>):
+              <div>nothing</div>
             }
+
+    
           </div>
 
         
@@ -71,7 +109,7 @@ const Dashboard = () => {
             </>
           ):
           'no data'
-          }
+        }
         </div>
       </div>
     )
