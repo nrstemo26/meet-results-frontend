@@ -7,7 +7,7 @@ import { logout } from "../../features/authSlice";
 import { useViewport } from '../../hooks/useViewport'
 
 
-const Navbar = ({setIsSidebarOpen}) =>{
+const Navbar = ({setIsSidebarOpen}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { width } = useViewport();
@@ -23,7 +23,6 @@ const Navbar = ({setIsSidebarOpen}) =>{
 
     return(
         <div className='bg-gradient-to-r from-primary-950 to-primary-500 text-white flex justify-around p-4 shadow-md'>
-            {/* {isMobile?  */}
             {width < 720 ?
             (<MobileNav setIsSidebarOpen={setIsSidebarOpen} handleLogout={handleLogout}/>) 
             : 
