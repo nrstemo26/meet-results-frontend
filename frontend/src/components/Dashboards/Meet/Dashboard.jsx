@@ -1,5 +1,5 @@
 import Insights from './Insights'
-// import BestLifts from "./BestLits";
+import TopSinclairs from "./TopSinclairs";
 // import AllTotals from "./AllTotals";
 import { Spinner } from '../../../pages/Spinners/Spinner';
 import { Error } from '../../../pages/Error';
@@ -60,6 +60,7 @@ const MeetDashboard = () => {
           { data ?
           (
             <>
+              <TopSinclairs />
               <Insights />
             </>
           ):
