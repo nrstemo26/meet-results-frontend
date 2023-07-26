@@ -28,7 +28,7 @@ function WatchList(){
         const credentials = btoa(`${token}:unused`);
   
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', `${baseUrl}/api/v1/export/watchlist`);
+        xhr.open('POST', `${baseUrl}/api/v1/export`);
         xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.responseType = 'blob';
