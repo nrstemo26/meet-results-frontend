@@ -25,9 +25,6 @@ const Dashboard = () => {
   const [requestSent, setRequestSent] = useState(false)
   const watchlist = useSelector((state) => state.watchlist.athletes)
   
-  
-  //???
-  //this should be state.watchlist.athletes???? 
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
 
   const [inWatchlist, setInWatchlist]= useState(()=>{
