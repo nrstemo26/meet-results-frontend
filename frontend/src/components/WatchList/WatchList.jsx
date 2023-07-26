@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver';
 import Search from '../SearchBars/Search'
 import WatchListAthlete from './WatchListAthlete';
 import { useSelector } from 'react-redux'
-import {selectSession} from '../../features/sessionSlice'
+import {selectWatchlist} from '../../features/watchlistSlice'
 import { TiDownload, TiFolderAdd } from 'react-icons/ti'
 
 
@@ -16,7 +16,7 @@ function WatchList(){
   const user = useSelector((state) => state.auth.user)
   
 
-    const WatchListAthletes = useSelector(selectSession);
+  const WatchListAthletes = useSelector(selectWatchlist);
    
     const handleExport = () => {
       if (user) {
@@ -100,7 +100,7 @@ function WatchList(){
     return(
       <div className='sm:flex w-100 p-4'>
           <div className='sm:w-2/4' >
-              <Search isSession={true} ></Search>
+              <Search isWatchlist={true} ></Search>
           </div>
 
           <div className='sm:w-2/4'>

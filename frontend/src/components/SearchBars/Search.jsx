@@ -9,7 +9,7 @@ import UserList from "./UserList";
 import Trending from './Trending'
 
 
-const Search = ({ isSession }) => {
+const Search = ({ isWatchlist }) => {
   const dispatch = useDispatch()
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -42,14 +42,14 @@ const Search = ({ isSession }) => {
         <div className="text-center">
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
-            <UserList users={users} isSession={isSession}  />
-            : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"><Trending  isSession={isSession} /></div>}
+            <UserList users={users} isWatchlist={isWatchlist}  />
+            : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"><Trending  isWatchlist={isWatchlist} /></div>}
         </div>
     )
   }
   
   Search.propTypes = {
-    isSession: PropTypes.bool
+    isWatchlist: PropTypes.bool
   };
   
   export default Search;

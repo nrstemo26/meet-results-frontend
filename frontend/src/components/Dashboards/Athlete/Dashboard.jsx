@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getAthlete } from '../../../features/athleteSlice'
-import { removeFromSession,addToSession } from '../../../features/sessionSlice';
+import { removeFromWatchlist,addToWatchlist } from '../../../features/watchlistSlice';
 import{useNavigate} from 'react-router-dom'
 
 import ChartWrapper from './ChartWrapper';
@@ -23,7 +23,11 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [requestSent, setRequestSent] = useState(false)
-  const watchlist = useSelector((state) => state.session.athletes)
+  const watchlist = useSelector((state) => state.watchlist.athletes)
+  
+  
+  //???
+  //this should be state.watchlist.athletes???? 
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
 
   const [inWatchlist, setInWatchlist]= useState(()=>{
@@ -37,15 +41,15 @@ const Dashboard = () => {
       const toastOptions = {
         autoClose:3000,
         onClick:() => {
-          navigate('/api/v1/session')
+          navigate('/api/v1/watchlist')
         }
       }
   
       if(inWatchlist){
-        await dispatch(removeFromSession(name))
+        await dispatch(removeFromWatchlist(name))
         toast(`${name} was removed to your watchlist. Click here to see your watchlist`, toastOptions)
       }else{
-        await dispatch(addToSession(name))
+        await dispatch(addToWatchlist(name))
         toast(`${name} was added to your watchlist.  Click here to see your watchlist`, toastOptions)
       }
       setInWatchlist(state=> !state)

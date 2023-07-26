@@ -2,7 +2,7 @@ import { useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeFromSession,addToSession } from '../../../features/sessionSlice';
+import { removeFromWatchlist,addToWatchlist } from '../../../features/watchlistSlice';
 import { BsFillClipboardCheckFill } from 'react-icons/bs'
 import {AiFillPlusCircle as AddCircle} from 'react-icons/ai'
 

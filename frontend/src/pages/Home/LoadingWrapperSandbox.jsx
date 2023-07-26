@@ -37,7 +37,7 @@ const MyComponent = ({ data })=>{
                 <li>
                     <span className="text-xl">🏗️ </span>
                     <span className="font-semibold">Build. </span>
-                    <Link to={`/api/v1/session/`} className="hover:text-primary-400">
+                    <Link to={`/api/v1/watchlist/`} className="hover:text-primary-400">
                         Create a watchlist to track your favorite weightlifters (or competition).
                     </Link>
                 </li>

@@ -13,7 +13,7 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
       <Link onClick={toggleMenu} to='/'><div className='sidebar-element'>Home</div></Link>
       <Link onClick={toggleMenu} to='/api/v1/meets'><div className='sidebar-element'>Meets</div></Link>
       <Link onClick={toggleMenu} to='/api/v1/athletes'><div className='sidebar-element'>Lifters</div></Link>
-      <Link onClick={toggleMenu} to='/api/v1/session'><div className='sidebar-element'>Session Builder</div></Link>
+      <Link onClick={toggleMenu} to='/api/v1/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
       <Link onClick={toggleMenu} to='/api/v1/insights'><div className='sidebar-element'>Insights</div></Link>
       <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About Us</div></Link>
       {user ? (

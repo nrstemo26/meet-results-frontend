@@ -39,8 +39,7 @@ return (
       <Routes>
           <Route path="*" element={<NotFound/>}/>
           {/* this route will need to change...needs an id? */}
-          <Route path="/api/v1/session" element={<WatchList />} />
-          <Route path="/api/v1/watchlist" element={<AccountDashboard/>} />
+          <Route path="/api/v1/watchlist" element={<WatchList />} />
           <Route path="/api/v1/athletes" element={<Search/>}/>
           <Route path="/api/v1/athlete/:id" element={<AthleteDashboard/>}/>
           

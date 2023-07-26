@@ -1,12 +1,12 @@
 import {configureStore } from '@reduxjs/toolkit'
 import athleteReducer from '../features/athleteSlice'
-import sessionReducer from '../features/sessionSlice'
+import watchlistReducer from '../features/watchlistSlice'
 import authReducer from '../features/authSlice'
 
 export const store = configureStore({
     reducer: {
         athlete: athleteReducer,
-        session: sessionReducer,
+        watchlist: watchlistReducer,
         auth: authReducer,
     },
 })

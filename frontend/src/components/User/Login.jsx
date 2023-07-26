@@ -15,8 +15,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {user, isLoading, isError, isSuccess, message} = useSelector((state)=>state.auth)
-  
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +34,7 @@ const Login = () => {
 
     if(isSuccess){
       toast.success('welcome bruv')
-      navigate('/api/v1/session')
+      navigate('/api/v1/watchlist')
     }
 
 
