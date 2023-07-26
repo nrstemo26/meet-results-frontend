@@ -1,4 +1,4 @@
-// import Insights from './Insights'
+import Insights from './Insights'
 // import BestLifts from "./BestLits";
 // import AllTotals from "./AllTotals";
 import { Spinner } from '../../../pages/Spinners/Spinner';
@@ -57,16 +57,14 @@ const MeetDashboard = () => {
 
         
         <div className="my-2 flex flex-wrap gap-2 justify-evenly">
-          {/* { data ?
+          { data ?
           (
             <>
-              <BestLifts />
-              <AllTotals />
               <Insights />
             </>
           ):
           'no data'
-          } */}
+          }
         </div>
       </div>
     )

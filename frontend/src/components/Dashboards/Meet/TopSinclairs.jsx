@@ -1,6 +1,8 @@
-
+import { useSelector } from "react-redux";
 
 function TopSinclairs(){
+    const {data: stats } = useSelector((state)=>state.meet)
+    
     return(
         <div className="bg-secondary-500 p-6 border-2 rounded-lg border-primary-950 flex flex-col overflow-hidden shadow-lg flex-auto">
           <h1 className="text-lg font-bold">Best Sinclairs</h1>
