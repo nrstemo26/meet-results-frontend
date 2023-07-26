@@ -5,7 +5,7 @@ import UserList from './UserList';
 import PropTypes from 'prop-types';
 
 
-function Trending({ isSession }){
+function Trending({ isWatchlist }){
     const [pageSize, setPageSize] = useState(20)
     const dispatch = useDispatch();
     const [athletes, setAthletes] = useState([])
@@ -26,13 +26,13 @@ function Trending({ isSession }){
         <div className="shadow-lg m-2 p-4">
             <h1 className="text-lg text-primary-950 font-bold text-center">Trending Athletes 🔥📈</h1>
             <p className="text-sm text-center font-bold text-gray-700 border-b border-primary-100">Last 24 Hours</p>
-            <UserList users={athletes} isSession={isSession}></UserList>
+            <UserList users={athletes} isWatchlist={isWatchlist}></UserList>
         </div>
     )
 }
 
 Trending.propTypes = {
-  isSession: PropTypes.bool
+  isWatchlist: PropTypes.bool
 };
 
 export default Trending;

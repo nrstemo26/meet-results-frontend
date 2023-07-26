@@ -19,7 +19,7 @@ function DesktopNav( {handleLogout} ) {
         <Link to="/api/v1/athletes">
           <div>Lifters</div>
         </Link>
-        <Link to="/api/v1/session">
+        <Link to="/api/v1/watchlist">
           <div>Watchlist</div>
         </Link>
         <Link to="/about">

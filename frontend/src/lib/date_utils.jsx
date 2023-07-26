@@ -12,7 +12,7 @@ export const organizeByNewestDate = (meetHistory) =>{
 }
 
 
-export const renderSessionResults = (arr, meetHistory) => {
+export const renderWatchlistResults = (arr, meetHistory) => {
     return arr.map((meet,index)=>{
         if(index > 4){
             return 
