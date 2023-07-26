@@ -31,6 +31,9 @@
   .btn-alt {
     @apply m-1 border-2 rounded-sm p-2 border-primary-950  bg-transparent text-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-500 hover:text-white hover:border-transparent;
   }
+  .btn-alt-2{
+    @apply m-1 border-2 rounded-sm p-2 border-primary-950  bg-transparent text-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-500 hover:text-white hover:border-none hover:scale-[1.08] ;
+  }
 
   .chart-wrapper{
     @apply border-2 rounded bg-white overflow-hidden shadow-md h-96 lg:h-[500px];
