@@ -56,7 +56,7 @@ const FeatureRequest = () => {
 
   return (
     <div>
-      <div className="z-10 bg-white fixed bottom-0 right-0 mb-8 mr-8">
+      <div className="z-10 md:fixed bottom-0 right-0 mb-8 mr-8">
         <button 
           className="text-sm btn-alt" 
           onClick={toggleModal}>Request a feature.

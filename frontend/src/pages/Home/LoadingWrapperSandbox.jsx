@@ -15,7 +15,7 @@ function withLoading(Component){
 
 const MyComponent = ({ data })=>{
     return (
-        <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent h-screen">
+        <div className="sm:w-3/4">
             <h2 className="text-primary-950 font-bold text-5xl p-2 pt-16 ml-8">{data.title}</h2>
             <h2 className="text-primary-950 font-bold text-3xl p-2 mt-4 mx-8 leading-relaxed">{data.subtitle}</h2>
             <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">{data.description}</p>
@@ -54,8 +54,6 @@ const MyComponent = ({ data })=>{
 }
 
 
-
-
 const HomeComponent = ()=>{
     //in declaration youd sub in my component for your actual component
     const WrappedComponent = withLoading(MyComponent)
@@ -74,12 +72,19 @@ const HomeComponent = ()=>{
     }, []);
     
   return(
-    <div className='sm:flex w-100'>
-        <WrappedComponent isLoading={isLoading} data={data}/>
-        <div className="md:fixed md:right-0 mt-8 md:m-8 md:w-1/4">
-            <Trending />
-        </div>
+    <div className="flex flex flex-col md:flex-row justify-left bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
+      {/* This div will wrap the WrappedComponent and Trending */}
+      <div className="w-full md:w-3/4">
+        <WrappedComponent isLoading={isLoading} data={data} />
+      </div>
+      {/* Trending component will be shown below the WrappedComponent on small screens */}
+      <div className="w-full md:w-1/4 mt-8 md:ml-8">
+        <Trending />
+      </div>
+      {/* FeatureRequest will be shown on the right side, below the Trending on small screens */}
+      <div className="w-full md:w-1/4 mt-8 md:mt-0 md:ml-8">
         <FeatureRequest />
+      </div>
     </div>
   )
 }
