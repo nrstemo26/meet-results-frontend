@@ -163,7 +163,7 @@ const Account = () => {
                               <li key={index}>{name}</li>
                             ))}
                           </ul>
-                          <Link to="#" className='btn border p-1 text-xs text-primary-950 border-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-500 hover:text-white hover:border-transparent'>Load Session</Link>
+                          <Link to="#" className='btn border p-1 text-xs text-primary-950 border-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-500 hover:text-white hover:border-transparent'>Load Watchlist</Link>
                         </div>
                       )}
                     </div>

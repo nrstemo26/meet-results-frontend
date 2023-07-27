@@ -6,7 +6,6 @@ import WatchList from './WatchList/WatchList'
 import Search from './SearchBars/Search'
 import MeetSearch from './SearchBars/MeetSearch'
 import { Dashboard as AthleteDashboard } from './Dashboards/Athlete/Dashboard'
-import { Dashboard as AccountDashboard} from './Dashboards/Account/Dashboard'
 import MeetDashboard from './Dashboards/Meet/Dashboard'
 import Login from './User/Login'
 import Register from './User/Register'
@@ -40,8 +39,7 @@ return (
       <Routes>
           <Route path="*" element={<NotFound/>}/>
           {/* this route will need to change...needs an id? */}
-          <Route path="/api/v1/session" element={<WatchList />} />
-          <Route path="/api/v1/watchlist" element={<AccountDashboard/>} />
+          <Route path="/api/v1/watchlist" element={<WatchList />} />
           <Route path="/api/v1/athletes" element={<Search/>}/>
           <Route path="/api/v1/athlete/:id" element={<AthleteDashboard/>}/>
           

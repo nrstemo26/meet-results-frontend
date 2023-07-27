@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { organizeByNewestDate, renderSessionResults } from '../../lib/date_utils';
+import { organizeByNewestDate, renderWatchlistResults } from '../../lib/date_utils';
 
 import { useDispatch } from "react-redux";
-import { removeFromSession } from '../../features/sessionSlice';
+import { removeFromWatchlist } from '../../features/watchlistSlice';
 import { getAthlete } from "../../features/athleteSlice"
 
 import { FiArrowDown, FiArrowUp } from 'react-icons/fi'
@@ -31,7 +31,7 @@ function WatchListAthlete({ name }){
     const toggleMeetHistory = () => setAreMeetsVisible((curr)=>!curr)
     
     const handleDelete = (e) =>{
-      dispatch(removeFromSession(e.target.parentNode.firstChild.textContent))
+      dispatch(removeFromWatchlist(e.target.parentNode.firstChild.textContent))
     }
     
     return(
@@ -59,7 +59,7 @@ function WatchListAthlete({ name }){
       
         {
           areMeetsVisible && meetHistory ? 
-          renderSessionResults(organizeByNewestDate(meetHistory), meetHistory) 
+          renderWatchlistResults(organizeByNewestDate(meetHistory), meetHistory) 
           :
           ''
         }

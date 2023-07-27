@@ -1,16 +1,17 @@
-import {useState, useEffect} from 'react'
 import MobileNav from './MobileNav'
 import DesktopNav from './DesktopNav'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/authSlice";
+import { useViewport } from '../../hooks/useViewport'
 
 
-const Navbar = ({setIsSidebarOpen}) =>{
+const Navbar = ({setIsSidebarOpen}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { width } = useViewport();
+  
 
   const handleLogout = () => {  
     dispatch(logout())
@@ -20,29 +21,9 @@ const Navbar = ({setIsSidebarOpen}) =>{
     // window.location.href = '/login';
   };
 
-
-
-  const [isMobile, setIsMobile] = useState(()=>{
-    if (window.innerWidth < 720) return true; 
-    return false;
-  })
-    //choose the screen size 
-  const handleResize = () => {
-    if (window.innerWidth < 720) {
-        setIsMobile(true) 
-    }else{
-        setIsMobile(false)
-    }
-  }
-
-    useEffect(() => {
-      window.addEventListener("resize", handleResize)
-    })
-
-
     return(
         <div className='bg-gradient-to-r from-primary-950 to-primary-500 text-white flex justify-around p-4 shadow-md'>
-            {isMobile? 
+            {width < 720 ?
             (<MobileNav setIsSidebarOpen={setIsSidebarOpen} handleLogout={handleLogout}/>) 
             : 
             (<DesktopNav handleLogout={handleLogout}/>)

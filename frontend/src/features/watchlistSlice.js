@@ -1,15 +1,15 @@
-// what does my session slice need to do
-// it needs to add lifter to session
-// remove lifter from session
+// what does my watchlist slice need to do
+// it needs to add lifter to watchlist
+// remove lifter from watchlist
 // get the array of lifters
 
 import { createSlice } from "@reduxjs/toolkit";
 
-export const sessionSlice = createSlice({
-    name: 'session',
+export const watchlistSlice = createSlice({
+    name: 'watchlist',
     initialState: {athletes:[], loading:false, error:null},
     reducers:{
-        addToSession: (state, action)=>{
+        addToWatchlist: (state, action)=>{
             const athlete = action.payload
             if(state.athletes.includes(athlete)){
                 return state
@@ -17,7 +17,7 @@ export const sessionSlice = createSlice({
                 state.athletes.push(athlete)
             }
         },
-        removeFromSession: ( state, action )=>{
+        removeFromWatchlist: ( state, action )=>{
             const newState = state.athletes.filter((el)=>{
                 return el != action.payload
             })
@@ -28,12 +28,12 @@ export const sessionSlice = createSlice({
     
 })
 
-export const {addToSession, removeFromSession} = sessionSlice.actions
+export const {addToWatchlist, removeFromWatchlist} = watchlistSlice.actions
 
 //i dont need this necessarily
-//i can just call useSelector(state=>state.session.athletes where needed)
-export const selectSession = (state) => state.session.athletes;
+//i can just call useSelector(state=>state.watchlist.athletes where needed)
+export const selectWatchlist = (state) => state.watchlist.athletes;
 
-export default sessionSlice.reducer
+export default watchlistSlice.reducer
 
 
