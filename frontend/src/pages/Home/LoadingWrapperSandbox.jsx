@@ -49,6 +49,10 @@ const MyComponent = ({ data })=>{
                     </Link>
                 </li>
             </ul>
+            <div className="m-8 p-2">
+                <Link to={`/about`} className="text-primary-950 hover:text-primary-400 font-bold">Learn More</Link>
+            </div>
+            
         </div>
     )
 }

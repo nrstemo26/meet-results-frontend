@@ -54,6 +54,8 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
           };
       
           xhr.send(JSON.stringify({ athlete: name }));
+        } else {
+          // toast with link to stripe checkout
         }
       };
     

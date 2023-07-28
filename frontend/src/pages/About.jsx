@@ -86,7 +86,7 @@ const About = ({isLoggedIn}) => {
           <li>🤝 Following Lift Oracle & Milwaukee Barbell around the web.</li>
         </ul>
       </div>
-      <p className="ml-8 mt-2 p-2 text-primary-950 leading-loose font-semibold">Cheers!</p>
+      <p className="ml-8 mb-8 mt-2 p-2 text-primary-950 leading-loose font-semibold">Cheers!</p>
     </div>
   )
 };
