@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Spinner } from "../Spinners/Spinner"
 import FeatureRequest from "../../components/Widgets/FeatureRequest"
 import Trending from '../../components/SearchBars/Trending'
+import OracleRatings from "../../components/Widgets/OracleRatings"
 
 function withLoading(Component){
     return function WithLoadingComponent({isLoading, ...props}){
@@ -84,6 +85,7 @@ const HomeComponent = ()=>{
       {/* Trending component will be shown below the WrappedComponent on small screens */}
       <div className="w-full md:w-1/4 mt-8 md:ml-8">
         <Trending />
+        {/* <OracleRatings /> */}
       </div>
       {/* FeatureRequest will be shown on the right side, below the Trending on small screens */}
       <div className="w-full md:w-1/4 mt-8 md:mt-0 md:ml-8">
