@@ -31,6 +31,7 @@ const About = ({isLoggedIn}) => {
       } catch (error) {
         console.error(error);
         setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO`);
+        setAccountEmail('');
         // Handle the error
       }
       console.log(coffeeURL);
@@ -51,7 +52,7 @@ const About = ({isLoggedIn}) => {
           <li>🏋️‍♂️ Historical Results for x,000+ athletes and counting</li>
           <li>💡 Competition results for 4,000+ local and national events.</li>
           <li>🔎 Build session watchlists to compare athletes head-to-head.</li>
-          <li>👩‍💻 Basic and advanced statistics, ilterable by gender, weight class, competition, & beyond.</li>
+          <li>👩‍💻 Basic and advanced statistics by athlete, competition, & beyond.</li>
         </ul>
       </div>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">If you'd like to support current and future development of this project, consider upgrading to our Lift Oracle Pro tier. For the cost of one latte per month, Pro-tier members can take advantage of the following features:</p>
@@ -63,12 +64,12 @@ const About = ({isLoggedIn}) => {
           </ul>
           <div>
               
-              {accountEmail && (<stripe-buy-button
+              <stripe-buy-button
                   buy-button-id="buy_btn_0NTsunUiMszhBUnlaOwffE0u"
                   publishable-key="pk_test_uEKFcjNO1MXNGCbFWJK1eymn"
                   customer-email={accountEmail}
                   >
-              </stripe-buy-button>)}
+              </stripe-buy-button>
           </div>
       </div>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">You can also support Lift Oracle by:</p>
