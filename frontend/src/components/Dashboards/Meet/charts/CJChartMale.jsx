@@ -31,7 +31,8 @@ function CJChartMale () {
             {
                 label: "Miss",
                 backgroundColor:'#FD806A',
-                data: misses
+                data: misses,
+                pointRadius: 4
             }
         ]
     }

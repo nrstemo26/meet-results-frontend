@@ -31,7 +31,8 @@ function MeetTotalsChart () {
             {
                 label: "Women",
                 backgroundColor:'#FD806A',
-                data: femaleTotals
+                data: femaleTotals,
+                pointRadius: 4
             }
         ]
     }

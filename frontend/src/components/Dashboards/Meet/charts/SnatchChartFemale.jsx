@@ -31,7 +31,8 @@ function SnatchChartFemale () {
             {
                 label: "Miss",
                 backgroundColor:'#FD806A',
-                data: misses
+                data: misses,
+                pointRadius: 4
             }
         ]
     }

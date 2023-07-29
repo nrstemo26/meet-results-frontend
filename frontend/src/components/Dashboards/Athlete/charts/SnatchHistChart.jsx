@@ -13,23 +13,27 @@ function SnatchHistChart(){
         datasets:[
             {
                 label:'make',
-                backgroundColor:'rgba(0, 150, 255)',
+                backgroundColor:'#069af3',
                 data: Object.keys(chart["Snatch"].Make).map((el)=>{
                     return {
                     x: new Date(chart["Snatch"].Make[el][0]),
-                    y: chart["Snatch"].Make[el][1]
+                    y: chart["Snatch"].Make[el][1],
+                    label: chart["Snatch"].Make[el][2]
                     }
-                })
+                }),
+                pointRadius: 4
             },
             {
                 label:'miss',
-                backgroundColor:'rgba(255, 0, 0)',
+                backgroundColor:'#FD806A',
                 data:  Object.keys(chart["Snatch"].Miss).map((el)=>{
                     return {
                       x: new Date(chart["Snatch"].Miss[el][0]),
-                      y: chart["Snatch"].Miss[el][1]
+                      y: chart["Snatch"].Miss[el][1],
+                      label: chart["Snatch"].Miss[el][2]
                     }
-                })
+                }),
+                pointRadius: 4
             },
 
         ]
@@ -45,6 +49,19 @@ function SnatchHistChart(){
             legend:{
                 position: 'bottom'
             },
+            tooltip:{
+                callbacks: {
+                    title: function(context) {
+                        // console.log(context)
+                    },
+                    beforeLabel: function (context) {
+                        return `${context.raw.label}`;
+                    },
+                    label: function (context) {
+                        return `Snatch: ${context.parsed.y}kg`;
+                    },
+                }
+            }
         },
         scales: {
             x: {

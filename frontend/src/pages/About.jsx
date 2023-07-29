@@ -59,7 +59,7 @@ const About = ({isLoggedIn}) => {
       <div className="m-8">
         <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
             <li>💾 Build and save unlimited watchlists. Keep the competition at your fingertips.</li>
-            <li>📲 Export watchlists and statistics to Excel. Step up your meet coaching and get an edge on the rest of your session.</li>
+            <li>📲 Export watchlists and athlete statistics to Excel or Google Sheets. Step up your meet coaching and get an edge on the rest of your session.</li>
             <li>🏗️ & many more to come...</li>
           </ul>
           <div>

@@ -11,24 +11,28 @@ function CjHistChart(){
     const cjHistoryData = {
         datasets:[
             {
-                label:'make',
-                backgroundColor:'rgba(0, 150, 255)',
+                label:'Make',
+                backgroundColor:'#069af3',
                 data: Object.keys(chart["Clean & Jerk"].Make).map((el)=>{
                     return {
                     x: new Date(chart["Clean & Jerk"].Make[el][0]),
-                    y: chart["Clean & Jerk"].Make[el][1]
+                    y: chart["Clean & Jerk"].Make[el][1],
+                    label: chart["Clean & Jerk"].Make[el][2]
                     }
-                })
+                }),
+                pointRadius: 4
             },
             {
-                label:'miss',
-                backgroundColor:'rgba(255, 0, 0)',
+                label:'Miss',
+                backgroundColor:'#FD806A',
                 data:  Object.keys(chart["Clean & Jerk"].Miss).map((el)=>{
                     return {
                       x: new Date(chart["Clean & Jerk"].Miss[el][0]),
-                      y: chart["Clean & Jerk"].Miss[el][1]
+                      y: chart["Clean & Jerk"].Miss[el][1],
+                      label: chart["Clean & Jerk"].Miss[el][2]
                     }
-                })
+                }),
+                pointRadius: 4
             },
 
         ]
@@ -44,6 +48,19 @@ function CjHistChart(){
             legend:{
                 position: 'bottom'
             },
+            tooltip:{
+                callbacks: {
+                    title: function(context) {
+                        // console.log(context)
+                    },
+                    beforeLabel: function (context) {
+                        return `${context.raw.label}`;
+                    },
+                    label: function (context) {
+                        return `C&J: ${context.parsed.y}kg`;
+                    },
+                }
+            }
         },
         scales: {
             x: {
