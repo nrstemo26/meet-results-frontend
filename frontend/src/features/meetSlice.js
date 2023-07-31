@@ -42,14 +42,13 @@ export const getAllMeets = createAsyncThunk(
         //can get any chunk of the state
         //thunkAPI.getState().sliceofstate.propname.propname
        
-        // const config = {
-        //   params:{
-        //     name: data.name ,
-        //     page: data.page ,
-        //     pageSize: data.pageSize ,
-        //   }
-        // }
-        const response = await axios.get(`${apiUrl}/meets/recent`)
+        const config = {
+          params:{
+            page: data.page ,
+            pageSize: data.pageSize ,
+          }
+        }
+        const response = await axios.get(`${apiUrl}/meets/recent`, config)
         console.log(response.data)
         return response.data;
       }catch(error){
