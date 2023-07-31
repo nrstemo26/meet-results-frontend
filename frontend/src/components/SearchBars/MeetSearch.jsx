@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
-import { getAllMeets } from "../../features/meetSlice";
+import { getAllMeets, getMeetTable } from "../../features/meetSlice";
 import MeetList from "./MeetList"
 import SearchBar from "./SearchBar"
 
@@ -20,7 +20,7 @@ function MeetSearch(){
       }
       // const athletes = (await dispatch(getAllAthletes(data))).payload
       const meets = (await dispatch(getAllMeets(data))).payload.data
-      setMeets(meets);
+      setMeets(meets); // amend this to include date?
     };
 
     fetchUsers();
