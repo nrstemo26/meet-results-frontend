@@ -4,12 +4,13 @@ import axios from 'axios'
 
 
 const athleteUrl = baseUrl + '/api/v1/'
-// const baseUrl = 'http://192.168.0.108:5000/api/v1/'
 
 
 
 const initialState = {
   data: null, 
+  searchAthletes: [],
+  trendingAthletes: [],
   isLoading: false,
   isError: null,
   message: ''
@@ -42,7 +43,6 @@ export const getAllAthletes = createAsyncThunk(
       //thunkapi has a function that 
       //can get any chunk of the state
       //thunkAPI.getState().sliceofstate.propname.propname
-     
       const config = {
         params:{
           name: data.name ,
@@ -51,8 +51,8 @@ export const getAllAthletes = createAsyncThunk(
         }
       }
       const response = await axios.get(athleteUrl + 'athletes', config)
-      
-      return response.data;
+      //depending on version a data may need to be removed
+      return response.data.data;
     }catch(error){
       console.log(error)
     }
@@ -69,14 +69,13 @@ export const getTrendingAthletes = createAsyncThunk(
         }
       }
       const response = await axios.get(athleteUrl + 'trending_athletes', config)
-      return response.data;
+      //depending on version a data may need to be removed
+      return response.data.data;
     }catch(error){
       console.log(error)
     }
   }
 )
-
-
 
 
 export const athleteSlice = createSlice({
@@ -101,41 +100,23 @@ export const athleteSlice = createSlice({
             state.isError = true;
             state.error = action.error.message;
           })
-          // .addCase(getAllAthletes.pending, (state) => {
-          //   state.isLoading = true;
-          //   state.isError = false;
-          //   state.isSuccess = false
-          // })
-          // .addCase(getAllAthletes.fulfilled, (state, action) => {
-          //   state.isLoading = false;
-          //   state.isSuccess = true;
-          //   state.isError = false;
-          //   state.data = action.payload;
-          // })
-          // .addCase(getAllAthletes.rejected, (state, action) => {
-          //   state.isLoading = false;
-          //   state.isError = true;
-          //   state.error = action.error.message;
-          // })
-          // .addCase(getTrendingAthletes.pending, (state) => {
-          //   state.isLoading = true;
-          //   state.isError = false;
-          //   state.isSuccess = false
-          // })
-          // .addCase(getTrendingAthletes.fulfilled, (state, action) => {
-          //   state.isLoading = false;
-          //   state.isSuccess = true;
-          //   state.isError = false;
-          //   state.data = action.payload;
-          // })
-          // .addCase(getTrendingAthletes.rejected, (state, action) => {
-          //   state.isLoading = false;
-          //   state.isError = true;
-          //   state.error = action.error.message;
-          // })
+          .addCase(getAllAthletes.fulfilled, (state, action) => {
+            state.searchAthletes = action.payload;
+          })
+          .addCase(getTrendingAthletes.fulfilled, (state, action) => {
+            state.trendingAthletes = action.payload;
+          })
       },
 })
 
 
 export default athleteSlice.reducer
 
+
+//ty notes
+//const onDashboardLoad = () => {
+  // dispatch action 1
+  // dispatch action 2
+  // dispatch action 3
+  // dispatch action  4
+//}
