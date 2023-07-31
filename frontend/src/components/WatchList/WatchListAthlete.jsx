@@ -64,7 +64,7 @@ function WatchListAthlete({ name }){
           ''
         }
         
-        <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-4 text-primary-950 border-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-500 hover:text-white hover:border-transparent'>Athlete Page</Link>
+        <Link to={`/api/v1/athlete/${name}`} className='btn border-2 p-1 m-4 text-primary-950 border-primary-950 hover:bg-gradient-to-r hover:from-primary-950 hover:to-primary-400 hover:text-white hover:border-transparent'>Athlete Page</Link>
       </div>
     )
   }

@@ -9,62 +9,71 @@ import watermark from '../../../../assets/avatar_face_navy.png'
 
 
 function AllLiftsChart(){
-    const {data: { chart_data: {attempt_history_chart: chart} } } = useSelector((state)=>state.athlete)
-    let snMakes = getHighestMake(chart["Snatch"].Make)
-    let cjMakes = getHighestMake(chart["Clean & Jerk"].Make)
-   
-    const filteredSnMakes = filterLift(snMakes, cjMakes)
-    const filteredCJMakes = filterLift(cjMakes, filteredSnMakes)
+    const {data: { chart_data:  chart}  } = useSelector((state)=>state.athlete)
+    // let snMakes = getHighestMake(chart.attempt_history_chart["Snatch"].Make)
+    // let cjMakes = getHighestMake(chart.attempt_history_chart["Clean & Jerk"].Make)
+    // const filteredSnMakes = filterLift(snMakes, cjMakes)
+    // const filteredCJMakes = filterLift(cjMakes, filteredSnMakes)
 
-    const totalData = createChartTotals(filteredSnMakes, filteredCJMakes)
+    // const totalData = createChartTotals(filteredSnMakes, filteredCJMakes)
+    const totals = chart.totals_chart.map((subArray) => ({
+        x: new Date(subArray[1]), 
+        y: subArray[3],
+        label: subArray[0],
+        bw: subArray[2]
+    }));
 
     const historyData = {
         datasets:[
             {
-                label:'total' ,
+                label:'Total' ,
                 backgroundColor:'#069af3',
-                data: totalData,
+                data:  totals,
                 pointRadius: 4,
                 
             },
             {
-                label:'cj make',
+                label:'C&J Make',
                 backgroundColor:'#00ad43',
-                data: Object.keys(chart["Clean & Jerk"].Make).map((el)=>{
+                data: Object.keys(chart.attempt_history_chart["Clean & Jerk"].Make).map((el)=>{
                     return {
-                    x: new Date(chart["Clean & Jerk"].Make[el][0]),
-                    y: chart["Clean & Jerk"].Make[el][1]
+                    x: new Date(chart.attempt_history_chart["Clean & Jerk"].Make[el][0]),
+                    y: chart.attempt_history_chart["Clean & Jerk"].Make[el][1],
+                    label: chart.attempt_history_chart["Clean & Jerk"].Make[el][2]
                     }
                 }),
                 pointRadius: 4
             },
             {
-                label:'cj miss',
+                label:'C&J Miss',
                 backgroundColor:'#fd411e',
-                data:  Object.keys(chart["Clean & Jerk"].Miss).map((el)=>{
+                data:  Object.keys(chart.attempt_history_chart["Clean & Jerk"].Miss).map((el)=>{
                     return {
-                      x: new Date(chart["Clean & Jerk"].Miss[el][0]),
-                      y: chart["Clean & Jerk"].Miss[el][1]
+                      x: new Date(chart.attempt_history_chart["Clean & Jerk"].Miss[el][0]),
+                      y: chart.attempt_history_chart["Clean & Jerk"].Miss[el][1],
+                      label: chart.attempt_history_chart["Clean & Jerk"].Miss[el][2]
                     }
                 })
             },{
-                label:'sn make',
+                label:'Snatch Make',
                 backgroundColor:'#4BFA8E',
-                data: Object.keys(chart["Snatch"].Make).map((el)=>{
+                data: Object.keys(chart.attempt_history_chart["Snatch"].Make).map((el)=>{
                     return {
-                    x: new Date(chart["Snatch"].Make[el][0]),
-                    y: chart["Snatch"].Make[el][1]
+                    x: new Date(chart.attempt_history_chart["Snatch"].Make[el][0]),
+                    y: chart.attempt_history_chart["Snatch"].Make[el][1],
+                    label: chart.attempt_history_chart["Snatch"].Make[el][2]
                     }
                 }),
                 pointRadius: 4
             },
             {
-                label:'sn miss',
+                label:'Snatch Miss',
                 backgroundColor:'#FD806A',
-                data:  Object.keys(chart["Snatch"].Miss).map((el)=>{
+                data:  Object.keys(chart.attempt_history_chart["Snatch"].Miss).map((el)=>{
                     return {
-                      x: new Date(chart["Snatch"].Miss[el][0]),
-                      y: chart["Snatch"].Miss[el][1]
+                      x: new Date(chart.attempt_history_chart["Snatch"].Miss[el][0]),
+                      y: chart.attempt_history_chart["Snatch"].Miss[el][1],
+                      label: chart.attempt_history_chart["Snatch"].Miss[el][2]
                     }
                 }),
                 pointRadius: 4
@@ -84,6 +93,22 @@ function AllLiftsChart(){
             legend:{
                 position: 'bottom'
             },
+            tooltip:{
+                callbacks: {
+                    title: function(context) {
+                        // console.log(context)
+                    },
+                    beforeLabel: function (context) {
+                        return `${context.raw.label}`;
+                    },
+                    label: function (context) {
+                        return `Weight: ${context.parsed.y}kg`;
+                    },
+                    afterLabel: function (context) {
+                        return `BW: ${context.raw.bw}kg`;
+                    }
+                }
+            }
         },
         scales: {
             x: {

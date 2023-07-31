@@ -1,10 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { baseUrl } from '../config'
 import axios from 'axios'
 
-const baseUrl = 'http://192.168.86.27:5000/api/v1/'
-// const baseUrl = 'http://192.168.1.139:5000/api/v1/'
-// const baseUrl = 'http://98.144.49.136:5000/api/v1/'
-
+const apiUrl = baseUrl + '/api/v1/'
+const initialState = {
+  data: null, 
+  isLoading: false,
+  isError: null,
+  message: ''
+}
 
 export const getAllMeets = createAsyncThunk(
     'meets',
@@ -21,10 +25,61 @@ export const getAllMeets = createAsyncThunk(
             pageSize: data.pageSize ,
           }
         }
-        const response = await axios.get(baseUrl + 'meets', config)
+        const response = await axios.get(`${apiUrl}/meets`, config)
         return response.data;
       }catch(error){
         console.log(error)
       }
     }
   )
+
+
+export const getMeet = createAsyncThunk(
+    'meet',
+    async(name, thunkAPI) => {
+        try{
+            const token = localStorage.getItem('token');
+            const response =  await axios.post(`${apiUrl}meet/?Meet=${name}`, { token } )
+            console.log(response.data)
+            return response.data
+
+        }catch(error){
+          const message = (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+            error.message ||
+          error.toString()
+    
+          return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+
+export const meetSlice = createSlice({ 
+  name: "meet",
+  initialState,
+  reducers:{},
+  extraReducers: (builder) => {
+      builder
+        .addCase(getMeet.pending, (state) => {
+          state.isLoading = true;
+          // state.isError = false;
+          // state.isSuccess = false
+        })
+        .addCase(getMeet.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.isError = false;
+          state.data = action.payload;
+        })
+        .addCase(getMeet.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.error = action.error.message;
+        })
+    }
+})
+
+
+export default meetSlice.reducer

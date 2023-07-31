@@ -6,7 +6,7 @@ const MeetList = ({ meets }) => {
 
   const nameToQueryString = (str) =>{
     let queryString = str.split(/\s+/).join('%20')
-    return `?Meet=${queryString}`
+    return `${queryString}`
   }
   
    const handleClick = (e) =>{

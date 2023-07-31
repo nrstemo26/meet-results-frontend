@@ -1,57 +1,75 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from 'react-redux'
-import { getAllMeets } from "../../../features/meetSlice";
-import MeetList from "../../SearchBars/MeetList"
-import MeetChart from "./MeetChart";
-import TopSinclairs from "./TopSinclairs";
 import Insights from './Insights'
-import SearchBar from "../../SearchBars/SearchBar";
+import TopSinclairs from "./TopSinclairs";
+// import AllTotals from "./AllTotals";
+import { Spinner } from '../../../pages/Spinners/Spinner';
+import { Error } from '../../../pages/Error';
+
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getMeet } from '../../../features/meetSlice'
+import ChartWrapper from './ChartWrapper';
 
 
-function MeetDashboard(){
-  const dispatch = useDispatch()
-  const [meets, setMeets] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      //page and pageSize could be added to components if wanted
-      const data = {
-        name: searchQuery,
-        page: 1,
-        pageSize: 20,
+const MeetDashboard = () => {
+  const [requestSent, setRequestSent] = useState(false)
+  const dispatch = useDispatch();
+  const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.meet )
+  
+  useEffect(()=>{
+    if(isError){
+      console.log('there is an error')
+    }
+    const getMeetData = async()=>{
+      const urlArray = window.location.pathname.split('/')
+      const meetName = urlArray[urlArray.length - 1]
+      if(meetName != 'meets'){
+        console.log('getting meet')
+        dispatch(getMeet(meetName))
       }
-      // const athletes = (await dispatch(getAllAthletes(data))).payload
-      const meets = (await dispatch(getAllMeets(data))).payload.data
-      setMeets(meets);
-    };
 
-    fetchUsers();
-    //dependency array needs to have page in there if pagination is needed
-  }, [dispatch, searchQuery]);
+    }
+    if(!requestSent){
+      getMeetData()
+      setRequestSent(true)
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
+    }
+  },[dispatch, isError, isSuccess, message, requestSent])
+  
+  if(isLoading){
+    return <Spinner/>
+  }
+  if(isError){
+    return <Error/>
+  }
 
-  return (
-      <div className="dashboard-container">
-        <SearchBar onSearch={handleSearch} placeholderText={"Start typing an competition by year or name..."}/>
-        {searchQuery.length > 0 ? 
-        <MeetList meets={meets} />
-        : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"></div>}
-        <div className="bg-secondary-500 p-5 rounded-xl">
-          <h1 className="text-center text-orange-100 text-3xl font-medium">Dashboard: 2016 Dummy Meet Open</h1>
-          <MeetChart ></MeetChart>
+    return (
+      
+      <div className='dashboard-container'>
+          <div className='bg-secondary-500 p-5 rounded-xl'>
+            <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{data ? data['headline']['_metadata']['Meet'] : 'loading'}</h1>
+            {
+              data?
+              (<ChartWrapper/>):
+              'nothing'
+            }
+          </div>
+
+        
+        <div className="my-2 flex flex-wrap gap-2 justify-evenly">
+          { data ?
+          (
+            <>
+              <TopSinclairs />
+              <Insights />
+            </>
+          ):
+          'no data'
+          }
         </div>
-
-      <div className="my-2 flex flex-row flex-wrap gap-2 ">
-        <TopSinclairs></TopSinclairs>
-        <Insights className='flex-auto'></Insights>
-        <Insights className='flex-auto'></Insights>
       </div>
-      </div>
-  )
-}
-
-export default MeetDashboard;
+    )
+  }
+  
+  export default MeetDashboard;
+  

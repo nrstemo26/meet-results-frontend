@@ -15,7 +15,7 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
       <Link onClick={toggleMenu} to='/api/v1/athletes'><div className='sidebar-element'>Lifters</div></Link>
       <Link onClick={toggleMenu} to='/api/v1/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
       <Link onClick={toggleMenu} to='/api/v1/insights'><div className='sidebar-element'>Insights</div></Link>
-      <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About Us</div></Link>
+      <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About</div></Link>
       {user ? (
         <>
           <Link onClick={toggleMenu} to="/account"><div className="sidebar-element">Account</div></Link>

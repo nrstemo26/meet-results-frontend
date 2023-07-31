@@ -24,7 +24,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [requestSent, setRequestSent] = useState(false)
   const watchlist = useSelector((state) => state.watchlist.athletes)
-  
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
 
   const [inWatchlist, setInWatchlist]= useState(()=>{
@@ -51,6 +50,7 @@ const Dashboard = () => {
       }
       setInWatchlist(state=> !state)
   }
+  
   
   useEffect(() => {
     if(isError){
@@ -92,7 +92,7 @@ const Dashboard = () => {
             </h1> */}
             {
               data?
-              (<ChartWrapper toggleWatchlist={toggleWatchlist} inWatchlist={inWatchlist}/>):
+              (<ChartWrapper toggleWatchlist={toggleWatchlist} inWatchlist={inWatchlist} name={data['_athlete_id']}/>):
               <div>nothing</div>
             }
 

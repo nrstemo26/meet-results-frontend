@@ -1,54 +1,54 @@
-import { Chart, Scatter } from 'react-chartjs-2'
+import { Chart } from 'react-chartjs-2'
 import { Chart as ChartJS } from 'chart.js/auto'
-import {useSelector } from  'react-redux'
-import 'chartjs-adapter-date-fns'; 
+import { useSelector } from  'react-redux'
 import ChartjsPluginWatermark from 'chartjs-plugin-watermark'
-import { enUS } from 'date-fns/locale';
-import watermark from '../../../../assets/avatar_face_navy.png' 
+import watermark from '../../../../assets/avatar_face_navy.png'
 
-function CjHistChart(){
-    const {data: { chart_data: {attempt_history_chart: chart} } } = useSelector((state)=>state.athlete)
-    const cjHistoryData = {
+
+function SnatchChartMale () {
+    const {data: chart } = useSelector((state)=>state.meet)
+
+    const makes = chart.mens.chart_data.attempt_history_chart["Snatch"].Make.map((subArray) => ({
+        x: subArray[1], 
+        y: subArray[2],
+        label: subArray[0] 
+    }));
+
+    const misses = chart.mens.chart_data.attempt_history_chart["Snatch"].Miss.map((subArray) => ({
+        x: subArray[1], 
+        y: subArray[2], 
+        label: subArray[0] 
+    }));
+
+    const totalsData = {
         datasets:[
             {
-                label:'Make',
+                label: "Make",
                 backgroundColor:'#069af3',
-                data: Object.keys(chart["Clean & Jerk"].Make).map((el)=>{
-                    return {
-                    x: new Date(chart["Clean & Jerk"].Make[el][0]),
-                    y: chart["Clean & Jerk"].Make[el][1],
-                    label: chart["Clean & Jerk"].Make[el][2]
-                    }
-                }),
+                data: makes,
                 pointRadius: 4
             },
             {
-                label:'Miss',
+                label: "Miss",
                 backgroundColor:'#FD806A',
-                data:  Object.keys(chart["Clean & Jerk"].Miss).map((el)=>{
-                    return {
-                      x: new Date(chart["Clean & Jerk"].Miss[el][0]),
-                      y: chart["Clean & Jerk"].Miss[el][1],
-                      label: chart["Clean & Jerk"].Miss[el][2]
-                    }
-                }),
+                data: misses,
                 pointRadius: 4
-            },
-
+            }
         ]
     }
+
     const options =  {
         responsive : true, 
         maintainAspectRatio : false,
         plugins:{
             title:{
                 display: true,
-                text: "Clean & Jerk Attempts",
+                text: "Male Snatch Attempts",
             },
             legend:{
                 position: 'bottom'
             },
-            tooltip:{
+            tooltip: {
                 callbacks: {
                     title: function(context) {
                         // console.log(context)
@@ -57,21 +57,19 @@ function CjHistChart(){
                         return `${context.raw.label}`;
                     },
                     label: function (context) {
-                        return `C&J: ${context.parsed.y}kg`;
+                        return `Snatch: ${context.parsed.y}kg`;
                     },
+                    afterLabel: function (context) {
+                        return `BW: ${context.parsed.x}kg`;
+                    }
                 }
             }
         },
         scales: {
             x: {
-                type: 'time',
-                time: {
-                    unit: 'month'
-                },
-                adapters:{
-                    date: {
-                        locale: enUS
-                    }
+                title: {
+                    display: true,
+                    text: 'Bodyweight (kg)'
                 }
             },
             y: {
@@ -96,16 +94,14 @@ function CjHistChart(){
   
         }
     }
-    
 
     ChartJS.register(ChartjsPluginWatermark);
-    
+
     return (
         <div className="chart-wrapper">
-            <Chart  type="scatter" data={cjHistoryData}  options={options}/>
+            <Chart  type="scatter" data={totalsData}  options={options}/>
         </div>
     )
 }
 
-export default CjHistChart;
-
+export default SnatchChartMale;
