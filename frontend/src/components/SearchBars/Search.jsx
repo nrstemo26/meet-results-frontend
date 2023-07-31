@@ -7,12 +7,15 @@ import PropTypes from 'prop-types';
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
 import Trending from './Trending'
-
+import { useSelector } from "react-redux";
 
 const Search = ({ isWatchlist }) => {
   const dispatch = useDispatch()
-  const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  //if this is a search bar for a meet this will be broken because we need to get meet info
+  const searchAthletes = useSelector((state)=> state.athlete.searchAthletes )
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -22,16 +25,12 @@ const Search = ({ isWatchlist }) => {
         page: 1,
         pageSize: 20,
       }
-      const athletes = (await dispatch(getAllAthletes(data))).payload.data
-      
-      // const athletes = (await dispatch(getAllAthletes(data))).payload
-      // const athletes = (await dispatch(getAllAthletes(data))).payload.data
-      setUsers(athletes);
+      await dispatch(getAllAthletes(data))
     };
 
     fetchUsers();
-    //dependency array needs to have page in there if pagination is needed
-  }, [dispatch, searchQuery]);
+    //dependency array needs to have page if pagination is needed
+  }, [ searchQuery]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -42,9 +41,12 @@ const Search = ({ isWatchlist }) => {
         <div className="text-center">
             <SearchBar onSearch={handleSearch} />
             {searchQuery.length > 0 ? 
-            <UserList users={users} isWatchlist={isWatchlist}  />
+            <UserList users={searchAthletes} isWatchlist={isWatchlist}  />
             : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"><Trending  isWatchlist={isWatchlist} /></div>}
         </div>
+        //     <UserList users={users} isWatchlist={isWatchlist}  />
+        //     : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"><Trending  isWatchlist={isWatchlist} /></div>}
+        // </div>
     )
   }
   
