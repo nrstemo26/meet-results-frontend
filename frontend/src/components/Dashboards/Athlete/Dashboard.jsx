@@ -19,12 +19,15 @@ import WatchlistBtn from './WatchlistBtn';
 import WatchlistIcon from './WatchlistIcon';
 
 
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [requestSent, setRequestSent] = useState(false)
   const watchlist = useSelector((state) => state.watchlist.athletes)
-  
+  //ty notes
+  // const 1 = useSelector((state) => state.dashboard)
+
+
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
 
   const [inWatchlist, setInWatchlist]= useState(()=>{
@@ -33,7 +36,7 @@ const Dashboard = () => {
     return watchlist.includes(name)
   })
 
-  const toggleWatchlist = async () =>{
+  const toggleWatchlist = async () => {
     const name = data['_athlete_id']
       const toastOptions = {
         autoClose:3000,
@@ -52,30 +55,43 @@ const Dashboard = () => {
       setInWatchlist(state=> !state)
   }
   
+
+  //get user data once
+  useEffect(() => {
+      const getUserData = async ()=>{
+        const urlArray = window.location.pathname.split('/')
+        const athleteName = urlArray[urlArray.length - 1]
+        if(athleteName != 'athletes'){
+          console.log('getting athlete')
+          await dispatch(getAthlete(athleteName))
+        }
+        // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
+        
+        
+        // setId(_athlete_id)
+        // setMeetHistory(meet_history)
+        // setStats(stats)
+      }
+      getUserData();
+    },[])
+    
+
+  //ty notes
+  // UseEffect(() => {
+  //   // on page load
+  //   onAthletePageLoad()
+  // },[])
+  
+
+  //error handling
   useEffect(() => {
     if(isError){
       console.log('there is an error')
     }
-    const getUserData = async()=>{
-      const urlArray = window.location.pathname.split('/')
-      const athleteName = urlArray[urlArray.length - 1]
-      if(athleteName != 'athletes'){
-        console.log('getting athlete')
-        dispatch(getAthlete(athleteName))
-      }
-      // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
-      
-      
-      // setId(_athlete_id)
-      // setMeetHistory(meet_history)
-      // setStats(stats)
-    }
-    if(!requestSent){
-      getUserData()
-      setRequestSent(true)
-    }
-  },[dispatch, isError, isSuccess, message, requestSent])
+  },[isError, isSuccess, message])
   
+
+
   if(isLoading){
     return <Spinner/>
   }
