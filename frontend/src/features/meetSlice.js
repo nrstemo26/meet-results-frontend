@@ -49,7 +49,6 @@ export const getAllMeets = createAsyncThunk(
           }
         }
         const response = await axios.get(`${apiUrl}/meets/recent`, config)
-        console.log(response.data)
         return response.data;
       }catch(error){
         console.log(error)
@@ -64,7 +63,6 @@ export const getMeet = createAsyncThunk(
         try{
             const token = localStorage.getItem('token');
             const response =  await axios.post(`${apiUrl}meet/?Meet=${name}`, { token } )
-            console.log(response.data)
             return response.data
 
         }catch(error){

@@ -11,7 +11,7 @@ const RequestReset = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(baseUrl + '/user/reset-request', { email: email });
+      const response = await axios.post(baseUrl + '/api/v1/user/reset-request', { email: email });
       console.log(response.data); // Handle the response as needed
       toast.success(response.data.message);
     

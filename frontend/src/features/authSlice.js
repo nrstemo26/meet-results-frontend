@@ -3,7 +3,7 @@ import axios from 'axios'
 import { baseUrl } from '../config'
 
 
-const API_URL = baseUrl + '/user/'
+const API_URL = baseUrl + '/api/v1/user/'
 
 // const user = JSON.parse(localStorage.getItem('user'))
 const user = localStorage.getItem('token')
@@ -81,7 +81,7 @@ export const register = createAsyncThunk(
     try {
       const token = localStorage.getItem('token')
       if(token){
-        const res = await axios.post(`${baseUrl}/user/verify-token`, {token})
+        const res = await axios.post(`${API_URL}verify-token`, {token})
         const { valid } = res.data;
         
         //consider user already logged in
