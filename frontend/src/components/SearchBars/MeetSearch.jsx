@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
-import { getAllMeets, getMeetTable } from "../../features/meetSlice";
+import { getAllMeets } from "../../features/meetSlice";
 import MeetList from "./MeetList"
 import SearchBar from "./SearchBar"
+import MeetTable from "../../components/Widgets/MeetTable"
 
 
 function MeetSearch(){
@@ -36,7 +37,7 @@ function MeetSearch(){
         <SearchBar onSearch={handleSearch} placeholderText={"Start typing an competition by year or name..."}/>
         {searchQuery.length > 0 ? 
         <MeetList meets={meets} />
-        : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"></div>}
+        : <div className="shadow-lg text-left"><MeetTable /></div>}
       </div>
   )
 }
