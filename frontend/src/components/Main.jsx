@@ -39,15 +39,15 @@ return (
       <Routes>
           <Route path="*" element={<NotFound/>}/>
           {/* this route will need to change...needs an id? */}
-          <Route path="/api/v1/watchlist" element={<WatchList />} />
-          <Route path="/api/v1/athletes" element={<Search/>}/>
-          <Route path="/api/v1/athlete/:id" element={<AthleteDashboard/>}/>
+          <Route path="/watchlist" element={<WatchList />} />
+          <Route path="/athletes" element={<Search/>}/>
+          <Route path="/athlete/:id" element={<AthleteDashboard/>}/>
           
-          <Route path="/api/v1/meets" element={<MeetSearch/>}/>
-          <Route path="/api/v1/meet/:id" element={<MeetDashboard/>}/>
+          <Route path="/meets" element={<MeetSearch/>}/>
+          <Route path="/meet/:id" element={<MeetDashboard/>}/>
           
 
-          <Route path="/api/v1/insights"  element={<Insights/>}/>
+          <Route path="/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/reset-request" element={<ResetRequest/>}/>

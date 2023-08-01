@@ -11,10 +11,10 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
     <div className="absolute z-40 top-0 left-0 h-[120vh] w-full m-0 flex flex-col gap-3 bg-white text-black shadow-lg overflow-hidden text-primary-950">
       <FiX className="cursor-pointer self-end mt-4 mr-4" size={30} color= "black" onClick={toggleMenu}/>
       <Link onClick={toggleMenu} to='/'><div className='sidebar-element'>Home</div></Link>
-      <Link onClick={toggleMenu} to='/api/v1/meets'><div className='sidebar-element'>Meets</div></Link>
-      <Link onClick={toggleMenu} to='/api/v1/athletes'><div className='sidebar-element'>Lifters</div></Link>
-      <Link onClick={toggleMenu} to='/api/v1/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
-      <Link onClick={toggleMenu} to='/api/v1/insights'><div className='sidebar-element'>Insights</div></Link>
+      <Link onClick={toggleMenu} to='/meets'><div className='sidebar-element'>Meets</div></Link>
+      <Link onClick={toggleMenu} to='/athletes'><div className='sidebar-element'>Lifters</div></Link>
+      <Link onClick={toggleMenu} to='/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
+      <Link onClick={toggleMenu} to='/insights'><div className='sidebar-element'>Insights</div></Link>
       <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About</div></Link>
       {user ? (
         <>

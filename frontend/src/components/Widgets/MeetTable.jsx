@@ -50,7 +50,7 @@ function MeetTable() {
           {meets.map(([meet, date]) => (
             <tr key={meet} className="text-gray-700 hover:text-primary-400">
               <td className="px-1 sm:px-4 py-1">
-                <Link to={`/api/v1/meet/${nameToQueryString(meet)}`} className="text-gray-700 hover:text-primary-400">
+                <Link to={`/meet/${nameToQueryString(meet)}`} className="text-gray-700 hover:text-primary-400">
                   {meet}
                 </Link>
               </td>
