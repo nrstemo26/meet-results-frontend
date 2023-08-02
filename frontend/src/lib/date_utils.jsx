@@ -1,16 +1,27 @@
 
+function formatDate(inputDateStr) {
+    const inputDate = new Date(inputDateStr);
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+    const formattedDate = inputDate.toLocaleDateString('en-US', options);
+  
+    return formattedDate;
+}
 
 export const organizeByOldestDate = (meetHistory) =>{
     return [...Object.keys(meetHistory)].sort((a,b)=>{
         return new Date(meetHistory[a]['Date']) > new Date(meetHistory[b]['Date'])
     })
 }
+
 export const organizeByNewestDate = (meetHistory) =>{
     return [...Object.keys(meetHistory)].sort((a,b)=>{
         return new Date(meetHistory[a]['Date']) < new Date(meetHistory[b]['Date'])
     })
 }
-
 
 export const renderWatchlistResults = (arr, meetHistory) => {
     return arr.map((meet,index)=>{
@@ -18,11 +29,11 @@ export const renderWatchlistResults = (arr, meetHistory) => {
             return 
         }else{
         let meetData = meetHistory[meet]
-        let [day, month, year] = meetData["Date"].split(' ').slice(1,4)
+        const formattedDateStr = formatDate(meetData["Date"]);
         return (
         <div className="flex justify-evenly gap-2 border text-gray-700 border-primary-950 p-1 my-2" key={meet}>    
             <div>
-                <div>{month}/{day}/{year}</div>
+                <div>{formattedDateStr}</div>
                 <div className="font-semibold text-primary-950">Best Lifts</div>
                 <div className="font-mono text-primary-950 text-xs md:text-base border bg-gradient-to-r from-primary-200 to-primary-50 border-primary-950 p-1 border-1 rounded-lg">{meetData["Best Snatch"]} / {meetData["Best C&J"]} / {meetData["Total"]}</div>
             </div>
@@ -45,10 +56,10 @@ export const renderWatchlistResults = (arr, meetHistory) => {
 export const renderTotalResults = (arr, meetHistory) => {
     return arr.map((meet)=>{
         let meetData = meetHistory[meet]
-        let [day, month, year] = meetData["Date"].split(' ').slice(1,4)
+        const formattedDateStr = formatDate(meetData["Date"]);
         return (
         <>    
-            <h1 className="text-lg font-bold text-primary-950">{meet} on {month} {day}</h1>
+            <h1 className="text-sm sm:text-lg font-bold text-primary-950">{meetData["Meet"]} -- {formattedDateStr}</h1>
             <div className="text-center flex flex-col gap-2">
                 <a className="bg-white border-2 p-1 px-1 border-primary-950 text-gray-700 rounded-lg font-mono text-xl" key={meet}>{meetData["Best Snatch"]} / {meetData["Best C&J"]} / {meetData["Total"]}</a>
             </div>
