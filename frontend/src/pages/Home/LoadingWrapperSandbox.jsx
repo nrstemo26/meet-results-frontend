@@ -25,7 +25,7 @@ const MyComponent = ({ data })=>{
                     <span className="text-xl">🏋️‍♂️ </span>
                     <span className="font-semibold">Visualize. </span>
                     <Link to={`/api/v1/meets/`} className="hover:text-primary-400">
-                        Competition results database covering 55,000+ athletes & 5,000+ local and national events.
+                        Competition results database covering 51,000+ athletes & 4,500+ local and national events.
                     </Link>
                 </li>
                 <li>
