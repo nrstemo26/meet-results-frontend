@@ -62,7 +62,7 @@ export const getMeet = createAsyncThunk(
     async(name, thunkAPI) => {
         try{
             const token = localStorage.getItem('token');
-            const response =  await axios.post(`${apiUrl}meet/?Meet=${name}`, { token } )
+            const response =  await axios.post(`${apiUrl}meet/?meet_date=${name}`, { token } )
             return response.data
 
         }catch(error){
