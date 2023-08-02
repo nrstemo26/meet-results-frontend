@@ -22,7 +22,7 @@ const MeetList = ({ meets }) => {
         // if(isSession){
           // lis.push(<div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={meet}  onClick={(e)=> handleClick(e)}>{meet}</div> )  
         // }else{
-          lis.push(<Link to={`/api/v1/meet/${nameToQueryString(meet)}`} ><div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={meet} >{meet}</div></Link> )
+          lis.push(<Link to={`/meet/${nameToQueryString(meet)}`} ><div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={meet} >{meet}</div></Link> )
         // }
       }else{
         break;
