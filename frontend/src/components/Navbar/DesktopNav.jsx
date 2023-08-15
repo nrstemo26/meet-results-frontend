@@ -13,13 +13,13 @@ function DesktopNav( {handleLogout} ) {
         <Link to="/">
           <div>Home</div>
         </Link>
-        <Link to="/api/v1/meets">
+        <Link to="/meets">
           <div>Meets</div>
         </Link>
-        <Link to="/api/v1/athletes">
+        <Link to="/athletes">
           <div>Lifters</div>
         </Link>
-        <Link to="/api/v1/watchlist">
+        <Link to="/watchlist">
           <div>Watchlist</div>
         </Link>
         <Link to="/about">

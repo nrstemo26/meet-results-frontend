@@ -34,13 +34,35 @@ export const getAllMeets = createAsyncThunk(
   )
 
 
+  export const getMeetTable = createAsyncThunk(
+    'meet-table',
+    async(data, thunkAPI)=>{
+      try{
+        //thunkapi has a function that 
+        //can get any chunk of the state
+        //thunkAPI.getState().sliceofstate.propname.propname
+       
+        const config = {
+          params:{
+            page: data.page ,
+            pageSize: data.pageSize ,
+          }
+        }
+        const response = await axios.get(`${apiUrl}/meets/recent`, config)
+        return response.data;
+      }catch(error){
+        console.log(error)
+      }
+    }
+  )
+
+
 export const getMeet = createAsyncThunk(
     'meet',
     async(name, thunkAPI) => {
         try{
             const token = localStorage.getItem('token');
-            const response =  await axios.post(`${apiUrl}meet/?Meet=${name}`, { token } )
-            console.log(response.data)
+            const response =  await axios.post(`${apiUrl}meet/?meet_date=${name}`, { token } )
             return response.data
 
         }catch(error){

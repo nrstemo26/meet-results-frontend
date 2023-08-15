@@ -17,7 +17,7 @@ const Confirmation = () => {
   useEffect(() => {
     const confirmToken = async () => {
       try {
-        const response = await axios.put(baseUrl + `/user/confirm/${token}`);
+        const response = await axios.put(baseUrl + `/api/v1/user/confirm/${token}`);
         if (response.status === 201) {
           setIsConfirmed(true);
           navigate('/login');

@@ -24,7 +24,7 @@ const UserList = ({ users ,isWatchlist }) => {
         if(isWatchlist){
           lis.push(<div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={user}  onClick={(e)=> handleClick(e)}>{user}</div> )  
         }else{
-          lis.push(<Link to={`/api/v1/athlete/${nameToQueryString(user)}`} ><div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={user} >{user}</div></Link> )
+          lis.push(<Link to={`/athlete/${nameToQueryString(user)}`} ><div className='text-gray-700 p-1 hover:text-white hover:bg-gradient-to-r hover:from-primary-400 hover:to-transparent hover:cursor-pointer text-sm' key={user} >{user}</div></Link> )
         }
       }else{
         break;

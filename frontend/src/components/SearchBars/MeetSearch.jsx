@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { getAllMeets } from "../../features/meetSlice";
 import MeetList from "./MeetList"
 import SearchBar from "./SearchBar"
+import MeetTable from "../../components/Widgets/MeetTable"
 
 
 function MeetSearch(){
@@ -20,7 +21,7 @@ function MeetSearch(){
       }
       // const athletes = (await dispatch(getAllAthletes(data))).payload
       const meets = (await dispatch(getAllMeets(data))).payload.data
-      setMeets(meets);
+      setMeets(meets); // amend this to include date?
     };
 
     fetchUsers();
@@ -36,7 +37,7 @@ function MeetSearch(){
         <SearchBar onSearch={handleSearch} placeholderText={"Start typing an competition by year or name..."}/>
         {searchQuery.length > 0 ? 
         <MeetList meets={meets} />
-        : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"></div>}
+        : <div className="shadow-lg text-left"><MeetTable /></div>}
       </div>
   )
 }

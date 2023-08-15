@@ -32,7 +32,7 @@ const Account = () => {
       const credentials = btoa(`${token}:unused`);
 
       try {
-        const response = await axios.get(`${baseUrl}/user/account`, {
+        const response = await axios.get(`${baseUrl}/api/v1/user/account`, {
 
           headers: {
             Authorization: `Basic ${credentials}`,

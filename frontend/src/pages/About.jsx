@@ -34,7 +34,6 @@ const About = ({isLoggedIn}) => {
         setAccountEmail('');
         // Handle the error
       }
-      console.log(coffeeURL);
       
     };
 

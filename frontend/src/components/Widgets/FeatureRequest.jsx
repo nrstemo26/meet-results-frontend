@@ -29,7 +29,7 @@ const FeatureRequest = () => {
 
     if(user){
       try {
-        const response = await axios.post(baseUrl + '/user/feature-request', 
+        const response = await axios.post(baseUrl + '/api/v1/user/feature-request', 
           { feature_request },
           {
             headers: {
