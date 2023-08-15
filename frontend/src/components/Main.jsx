@@ -55,7 +55,7 @@ return (
           <Route path="/login" element={<Login />} /> 
           <Route path="/register" element={<Register />} /> 
           <Route path='/account' element={<Account />}/>
-          <Route path="/confirmation:token" element={<Confirmation />} />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
 
     </div>
