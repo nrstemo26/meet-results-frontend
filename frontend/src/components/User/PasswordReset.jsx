@@ -31,7 +31,7 @@ const ResetPassword = () => {
       toast.error('Password and password confirmation do not match.')
     } else {
       try {
-        const response = await axios.put(baseUrl + `/api/v1/user/reset-password/${token}`, userData);
+        const response = await axios.put(baseUrl + `/v1/user/reset-password/${token}`, userData);
         console.log(response.data); // Handle the response as needed
         toast.success('Password reset successful')
         navigate('/login');

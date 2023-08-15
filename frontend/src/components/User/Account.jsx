@@ -32,7 +32,7 @@ const Account = () => {
       const credentials = btoa(`${token}:unused`);
 
       try {
-        const response = await axios.get(`${baseUrl}/api/v1/user/account`, {
+        const response = await axios.get(`${baseUrl}/v1/user/account`, {
 
           headers: {
             Authorization: `Basic ${credentials}`,
@@ -46,7 +46,7 @@ const Account = () => {
       }
 
       try {
-        const response = await axios.get(`${baseUrl}/api/v1/watchlists`, {
+        const response = await axios.get(`${baseUrl}/v1/watchlists`, {
           headers: {
             Authorization: `Basic ${credentials}`,
           },
@@ -77,7 +77,7 @@ const Account = () => {
     const token = localStorage.getItem('token');
     const credentials = btoa(`${token}:unused`);
 
-    axios.delete(`${baseUrl}/api/v1/watchlist/${watchlistId}`, {
+    axios.delete(`${baseUrl}/v1/watchlist/${watchlistId}`, {
       headers: {
         Authorization: `Basic ${credentials}`,
       },

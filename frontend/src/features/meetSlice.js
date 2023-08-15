@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { baseUrl } from '../config'
 import axios from 'axios'
 
-const apiUrl = baseUrl + '/api/v1/'
+const apiUrl = baseUrl + '/v1/'
 const initialState = {
   data: null, 
   isLoading: false,

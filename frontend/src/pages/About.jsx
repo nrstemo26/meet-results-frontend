@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { baseUrl } from '../config'
 import axios from 'axios';
 
-const baseUrl = 'http://192.168.86.27:5000'
-// const baseUrl = 'http://192.168.1.139:5000'
+const apiUrl = baseUrl+'/v1/'
 
 const About = ({isLoggedIn}) => {
   const [accountEmail, setAccountEmail] = useState(null);
@@ -16,7 +16,7 @@ const About = ({isLoggedIn}) => {
       const credentials = btoa(`${token}:unused`);
 
       try {
-        const response = await axios.get(`${baseUrl}/user/account`, {
+        const response = await axios.get(`${apiUrl}/user/account`, {
 
           headers: {
             Authorization: `Basic ${credentials}`,

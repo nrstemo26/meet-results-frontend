@@ -3,8 +3,7 @@ import { baseUrl } from '../config'
 import axios from 'axios'
 
 
-const athleteUrl = baseUrl + '/api/v1/'
-// const baseUrl = 'http://192.168.0.108:5000/api/v1/'
+const athleteUrl = baseUrl + '/v1/'
 
 
 

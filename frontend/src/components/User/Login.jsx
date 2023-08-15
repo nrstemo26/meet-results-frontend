@@ -34,7 +34,7 @@ const Login = () => {
 
     if(isSuccess){
       toast.success('welcome bruv')
-      navigate('/api/v1/watchlist')
+      navigate('/watchlist')
     }
 
 

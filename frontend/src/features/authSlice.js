@@ -3,7 +3,7 @@ import axios from 'axios'
 import { baseUrl } from '../config'
 
 
-const API_URL = baseUrl + '/api/v1/user/'
+const API_URL = baseUrl + '/v1/user/'
 
 // const user = JSON.parse(localStorage.getItem('user'))
 const user = localStorage.getItem('token')
