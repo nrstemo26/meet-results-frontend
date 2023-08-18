@@ -1,44 +1,49 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { baseUrl } from '../config'
 import axios from 'axios';
 
 const apiUrl = baseUrl+'/v1/'
 
-const About = ({isLoggedIn}) => {
+const About = () => {
   const [accountEmail, setAccountEmail] = useState(null);
+  const { user } = useSelector((state) => state.auth);
   const [coffeeURL, setCoffeeURL] = useState('');
   
   useEffect(() => {
     const getAccount = async () => {
-      console.log(isLoggedIn);
+      if (user) {
+        const token = localStorage.getItem('token');
+        const credentials = btoa(`${token}:unused`);
 
-      const token = localStorage.getItem('token');
-      const credentials = btoa(`${token}:unused`);
+        try {
+          const response = await axios.get(`${apiUrl}user/account`, {
 
-      try {
-        const response = await axios.get(`${apiUrl}/user/account`, {
+            headers: {
+              Authorization: `Basic ${credentials}`,
+            },
+          });
 
-          headers: {
-            Authorization: `Basic ${credentials}`,
-          },
-        });
-
-        setAccountEmail(response.data.email);
-        // console.log(accountEmail);
-        const encodedEmail = encodeURIComponent(response.data.email);
-        setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}`);
-        
-      } catch (error) {
-        console.error(error);
+          setAccountEmail(response.data.email);
+          // console.log(accountEmail);
+          const encodedEmail = encodeURIComponent(response.data.email);
+          setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}`);
+          
+        } catch (error) {
+          console.error(error);
+          setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO`);
+          setAccountEmail('');
+          // Handle the error
+        }
+      } else {
         setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO`);
         setAccountEmail('');
-        // Handle the error
       }
       
     };
 
     getAccount();
-  }, []); // Empty dependency array to run the effect only once
+  }, [user]); // Empty dependency array to run the effect only once
 
   return(
     <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
