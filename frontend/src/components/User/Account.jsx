@@ -130,13 +130,24 @@ const Account = () => {
               </p>
               <p className="text-m ml-2">{accountData.member_since}</p>
             </div>
+            <div className="flex flex-col">
             <Link
-              to="#"
-              onClick={handleShowWatchlists}
-              className="text-primary-400 hover:text-primary-950 mt-4"
-            >
-              Saved Watchlists
-            </Link>
+                to={{
+                  pathname: '/reset-request',
+                  search: `?email=${accountData.email}`,
+                }}
+                className="text-primary-400 hover:text-primary-950 mt-4"
+              >
+                Request Password Reset
+              </Link>
+              <Link
+                to="#"
+                onClick={handleShowWatchlists}
+                className="text-primary-400 hover:text-primary-950 mt-2"
+              >
+                Saved Watchlists
+              </Link>
+            </div>
             {showWatchlists && watchlistData.length > 0 && (
               <div className="mt-4 p-2 shadow-lg">
                 <h3 className="text-l font-bold text-primary-950">Watchlists:</h3>
