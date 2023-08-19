@@ -7,6 +7,7 @@ const apiUrl = baseUrl+'/v1/'
 
 const About = () => {
   const [accountEmail, setAccountEmail] = useState(null);
+  const [accountId, setAccountId] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const [coffeeURL, setCoffeeURL] = useState('');
   
@@ -25,9 +26,12 @@ const About = () => {
           });
 
           setAccountEmail(response.data.email);
+          setAccountId(response.data.user_id);
           // console.log(accountEmail);
           const encodedEmail = encodeURIComponent(response.data.email);
-          setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}`);
+          const clientRef = `&client_reference_id=${response.data.user_id}`
+          console.log(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}${clientRef}`);
+          setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}${clientRef}`);
           
         } catch (error) {
           console.error(error);
@@ -72,6 +76,7 @@ const About = () => {
                   buy-button-id="buy_btn_0NTsunUiMszhBUnlaOwffE0u"
                   publishable-key="pk_test_uEKFcjNO1MXNGCbFWJK1eymn"
                   customer-email={accountEmail}
+                  client-reference-id={accountId}
                   >
               </stripe-buy-button>
           </div>
