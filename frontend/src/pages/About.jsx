@@ -57,7 +57,7 @@ const About = () => {
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">The core features of Lift Oracle will remain free forever.</p>
       <div className="m-8">
         <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
-          <li>🏋️‍♂️ Historical Results for x,000+ athletes and counting</li>
+          <li>🏋️‍♂️ Historical Results for 51,000+ athletes and counting</li>
           <li>💡 Competition results for 4,000+ local and national events.</li>
           <li>🔎 Build session watchlists to compare athletes head-to-head.</li>
           <li>👩‍💻 Basic and advanced statistics by athlete, competition, & beyond.</li>
