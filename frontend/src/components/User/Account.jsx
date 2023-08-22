@@ -17,6 +17,8 @@ const Account = () => {
   const [watchlistData, setWatchlistData] = useState([]);
   const [showWatchlists, setShowWatchlists] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState(null);
+  const [billingPortalUrl, setBillingPortalUrl] = useState('');
+
   
   const navigate = useNavigate();
 
@@ -40,6 +42,22 @@ const Account = () => {
         });
 
         setAccountData(response.data);
+
+        if (response.data.pro) {
+          try {
+            const billingResponse = await axios.get(`${baseUrl}/v1/user/create-customer-portal-session`, {
+              headers: {
+                Authorization: `Basic ${credentials}`,
+              },
+            });
+            
+            setBillingPortalUrl(billingResponse.data.billing_portal_url);
+          } catch (billingError) {
+            console.error(billingError);
+            // Handle the error
+          }
+        }
+
       } catch (error) {
         console.error(error);
         // Handle the error
@@ -130,13 +148,50 @@ const Account = () => {
               </p>
               <p className="text-m ml-2">{accountData.member_since}</p>
             </div>
+            <div className="flex items-center">
+              <p className="text-xl text-primary-950 font-bold mr-2">
+                Tier: 
+              </p>
+              {accountData.pro ? (
+                <>
+                  <span className="text-primary-950 text-m mr-2">Pro</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-primary-950 text-md">Free</span>
+                </>
+              )}
+            </div>
             <div className="flex flex-col">
-            <Link
+              {accountData.pro ? (
+                <>
+                  <a
+                    href={billingPortalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-400 text-md hover:text-primary-950 mt-4"
+                  >
+                    Manage Subscription
+                  </a>
+                </>
+              ) : (
+                <>
+                  <a
+                    href={`https://buy.stripe.com/test_eVabIUde12AG0w06op?prefilled_email=${accountData.email}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-400 text-md hover:text-primary-950 mt-4"
+                  >
+                    Upgrade to Pro
+                  </a>
+                </>
+              )}
+              <Link
                 to={{
                   pathname: '/reset-request',
                   search: `?email=${accountData.email}`,
                 }}
-                className="text-primary-400 hover:text-primary-950 mt-4"
+                className="text-primary-400 hover:text-primary-950 mt-2"
               >
                 Request Password Reset
               </Link>
