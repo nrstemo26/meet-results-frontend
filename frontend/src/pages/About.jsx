@@ -61,6 +61,7 @@ const About = () => {
           <li>💡 Competition results for 4,000+ local and national events.</li>
           <li>🔎 Build session watchlists to compare athletes head-to-head.</li>
           <li>👩‍💻 Basic and advanced statistics by athlete, competition, & beyond.</li>
+          <li>🛗 Remote coach board. Listings and verified reviews. (Coming Soon)</li>
         </ul>
       </div>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">If you'd like to support current and future development of this project, consider upgrading to our Lift Oracle Pro tier. For the cost of one latte per month, Pro-tier members can take advantage of the following features:</p>
@@ -68,6 +69,7 @@ const About = () => {
         <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
             <li>💾 Build and save unlimited watchlists. Keep the competition at your fingertips.</li>
             <li>📲 Export watchlists and athlete statistics to Excel or Google Sheets. Step up your meet coaching and get an edge on the rest of your session.</li>
+            <li>🔢 Automated meet coaching cards. Warm up your athletes on time, every time. (Coming soon)</li>
             <li>🏗️ & many more to come...</li>
           </ul>
           <div>
