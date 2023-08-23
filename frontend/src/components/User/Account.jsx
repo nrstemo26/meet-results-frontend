@@ -7,6 +7,7 @@ import {toast} from 'react-toastify'
 
 import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
+import { rankToTitle } from '../../lib/account_utils';
 
 
 
@@ -140,6 +141,9 @@ const Account = () => {
               <p className="text-xl text-primary-950 font-bold mr-2">🧙‍♂️ Oracle Rating:</p>
               <span role="img" aria-label="Bearded Wizard" className="text-l">
                 {accountData.rank} 
+              </span>
+              <span className="ml-2 px-2 py-1 bg-primary-100 text-primary-950 text-xs font-bold rounded">
+                {rankToTitle(accountData.rank)}
               </span>
             </div>
             <div className="flex items-center">

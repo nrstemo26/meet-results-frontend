@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from "react";
 import { getOracleRatings } from "../../features/athleteSlice";
-
+import { rankToTitle } from '../../lib/account_utils';
 
 function OracleRatings(){
     // const [pageSize, setPageSize] = useState(20)
@@ -32,6 +32,7 @@ function OracleRatings(){
                 <tr className="text-left">
                     <th className="px-4 py-1 text-sm text-primary-950">Username</th>
                     <th className="px-4 py-1 text-sm text-primary-950">Oracle Rating</th>
+                    <th className="px-4 py-1 text-sm text-primary-950">Title</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,7 @@ function OracleRatings(){
                     <tr key={username} className="text-gray-700">
                     <td className="px-4 py-1 hover:text-primary-400">{username}</td>
                     <td className="px-4 py-1 hover:text-primary-400">{rating}</td>
+                    <td className="px-4 py-1 text-primary-950 text-xs font-bold rounded">{rankToTitle(rating)}</td>
                     </tr>
                 ))}
                 </tbody>
