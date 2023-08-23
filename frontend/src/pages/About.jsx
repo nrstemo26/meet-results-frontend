@@ -53,7 +53,7 @@ const About = () => {
     <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
       {/* <h1 className="text-primary-950 font-bold text-3xl p-2 mt-4 mx-8 leading-relaxed">About</h1> */}
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">Lift Oracle was conceived and forged from the keyboards of Milwaukee Barbell. We are massive weightlifting nerds who have been coaching and competing in this sport for over a decade.</p>
-      <p className="m-8 p-2 text-primary-950 leading-loose">One crisp spring morning early in 2023, we found ourselved reminiscing and mourning the loss of the pioneering weightlifting data site, OlyStats. Inspired to carry on and advance the spirit of OlyStats, we started on our quest to build out a modern intelligence platform for weightlifting. Athletes, competitions, advanced statistics. <span className="font-semibold">The Lift Oracle.</span></p>
+      <p className="m-8 p-2 text-primary-950 leading-loose">One crisp spring morning early in 2023, we found ourselves reminiscing and mourning the loss of the pioneering weightlifting data site, OlyStats. Inspired to carry on and advance the spirit of OlyStats, we started on our quest to build out a modern intelligence platform for weightlifting. Athletes, competitions, advanced statistics. <span className="font-semibold">The Lift Oracle.</span></p>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">The core features of Lift Oracle will remain free forever.</p>
       <div className="m-8">
         <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
@@ -61,7 +61,7 @@ const About = () => {
           <li>💡 Competition results for 4,000+ local and national events.</li>
           <li>🔎 Build session watchlists to compare athletes head-to-head.</li>
           <li>👩‍💻 Basic and advanced statistics by athlete, competition, & beyond.</li>
-          <li>🛗 Remote coach board. Listings and verified reviews. (Coming Soon)</li>
+          <li>🛗 Remote coach board. Shop smarter for a new coach with verified listings and reviews. (Coming Soon)</li>
           <li>🌍 International competition results and statistics. (Coming Soon)</li>
         </ul>
       </div>
