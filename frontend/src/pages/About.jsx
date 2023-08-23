@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { baseUrl } from '../config'
+import { baseUrl, coffeeLink, buttonId, pubKey } from '../config'
 import axios from 'axios';
 
 const apiUrl = baseUrl+'/v1/'
@@ -30,17 +30,17 @@ const About = () => {
           // console.log(accountEmail);
           const encodedEmail = encodeURIComponent(response.data.email);
           const clientRef = `&client_reference_id=${response.data.user_id}`
-          console.log(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}${clientRef}`);
-          setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO?prefilled_email=${encodedEmail}${clientRef}`);
+          console.log(`${coffeeLink}?prefilled_email=${encodedEmail}${clientRef}`);
+          setCoffeeURL(`${coffeeLink}?prefilled_email=${encodedEmail}${clientRef}`);
           
         } catch (error) {
           console.error(error);
-          setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO`);
+          setCoffeeURL(`${coffeeLink}`);
           setAccountEmail('');
           // Handle the error
         }
       } else {
-        setCoffeeURL(`https://buy.stripe.com/test_9AQaEQ8XLdfk6UocMO`);
+        setCoffeeURL(`${coffeeLink}`);
         setAccountEmail('');
       }
       
@@ -76,8 +76,8 @@ const About = () => {
           </ul>
           <div>
               <stripe-buy-button
-                  buy-button-id="buy_btn_0NTsunUiMszhBUnlaOwffE0u"
-                  publishable-key="pk_test_uEKFcjNO1MXNGCbFWJK1eymn"
+                  buy-button-id={buttonId}
+                  publishable-key={pubKey}
                   customer-email={accountEmail}
                   client-reference-id={accountId}
                   >
