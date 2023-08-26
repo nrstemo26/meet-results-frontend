@@ -32,7 +32,7 @@ function OracleRatings(){
                 <tr className="text-left">
                     <th className="px-4 py-1 text-sm text-primary-950">Username</th>
                     <th className="px-4 py-1 text-sm text-primary-950">Oracle Rating</th>
-                    <th className="px-4 py-1 text-sm text-primary-950">Title</th>
+                    <th className="px-4 py-1 text-sm text-primary-950">Class</th>
                 </tr>
                 </thead>
                 <tbody>

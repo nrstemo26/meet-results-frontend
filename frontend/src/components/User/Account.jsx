@@ -8,7 +8,7 @@ import {toast} from 'react-toastify'
 import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
 import { rankToTitle } from '../../lib/account_utils';
-
+import OracleRatings from '../Widgets/OracleRatings';
 
 
 const Account = () => {
@@ -243,8 +243,11 @@ const Account = () => {
               </div>
             )}
             {showWatchlists && watchlistData.length === 0 && (
-              <p>You have no saved watchlists.</p>
+              <p className="text-gray-700">You have no saved watchlists.</p>
             )}
+            <div className="mt-8">
+              <OracleRatings />
+            </div>
           </>
         ) : (
           <p>Loading...</p>
