@@ -9,3 +9,5 @@ RUN npm run build
 FROM nginx:stable-alpine
 COPY --from=build-step /app/dist /usr/share/nginx/html
 COPY deployment/nginx.default.conf /etc/nginx/conf.d/default.conf
+COPY /etc/letsencrypt/options-ssl-nginx.conf /etc/nginx/options-ssl-nginx.conf
+COPY /etc/letsencrypt/ssl-dhparams.pem /etc/nginx/ssl-dhparams.pem
