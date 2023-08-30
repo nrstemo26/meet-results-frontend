@@ -25,7 +25,7 @@ export const getAllMeets = createAsyncThunk(
             pageSize: data.pageSize ,
           }
         }
-        const response = await axios.get(`${apiUrl}/meets`, config)
+        const response = await axios.get(`${apiUrl}meets`, config)
         return response.data;
       }catch(error){
         console.log(error)
@@ -48,7 +48,7 @@ export const getAllMeets = createAsyncThunk(
             pageSize: data.pageSize ,
           }
         }
-        const response = await axios.get(`${apiUrl}/meets/recent`, config)
+        const response = await axios.get(`${apiUrl}meets/recent`, config)
         return response.data;
       }catch(error){
         console.log(error)
