@@ -1,11 +1,21 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../../config';
 import {toast} from 'react-toastify'
 
 const RequestReset = () => {
   const [email, setEmail] = useState('');
+  const location = useLocation();
+  
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const emailParam = searchParams.get('email');
+
+    if (emailParam) {
+      setEmail(emailParam);
+    }
+  }, [location.search]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

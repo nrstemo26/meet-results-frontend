@@ -17,6 +17,8 @@ import Confirmation from './User/Confirmation'
 import { Home } from '../pages/Home/Home'
 import { Insights } from '../pages/Insights'
 import About from '../pages/About'
+import ProRedirect from '../pages/ProRedirect'
+import Cheers from '../pages/Cheers'
 
 import { useDispatch } from 'react-redux';
 import { verify, reset } from '../features/authSlice';
@@ -56,6 +58,8 @@ return (
           <Route path="/register" element={<Register />} /> 
           <Route path='/account' element={<Account />}/>
           <Route path="/confirmation" element={<Confirmation />} />
+          <Route path='/pro-redirect' element={<ProRedirect/>} />
+          <Route path='/cheers' element={<Cheers/>} />
         </Routes>
 
     </div>

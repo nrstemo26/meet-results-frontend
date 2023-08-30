@@ -1,54 +1,65 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { saveAs } from 'file-saver';
 import Search from '../SearchBars/Search'
 import WatchListAthlete from './WatchListAthlete';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {selectWatchlist} from '../../features/watchlistSlice'
 import { TiDownload, TiFolderAdd } from 'react-icons/ti'
-
+import { account } from '../../features/authSlice';
 
 import { toast } from 'react-toastify';
 
 import { baseUrl } from '../../config';
 
 function WatchList(){
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user)
-  
-
+  const isSubscribed = useSelector((state) => state.auth.isSubscribed)
   const WatchListAthletes = useSelector(selectWatchlist);
+  useEffect(() => {
+    if (user) {
+      dispatch(account()); // Dispatch the action to fetch account info
+    }
+  }, [user, dispatch]); // Run the effect when 'user' changes
    
     const handleExport = () => {
-      if (user) {
-        const token = localStorage.getItem('token');
-        // const token = localStorage.getItem('user');
-        const credentials = btoa(`${token}:unused`);
-  
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `${baseUrl}/v1/export`);
-        xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.responseType = 'blob';
-    
-        xhr.onload = function () {
-          if (xhr.status === 200) {
-            const contentDisposition = xhr.getResponseHeader('Content-Disposition');
-            const filename = getFilenameFromContentDisposition(contentDisposition);
-            const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            saveAs(blob, filename);
-          } else {
-            console.error(xhr.statusText);
-            // Handle the error
-          }
-        };
-    
-        xhr.onerror = function () {
-          console.error('Request failed');
-          // Handle the error
-        };
-    
-        xhr.send(JSON.stringify({ athletes: WatchListAthletes }));
+
+      if (!isSubscribed) {
+        toast("You need to be subscribed to perform export.", { type: "info" });
+        return; // User is not subscribed
       }
+
+      
+      const token = localStorage.getItem('token');
+      // const token = localStorage.getItem('user');
+      const credentials = btoa(`${token}:unused`);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${baseUrl}/v1/export`);
+      xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.responseType = 'blob';
+  
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+          const filename = getFilenameFromContentDisposition(contentDisposition);
+          const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          saveAs(blob, filename);
+        } else {
+          console.error(xhr.statusText);
+          // Handle the error
+        }
+      };
+  
+      xhr.onerror = function () {
+        console.error('Request failed');
+        // Handle the error
+      };
+  
+      xhr.send(JSON.stringify({ athletes: WatchListAthletes }));
+      
     };
     
     const getFilenameFromContentDisposition = (contentDisposition) => {
@@ -68,32 +79,37 @@ function WatchList(){
         name: timeStamp
       };
 
-      if (user) {
-        const token = localStorage.getItem('token');
-        
-        //token could be defined like this too
-        //const token = user.token;
-        const credentials = btoa(`${token}:unused`);
-
-        try {
-          const response = await axios.post(
-            `${baseUrl}/v1/watchlist`,
-            data,
-            {
-              headers: {
-                Authorization: `Basic ${credentials}`,
-                'Content-Type': 'application/json'
-              }
-            }
-          )
-          // console.log(response.data); // Handle the response as needed
-          //what do i do with response.data.status
-          //2nd argument is an options obj
-          toast(response.message.data, {type: response.data.status})
-        } catch (error) {
-          console.error(error);
-        }
+      if (!isSubscribed) {
+        toast("You need to be subscribed to save watchlists.", { type: "info" });
+        return; // User is not subscribed
       }
+      
+      const token = localStorage.getItem('token');
+      
+      //token could be defined like this too
+      //const token = user.token;
+      const credentials = btoa(`${token}:unused`);
+
+      try {
+        const response = await axios.post(
+          `${baseUrl}/v1/watchlist`,
+          data,
+          {
+            headers: {
+              Authorization: `Basic ${credentials}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        // console.log(response.data); // Handle the response as needed
+        //what do i do with response.data.status
+        //2nd argument is an options obj
+        console.log(response)
+        toast(response.data.message, {type: response.data.status})
+      } catch (error) {
+        console.error(error);
+      }
+      
 
     };
 

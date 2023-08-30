@@ -14,12 +14,12 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
       <Link onClick={toggleMenu} to='/meets'><div className='sidebar-element'>Meets</div></Link>
       <Link onClick={toggleMenu} to='/athletes'><div className='sidebar-element'>Lifters</div></Link>
       <Link onClick={toggleMenu} to='/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
-      <Link onClick={toggleMenu} to='/insights'><div className='sidebar-element'>Insights</div></Link>
+      {/* <Link onClick={toggleMenu} to='/insights'><div className='sidebar-element'>Insights</div></Link> */}
       <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About</div></Link>
       {user ? (
         <>
           <Link onClick={toggleMenu} to="/account"><div className="sidebar-element">Account</div></Link>
-          <button onClick={handleLogout}>Logout</button>
+          <button className="text-primary-950 hover:text-primary-400" onClick={handleLogout}>Logout</button>
           {/* <button onClick={()=>dispatch(logout())}>Logout</button> */}
         </>
       ) : (

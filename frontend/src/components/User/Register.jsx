@@ -134,9 +134,9 @@ const Register = () => {
               required
             >
               <option value="">Select Role</option>
-              <option value="athlete">Athlete</option>
-              <option value="coach">Coach</option>
-              <option value="curious">Curious Individual</option>
+              <option value="Athlete">Athlete</option>
+              <option value="Coach">Coach</option>
+              <option value="Curious Individual">Curious Individual</option>
             </select>
           </div>
           <div className="flex items-center mb-4">

@@ -7,7 +7,8 @@ import {toast} from 'react-toastify'
 
 import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
-
+import { rankToTitle } from '../../lib/account_utils';
+import OracleRatings from '../Widgets/OracleRatings';
 
 
 const Account = () => {
@@ -17,6 +18,8 @@ const Account = () => {
   const [watchlistData, setWatchlistData] = useState([]);
   const [showWatchlists, setShowWatchlists] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState(null);
+  const [billingPortalUrl, setBillingPortalUrl] = useState('');
+
   
   const navigate = useNavigate();
 
@@ -40,6 +43,22 @@ const Account = () => {
         });
 
         setAccountData(response.data);
+
+        if (response.data.pro) {
+          try {
+            const billingResponse = await axios.get(`${baseUrl}/v1/user/create-customer-portal-session`, {
+              headers: {
+                Authorization: `Basic ${credentials}`,
+              },
+            });
+            
+            setBillingPortalUrl(billingResponse.data.billing_portal_url);
+          } catch (billingError) {
+            console.error(billingError);
+            // Handle the error
+          }
+        }
+
       } catch (error) {
         console.error(error);
         // Handle the error
@@ -123,6 +142,9 @@ const Account = () => {
               <span role="img" aria-label="Bearded Wizard" className="text-l">
                 {accountData.rank} 
               </span>
+              <span className="ml-2 px-2 py-1 bg-primary-100 text-primary-950 text-xs font-bold rounded">
+                {rankToTitle(accountData.rank)}
+              </span>
             </div>
             <div className="flex items-center">
               <p className="text-xl text-primary-950 font-bold mr-2">
@@ -130,13 +152,61 @@ const Account = () => {
               </p>
               <p className="text-m ml-2">{accountData.member_since}</p>
             </div>
-            <Link
-              to="#"
-              onClick={handleShowWatchlists}
-              className="text-primary-400 hover:text-primary-950 mt-4"
-            >
-              Saved Watchlists
-            </Link>
+            <div className="flex items-center">
+              <p className="text-xl text-primary-950 font-bold mr-2">
+                Tier: 
+              </p>
+              {accountData.pro ? (
+                <>
+                  <span className="text-primary-950 text-m mr-2">Pro</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-primary-950 text-md">Free</span>
+                </>
+              )}
+            </div>
+            <div className="flex flex-col">
+              {accountData.pro ? (
+                <>
+                  <a
+                    href={billingPortalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-400 text-md hover:text-primary-950 mt-4"
+                  >
+                    Manage Subscription
+                  </a>
+                </>
+              ) : (
+                <>
+                  <a
+                    href={`https://buy.stripe.com/test_eVabIUde12AG0w06op?prefilled_email=${accountData.email}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-400 text-md hover:text-primary-950 mt-4"
+                  >
+                    Upgrade to Pro
+                  </a>
+                </>
+              )}
+              <Link
+                to={{
+                  pathname: '/reset-request',
+                  search: `?email=${accountData.email}`,
+                }}
+                className="text-primary-400 hover:text-primary-950 mt-2"
+              >
+                Request Password Reset
+              </Link>
+              <Link
+                to="#"
+                onClick={handleShowWatchlists}
+                className="text-primary-400 hover:text-primary-950 mt-2"
+              >
+                Saved Watchlists
+              </Link>
+            </div>
             {showWatchlists && watchlistData.length > 0 && (
               <div className="mt-4 p-2 shadow-lg">
                 <h3 className="text-l font-bold text-primary-950">Watchlists:</h3>
@@ -173,8 +243,11 @@ const Account = () => {
               </div>
             )}
             {showWatchlists && watchlistData.length === 0 && (
-              <p>You have no saved watchlists.</p>
+              <p className="text-gray-700">You have no saved watchlists.</p>
             )}
+            <div className="mt-8">
+              <OracleRatings />
+            </div>
           </>
         ) : (
           <p>Loading...</p>
