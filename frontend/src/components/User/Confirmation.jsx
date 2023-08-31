@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../config';
+import {toast} from 'react-toastify'
 
 
 const Confirmation = () => {
@@ -20,9 +21,11 @@ const Confirmation = () => {
         const response = await axios.put(baseUrl + `/v1/user/confirm/${token}`);
         if (response.status === 201) {
           setIsConfirmed(true);
+          toast.success('Account confirmed. TY.');
           navigate('/login');
         } else {
           setErrorMessage(response.data.message);
+          toast.error(errorMessage);
           navigate('/login');
         }
       } catch (error) {
