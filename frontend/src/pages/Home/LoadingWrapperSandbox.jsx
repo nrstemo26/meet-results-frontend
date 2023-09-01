@@ -50,7 +50,9 @@ const MyComponent = ({ data })=>{
                     </Link>
                 </li>
             </ul>
-            <div className="m-8 p-2">
+            <div className="m-8 p-2 gap-y-4 flex flex-col">
+                <Link to={`/athletes`} className="text-primary-950 hover:text-primary-400 font-bold">Search Athletes</Link>
+                <Link to={`/meets`} className="text-primary-950 hover:text-primary-400 font-bold">Search Meets</Link>
                 <Link to={`/about`} className="text-primary-950 hover:text-primary-400 font-bold">Learn More</Link>
             </div>
             

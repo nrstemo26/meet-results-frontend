@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,11 +8,19 @@ import {AiFillPlusCircle as AddCircle} from 'react-icons/ai'
 import { TiDownload } from 'react-icons/ti'
 import { useViewport } from "../../../hooks/useViewport";
 import { baseUrl } from '../../../config';
+import { account } from '../../../features/authSlice'
 
 
 const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
+    const dispatch = useDispatch();
     const { width } = useViewport();
     const user = useSelector((state) => state.auth.user)
+    const isSubscribed = useSelector((state) => state.auth.isSubscribed)
+    useEffect(() => {
+      if (user) {
+        dispatch(account()); // Dispatch the action to fetch account info
+      }
+    }, [user, dispatch]); // Run the effect when 'user' changes
 
     const getFilenameFromContentDisposition = (contentDisposition) => {
         const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
@@ -24,39 +32,39 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
       };
       
     const handleExport = () => {
-        
-        if (user) {
-          const token = localStorage.getItem('token');
-        //   const token = localStorage.getItem('user');
-          const credentials = btoa(`${token}:unused`);
-    
-          const xhr = new XMLHttpRequest();
-          xhr.open('POST', `${baseUrl}/v1/export`);
-          xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.responseType = 'blob';
-      
-          xhr.onload = function () {
-            if (xhr.status === 200) {
-              const contentDisposition = xhr.getResponseHeader('Content-Disposition');
-              const filename = getFilenameFromContentDisposition(contentDisposition);
-              const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-              saveAs(blob, filename);
-            } else {
-              console.error(xhr.statusText);
-              // Handle the error
-            }
-          };
-      
-          xhr.onerror = function () {
-            console.error('Request failed');
-            // Handle the error
-          };
-      
-          xhr.send(JSON.stringify({ athlete: name }));
+      console.log(isSubscribed);
+      if (!isSubscribed) {
+        toast("You need to be subscribed to perform export.", { type: "info" });
+        return; // User is not subscribed
+      }
+
+      const token = localStorage.getItem('token');
+      const credentials = btoa(`${token}:unused`);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${baseUrl}/v1/export`);
+      xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.responseType = 'blob';
+  
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const contentDisposition = xhr.getResponseHeader('Content-Disposition');
+          const filename = getFilenameFromContentDisposition(contentDisposition);
+          const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          saveAs(blob, filename);
         } else {
-          // toast with link to stripe checkout
+          console.error(xhr.statusText);
+          // Handle the error
         }
+      };
+  
+      xhr.onerror = function () {
+        console.error('Request failed');
+        // Handle the error
+      };
+  
+      xhr.send(JSON.stringify({ athlete: name }));
       };
     
     return (
