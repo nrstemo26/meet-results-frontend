@@ -10,7 +10,7 @@ import { account } from '../../features/authSlice';
 
 import { toast } from 'react-toastify';
 
-import { baseUrl } from '../../config';
+import { baseUrl, proLink } from '../../config';
 
 function WatchList(){
   const dispatch = useDispatch();
@@ -26,7 +26,15 @@ function WatchList(){
     const handleExport = () => {
 
       if (!isSubscribed) {
-        toast("You need to be subscribed to perform export.", { type: "info" });
+        toast(
+          <>
+            Watchlist export is reserved for subscribers. {' '}
+            <a className="text-primary-400 hover:text-primary-950" href={proLink} target="_blank" rel="noopener noreferrer">
+              Go Pro.
+            </a>
+          </>,
+          { type: 'info' }
+        );
         return; // User is not subscribed
       }
 
@@ -80,7 +88,15 @@ function WatchList(){
       };
 
       if (!isSubscribed) {
-        toast("You need to be subscribed to save watchlists.", { type: "info" });
+        toast(
+          <>
+            Watchlist export is reserved for subscribers. {' '}
+            <a className="text-primary-400 hover:text-primary-950" href={proLink} target="_blank" rel="noopener noreferrer">
+              Go Pro.
+            </a>
+          </>,
+          { type: 'info' }
+        );
         return; // User is not subscribed
       }
       

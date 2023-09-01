@@ -7,7 +7,7 @@ import { BsFillClipboardCheckFill } from 'react-icons/bs'
 import {AiFillPlusCircle as AddCircle} from 'react-icons/ai'
 import { TiDownload } from 'react-icons/ti'
 import { useViewport } from "../../../hooks/useViewport";
-import { baseUrl } from '../../../config';
+import { baseUrl, proLink } from '../../../config';
 import { account } from '../../../features/authSlice'
 
 
@@ -32,9 +32,16 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
       };
       
     const handleExport = () => {
-      console.log(isSubscribed);
       if (!isSubscribed) {
-        toast("You need to be subscribed to perform export.", { type: "info" });
+        toast(
+          <>
+            Athlete export is reserved for subscribers. {' '}
+            <a className="text-primary-400 hover:text-primary-950" href={proLink} target="_blank" rel="noopener noreferrer">
+              Go Pro.
+            </a>
+          </>,
+          { type: 'info' }
+        );
         return; // User is not subscribed
       }
 
