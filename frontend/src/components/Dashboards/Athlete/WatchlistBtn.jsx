@@ -85,7 +85,7 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
         }   
         
             {/* <button onClick={toggleWatchlist} className={`btn ${inWatchlist? '':'btn-follow'} p-0 px-2 b-2`}>{inWatchlist? 'remove from watchlist': 'add to watchlist'}</button> */}
-            <button className='text-primary-950 text-2xl hover:text-primary-400 m-1' onClick={handleExport}>
+            <button className='text-primary-950 text-2xl hover:text-primary-400 m-1' title="export athlete history" onClick={handleExport}>
                   <TiDownload />
             </button>
         </div>

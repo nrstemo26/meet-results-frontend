@@ -37,7 +37,7 @@ const Dashboard = () => {
       const toastOptions = {
         autoClose:3000,
         onClick:() => {
-          navigate('/api/v1/watchlist')
+          navigate('/watchlist')
         }
       }
   

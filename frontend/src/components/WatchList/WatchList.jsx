@@ -139,10 +139,10 @@ function WatchList(){
             <h1 className="font-bold text-xl text-primary-950 text-center">Athlete Watchlist</h1>
             {WatchListAthletes.length > 0 && (
               <div className="">
-                <button onClick={handleExport} className='text-primary-950 text-2xl hover:text-primary-400 m-1'>
+                <button title="export watchlist" onClick={handleExport} className='text-primary-950 text-2xl hover:text-primary-400 m-1'>
                   <TiDownload />
                 </button>
-                <button onClick={handleSave} className='text-primary-950 text-2xl hover:text-primary-400 m-1'>
+                <button title="save watchlist" onClick={handleSave} className='text-primary-950 text-2xl hover:text-primary-400 m-1'>
                   <TiFolderAdd />
                 </button>
               </div>
