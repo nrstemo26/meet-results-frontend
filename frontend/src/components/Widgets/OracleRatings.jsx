@@ -17,7 +17,9 @@ function OracleRatings(){
         }
         fetchUsers()
     },[dispatch]);
-    console.log(oracles)
+    // console.log(oracles)
+    const oraclesArray = Object.entries(oracles);
+    const sortedOraclesArray = oraclesArray.sort((a, b) => b[1] - a[1]);
     
     return(
         <div className="shadow-lg m-2 p-4">
@@ -36,7 +38,7 @@ function OracleRatings(){
                 </tr>
                 </thead>
                 <tbody>
-                {Object.entries(oracles).map(([username, rating]) => (
+                {sortedOraclesArray.map(([username, rating]) => (
                     <tr key={username} className="text-gray-700">
                     <td className="px-4 py-1 hover:text-primary-400">{username}</td>
                     <td className="px-4 py-1 hover:text-primary-400">{rating}</td>
