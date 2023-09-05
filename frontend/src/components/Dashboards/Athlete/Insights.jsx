@@ -20,19 +20,19 @@ function Insights (){
                 <a className="text-primary-950 border-2 border-secondary rounded-lg">C&J Make Rate: <span className="font-mono text-gray-700 text-l">{stats["C&J Make %"]}</span></a>
                 <a className="text-primary-950 border-2 border-secondary rounded-lg">Overall Make Rate: <span className="font-mono text-gray-700 text-l">{stats["Overall Make %"]}</span></a>
             </div>
-            <PaywallOverlay>
-            <div className="text-left flex flex-col gap-1 mb-2">
+            <PaywallOverlay buttonText="Unlock Advanced Stats with Lift Oracle Pro">
               <div className="text-left flex flex-col gap-1 mb-2">
-                  <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Snatch</h1>
-                  <a className="text-primary-950 border-2 border-secondary rounded-lg">Opener Make Rate: <span className="font-mono text-gray-700 text-l">{advanced_stats['Snatch']['Opener Make %']}</span></a>
-                  <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{advanced_stats['Snatch']['Total Avg Reach (Kg)']}kg</span></a>
+                <div className="text-left flex flex-col gap-1 mb-2">
+                    <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Snatch</h1>
+                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Opener Make Rate: <span className="font-mono text-gray-700 text-l">{advanced_stats['Snatch']['Opener Make %']}</span></a>
+                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{advanced_stats['Snatch']['Total Avg Reach (Kg)']}kg</span></a>
+                </div>
+                <div className="text-left flex flex-col gap-1">
+                    <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Clean & Jerk</h1>
+                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Opener Make Rate: <span className="font-mono text-gray-700 text-l">{advanced_stats['C&J']['Opener Make %']}</span></a>
+                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{advanced_stats['C&J']['Total Avg Reach (Kg)']}kg</span></a>
+                </div>
               </div>
-              <div className="text-left flex flex-col gap-1">
-                  <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Clean & Jerk</h1>
-                  <a className="text-primary-950 border-2 border-secondary rounded-lg">Opener Make Rate: <span className="font-mono text-gray-700 text-l">{advanced_stats['C&J']['Opener Make %']}</span></a>
-                  <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{advanced_stats['C&J']['Total Avg Reach (Kg)']}kg</span></a>
-              </div>
-            </div>
             </PaywallOverlay>
           </div>
         )}

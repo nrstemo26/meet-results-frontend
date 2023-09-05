@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from "react-redux";
 import { proLink } from "../../config"
 
-function PaywallOverlay({ children }) {
+function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro' }) {
   const isSubscribed = useSelector((state) => state.auth.isSubscribed)
   const enhancedChildren = isSubscribed 
     ? children 
@@ -23,7 +23,7 @@ function PaywallOverlay({ children }) {
           "></div>
           <a href={proLink} className="z-20">
             <button className="bg-primary-950 hover:bg-primary-400 text-white font-bold py-2 px-4 rounded">
-              Unlock Advanced Stats with Lift Oracle Pro
+              {buttonText}
             </button>
           </a>
         </div>
