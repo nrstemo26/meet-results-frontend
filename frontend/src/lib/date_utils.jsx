@@ -13,13 +13,14 @@ function formatDate(inputDateStr) {
 
 export const organizeByOldestDate = (meetHistory) =>{
     return [...Object.keys(meetHistory)].sort((a,b)=>{
-        return new Date(meetHistory[a]['Date']) > new Date(meetHistory[b]['Date'])
+        return new Date(meetHistory[a]['Date']) - new Date(meetHistory[b]['Date'])
     })
 }
 
 export const organizeByNewestDate = (meetHistory) =>{
+    console.log(meetHistory);
     return [...Object.keys(meetHistory)].sort((a,b)=>{
-        return new Date(meetHistory[a]['Date']) < new Date(meetHistory[b]['Date'])
+        return new Date(meetHistory[b]['Date']) - new Date(meetHistory[a]['Date'])
     })
 }
 
