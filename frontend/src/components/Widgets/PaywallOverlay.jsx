@@ -23,7 +23,7 @@ function PaywallOverlay({ children }) {
           "></div>
           <a href={proLink} className="z-20">
             <button className="bg-primary-950 hover:bg-primary-400 text-white font-bold py-2 px-4 rounded">
-              Unlock with Lift Oracle Pro
+              Unlock Advanced Stats with Lift Oracle Pro
             </button>
           </a>
         </div>

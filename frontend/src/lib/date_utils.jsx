@@ -18,7 +18,6 @@ export const organizeByOldestDate = (meetHistory) =>{
 }
 
 export const organizeByNewestDate = (meetHistory) =>{
-    console.log(meetHistory);
     return [...Object.keys(meetHistory)].sort((a,b)=>{
         return new Date(meetHistory[b]['Date']) - new Date(meetHistory[a]['Date'])
     })
