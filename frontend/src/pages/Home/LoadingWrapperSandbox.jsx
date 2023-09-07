@@ -24,30 +24,33 @@ const MyComponent = ({ data })=>{
                 <li>
                     <span className="text-xl">🏋️‍♂️ </span>
                     <span className="font-semibold">Visualize. </span>
-                    <Link to={`/api/v1/meets/`} className="hover:text-primary-400">
+                    <Link to={`/meets/`} className="hover:text-primary-400">
                         Competition results database covering 51,000+ athletes & 4,500+ local and national events.
                     </Link>
                 </li>
                 <li>
                     <span className="text-xl">🧐 </span>
                     <span className="font-semibold">Analyze. </span>
-                    <Link to={`/api/v1/athletes/`} className="hover:text-primary-400">
+                    <Link to={`/athletes/`} className="hover:text-primary-400">
                         Tap into historical trends and advanced stats across 10+ years of American weightlifting.
                     </Link>
                 </li>
                 <li>
                     <span className="text-xl">🏗️ </span>
                     <span className="font-semibold">Build. </span>
-                    <Link to={`/api/v1/watchlist/`} className="hover:text-primary-400">
+                    <Link to={`watchlist/`} className="hover:text-primary-400">
                         Create a watchlist to track your favorite weightlifters (or competition).
                     </Link>
                 </li>
                 <li>
                     <span className="text-xl">🥇 </span>
                     <span className="font-semibold">Elevate. </span>
-                    <Link to={`/api/v1/insights/`} className="hover:text-primary-400">
+                    {/* <Link to={`/api/v1/insights/`} className="hover:text-primary-400">
                         Dial in your competition coaching with unique and on-demand insights.
-                    </Link>
+                    </Link> */}
+                    <span className="hover:text-primary-400">
+                        Dial in your competition coaching with unique and on-demand insights.
+                    </span>
                 </li>
             </ul>
             <div className="m-8 p-2 gap-y-4 flex flex-col">
