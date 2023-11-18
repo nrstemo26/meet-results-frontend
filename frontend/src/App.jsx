@@ -1,8 +1,8 @@
 import 'react-toastify/dist/ReactToastify.css';
 import favicon from './assets/oracle_favicon.png';
-import OracleSleeveless from './assets/oracle_sleeveless.png';
 import './App.css'
 import { Helmet } from 'react-helmet';
+import { baseUrl } from './config';
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router} from 'react-router-dom'
 import { ToastContainer} from 'react-toastify'
@@ -12,6 +12,7 @@ import Navbar from './components/Navbar/Navbar'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const ogImageUrl = `${baseUrl}/static/images/oracle_sleeveless.png`;
 
   useEffect(() => {
     // Find the existing favicon element
@@ -31,7 +32,7 @@ function App() {
   return (
     <Router>
       <Helmet>
-        <meta property="og:image" content={OracleSleeveless} />
+        <meta property="og:image" content={ogImageUrl} />
       </Helmet>
       <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
         {/* get rid of is logged in by having the user slice? */}
