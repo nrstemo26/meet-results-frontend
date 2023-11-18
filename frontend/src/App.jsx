@@ -1,6 +1,7 @@
 import 'react-toastify/dist/ReactToastify.css';
+import favicon from './assets/oracle_favicon.png';
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router} from 'react-router-dom'
 import { ToastContainer} from 'react-toastify'
 
@@ -9,6 +10,21 @@ import Navbar from './components/Navbar/Navbar'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    // Find the existing favicon element
+    const link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      // Create a new link element if it does not exist
+      const newLink = document.createElement('link');
+      newLink.rel = 'icon';
+      newLink.href = favicon;
+      document.head.appendChild(newLink);
+    } else {
+      // Update the existing link element
+      link.href = favicon;
+    }
+  }, []);
 
   return (
     <Router>

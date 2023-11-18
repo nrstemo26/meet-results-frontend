@@ -4,6 +4,7 @@ import { Spinner } from "../Spinners/Spinner"
 import FeatureRequest from "../../components/Widgets/FeatureRequest"
 import Trending from '../../components/SearchBars/Trending'
 import OracleRatings from "../../components/Widgets/OracleRatings"
+import OracleSleeveless from '../../assets/oracle_sleeveless.png';
 
 function withLoading(Component){
     return function WithLoadingComponent({isLoading, ...props}){
@@ -16,8 +17,12 @@ function withLoading(Component){
 
 const MyComponent = ({ data })=>{
     return (
-        <div className="sm:w-3/4">
-            <h2 className="text-primary-950 font-bold text-5xl p-2 pt-16 ml-8">{data.title}</h2>
+        <div className="">
+
+            <div className="flex justify-center items-center p-2 pt-16">
+                <img src={OracleSleeveless} alt="Oracle Sleeveless" className="w-2/3 sm:w-1/2 h-auto" />
+            </div>
+            <h2 className="text-primary-950 font-bold text-5xl p-2 mt-4 ml-8">{data.title}</h2>
             <h2 className="text-primary-950 font-bold text-3xl p-2 mt-4 mx-8 leading-relaxed">{data.subtitle}</h2>
             <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">{data.description}</p>
             <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">

@@ -65,7 +65,7 @@ const About = () => {
           <li>🌍 International competition results and statistics. (Coming Soon)</li>
         </ul>
       </div>
-      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">If you'd like to support current and future development of this project, consider upgrading to our Lift Oracle Pro tier. For the cost of one latte per month, Pro-tier members can take advantage of the following features:</p>
+      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">If you'd like to support current and future development of this project, consider upgrading to our Lift Oracle Pro tier. For the cost of one monthly latte, Pro-tier members can take advantage of the following features:</p>
       <div className="m-8">
         <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
             <li>🧮 Advanced athlete statistics. Gain an edge on your competition.</li>
