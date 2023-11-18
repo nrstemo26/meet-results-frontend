@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar"
 import { FiMenu } from 'react-icons/fi'
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
+import LiftOracleLogo from '../../assets/lift_oracle_lo_res.svg'
 
 
 //we dont use isLogged in just pass it around
@@ -23,7 +24,11 @@ function MobileNav({setIsSidebarOpen, handleLogout}){
             {isOpen ? '' : <FiMenu className="cursor-pointer" size={30}/>}
         </div>
 
-        <Link to='/'><div className=''>LIFT ORACLE</div></Link>
+        <Link to='/'>
+            <div className=''>
+                <img src={LiftOracleLogo} alt="Lift Oracle Logo" className="h-6 w-auto" />
+            </div>
+        </Link>
     </>
     )
 }

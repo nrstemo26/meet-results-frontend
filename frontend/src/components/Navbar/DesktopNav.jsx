@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import LiftOracleLogo from '../../assets/lift_oracle_lo_res.svg'
 
 
 function DesktopNav( {handleLogout} ) {
@@ -7,7 +8,11 @@ function DesktopNav( {handleLogout} ) {
 
   return (
     <>
-      <Link to='/'><div className=''>LIFT ORACLE</div></Link>
+      <Link to='/'>
+        <div className=''>
+          <img src={LiftOracleLogo} alt="Lift Oracle Logo" className="h-8 w-auto" />
+        </div>
+      </Link>
 
       <div className="flex gap-2">
         <Link to="/">
