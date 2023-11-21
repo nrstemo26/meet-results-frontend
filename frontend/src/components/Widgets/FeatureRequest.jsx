@@ -56,11 +56,11 @@ const FeatureRequest = () => {
 
   return (
     <div>
-      <div className="z-10 md:fixed bottom-0 right-0 mb-8 mr-8">
-        <button 
-          className="text-sm btn-alt" 
+      <div className="z-10">
+        <div 
+          className="text-primary-950 hover:text-primary-400 font-bold cursor-pointer" 
           onClick={toggleModal}>Request a feature.
-        </button>
+        </div>
       </div>
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center">
