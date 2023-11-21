@@ -38,7 +38,7 @@ function DesktopNav( {handleLogout} ) {
           <Link to="/account">
             <div>Account</div>
           </Link>
-          <button onClick={handleLogout}>Logout</button>
+          <div className="cursor-pointer" onClick={handleLogout}>Logout</div>
         </div>
       ) : (
         // Show login/register buttons when user is not logged in
