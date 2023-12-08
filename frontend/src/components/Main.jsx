@@ -18,6 +18,7 @@ import { Home } from '../pages/Home/Home'
 import { Insights } from '../pages/Insights'
 import About from '../pages/About'
 import ProRedirect from '../pages/ProRedirect'
+import ResultsFilterForm from '../pages/ProQuery'
 import Cheers from '../pages/Cheers'
 
 import { useDispatch } from 'react-redux';
@@ -59,6 +60,7 @@ return (
           <Route path='/account' element={<Account />}/>
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path='/pro-redirect' element={<ProRedirect/>} />
+          <Route path='/pro-query' element={<ResultsFilterForm/>} />
           <Route path='/cheers' element={<Cheers/>} />
         </Routes>
 
