@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { baseUrl } from '../config';
 
 const ResultsFilterForm = () => {
   const [filters, setFilters] = useState({
@@ -20,7 +22,7 @@ const ResultsFilterForm = () => {
 
   // Sample JSON data (this will be replaced by your API call)
   const jsonOptions = {
-    genderOptions: ['Male', 'Female'],
+    genderOptions: ["Men's", "Women's"],
     weightClassOptions: [
         '30',
         '32',
@@ -101,6 +103,26 @@ const ResultsFilterForm = () => {
     categoryOptions:['Youth', 'Junior', 'Open', 'Masters']
   };
 
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      // Function to trigger API call
+      triggerApiCall();
+    }, 500); // Debounce delay in milliseconds
+
+    return () => clearTimeout(debounceTimeout);
+  }, [filters]); // Effect runs on filter changes
+
+  const triggerApiCall = () => {
+    axios.post(`${baseUrl}/v1/query/`, filters)
+      .then(response => {
+        console.log('API Response:', response.data);
+        // Handle your response here
+      })
+      .catch(error => {
+        console.error('API Error:', error);
+        // Handle error here
+      });
+  }
   
   // Function to handle updates (both from handleChange and removeFilter)
   const handleUpdate = (updatedFilters) => {
@@ -108,7 +130,7 @@ const ResultsFilterForm = () => {
 
     // Trigger the API call or log to console for now
     console.log('Updated Filters:', updatedFilters);
-    // triggerApiCall(updatedFilters); // Replace with actual API call logic
+    
   };
   
   // Function to handle changes in the select boxes and log to console
