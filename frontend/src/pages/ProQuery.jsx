@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Spinner } from './Spinners/Spinner';
 import { baseUrl } from '../config';
+import Insights from '../components/Dashboards/Meet/Insights'
+import TopSinclairs from "../components/Dashboards/Meet/TopSinclairs";
 
 const ResultsFilterForm = () => {
   const [filters, setFilters] = useState({
@@ -20,7 +23,7 @@ const ResultsFilterForm = () => {
     categoryOptions: []
   });
 
-  // Sample JSON data (this will be replaced by your API call)
+  // Sample JSON data (this will eventually be replaced by an API call retrieving unique menu options)
   const jsonOptions = {
     genderOptions: ["Men's", "Women's"],
     weightClassOptions: [
@@ -103,26 +106,38 @@ const ResultsFilterForm = () => {
     categoryOptions:['Youth', 'Junior', 'Open', 'Masters']
   };
 
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      // Function to trigger API call
-      triggerApiCall();
-    }, 500); // Debounce delay in milliseconds
-
-    return () => clearTimeout(debounceTimeout);
-  }, [filters]); // Effect runs on filter changes
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiData, setApiData] = useState(null);
 
   const triggerApiCall = () => {
-    axios.post(`${baseUrl}/v1/query/`, filters)
+    setIsLoading(true);
+
+    // Construct query string from filters
+    const queryParams = new URLSearchParams();
+    Object.entries(filters).forEach(([key, values]) => {
+      values.forEach(value => queryParams.append(key, value));
+    });
+  
+    axios.get(`${baseUrl}/v1/query?${queryParams.toString()}`)
       .then(response => {
         console.log('API Response:', response.data);
+        setApiData(response.data);
         // Handle your response here
       })
       .catch(error => {
         console.error('API Error:', error);
         // Handle error here
+      })
+      .finally(() => {
+        // Set isLoading to false when the API call is completed or if there's an error
+        setIsLoading(false);
       });
-  }
+  };  
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    triggerApiCall();
+  };
   
   // Function to handle updates (both from handleChange and removeFilter)
   const handleUpdate = (updatedFilters) => {
@@ -163,13 +178,11 @@ const ResultsFilterForm = () => {
     }
   
     return optionList.map((option, index) => {
-      const isSelected = filters[filterCategory].includes(option.toLowerCase());
       return (
         <option 
           key={index} 
           value={option.toLowerCase()} 
           className="hover:bg-primary-950 hover:text-white"
-          selected={isSelected}
         >
           {option}
         </option>
@@ -200,45 +213,63 @@ const ResultsFilterForm = () => {
       ));
     });
   };
-
+  // TODO: MULTI-SELECTS
   return (
-    <div className="w-full sm:w-1/3 p-6 bg-secondary-500 rounded-lg shadow-lg text-sm">
-      <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Query Filters</h1>
-      <form className="flex flex-col gap-4 text-gray-900">
-        {/* Gender Select */}
-        <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="gender" multiple onChange={handleChange}>
-          {renderOptions(options.genderOptions, 'gender')}
-        </select>
+    <div>
+      <div className="flex justify-center">
+        <div className="w-full lg:w-3/4 p-6 bg-secondary-500 rounded-lg shadow-lg text-sm">
+          <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Query Filters</h1>
+          <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-900" onSubmit={handleSubmit}>
+            {/* Gender Select */}
+            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="gender" multiple onChange={handleChange}>
+              {renderOptions(options.genderOptions, 'gender')}
+            </select>
 
-        {/* Weight Class Select */}
-        <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="weightClass" multiple onChange={handleChange}>
-          {renderOptions(options.weightClassOptions, 'weightClass')}
-        </select>
+            {/* Weight Class Select */}
+            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="weightClass" multiple onChange={handleChange}>
+              {renderOptions(options.weightClassOptions, 'weightClass')}
+            </select>
 
-        {/* Category Select */}
-        <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="category" multiple onChange={handleChange}>
-          {renderOptions(options.categoryOptions, 'category')}
-        </select>
+            {/* Category Select */}
+            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="category" multiple onChange={handleChange}>
+              {renderOptions(options.categoryOptions, 'category')}
+            </select>
 
-        {/* Age Group Select */}
-        <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="ageGroup" multiple onChange={handleChange}>
-          {renderOptions(options.ageGroupOptions, 'ageGroup')}
-        </select>
+            {/* Age Group Select */}
+            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="ageGroup" multiple onChange={handleChange}>
+              {renderOptions(options.ageGroupOptions, 'ageGroup')}
+            </select>
 
-        {/* Year Select */}
-        <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="year" multiple onChange={handleChange}>
-          {renderOptions(options.yearOptions, 'year')}
-        </select>
+            {/* Year Select */}
+            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="year" multiple onChange={handleChange}>
+              {renderOptions(options.yearOptions, 'year')}
+            </select>
 
-        {/* Meet Type Select */}
-        <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="meetType" multiple onChange={handleChange}>
-          {renderOptions(options.meetTypeOptions, 'meetType')}
-        </select>
-      </form>
-      <div className="flex flex-wrap mt-4">
-        {renderSelectedFilters()}
+            {/* Meet Type Select */}
+            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="meetType" multiple onChange={handleChange}>
+              {renderOptions(options.meetTypeOptions, 'meetType')}
+            </select>
+            <button type="submit" className="bg-primary-950 text-white rounded p-2 hover:bg-primary-500">Consult the Oracle</button>
+          </form>
+          <div className="flex flex-wrap justify-center items-center mt-4">
+            {renderSelectedFilters()}
+          </div>
+          
+        </div>
+      </div>
+      <div>
+        {isLoading && <Spinner />} 
+      </div>
+      <div className="my-2 flex flex-wrap gap-2 justify-evenly">
+        {!isLoading && apiData && (
+          <>
+            <Insights data={apiData} />
+            <TopSinclairs data={apiData} />
+          </>
+        )}
       </div>
     </div>
+    
   );
 };
 
