@@ -4,6 +4,7 @@ import { Spinner } from './Spinners/Spinner';
 import { baseUrl } from '../config';
 import Insights from '../components/Dashboards/Meet/Insights'
 import TopSinclairs from "../components/Dashboards/Meet/TopSinclairs";
+import {toast} from 'react-toastify'
 
 const ResultsFilterForm = () => {
   const [filters, setFilters] = useState({
@@ -110,6 +111,7 @@ const ResultsFilterForm = () => {
   const [apiData, setApiData] = useState(null);
 
   const triggerApiCall = () => {
+    setApiData(null);
     setIsLoading(true);
 
     // Construct query string from filters
@@ -126,7 +128,8 @@ const ResultsFilterForm = () => {
       })
       .catch(error => {
         console.error('API Error:', error);
-        // Handle error here
+        const errorMessage = error.response ? error.response.data.message : error.message;
+        toast.error(`Error: ${errorMessage}`);
       })
       .finally(() => {
         // Set isLoading to false when the API call is completed or if there's an error
