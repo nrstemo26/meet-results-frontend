@@ -264,7 +264,7 @@ const ResultsFilterForm = () => {
       <div className="my-2 flex flex-wrap gap-2 justify-evenly">
         {!isLoading && apiData && (
           <>
-            <div className="sm:flex sm:flex-auto">
+            <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full sm:w-3/4">
               <div className="bg-secondary-500 p-6 rounded-lg w-full sm:w-1/3 shadow-lg p-2 mb-4">
                 <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Query Statistics</h1>
                 <div className="text-left flex flex-col gap-1 mb-2">
@@ -284,11 +284,9 @@ const ResultsFilterForm = () => {
                     <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{apiData.advanced_stats['C&J']['Total Avg Reach (Kg)']}kg</span></a>
                 </div>
               </div>
-              <div className="flex justify-center items-center m-2">
-                <h1 className="text-center text-2xl text-primary-950 font-bold mb-4">Top 10 Sinclair Totals</h1>
-              </div>
-              <div className="sm:flex sm:justify-center sm:items-center">
-                <div className="sm:w-full sm:w-1/2 m-4">
+              <div className="w-full sm:w-1/2 p-6 mb-4">
+                <h1 className="text-center text-xl text-primary-950 font-bold mb-4">Top 10 Sinclair Totals</h1>
+                <div className="w-full">
                   <table className="min-w-full border border-gray-300 divide-y divide-gray-300">
                     <thead>
                     <tr className="bg-gray-100 text-primary-950">
