@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Spinner } from './Spinners/Spinner';
-import { baseUrl } from '../config';
+import { Spinner } from '../../../pages/Spinners/Spinner';
+import { baseUrl } from '../../../config';
 import {toast} from 'react-toastify'
-import PaywallOverlay from '../components/Widgets/PaywallOverlay'
+import PaywallOverlay from '../../Widgets/PaywallOverlay'
 
 const ResultsFilterForm = () => {
   const [filters, setFilters] = useState({
@@ -220,7 +220,7 @@ const ResultsFilterForm = () => {
       ));
     });
   };
-  // TODO: MULTI-SELECTS
+
   return (
     <div>
       <div className="flex justify-center">

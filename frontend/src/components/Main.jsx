@@ -18,7 +18,7 @@ import { Home } from '../pages/Home/Home'
 import { Insights } from '../pages/Insights'
 import About from '../pages/About'
 import ProRedirect from '../pages/ProRedirect'
-import ResultsFilterForm from '../pages/ProQuery'
+import ResultsFilterForm from './Dashboards/Query/ProQuery'
 import Cheers from '../pages/Cheers'
 
 import { useDispatch } from 'react-redux';
