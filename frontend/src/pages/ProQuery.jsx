@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Spinner } from './Spinners/Spinner';
 import { baseUrl } from '../config';
 import {toast} from 'react-toastify'
+import PaywallOverlay from '../components/Widgets/PaywallOverlay'
 
 const ResultsFilterForm = () => {
   const [filters, setFilters] = useState({
@@ -156,7 +157,7 @@ const ResultsFilterForm = () => {
 
     handleUpdate({
       ...filters,
-      [name]: selectedOptions,
+      [name]: selectedOptions, // This should aggregate selections
     });
   };
 
@@ -170,6 +171,11 @@ const ResultsFilterForm = () => {
     setOptions(jsonOptions);
     handleInitialDataFetch();
   }, []);
+
+  // useEffect(() => {
+  //   setOptions(jsonOptions); // Assuming jsonOptions is your predefined options state
+  //   triggerApiCall(); // This will trigger the API call on component mount
+  // }, []); // Empty dependency array ensures this effect runs once on mount
 
   // Function to render options for a select
   const renderOptions = (optionList, filterCategory) => {
@@ -219,38 +225,57 @@ const ResultsFilterForm = () => {
     <div>
       <div className="flex justify-center">
         <div className="w-full lg:w-3/4 p-6 bg-secondary-500 rounded-lg shadow-lg text-sm">
-          <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Query Filters</h1>
-          <form className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-900" onSubmit={handleSubmit}>
-            {/* Gender Select */}
-            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="gender" multiple onChange={handleChange}>
-              {renderOptions(options.genderOptions, 'gender')}
-            </select>
+          <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Lift Oracle Custom Query</h1>
+          <p className="text-center text-xs text-primary-500 mb-4">Use <strong>Ctrl</strong> (Windows) or <strong>Cmd</strong> (Mac) to select multiple filters in one category.</p>
+          <form className="" onSubmit={handleSubmit}>
+            <PaywallOverlay buttonText="Unlock Custom Query with Lift Oracle Pro">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-900">
+                {/* Weight Class Select */}
+                <div>
+                  <label htmlFor="weightClass" className="block text-gray-600 text-xs font-semibold mb-2">Weight Class</label>
+                  <select id="weightClass" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="weightClass" multiple onChange={handleChange}>
+                    {renderOptions(options.weightClassOptions, 'weightClass')}
+                  </select>
+                </div>
 
-            {/* Weight Class Select */}
-            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="weightClass" multiple onChange={handleChange}>
-              {renderOptions(options.weightClassOptions, 'weightClass')}
-            </select>
+                {/* Category Select */}
+                <div>
+                  <label htmlFor="category" className="block text-gray-600 text-xs font-semibold mb-2">Category</label>
+                  <select id="category" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="category" multiple onChange={handleChange}>
+                    {renderOptions(options.categoryOptions, 'category')}
+                  </select>
+                </div>
 
-            {/* Category Select */}
-            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="category" multiple onChange={handleChange}>
-              {renderOptions(options.categoryOptions, 'category')}
-            </select>
+                {/* Age Group Select */}
+                <div>
+                  <label htmlFor="ageGroup" className="block text-gray-600 text-xs font-semibold mb-2">Age Group</label>
+                  <select id="ageGroup" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="ageGroup" multiple onChange={handleChange}>
+                    {renderOptions(options.ageGroupOptions, 'ageGroup')}
+                  </select>
+                </div>
 
-            {/* Age Group Select */}
-            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="ageGroup" multiple onChange={handleChange}>
-              {renderOptions(options.ageGroupOptions, 'ageGroup')}
-            </select>
+                {/* Year Select */}
+                <div>
+                  <label htmlFor="year" className="block text-gray-600 text-xs font-semibold mb-2">Year</label>
+                  <select id="year" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="year" multiple onChange={handleChange}>
+                    {renderOptions(options.yearOptions, 'year')}
+                  </select>
+                </div>
 
-            {/* Year Select */}
-            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="year" multiple onChange={handleChange}>
-              {renderOptions(options.yearOptions, 'year')}
-            </select>
-
-            {/* Meet Type Select */}
-            <select className="border border-gray-300 hover:border-primary-950 rounded p-2" name="meetType" multiple onChange={handleChange}>
-              {renderOptions(options.meetTypeOptions, 'meetType')}
-            </select>
-            <button type="submit" className="bg-primary-950 text-white rounded p-2 hover:bg-primary-500">Consult the Oracle</button>
+                {/* Meet Type Select */}
+                <div>
+                  <label htmlFor="meetType" className="block text-gray-600 text-xs font-semibold mb-2">Meet Type</label>
+                  <select id="meetType" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="meetType" multiple onChange={handleChange}>
+                    {renderOptions(options.meetTypeOptions, 'meetType')}
+                  </select>
+                </div>
+              </div>
+            </PaywallOverlay>
+            
+            <div className="flex justify-center w-full mt-4">
+              <button type="submit" className="bg-primary-950 text-white rounded p-2 hover:bg-primary-500">Consult the Oracle</button>
+            </div>
+            
           </form>
           <div className="flex flex-wrap justify-center items-center mt-4">
             {renderSelectedFilters()}
