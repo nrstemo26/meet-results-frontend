@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Spinner } from '../../../pages/Spinners/Spinner';
 import { baseUrl } from '../../../config';
 import {toast} from 'react-toastify'
-import PaywallOverlay from '../../Widgets/PaywallOverlay'
 
 const ResultsFilterForm = () => {
   const [filters, setFilters] = useState({
@@ -228,49 +227,55 @@ const ResultsFilterForm = () => {
           <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Lift Oracle Custom Query</h1>
           <p className="text-center text-xs text-primary-500 mb-4">Use <strong>Ctrl</strong> (Windows) or <strong>Cmd</strong> (Mac) to select multiple filters in one category.</p>
           <form className="" onSubmit={handleSubmit}>
-            <PaywallOverlay buttonText="Unlock Custom Query with Lift Oracle Pro">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-900">
-                {/* Weight Class Select */}
-                <div>
-                  <label htmlFor="weightClass" className="block text-gray-600 text-xs font-semibold mb-2">Weight Class</label>
-                  <select id="weightClass" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="weightClass" multiple onChange={handleChange}>
-                    {renderOptions(options.weightClassOptions, 'weightClass')}
-                  </select>
-                </div>
-
-                {/* Category Select */}
-                <div>
-                  <label htmlFor="category" className="block text-gray-600 text-xs font-semibold mb-2">Category</label>
-                  <select id="category" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="category" multiple onChange={handleChange}>
-                    {renderOptions(options.categoryOptions, 'category')}
-                  </select>
-                </div>
-
-                {/* Age Group Select */}
-                <div>
-                  <label htmlFor="ageGroup" className="block text-gray-600 text-xs font-semibold mb-2">Age Group</label>
-                  <select id="ageGroup" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="ageGroup" multiple onChange={handleChange}>
-                    {renderOptions(options.ageGroupOptions, 'ageGroup')}
-                  </select>
-                </div>
-
-                {/* Year Select */}
-                <div>
-                  <label htmlFor="year" className="block text-gray-600 text-xs font-semibold mb-2">Year</label>
-                  <select id="year" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="year" multiple onChange={handleChange}>
-                    {renderOptions(options.yearOptions, 'year')}
-                  </select>
-                </div>
-
-                {/* Meet Type Select */}
-                <div>
-                  <label htmlFor="meetType" className="block text-gray-600 text-xs font-semibold mb-2">Meet Type</label>
-                  <select id="meetType" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="meetType" multiple onChange={handleChange}>
-                    {renderOptions(options.meetTypeOptions, 'meetType')}
-                  </select>
-                </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-gray-900">
+              {/* Gender Select with Label */}
+              <div>
+                <label htmlFor="gender" className="block text-gray-700 text-xs font-semibold mb-2">Gender</label>
+                <select id="gender" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="gender" multiple onChange={handleChange}>
+                  {renderOptions(options.genderOptions, 'gender')}
+                </select>
               </div>
-            </PaywallOverlay>
+
+              {/* Weight Class Select */}
+              <div>
+                <label htmlFor="weightClass" className="block text-gray-600 text-xs font-semibold mb-2">Weight Class</label>
+                <select id="weightClass" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="weightClass" multiple onChange={handleChange}>
+                  {renderOptions(options.weightClassOptions, 'weightClass')}
+                </select>
+              </div>
+
+              {/* Category Select */}
+              <div>
+                <label htmlFor="category" className="block text-gray-600 text-xs font-semibold mb-2">Category</label>
+                <select id="category" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="category" multiple onChange={handleChange}>
+                  {renderOptions(options.categoryOptions, 'category')}
+                </select>
+              </div>
+
+              {/* Age Group Select */}
+              <div>
+                <label htmlFor="ageGroup" className="block text-gray-600 text-xs font-semibold mb-2">Age Group</label>
+                <select id="ageGroup" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="ageGroup" multiple onChange={handleChange}>
+                  {renderOptions(options.ageGroupOptions, 'ageGroup')}
+                </select>
+              </div>
+
+              {/* Year Select */}
+              <div>
+                <label htmlFor="year" className="block text-gray-600 text-xs font-semibold mb-2">Year</label>
+                <select id="year" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="year" multiple onChange={handleChange}>
+                  {renderOptions(options.yearOptions, 'year')}
+                </select>
+              </div>
+
+              {/* Meet Type Select */}
+              <div>
+                <label htmlFor="meetType" className="block text-gray-600 text-xs font-semibold mb-2">Meet Type</label>
+                <select id="meetType" className="border border-gray-300 hover:border-primary-950 rounded p-2 w-full" name="meetType" multiple onChange={handleChange}>
+                  {renderOptions(options.meetTypeOptions, 'meetType')}
+                </select>
+              </div>
+            </div>
             
             <div className="flex justify-center w-full mt-4">
               <button type="submit" className="bg-primary-950 text-white rounded p-2 hover:bg-primary-500">Consult the Oracle</button>

@@ -4,7 +4,6 @@ import { proLink } from "../../config"
 
 function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro' }) {
   const auth = useSelector((state) => state.auth);
-  console.log(auth);
   const isSubscribed = useSelector((state) => state.auth.isSubscribed)
   const enhancedChildren = isSubscribed 
     ? children 
