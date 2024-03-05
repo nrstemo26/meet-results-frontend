@@ -6,7 +6,7 @@ import { baseUrl } from './config';
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router} from 'react-router-dom'
 import { ToastContainer} from 'react-toastify'
-
+import Footer from './components/Widgets/Footer'
 import Main from './components/Main'
 import Navbar from './components/Navbar/Navbar'
 
@@ -40,6 +40,7 @@ function App() {
         
         {/* this can get passed props if we need stuff to go from navbar---> main */}
         <Main />
+        <Footer />
       </div>
       <ToastContainer
         position="bottom-right"
