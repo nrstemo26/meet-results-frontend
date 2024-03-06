@@ -49,7 +49,7 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block font-medium mb-1">
-              Username
+              Username or email
             </label>
             <input
               type="username"
