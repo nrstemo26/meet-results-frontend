@@ -19,6 +19,7 @@ const Account = () => {
   const [showWatchlists, setShowWatchlists] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState(null);
   const [billingPortalUrl, setBillingPortalUrl] = useState('');
+  const [newUsername, setNewUsername] = useState('');
 
   
   const navigate = useNavigate();
@@ -82,6 +83,29 @@ const Account = () => {
 
     getAccount();
   }, [navigate]); // Empty dependency array to run the effect only once
+
+  const handleUsernameChange = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const credentials = btoa(`${token}:unused`);
+    
+    try {
+      const response = await axios.put(`${baseUrl}/v1/user/update-username/`, {
+        username: newUsername,
+      }, {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      });
+
+      // Update local state if necessary
+      setAccountData({...accountData, username: newUsername});
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message || 'Failed to update username.');
+    }
+  };
 
   const handleShowWatchlists = () => {
     setShowWatchlists(!showWatchlists);
@@ -206,6 +230,28 @@ const Account = () => {
               >
                 Saved Watchlists
               </Link>
+              <form onSubmit={handleUsernameChange} className="mt-4">
+                {/* <label htmlFor="newUsername" className="block text-xs font-medium text-gray-700">
+                  Change Username
+                </label> */}
+                <div className="mt-1 flex rounded-md shadow-sm">
+                  <input
+                    type="text"
+                    name="newUsername"
+                    id="newUsername"
+                    value={newUsername}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    className="p-2 focus:ring-primary-950 focus:border-primary-950 flex-grow block w-full min-w-0 rounded-md sm:text-sm border-gray-300"
+                    placeholder="Change your username"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="mt-2 inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-950 hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-950"
+                >
+                  Update Username
+                </button>
+              </form>
             </div>
             {showWatchlists && watchlistData.length > 0 && (
               <div className="mt-4 p-2 shadow-lg">
