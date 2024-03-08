@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { login, reset } from '../../features/authSlice';
+import { updateMetaTags } from '../../lib/seo_utils';
 
 import {toast} from 'react-toastify'
 
@@ -11,6 +12,9 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+
+  const pageTitle = 'Login - Lift Oracle';
+  const descriptionContent = 'Securely access your account access exclusive Lift Oracle features. View saved watchlists, your Oracle Rating, and more.';
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,6 +48,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
+      {updateMetaTags(pageTitle, descriptionContent)}
       <div className="w-full sm:w-auto p-8 bg-transparent rounded shadow">
         <h2 className="text-2xl text-primary-950 font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>

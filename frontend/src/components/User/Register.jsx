@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { register, reset } from '../../features/authSlice';
-import {toast} from 'react-toastify'
-
+import { toast } from 'react-toastify'
+import { updateMetaTags } from '../../lib/seo_utils';
 
 const Register = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate();
+
+  const pageTitle = 'Register - Lift Oracle';
+  const descriptionContent = 'Register to gain access to exclusive Lift Oracle features. Track athletes by saving watchlists, pump your Oracle Rating, and more.';
   
   const {user, isLoading, isError, isSuccess, message} = useSelector((state)=>state.auth)
 
@@ -64,6 +67,7 @@ const Register = () => {
   
   return (
     <div className="flex justify-center items-center h-screen">
+      {updateMetaTags(pageTitle, descriptionContent)}
       <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
         <h2 className="text-2xl text-primary-950 font-bold mb-4">Register</h2>
         <form onSubmit={handleSubmit}>

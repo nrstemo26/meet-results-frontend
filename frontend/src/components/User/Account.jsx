@@ -4,7 +4,7 @@ import axios from 'axios';
 import { TiDeleteOutline } from 'react-icons/ti'
 import defaultAvatar from '../../assets/cyclist_4_color_transparent.png'
 import {toast} from 'react-toastify'
-
+import { updateMetaTags } from '../../lib/seo_utils';
 import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
 import { rankToTitle } from '../../lib/account_utils';
@@ -21,6 +21,8 @@ const Account = () => {
   const [billingPortalUrl, setBillingPortalUrl] = useState('');
   const [newUsername, setNewUsername] = useState('');
 
+  const pageTitle = 'Account - Lift Oracle';
+  const descriptionContent = 'Your Lift Oracle account. Manage subscription, load saved watchlists, track your Oracle Rating, and more.';
   
   const navigate = useNavigate();
 
@@ -145,6 +147,7 @@ const Account = () => {
 
   return (
     <div className="flex m-4 justify-center items-top h-full">
+      {updateMetaTags(pageTitle, descriptionContent)}
       <div className="lg:w-1/3 p-8 bg-white rounded shadow">
         {accountData ? (
           <>

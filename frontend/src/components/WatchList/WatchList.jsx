@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {selectWatchlist} from '../../features/watchlistSlice'
 import { TiDownload, TiFolderAdd } from 'react-icons/ti'
 import { account } from '../../features/authSlice';
-
+import { updateMetaTags } from '../../lib/seo_utils';
 import { toast } from 'react-toastify';
 
 import { baseUrl, proLink } from '../../config';
@@ -17,6 +17,10 @@ function WatchList(){
   const user = useSelector((state) => state.auth.user)
   const isSubscribed = useSelector((state) => state.auth.isSubscribed)
   const WatchListAthletes = useSelector(selectWatchlist);
+
+  const pageTitle = 'Watchlist - Lift Oracle';
+  const descriptionContent = 'Track your favorite olympic weightlifting athletes by creating a Lift Oracle watchlist.';
+
   useEffect(() => {
     if (user) {
       dispatch(account()); // Dispatch the action to fetch account info
@@ -131,6 +135,7 @@ function WatchList(){
 
     return(
       <div className='sm:flex w-100 p-4'>
+        {updateMetaTags(pageTitle, descriptionContent)}
           <div className='sm:w-2/4' >
               <Search isWatchlist={true} ></Search>
           </div>

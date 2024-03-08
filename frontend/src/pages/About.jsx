@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { baseUrl, coffeeLink, buttonId, pubKey } from '../config'
+import { updateMetaTags } from '../lib/seo_utils';
 import axios from 'axios';
 
 const apiUrl = baseUrl+'/v1/'
@@ -10,6 +11,9 @@ const About = () => {
   const [accountId, setAccountId] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const [coffeeURL, setCoffeeURL] = useState('');
+
+  const pageTitle = 'About - Lift Oracle';
+  const descriptionContent = 'Lift Oracle origin story, feature breakdown, and product roadmap. From the minds of Milwaukee Barbell.';
   
   useEffect(() => {
     const getAccount = async () => {
@@ -51,6 +55,7 @@ const About = () => {
 
   return(
     <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
+      {updateMetaTags(pageTitle, descriptionContent)}
       {/* <h1 className="text-primary-950 font-bold text-3xl p-2 mt-4 mx-8 leading-relaxed">About</h1> */}
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">Lift Oracle was conceived and forged from the keyboards of <a className="url" href="https://milwaukeebarbell.com">Milwaukee Barbell</a>. We are massive weightlifting nerds who have been coaching and competing in this sport for over a decade.</p>
       <p className="m-8 p-2 text-primary-950 leading-loose">One crisp spring morning early in 2023, we found ourselves reminiscing and mourning the loss of the pioneering weightlifting data site, OlyStats. Inspired to carry on and advance in its spirit, we started on our quest to build out a modern intelligence platform for weightlifting. Athletes, competitions, advanced statistics. <span className="font-semibold">The Lift Oracle.</span></p>

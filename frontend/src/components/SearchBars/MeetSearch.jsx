@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
 import { getAllMeets } from "../../features/meetSlice";
+import { updateMetaTags } from "../../lib/seo_utils";
 import MeetList from "./MeetList"
 import SearchBar from "./SearchBar"
 import MeetTable from "../../components/Widgets/MeetTable"
@@ -10,6 +11,9 @@ function MeetSearch(){
   const dispatch = useDispatch()
   const [meets, setMeets] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const pageTitle = 'Meet Search - Lift Oracle';
+  const descriptionContent = 'Search our database of over 54,000 Olympic weightlifting competitions.';
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -34,6 +38,7 @@ function MeetSearch(){
 
   return (
       <div className="text-center">
+        {updateMetaTags(pageTitle, descriptionContent)}
         <SearchBar onSearch={handleSearch} placeholderText={"Start typing an competition by year or name..."}/>
         {searchQuery.length > 0 ? 
         <MeetList meets={meets} />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
 import { getAllAthletes } from "../../features/athleteSlice";
-
+import { updateMetaTags } from "../../lib/seo_utils";
 import PropTypes from 'prop-types';
 
 import SearchBar from "./SearchBar";
@@ -13,6 +13,9 @@ const Search = ({ isWatchlist }) => {
   const dispatch = useDispatch()
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const pageTitle = 'Lifter Search - Lift Oracle';
+  const descriptionContent = 'Search our database of over 5,000 Olympic weightlifting athletes.';
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -39,6 +42,7 @@ const Search = ({ isWatchlist }) => {
   
   return (
         <div className="text-center">
+          {updateMetaTags(pageTitle, descriptionContent)}
             <SearchBar onSearch={handleSearch} placeholderText={"Start typing an athlete's name..."}/>
             {searchQuery.length > 0 ? 
             <UserList users={users} isWatchlist={isWatchlist}  />

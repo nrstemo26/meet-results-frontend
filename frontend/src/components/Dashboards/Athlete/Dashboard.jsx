@@ -9,8 +9,8 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { getAthlete } from '../../../features/athleteSlice'
 import { removeFromWatchlist,addToWatchlist } from '../../../features/watchlistSlice';
-import{useNavigate} from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
+import { updateMetaTags } from '../../../lib/seo_utils';
 import ChartWrapper from './ChartWrapper';
 
 
@@ -25,6 +25,9 @@ const Dashboard = () => {
   const [requestSent, setRequestSent] = useState(false)
   const watchlist = useSelector((state) => state.watchlist.athletes)
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
+
+  const pageTitle = data ? `${data['_athlete_id']} - Lift Oracle`: 'Lift Oracle';
+  const descriptionContent = data ? `Olympic weightlifting competition history and statistics for ${data['_athlete_id']}. Snatch, clean and jerk, total, sinclair, completion percentages, and more.`: 'Loading athlete information';
 
   const [inWatchlist, setInWatchlist]= useState(()=>{
     const urlArray = window.location.pathname.split('/')
@@ -85,6 +88,7 @@ const Dashboard = () => {
 
     return (
       <div className='dashboard-container'>
+        {updateMetaTags(pageTitle, descriptionContent)}
         <div className='bg-secondary-500 p-5 rounded-xl'>
             {data ? <WatchlistIcon name={data['_athlete_id']} toggleWatchlist={toggleWatchlist} inWatchlist={inWatchlist}/>: 'loading'}
             {/* <h1 className="text-center text-primary-950 text-4xl font-bold m-2">
