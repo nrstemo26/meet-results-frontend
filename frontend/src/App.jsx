@@ -13,7 +13,7 @@ import Navbar from './components/Navbar/Navbar'
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   // const ogImageUrl = `${baseUrl}/static/images/oracle_sleeveless.png`;
-  const pageTitle = 'Home - Lift Oracle';
+  const pageTitle = 'Lift Oracle';
   const descriptionContent = 'Olympic weightlifting competition results and statistics. Snatch, clean and jerk, and total stats covering 54,000+ events and 5,000+ athletes.';
 
   return (
