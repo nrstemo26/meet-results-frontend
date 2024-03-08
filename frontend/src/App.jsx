@@ -12,6 +12,8 @@ import Navbar from './components/Navbar/Navbar'
 
 
 function RouteChangeListener() {
+  const [pageTitle, setPageTitle] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
   const location = useLocation();
 
   useEffect(() => {
@@ -43,11 +45,18 @@ function RouteChangeListener() {
       // Capitalize the first letter of the path segment for other paths
       pageTitle = pathSegments[0].charAt(0).toUpperCase() + pathSegments[0].slice(1);
     }
+    setPageTitle(pageTitle);
+    setMetaTitle(pageTitle);
 
-    document.title = pageTitle;
+    // document.title = pageTitle;
   }, [location]);
 
-  return null; // This component doesn't render anything
+  return (
+    <Helmet>
+      <title>{pageTitle}</title>
+      <meta property="og:title" content={metaTitle} />
+    </Helmet>
+  );
 }
 
 
