@@ -4,11 +4,12 @@ import './App.css'
 import { Helmet } from 'react-helmet';
 import { baseUrl } from './config';
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router} from 'react-router-dom'
+import { BrowserRouter as Router} from 'react-router-dom';
 import { ToastContainer} from 'react-toastify'
 import { updateMetaTags } from './lib/seo_utils';
-import Main from './components/Main'
-import Navbar from './components/Navbar/Navbar'
+import Main from './components/Main';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Widgets/Footer';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -41,7 +42,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
-      
+      <Footer/>
     </Router>
   )
 }
