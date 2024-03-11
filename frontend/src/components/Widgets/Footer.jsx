@@ -48,7 +48,7 @@ const Footer = () => {
         };
     
         getAccount();
-      }, []); // Empty dependency array to run the effect only once
+      }, [user]); 
 
     return (
         <footer className="flex flex-col justify-center items-center m-4 p-2">
