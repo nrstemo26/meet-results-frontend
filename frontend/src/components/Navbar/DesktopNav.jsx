@@ -27,6 +27,9 @@ function DesktopNav( {handleLogout} ) {
         <Link to="/watchlist">
           <div>Watchlist</div>
         </Link>
+        {/* <Link to="/query">
+          <div>Query</div>
+        </Link> */}
         <Link to="/about">
           <div>About</div>
         </Link>

@@ -60,7 +60,7 @@ return (
           <Route path='/account' element={<Account />}/>
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path='/pro-redirect' element={<ProRedirect/>} />
-          <Route path='/pro-query' element={<ResultsFilterForm/>} />
+          <Route path='/query' element={<ResultsFilterForm/>} />
           <Route path='/cheers' element={<Cheers/>} />
         </Routes>
 

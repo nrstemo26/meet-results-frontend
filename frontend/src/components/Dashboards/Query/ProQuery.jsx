@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Spinner } from '../../../pages/Spinners/Spinner';
+import PaywallOverlay from '../../Widgets/PaywallOverlay'
 import { baseUrl } from '../../../config';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 
 const ResultsFilterForm = () => {
   const [filters, setFilters] = useState({
@@ -109,6 +110,7 @@ const ResultsFilterForm = () => {
   const [apiData, setApiData] = useState(null);
 
   const triggerApiCall = () => {
+
     setApiData(null);
     setIsLoading(true);
 
@@ -291,56 +293,63 @@ const ResultsFilterForm = () => {
       <div>
         {isLoading && <Spinner />} 
       </div>
-      <div className="my-2 flex flex-wrap gap-2 justify-evenly">
-        {!isLoading && apiData && (
-          <>
-            <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full sm:w-3/4">
-              <div className="bg-secondary-500 p-6 rounded-lg w-full sm:w-1/3 shadow-lg p-2 mb-4">
-                <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Query Statistics</h1>
-                <div className="text-left flex flex-col gap-1 mb-2">
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Number of Athletes: <span className="font-mono text-gray-700 text-l">{apiData.stats["Number of Athletes"]}</span></a>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Overall Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.stats["Overall Make %"]}</span></a>
+        <div>
+          {!isLoading && apiData && (
+            <>
+              <PaywallOverlay buttonText="Unlock Custom Query with Lift Oracle Pro">
+                <div className="my-2 flex flex-wrap gap-2 justify-evenly">
+                  <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center w-full sm:w-3/4">
+                    
+                      <div className="bg-secondary-500 p-6 rounded-lg w-full sm:w-1/3 shadow-lg p-2 mb-4">
+                        <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Query Statistics</h1>
+                        <div className="text-left flex flex-col gap-1 mb-2">
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">Number of Athletes: <span className="font-mono text-gray-700 text-l">{apiData.stats["Number of Athletes"]}</span></a>
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">Overall Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.stats["Overall Make %"]}</span></a>
+                        </div>
+                        <div className="text-left flex flex-col gap-1 mb-2">
+                            <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Snatch</h1>
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">Snatch Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.stats["Snatch Make %"]}</span></a>
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">Snatch Opener Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.advanced_stats['Snatch']['Opener Make %']}</span></a>
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{apiData.advanced_stats['Snatch']['Total Avg Reach (Kg)']}kg</span></a>
+                        </div>
+                        <div className="text-left flex flex-col gap-1">
+                            <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Clean & Jerk</h1>
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">C&J Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.stats["C&J Make %"]}</span></a>
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">C&J Opener Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.advanced_stats['C&J']['Opener Make %']}</span></a>
+                            <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{apiData.advanced_stats['C&J']['Total Avg Reach (Kg)']}kg</span></a>
+                        </div>
+                      </div>
+                      <div className="w-full sm:w-1/2 p-6 mb-4">
+                        <h1 className="text-center text-xl text-primary-950 font-bold mb-4">Top 10 Sinclair Totals</h1>
+                        <div className="w-full">
+                          <table className="min-w-full border border-gray-300 divide-y divide-gray-300">
+                            <thead>
+                            <tr className="bg-gray-100 text-primary-950">
+                              <th className="px-4 py-2 text-left"></th>
+                              <th className="px-4 py-2 text-left">Athlete</th>
+                              <th className="px-4 py-2 text-left">Sinclair Total (kg)</th>
+                            </tr>
+                            </thead>
+                            <tbody className="text-gray-700">
+                            {apiData.sinclairs.map((data, index) => (
+                              <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                              <td className="px-4 py-2">{index + 1}</td>
+                              <td className="px-4 py-2">{data[0]}</td>
+                              <td className="px-4 py-2 font-mono">{data[1]}</td>
+                              </tr>
+                            ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    
+                  </div>
                 </div>
-                <div className="text-left flex flex-col gap-1 mb-2">
-                    <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Snatch</h1>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Snatch Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.stats["Snatch Make %"]}</span></a>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Snatch Opener Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.advanced_stats['Snatch']['Opener Make %']}</span></a>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{apiData.advanced_stats['Snatch']['Total Avg Reach (Kg)']}kg</span></a>
-                </div>
-                <div className="text-left flex flex-col gap-1">
-                    <h1 className="text-center text-l text-primary-950 font-semibold border-b border-primary-100">Clean & Jerk</h1>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">C&J Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.stats["C&J Make %"]}</span></a>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">C&J Opener Make Rate: <span className="font-mono text-gray-700 text-l">{apiData.advanced_stats['C&J']['Opener Make %']}</span></a>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Total Avg Reach: <span className="font-mono text-gray-70 text-l">{apiData.advanced_stats['C&J']['Total Avg Reach (Kg)']}kg</span></a>
-                </div>
-              </div>
-              <div className="w-full sm:w-1/2 p-6 mb-4">
-                <h1 className="text-center text-xl text-primary-950 font-bold mb-4">Top 10 Sinclair Totals</h1>
-                <div className="w-full">
-                  <table className="min-w-full border border-gray-300 divide-y divide-gray-300">
-                    <thead>
-                    <tr className="bg-gray-100 text-primary-950">
-                      <th className="px-4 py-2 text-left"></th>
-                      <th className="px-4 py-2 text-left">Athlete</th>
-                      <th className="px-4 py-2 text-left">Sinclair Total (kg)</th>
-                    </tr>
-                    </thead>
-                    <tbody className="text-gray-700">
-                    {apiData.sinclairs.map((data, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                      <td className="px-4 py-2">{index + 1}</td>
-                      <td className="px-4 py-2">{data[0]}</td>
-                      <td className="px-4 py-2 font-mono">{data[1]}</td>
-                      </tr>
-                    ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+              </PaywallOverlay>
+            </>
+          )}
+        </div>
+      
     </div>
     
   );

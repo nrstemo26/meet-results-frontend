@@ -1,11 +1,23 @@
-import React from 'react';
-import { useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { account } from '../../features/authSlice';
 import { proLink } from "../../config"
 
 function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro' }) {
-  const auth = useSelector((state) => state.auth);
-  const isSubscribed = useSelector((state) => state.auth.isSubscribed)
+  const user = useSelector((state) => state.auth);
+  const { isSubscribed } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user && user !== null) {
+      dispatch(account());
+    }
+    // Assuming 'user' holds the user's token or some identifier; adjust according to your state structure
+  }, [dispatch, user]);
+
+  
   const enhancedChildren = isSubscribed 
+
     ? children 
     : React.cloneElement(children, {
         className: `${children.props.className || ''} blur-sm`,
