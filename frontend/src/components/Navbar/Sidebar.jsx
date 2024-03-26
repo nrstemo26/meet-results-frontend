@@ -14,7 +14,7 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
       <Link onClick={toggleMenu} to='/meets'><div className='sidebar-element'>Meets</div></Link>
       <Link onClick={toggleMenu} to='/athletes'><div className='sidebar-element'>Lifters</div></Link>
       <Link onClick={toggleMenu} to='/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
-      {/* <Link onClick={toggleMenu} to='/query'><div className='sidebar-element'>Query</div></Link> */}
+      <Link onClick={toggleMenu} to='/query'><div className='sidebar-element'>Query</div></Link>
       <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About</div></Link>
       {user ? (
         <>

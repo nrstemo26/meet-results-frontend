@@ -114,6 +114,7 @@ export const account = createAsyncThunk(
       const response = await axios.get(API_URL + 'account', {
         headers: {
           Authorization: `Basic ${credentials}`,
+          "X-Requested-With": "XMLHttpRequest",
         },
       });
       return response.data.pro;
