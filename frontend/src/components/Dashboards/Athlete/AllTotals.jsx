@@ -4,7 +4,6 @@ import { useSelector } from "react-redux"
 
 function AllTotals(){
     const { data:{meet_history} } = useSelector( (state)=> state.athlete );
-   
 
     return(
         <div className="bg-secondary-500 p-6 rounded-lg flex flex-col flex-auto overflow-hidden shadow-lg">

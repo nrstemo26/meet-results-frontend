@@ -59,10 +59,17 @@ export const renderTotalResults = (arr, meetHistory) => {
         const formattedDateStr = formatDate(meetData["Date"]);
         return (
         <>    
-            <h1 className="text-sm sm:text-lg font-bold text-primary-950">{meetData["Meet"]} -- {formattedDateStr}</h1>
-            <div className="text-center flex flex-col gap-2">
-                <a className="bg-white border-2 p-1 px-1 border-primary-950 text-gray-700 rounded-lg font-mono text-xl" key={meet}>{meetData["Best Snatch"]} / {meetData["Best C&J"]} / {meetData["Total"]}</a>
+            <div className="mt-4">
+                <h2 className="text-sm sm:text-lg font-bold text-primary-950">{meetData["Meet"]} -- {formattedDateStr}</h2>
+                <div className="flex justify-between p-2">
+                    <span class="text-xs">{meetData["Age Category"]}</span>
+                    <span class="text-xs">Bodyweight: {meetData["Body Weight (Kg)"]}kg</span>
+                </div>
+                <div className="text-center flex flex-col gap-2">
+                    <a className="bg-white border-2 p-1 px-1 border-primary-950 text-gray-700 rounded-lg font-mono text-xl" key={meet}>{meetData["Best Snatch"]} / {meetData["Best C&J"]} / {meetData["Total"]}</a>
+                </div>
             </div>
+            
         </>
         )
     })
