@@ -56,6 +56,28 @@ export const getAllMeets = createAsyncThunk(
     }
   )
 
+export const getUpcomingMeetTable = createAsyncThunk(
+  'upcoming-meet-table',
+  async(data, thunkAPI)=>{
+    try{
+      //thunkapi has a function that 
+      //can get any chunk of the state
+      //thunkAPI.getState().sliceofstate.propname.propname
+      
+      const config = {
+        params:{
+          page: data.page ,
+          pageSize: data.pageSize ,
+        }
+      }
+      const response = await axios.get(`${apiUrl}meets/upcoming`, config)
+      return response.data;
+    }catch(error){
+      console.log(error)
+    }
+  }
+)
+
 
 export const getMeet = createAsyncThunk(
     'meet',

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from "react";
-import { getMeetTable } from "../../features/meetSlice";
+import { getMeetTable, getUpcomingMeetTable } from "../../features/meetSlice";
 import PaginationButtons from './PaginationButtons';
 
-function MeetTable() {
+function MeetTable({ tableType }) {
   const [pageSize, setPageSize] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -23,7 +23,8 @@ function MeetTable() {
       pageSize: pageSize,
     }
 
-    const response = await dispatch(getMeetTable(data));
+    const action = tableType === "upcoming" ? getUpcomingMeetTable : getMeetTable;
+    const response = await dispatch(action(data));
     setMeets(response.payload.data);
     setCurrentPage(response.payload.current_page);
     setTotalPages(response.payload.total_pages);
@@ -32,12 +33,12 @@ function MeetTable() {
   // Only fetch data when the currentPage changes
   useEffect(() => {
     fetchUsers(currentPage);
-  }, [currentPage, dispatch]);
+  }, [currentPage, tableType, dispatch]);
 
   return (
     <div className="shadow-lg m-2 p-4 m-4">
       <h1 className="text-lg text-primary-950 font-bold text-center border-b border-primary-100">
-        Recent Meets
+        {tableType === "upcoming" ? "Upcoming Meets" : "Recent Meets"}
       </h1>
       <table className="w-full mt-4 text-xs sm:text-sm table-auto">
         <thead>
@@ -50,7 +51,7 @@ function MeetTable() {
           {meets.map(([meet, date, meet_date]) => (
             <tr key={meet} className="text-gray-700 hover:text-primary-400">
               <td className="px-1 sm:px-4 py-1">
-                <Link to={`/meet/${nameToQueryString(meet_date)}`} className="text-gray-700 hover:text-primary-400">
+                <Link to={`/meet/${tableType === "upcoming" ? "upcoming/" : ""}${nameToQueryString(meet_date)}`} className="text-gray-700 hover:text-primary-400">
                   {meet}
                 </Link>
               </td>
