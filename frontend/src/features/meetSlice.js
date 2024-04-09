@@ -100,6 +100,27 @@ export const getMeet = createAsyncThunk(
 )
 
 
+export const getUpcomingMeet = createAsyncThunk(
+  'meet',
+  async(name, thunkAPI) => {
+      try{
+          const token = localStorage.getItem('token');
+          const response =  await axios.post(`${apiUrl}meet/upcoming/${name}`, { token } )
+          return response.data
+
+      }catch(error){
+        const message = (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+          error.message ||
+        error.toString()
+  
+        return thunkAPI.rejectWithValue(message)
+      }
+  }
+)
+
+
 export const meetSlice = createSlice({ 
   name: "meet",
   initialState,
