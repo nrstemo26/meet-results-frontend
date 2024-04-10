@@ -51,7 +51,7 @@ function MeetTable({ tableType }) {
           {meets.map(([meet, date, meet_date]) => (
             <tr key={meet} className="text-gray-700 hover:text-primary-400">
               <td className="px-1 sm:px-4 py-1">
-                <Link to={`/meet/${tableType === "upcoming" ? "upcoming/" : ""}${nameToQueryString(meet_date)}`} className="text-gray-700 hover:text-primary-400">
+                <Link to={tableType === "upcoming" ? `/upcoming/${nameToQueryString(meet)}` : `/meet/${nameToQueryString(meet_date)}`} className="text-gray-700 hover:text-primary-400">
                   {meet}
                 </Link>
               </td>

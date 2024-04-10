@@ -7,6 +7,7 @@ import Search from './SearchBars/Search'
 import MeetSearch from './SearchBars/MeetSearch'
 import { Dashboard as AthleteDashboard } from './Dashboards/Athlete/Dashboard'
 import MeetDashboard from './Dashboards/Meet/Dashboard'
+import UpcomingMeetDashboard from './Dashboards/Meet/Upcoming'
 import Login from './User/Login'
 import Register from './User/Register'
 import ResetRequest from './User/ResetRequest'
@@ -48,6 +49,7 @@ return (
           
           <Route path="/meets" element={<MeetSearch/>}/>
           <Route path="/meet/:id" element={<MeetDashboard/>}/>
+          <Route path="/upcoming/:id" element={<UpcomingMeetDashboard/>}/>
           
 
           <Route path="/insights"  element={<Insights/>}/>

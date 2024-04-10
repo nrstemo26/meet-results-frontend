@@ -101,11 +101,11 @@ export const getMeet = createAsyncThunk(
 
 
 export const getUpcomingMeet = createAsyncThunk(
-  'meet',
+  'upcoming-meet',
   async(name, thunkAPI) => {
       try{
           const token = localStorage.getItem('token');
-          const response =  await axios.post(`${apiUrl}meet/upcoming/${name}`, { token } )
+          const response =  await axios.get(`${apiUrl}meets/upcoming/${name}`, { token } )
           return response.data
 
       }catch(error){
@@ -139,6 +139,20 @@ export const meetSlice = createSlice({
           state.data = action.payload;
         })
         .addCase(getMeet.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          state.error = action.error.message;
+        })
+        .addCase(getUpcomingMeet.pending, (state) => {
+          state.isLoading = true;
+        })
+        .addCase(getUpcomingMeet.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.isError = false;
+          state.data = action.payload; // Assuming `state.upcomingMeets` is added to `initialState`
+        })
+        .addCase(getUpcomingMeet.rejected, (state, action) => {
           state.isLoading = false;
           state.isError = true;
           state.error = action.error.message;
