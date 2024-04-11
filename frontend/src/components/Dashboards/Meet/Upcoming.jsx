@@ -4,6 +4,7 @@ import { updateMetaTags } from '../../../lib/seo_utils';
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUpcomingMeet } from '../../../features/meetSlice'
+import AthleteDashboard from './StartList'
 
 
 
@@ -13,7 +14,7 @@ const UpcomingMeetDashboard = () => {
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.meet )
 
   const pageTitle = data ? `${data['metadata']['meet_name']} - Lift Oracle`: 'Lift Oracle';
-  const descriptionContent = data ? `Startlist for Olympic weightlifting meet - ${data['metadata']['meet_name']}. Weight classes, entry totals, etc.`: 'Loading meet information';
+  const descriptionContent = data ? `Olympic weightlifting meet startlist - ${data['metadata']['meet_name']}. Preview weight classes, entry totals, etc.`: 'Loading meet information';
   
   useEffect(()=>{
     if(isError){
@@ -60,8 +61,7 @@ const UpcomingMeetDashboard = () => {
           { data ?
           (
             <>
-              {/* <TopSinclairs />
-              <Insights /> */}
+              <AthleteDashboard meetData={data}/>
             </>
           ):
           'no data'
