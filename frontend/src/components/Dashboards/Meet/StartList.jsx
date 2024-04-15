@@ -1,17 +1,51 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify'
+import { addToWatchlist, selectWatchlist } from '../../../features/watchlistSlice';
+import { BsFillClipboardCheckFill } from 'react-icons/bs';
+import {AiFillPlusCircle as AddCircle} from 'react-icons/ai';
 
 const AthleteDashboard = ({ meetData }) => {
   const [gender, setGender] = useState('female');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const watchlist = useSelector(selectWatchlist);
+
+  // Add athletes to watchlist
+  const handleAddToWatchlist = (names, weightClass) => {
+    const toastOptions = {
+      autoClose:3000,
+      onClick:() => {
+        navigate('/watchlist')
+      }
+    }
+
+    names.forEach(name => {
+      dispatch(addToWatchlist(name));
+    });
+
+    toast(`${weightClass}kg weight class added to your watchlist.  Click here to see your watchlist`, toastOptions)
+  };
 
   // Helper function to render athletes by weight class
   const renderAthletesByWeightClass = (athletes) => {
     return athletes.map((weightClassData, index) => {
       const weightClass = Object.keys(weightClassData)[0];
       const athletesData = weightClassData[weightClass];
+      const athleteNames = athletesData.map(athlete => athlete.master_lifter_name);
 
       return (
         <div key={index} className="mb-4">
-          <h3 className="text-lg font-semibold">{weightClass}kg</h3>
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">{weightClass}kg</h3>
+            <button
+              className="py-1 px-3 bg-primary-950 text-white rounded hover:bg-primary-500 transition"
+              onClick={() => handleAddToWatchlist(athleteNames, weightClass)}
+            >
+              Bulk Add to Watchlist
+            </button>
+          </div>
           <div className="mt-2 grid grid-cols-1 sm:grid-cols-4 gap-2">
             {athletesData.map((athlete, index) => (
               <div key={index} className="p-2 border hover:border-primary-950 shadow-md hover:shadow-sm rounded-lg mb-2 text-sm text-gray-700">

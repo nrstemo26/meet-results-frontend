@@ -28,7 +28,7 @@ const UpcomingMeetDashboard = () => {
     // Paywall timer
     const timer = setTimeout(() => {
       setPaywallActive(true);
-    }, 30000); // Activate paywall after 30 seconds
+    }, 10000); // Activate paywall after 10 seconds
 
     return () => clearTimeout(timer);
   }, [dispatch, requestSent]);
