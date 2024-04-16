@@ -16,8 +16,9 @@ const MeetDashboard = () => {
   const dispatch = useDispatch();
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.meet )
 
-  const pageTitle = data ? `${data['headline']['_metadata']['Meet']} (${data['headline']['_metadata']['Year']}) - Lift Oracle`: 'Lift Oracle';
-  const descriptionContent = data ? `Olympic weightlifting competition results and statisitics for ${data['headline']['_metadata']['Meet']} (${data['headline']['_metadata']['Year']}). Snatch, clean and jerk, total, sinclair, etc.`: 'Loading meet information';
+  const pageTitle = data?.headline?._metadata ? `${data.headline._metadata.Meet} (${data.headline._metadata.Year}) - Lift Oracle` : 'Lift Oracle';
+  const meetTitle = data?.headline?._metadata ? `${data.headline._metadata.Meet} (${data.headline._metadata.Year})` : 'Lift Oracle';
+  const descriptionContent = data?.headline?._metadata ? `Olympic weightlifting competition results and statistics for ${data.headline._metadata.Meet} (${data.headline._metadata.Year}). Snatch, clean and jerk, total, sinclair, etc.` : 'Loading meet information';
   
   useEffect(()=>{
     if(isError){
@@ -51,7 +52,7 @@ const MeetDashboard = () => {
       <div className='dashboard-container'>
         {updateMetaTags(pageTitle, descriptionContent)}
           <div className='bg-secondary-500 p-5 rounded-xl'>
-            <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{data ? data['headline']['_metadata']['Meet'] : 'loading'}</h1>
+            <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{meetTitle}</h1>
             {
               data?
               (<ChartWrapper/>):

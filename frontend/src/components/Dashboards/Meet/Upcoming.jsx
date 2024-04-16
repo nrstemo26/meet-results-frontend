@@ -3,7 +3,7 @@ import { Error } from '../../../pages/Error';
 import { updateMetaTags } from '../../../lib/seo_utils';
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUpcomingMeet } from '../../../features/meetSlice'
+import { getUpcomingMeet } from '../../../features/upcomingSlice'
 import PaywallOverlay from '../../Widgets/PaywallOverlay'
 import AthleteDashboard from './StartList'
 
@@ -13,7 +13,7 @@ const UpcomingMeetDashboard = () => {
   const [requestSent, setRequestSent] = useState(false);
   const [paywallActive, setPaywallActive] = useState(false);
   const dispatch = useDispatch();
-  const { data, isLoading, isError } = useSelector((state) => state.meet);
+  const { data, isLoading, isError } = useSelector((state) => state.upcoming);
 
   useEffect(() => {
     if (!requestSent) {
@@ -42,12 +42,16 @@ const UpcomingMeetDashboard = () => {
     </div>
   );
 
+  const title = data?.metadata?.meet_name ? `${data.metadata.meet_name} - Lift Oracle` : 'Lift Oracle';
+  const meetTitle = data?.metadata?.meet_name ? `${data.metadata.meet_name}` : 'Lift Oracle';
+  const description = data?.metadata?.meet_name ? `Olympic weightlifting meet startlist - ${data.metadata.meet_name}. Preview weight classes, entry totals, etc.` : 'Loading meet information';
+
+  updateMetaTags(title, description);
+
   return (
     <div className='dashboard-container'>
-      {updateMetaTags(data ? `${data['metadata']['meet_name']} - Lift Oracle` : 'Lift Oracle', 
-                      data ? `Olympic weightlifting meet startlist - ${data['metadata']['meet_name']}. Preview weight classes, entry totals, etc.` : 'Loading meet information')}
       <div className='bg-secondary-500 p-5 rounded-xl'>
-        <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{data ? data['metadata']['meet_name'] : 'Loading...'}</h1>
+        <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{title}</h1>
       </div>
       
       {paywallActive ? (
