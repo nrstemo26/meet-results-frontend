@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from "react";
-import { getMeetTable, getUpcomingMeetTable } from "../../features/meetSlice";
+import { getMeetTable } from "../../features/meetSlice";
+import { getUpcomingMeetTable } from "../../features/upcomingSlice";
 import PaginationButtons from './PaginationButtons';
 
 function MeetTable({ tableType }) {
