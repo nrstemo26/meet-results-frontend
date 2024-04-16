@@ -42,7 +42,7 @@ function MeetSearch(){
         <SearchBar onSearch={handleSearch} placeholderText={"Start typing an competition by year or name..."}/>
         {searchQuery.length > 0 ? 
         <MeetList meets={meets} />
-        : <div className="shadow-lg text-left"><MeetTable /></div>}
+        : <div className="shadow-lg text-left"><MeetTable tableType="upcoming"/><MeetTable tableType="recent"/></div>}
       </div>
   )
 }
