@@ -33,7 +33,7 @@ function DesktopNav( {handleLogout} ) {
         <Link to="/about">
           <div>About</div>
         </Link>
-        <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
           <div>Merch</div>
         </a>
       </div>

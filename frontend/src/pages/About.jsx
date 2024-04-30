@@ -86,6 +86,7 @@ const About = () => {
                   publishable-key={pubKey}
                   customer-email={accountEmail}
                   client-reference-id={accountId}
+                  data-umami-event="pro-checkout"
                   >
               </stripe-buy-button> {/* add link to annual under this? */}
           </div>
