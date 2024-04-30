@@ -33,6 +33,9 @@ function DesktopNav( {handleLogout} ) {
         <Link to="/about">
           <div>About</div>
         </Link>
+        <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" target="_blank" rel="noopener noreferrer">
+          <div>Merch</div>
+        </a>
       </div>
 
       {user ? (
