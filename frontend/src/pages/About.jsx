@@ -107,6 +107,10 @@ const About = () => {
         </ul>
       </div>
       <p className="ml-8 mb-8 mt-2 p-2 text-primary-950 leading-loose font-semibold">Cheers!</p>
+      <p className="ml-8 mb-8 mt-2 p-2 text-primary-950 leading-loose font-semibold">- 
+        <a href="https://murphdevane.com" target="_blank">Murph</a> & 
+        <a href="https://natestemo.com" target="_blank">Nate</a>
+      </p>
     </div>
   )
 };
