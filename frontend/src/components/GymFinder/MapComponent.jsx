@@ -2,11 +2,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleMap, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
-import { baseUrl } from '../../config';
+import { baseUrl, mapsKey } from '../../config';
 
 const libraries = ['places', 'marker'];
 const mapId ='888af732c21aac3d'
-const mapsKey = 'AIzaSyDtMZ8SgAXNW1MfZ3GIm9OQLySgxOoy1ng'
 const markerUrl = `${baseUrl}/v1/gymfinder/markers`
 
 
