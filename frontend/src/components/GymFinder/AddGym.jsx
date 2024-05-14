@@ -4,7 +4,6 @@ import { Autocomplete } from '@react-google-maps/api';
 import axios from 'axios';
 import { baseUrl } from '../../config';
 
-const libraries = ['places'];
 
 const AddGym = () => {
     const [placeDetails, setPlaceDetails] = useState(null);
@@ -14,6 +13,7 @@ const AddGym = () => {
     const [website, setWebsite] = useState('');
     const [email, setEmail] = useState('');
     const [instagram, setInstagram] = useState('');
+    const [gymType, setGymType] = useState('');
     const autocompleteRef = useRef(null);
   
     const handlePlaceChanged = () => {
@@ -32,7 +32,7 @@ const AddGym = () => {
   
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (placeDetails && dropInFee && monthlyRate && website) {
+        if (placeDetails && gymType && dropInFee && monthlyRate && website) {
           const gymDetails = {
             ...placeDetails,
             dropInFee,
@@ -40,6 +40,7 @@ const AddGym = () => {
             website,
             email,
             instagram,
+            gymType
           };
           console.log(gymDetails);
           try {
@@ -70,44 +71,92 @@ const AddGym = () => {
             className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
           />
         </Autocomplete>
-        <input
-            type="number"
-            placeholder="Drop-in Fee"
-            value={dropInFee}
-            onChange={(e) => setDropInFee(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
-            required
-        />
-        <input
-            type="number"
-            placeholder="Monthly Rate"
-            value={monthlyRate}
-            onChange={(e) => setMonthlyRate(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
-            required
-        />
-        <input
-            type="url"
-            placeholder="Website"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
-            required
-        />
-        <input
-            type="email"
-            placeholder="Email (optional)"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
-        />
-        <input
-            type="text"
-            placeholder="Instagram (optional)"
-            value={instagram}
-            onChange={(e) => setInstagram(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
-        />
+        <div className="mb-4">
+            <label htmlFor="gym-type" className="block text-sm font-medium text-gray-700 mb-2">Gym Type</label>
+            <select
+                id="gym-type"
+                value={gymType}
+                onChange={(e) => setGymType(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                required
+            >
+                <option value="" disabled>Select gym type</option>
+                <option value="Weightlifting-only">Weightlifting-only</option>
+                <option value="CrossFit">CrossFit</option>
+                <option value="Globo-gym/Other">Globo-gym/Other</option>
+            </select>
+        </div>
+        <div>
+            <label htmlFor="drop-in" className="block text-sm font-medium text-gray-700 mb-2">Drop-in Fee</label>
+            <div className="relative rounded-md shadow-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span class="text-gray-500 sm:text-sm">$</span>
+                </div>
+                <input
+                    id="drop-in"
+                    type="number"
+                    placeholder="Drop-in Fee"
+                    value={dropInFee}
+                    onChange={(e) => setDropInFee(e.target.value)}
+                    className="block w-full py-1.5 pl-7 pr-20 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
+                    required
+                />
+            </div>
+            
+        </div>
+        <div className="mb-4">
+            <label htmlFor="monthly" className="block text-sm font-medium text-gray-700 mb-2">Monthly Rate</label>
+            <div className="relative rounded-md shadow-sm">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span class="text-gray-500 sm:text-sm">$</span>
+                </div>
+                <input
+                    id="monthly"
+                    type="number"
+                    placeholder="Monthly Rate"
+                    value={monthlyRate}
+                    onChange={(e) => setMonthlyRate(e.target.value)}
+                    className="block w-full py-1.5 pl-7 pr-20 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
+                    required
+                />
+            </div>
+            
+        </div>
+        <div className="mb-4">
+            <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-2">Website</label>
+            <input
+                id="url"
+                type="url"
+                placeholder="Website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
+                required
+            />
+        </div>
+        <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input
+                id="email"
+                type="email"
+                placeholder="Email (optional)"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
+            />
+        </div>
+        <div className="mb-4">
+            <label htmlFor="ig" className="block text-sm font-medium text-gray-700 mb-2">Instagram handle</label>
+            <input
+                id="ig"
+                type="text"
+                placeholder="Instagram (optional)"
+                value={instagram}
+                onChange={(e) => setInstagram(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            />
+        </div>
+        
         {placeDetails && (
           <div className="mt-4 text-sm text-gray-600">
             <p><strong></strong> {placeDetails.name}</p>
