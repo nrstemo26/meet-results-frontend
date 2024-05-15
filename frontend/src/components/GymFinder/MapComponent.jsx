@@ -21,7 +21,8 @@ const MapComponent = () => {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [markers, setMarkers] = useState([]);
     const [lastBounds, setLastBounds] = useState(null);
-    const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // Initial center
+    const defaultCenter = { lat: 43.034538, lng: -87.9328348 };
+    const [mapCenter, setMapCenter] = useState(defaultCenter);
     const mapRef = useRef(null);
   
     const fetchMarkers = useCallback(
@@ -44,6 +45,22 @@ const MapComponent = () => {
       }, 500),
       []
     );
+  
+    useEffect(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setMapCenter({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          () => {
+            setMapCenter(defaultCenter);
+          }
+        );
+      }
+    }, []);
   
     const mapStyles = {
       height: '100vh',

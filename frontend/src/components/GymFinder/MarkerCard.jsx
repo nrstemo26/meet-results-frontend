@@ -1,11 +1,6 @@
 // MarkerCard.jsx
 import React from 'react';
 
-const tagLabels = {
-  "cant_drop_weights": "Can't Drop 🏋️‍♂️❌",
-  "exquisite_vibes": "Exquisite vibes 🤙🏼",
-  "national_coach": "Nat'l Coach 🧠",
-};
 
 const MarkerCard = ({ marker }) => {
     const website = `https://${marker.website}`
@@ -41,8 +36,8 @@ const MarkerCard = ({ marker }) => {
             USAW Club 🇺🇸
           </span>
         )}
-        {marker.tags && marker.tags.map((tag) => (
-          <span key={tag} className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+        {marker.tags && marker.tags.map((tag, index) => (
+          <span key={index} className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
             {tag.label}
           </span>
         ))}
