@@ -1,8 +1,9 @@
 // MapComponent.jsx
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleMap, InfoWindow } from '@react-google-maps/api';
 import axios from 'axios';
 import { baseUrl } from '../../config';
+import MarkerCard from './MarkerCard';
 
 const mapId ='888af732c21aac3d'
 const markerUrl = `${baseUrl}/v1/gymfinder/markers`
@@ -20,34 +21,33 @@ const MapComponent = () => {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [markers, setMarkers] = useState([]);
     const [lastBounds, setLastBounds] = useState(null);
+    const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // Initial center
     const mapRef = useRef(null);
   
-    const fetchMarkers = useCallback(debounce(async (bounds) => {
-      const { north, east, south, west } = bounds;
-      try {
-        const response = await axios.get(markerUrl, {
-          params: {
-            sw_lat: south,
-            sw_lng: west,
-            ne_lat: north,
-            ne_lng: east,
-          },
-        });
-        setMarkers(response.data);
-        renderMarkers(mapRef.current, response.data);
-      } catch (error) {
-        console.error('Error fetching markers:', error);
-      }
-    }, 500), []);
+    const fetchMarkers = useCallback(
+      debounce(async (bounds) => {
+        const { north, east, south, west } = bounds;
+        try {
+          const response = await axios.get(markerUrl, {
+            params: {
+              sw_lat: south,
+              sw_lng: west,
+              ne_lat: north,
+              ne_lng: east,
+            },
+          });
+          setMarkers(response.data);
+          renderMarkers(mapRef.current, response.data);
+        } catch (error) {
+          console.error('Error fetching markers:', error);
+        }
+      }, 500),
+      []
+    );
   
     const mapStyles = {
       height: '100vh',
       width: '100%',
-    };
-  
-    const defaultCenter = {
-      lat: 37.7749,
-      lng: -122.4194,
     };
   
     const handleBoundsChanged = () => {
@@ -94,54 +94,47 @@ const MapComponent = () => {
       });
     };
   
+    const handleCenterChanged = () => {
+      const map = mapRef.current;
+      if (map) {
+        const center = map.getCenter();
+        setMapCenter({ lat: center.lat(), lng: center.lng() });
+      }
+    };
+  
+    useEffect(() => {
+      if (mapRef.current) {
+        handleBoundsChanged();
+      }
+    }, [mapCenter]);
+  
     return (
       <GoogleMap
         mapContainerStyle={mapStyles}
         zoom={13}
-        center={defaultCenter}
+        center={mapCenter}
         options={{
           tilt: 0,
           heading: 0,
           mapId,
+          draggable: true,
+          zoomControl: true,
+          scrollwheel: true,
+          disableDoubleClickZoom: false,
+          fullscreenControl: true,
         }}
         onLoad={(map) => {
           mapRef.current = map;
           handleBoundsChanged();
         }}
-        onBoundsChanged={handleBoundsChanged}
+        onDragEnd={handleCenterChanged}
       >
         {selectedMarker && (
           <InfoWindow
             position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
             onCloseClick={() => setSelectedMarker(null)}
           >
-            <div className="p-4 bg-white rounded-lg shadow-lg max-w-xs">
-              <h2 className="text-lg font-semibold mb-2">{selectedMarker.name}</h2>
-              <div className="mb-2">
-                {selectedMarker.categories && selectedMarker.categories.map((category, index) => (
-                  <span
-                    key={index}
-                    className="inline-block bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full mr-2"
-                  >
-                    {category}
-                  </span>
-                ))}
-              </div>
-              <p className="text-sm text-gray-600 mb-1">Drop-in Fee: {selectedMarker.dropInFee}</p>
-              <p className="text-sm text-gray-600">Monthly Fee: {selectedMarker.monthlyFee}</p>
-              {selectedMarker.placeDetails && (
-                <>
-                  <p className="text-sm text-gray-600 mb-1">Address: {selectedMarker.placeDetails.formatted_address}</p>
-                  <p className="text-sm text-gray-600 mb-1">Rating: {selectedMarker.placeDetails.rating}</p>
-                  {selectedMarker.placeDetails.reviews && selectedMarker.placeDetails.reviews.map((review, index) => (
-                    <div key={index} className="mt-2">
-                      <p className="text-sm text-gray-600"><strong>Review:</strong> {review.text}</p>
-                      <p className="text-sm text-gray-600"><strong>Rating:</strong> {review.rating}</p>
-                    </div>
-                  ))}
-                </>
-              )}
-            </div>
+            <MarkerCard marker={selectedMarker} />
           </InfoWindow>
         )}
       </GoogleMap>
