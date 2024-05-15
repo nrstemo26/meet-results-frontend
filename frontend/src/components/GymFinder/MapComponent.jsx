@@ -61,6 +61,20 @@ const MapComponent = () => {
         );
       }
     }, []);
+
+    const fetchPlaceDetails = async (placeId) => {
+      try {
+        const response = await axios.get(`${baseUrl}/v1/gymfinder/place-details`, {
+          params: {
+            place_id: placeId,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching place details:', error);
+        return null;
+      }
+    };
   
     const mapStyles = {
       height: '100vh',
@@ -95,8 +109,12 @@ const MapComponent = () => {
       );
     };
   
-    const handleMarkerClick = (marker) => {
-      setSelectedMarker(marker);
+    const handleMarkerClick = async (marker) => {
+      const placeDetails = await fetchPlaceDetails(marker.placeId);
+      setSelectedMarker({
+        ...marker,
+        rating: placeDetails ? placeDetails.rating : null,
+      });
     };
   
     const renderMarkers = (map, markersData) => {
