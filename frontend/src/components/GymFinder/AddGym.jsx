@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { baseUrl } from '../../config';
 
 
@@ -10,7 +11,7 @@ const AddGym = () => {
     const [inputValue, setInputValue] = useState('');
     const [dropInFee, setDropInFee] = useState('');
     const [monthlyRate, setMonthlyRate] = useState('');
-    const [website, setWebsite] = useState('');
+    const [website, setWebsite] = useState('https://');
     const [email, setEmail] = useState('');
     const [instagram, setInstagram] = useState('');
     const [gymType, setGymType] = useState('');
@@ -34,25 +35,27 @@ const AddGym = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (placeDetails && gymType && dropInFee && monthlyRate && website) {
-          const gymDetails = {
-            ...placeDetails,
-            dropInFee,
-            monthlyRate,
-            website,
-            email,
-            instagram,
-            gymType,
-            usawClub
-          };
-          console.log(gymDetails);
+            const gymDetails = {
+                ...placeDetails,
+                dropInFee,
+                monthlyRate,
+                website,
+                email,
+                instagram,
+                gymType,
+                usawClub
+            };
+        //   console.log(gymDetails);
           try {
-            const response = await axios.post(`${baseUrl}/v1/gymfinder/markers`, gymDetails);
+            const response = await axios.post(`${baseUrl}/v1/gymfinder/add-gym`, gymDetails);
+            toast.success(response.data.message);
             console.log('Gym saved:', response.data);
           } catch (error) {
+            toast.error(error.response.data.error || 'Error saving gym'); 
             console.error('Error saving gym:', error);
           }
         } else {
-          alert('Please fill in all required fields.');
+            toast.error('Please fill in all required fields.');
         }
       };
   
@@ -138,20 +141,15 @@ const AddGym = () => {
         </div>
         <div className="mb-4">
             <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-2">Website</label>
-            <div className="relative rounded-md shadow-sm">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <span className="text-gray-500 sm:text-sm">https://</span>
-                </div>
-                <input
-                    id="url"
-                    type="url"
-                    placeholder="Website"
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                    className="block w-full py-1.5 pl-16 pr-4 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
-                    required
-                />
-            </div>
+            <input
+                id="url"
+                type="url"
+                placeholder="Website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
+                required
+            />
         </div>
         <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
