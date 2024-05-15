@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LiftOracleLogo from '../../assets/lift_oracle_lo_res.svg'
@@ -5,6 +6,11 @@ import LiftOracleLogo from '../../assets/lift_oracle_lo_res.svg'
 
 function DesktopNav( {handleLogout} ) {
   const user = useSelector((state)=> state.auth.user)
+  const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
+
+  const toggleToolsMenu = () => {
+    setIsToolsMenuOpen(!isToolsMenuOpen);
+  };
 
   return (
     <>
@@ -36,8 +42,17 @@ function DesktopNav( {handleLogout} ) {
         <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
           <div>Merch</div>
         </a>
+        <div className="relative">
+          <div className="cursor-pointer" onClick={toggleToolsMenu}>Tools</div>
+          {isToolsMenuOpen && (
+            <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg mt-2">
+              <Link to="/weightlifting-gym-near-me" className="block px-4 py-2 text-gray-800 hover:bg-primary-200">GymFinder</Link>
+              {/* Add more submenu items here if needed */}
+            </div>
+          )}
+        </div>
       </div>
-
+      
       {user ? (
         // Show account button when user is logged in
         <div className="flex gap-2">

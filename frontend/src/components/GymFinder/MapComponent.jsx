@@ -83,19 +83,21 @@ const MapComponent = () => {
   
     const handleBoundsChanged = () => {
       const map = mapRef.current;
-      const bounds = map.getBounds();
-      if (bounds) {
-        const ne = bounds.getNorthEast();
-        const sw = bounds.getSouthWest();
-        const currentBounds = {
-          north: ne.lat(),
-          east: ne.lng(),
-          south: sw.lat(),
-          west: sw.lng(),
-        };
-        if (!lastBounds || hasBoundsChanged(lastBounds, currentBounds)) {
-          setLastBounds(currentBounds);
-          fetchMarkers(currentBounds);
+      if (map) {
+        const bounds = map.getBounds();
+        if (bounds) {
+          const ne = bounds.getNorthEast();
+          const sw = bounds.getSouthWest();
+          const currentBounds = {
+            north: ne.lat(),
+            east: ne.lng(),
+            south: sw.lat(),
+            west: sw.lng(),
+          };
+          if (!lastBounds || hasBoundsChanged(lastBounds, currentBounds)) {
+            setLastBounds(currentBounds);
+            fetchMarkers(currentBounds);
+          }
         }
       }
     };
@@ -160,9 +162,10 @@ const MapComponent = () => {
         }}
         onLoad={(map) => {
           mapRef.current = map;
-          handleBoundsChanged();
+          handleBoundsChanged(); // Fetch markers after map load
         }}
         onDragEnd={handleCenterChanged}
+        onZoomChanged={handleBoundsChanged} // Fetch markers on zoom change
       >
         {selectedMarker && (
           <InfoWindow
