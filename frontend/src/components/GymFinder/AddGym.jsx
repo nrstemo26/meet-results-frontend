@@ -1,10 +1,16 @@
 // AddGym.jsx
 import React, { useState, useRef } from 'react';
+import Select from 'react-select';
 import { Autocomplete } from '@react-google-maps/api';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { baseUrl } from '../../config';
 
+const predefinedTags = [
+  { label: "Can't Drop Weights ❌", value: "cant_drop_weights" },
+  { label: "Exquisite vibes 🤙🏼", value: "exquisite_vibes" },
+  { label: "Nat'l Coach 🧠", value: "national_coach" },
+];
 
 const AddGym = () => {
     const [placeDetails, setPlaceDetails] = useState(null);
@@ -16,6 +22,7 @@ const AddGym = () => {
     const [instagram, setInstagram] = useState('');
     const [gymType, setGymType] = useState('');
     const [usawClub, setUsawClub] = useState(false);
+    const [selectedTags, setSelectedTags] = useState([]);
     const autocompleteRef = useRef(null);
   
     const handlePlaceChanged = () => {
@@ -43,7 +50,8 @@ const AddGym = () => {
                 email,
                 instagram,
                 gymType,
-                usawClub
+                usawClub,
+                tags: selectedTags
             };
         //   console.log(gymDetails);
           try {
@@ -179,7 +187,16 @@ const AddGym = () => {
             </div>
             
         </div>
-        
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+          <Select
+            isMulti
+            options={predefinedTags}
+            value={selectedTags}
+            onChange={setSelectedTags}
+            className="w-full"
+          />
+        </div>
         {placeDetails && (
           <div className="mt-4 text-sm text-gray-600">
             <p><strong></strong> {placeDetails.name}</p>
