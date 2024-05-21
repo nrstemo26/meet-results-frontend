@@ -9,17 +9,17 @@ function MakeRateDonut ({data, exercise="Snatch"}) {
             datasets: [
                 {
                     data: [parseFloat(data["Opener Make %"]), 100 - parseFloat(data["Opener Make %"])],
-                    backgroundColor: ['#2563eb', '#cde8fe'],
+                    backgroundColor: ['#172554', '#eff6ff'],
                     label: exercise +' 1'
                 },
                 {
                     data: [parseFloat(data["Attempt 2 Make %"]), 100 - parseFloat(data["Attempt 2 Make %"])],
-                    backgroundColor: ['#2563eb', '#cde8fe'],
+                    backgroundColor: ['#172554', '#eff6ff'],
                     label: exercise + ' 2'
                 },
                 {
                     data: [parseFloat(data["Attempt 3 Make %"]), 100 - parseFloat(data["Attempt 3 Make %"])],
-                    backgroundColor: ['#2563eb', '#cde8fe'],
+                    backgroundColor: ['#172554', '#eff6ff'],
                     label: exercise + ' 3'
                 },
             ],
