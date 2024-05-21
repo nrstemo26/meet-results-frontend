@@ -40,6 +40,9 @@
     @apply border-2 rounded bg-white overflow-hidden shadow-md h-96 lg:h-[500px];
     
   }
+  .donut-wrapper{
+    @apply border-2 px-4 rounded bg-white overflow-hidden shadow-md h-72 lg:h-[300px];
+  }
 
   .dashboard-container{
     @apply p-2 m-2 overflow-hidden shadow-lg lg:w-[80%] lg:m-auto

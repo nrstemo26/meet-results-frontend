@@ -51,7 +51,7 @@ function SnMakeRateDonut ({data, exercise="Snatch"}) {
     }
     
     return (
-        <div className="chart-wrapper">
+        <div className="donut-wrapper">
             <Doughnut data={chartData.data} options={chartData.options} />
         </div>
     );
