@@ -1,16 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { Chart, Doughnut } from 'react-chartjs-2'
-import { Chart as ChartJS, plugins } from 'chart.js/auto'
-// import {useSelector } from  'react-redux'
+import { Doughnut } from 'react-chartjs-2'
 import 'chartjs-adapter-date-fns'; 
-import { enUS } from 'date-fns/locale'; 
-import { id } from 'chartjs-plugin-watermark';
-// import {getHighestMake, filterLift, createChartTotals} from '../../../../lib/chart_utils'
 
-
-function SnMakeRateDonut ({data, exercise="Snatch"}) {
-
-    console.log(exercise)
+function MakeRateDonut ({data, exercise="Snatch"}) {
     let chartData = {
         type: 'doughnut',
         data: {
@@ -18,19 +9,16 @@ function SnMakeRateDonut ({data, exercise="Snatch"}) {
             datasets: [
                 {
                     data: [parseFloat(data["Opener Make %"]), 100 - parseFloat(data["Opener Make %"])],
-                    // data: `${parseFloat(data['Opener Make %'])}%` ,
                     backgroundColor: ['#2563eb', '#cde8fe'],
                     label: exercise +' 1'
                 },
                 {
                     data: [parseFloat(data["Attempt 2 Make %"]), 100 - parseFloat(data["Attempt 2 Make %"])],
-                    // data: `${parseFloat(data['Opener Make %'])}%` ,
                     backgroundColor: ['#2563eb', '#cde8fe'],
                     label: exercise + ' 2'
                 },
                 {
                     data: [parseFloat(data["Attempt 3 Make %"]), 100 - parseFloat(data["Attempt 3 Make %"])],
-                    // data: `${parseFloat(data['Opener Make %'])}%` ,
                     backgroundColor: ['#2563eb', '#cde8fe'],
                     label: exercise + ' 3'
                 },
@@ -57,4 +45,4 @@ function SnMakeRateDonut ({data, exercise="Snatch"}) {
     );
 };
 
-export default SnMakeRateDonut;
+export default MakeRateDonut;

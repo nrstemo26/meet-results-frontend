@@ -18,8 +18,6 @@ import MakeRateDonut from './charts/MakeRateDonut';
 import { toast } from 'react-toastify'
 import WatchlistBtn from './WatchlistBtn';
 import WatchlistIcon from './WatchlistIcon';
-import SnMakeRateDonut from './charts/MakeRateDonut';
-
 
 const Dashboard = () => {
   const dispatch = useDispatch();
