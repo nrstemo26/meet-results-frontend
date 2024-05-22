@@ -1,5 +1,7 @@
 import { Doughnut } from 'react-chartjs-2'
 import 'chartjs-adapter-date-fns'; 
+import PaywallOverlay from '../../../Widgets/PaywallOverlay';
+
 
 function MakeRateDonut ({data, exercise="Snatch"}) {
     let chartData = {
@@ -39,9 +41,11 @@ function MakeRateDonut ({data, exercise="Snatch"}) {
     }
     
     return (
-        <div className="donut-wrapper">
-            <Doughnut data={chartData.data} options={chartData.options} />
-        </div>
+        <PaywallOverlay buttonText='Unlock Make Rate Charts with Lift Oracle Pro' blur='blur-lg'>
+            <div className="donut-wrapper">
+                <Doughnut data={chartData.data} options={chartData.options} />
+            </div>
+        </PaywallOverlay>
     );
 };
 
