@@ -24,7 +24,7 @@ function BestLifts(){
           </div>
           <h1 className="text-lg font-bold">Best Sinclair</h1>
           <div className="text-center flex flex-col gap-2">
-              <a className="bg-white border-2 p-1 px-1 border-primary-950 rounded-lg text-gray-700 text-xl font-semibold font-mono">{stats["Best Sinclair Total"]}kg</a>
+              <a className="bg-white border-2 p-1 px-1 border-primary-950 rounded-lg text-gray-700 text-xl font-semibold font-mono">{stats["Best Sinclair Total"]}</a>
           </div>
           
         </div>
