@@ -64,7 +64,7 @@ function DesktopNav({ handleLogout }) {
           <div className="cursor-pointer" onClick={toggleToolsMenu}>Tools</div>
           {isToolsMenuOpen && (
             <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg rounded-lg hover:rounded-lg overflow-hidden">
-              <Link to="/gymfinder" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">GymFinder</Link>
+              <Link to="/weightlifting-gym-near-me" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">GymFinder</Link>
               {/* Add more submenu items here if needed */}
             </div>
           )}
