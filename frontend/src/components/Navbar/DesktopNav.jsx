@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import LiftOracleLogo from '../../assets/lift_oracle_lo_res.svg'
+import LiftOracleLogo from '../../assets/lift_oracle_lo_res.svg';
 
-
-function DesktopNav( {handleLogout} ) {
-  const user = useSelector((state)=> state.auth.user)
+function DesktopNav({ handleLogout }) {
+  const user = useSelector((state) => state.auth.user);
   const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
+  const toolsMenuRef = useRef(null);
 
   const toggleToolsMenu = () => {
     setIsToolsMenuOpen(!isToolsMenuOpen);
   };
+
+  const handleClickOutside = (event) => {
+    if (toolsMenuRef.current && !toolsMenuRef.current.contains(event.target)) {
+      setIsToolsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isToolsMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isToolsMenuOpen]);
 
   return (
     <>
@@ -42,17 +60,17 @@ function DesktopNav( {handleLogout} ) {
         <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
           <div>Merch</div>
         </a>
-        <div className="relative">
+        <div className="relative" ref={toolsMenuRef}>
           <div className="cursor-pointer" onClick={toggleToolsMenu}>Tools</div>
           {isToolsMenuOpen && (
-            <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg mt-2">
-              <Link to="/weightlifting-gym-near-me" className="block px-4 py-2 text-gray-800 hover:bg-primary-200">GymFinder</Link>
+            <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg rounded-lg hover:rounded-lg overflow-hidden">
+              <Link to="/gymfinder" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">GymFinder</Link>
               {/* Add more submenu items here if needed */}
             </div>
           )}
         </div>
       </div>
-      
+
       {user ? (
         // Show account button when user is logged in
         <div className="flex gap-2">
