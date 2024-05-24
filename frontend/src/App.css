@@ -42,7 +42,7 @@
   }
 
   .donut-wrapper{
-    @apply border-2 px-4 py-2 rounded bg-white overflow-hidden shadow-md h-72 lg:h-[300px];
+    @apply border-2 px-4 py-4 rounded bg-white overflow-hidden shadow-md h-72 lg:h-[325px];
   }
 
   .dashboard-container{

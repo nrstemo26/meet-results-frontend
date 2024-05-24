@@ -108,9 +108,10 @@ const Dashboard = () => {
           { data ?
           (
             <>
+              
+              <BestLifts />
               <MakeRateDonut data={data.advanced_stats.Snatch} />  
               <MakeRateDonut data={data.advanced_stats["C&J"]} exercise={'C&J'}/>
-              <BestLifts />
               <AllTotals />
               <Insights />
             </>

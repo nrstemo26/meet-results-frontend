@@ -35,6 +35,20 @@ function MakeRateDonut ({data, exercise="Snatch"}) {
                         size:20
                     }
                 
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            let datasetIndex = tooltipItems[0].datasetIndex;
+                            return chartData.data.datasets[datasetIndex].label;
+                        },
+                        label: function(tooltipItem) {
+                            let label = chartData.data.labels[tooltipItem.dataIndex] || '';
+                            let value = tooltipItem.raw || 0;
+                            label = label.replace(' %', '');
+                            return label + ': ' + value + '%';
+                        }
+                    }
                 }
             }
         },
