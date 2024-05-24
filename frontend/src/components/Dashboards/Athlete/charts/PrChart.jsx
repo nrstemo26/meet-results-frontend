@@ -35,7 +35,7 @@ function PrChart(){
     const PrData = {
         datasets:[
             {
-                label:'Snatch Pr',
+                label:'Snatch PR',
                 backgroundColor:'#069af3',
                 data: snatchPr.map(item => {
                     return {
@@ -46,7 +46,7 @@ function PrChart(){
                 pointRadius: 4
             },
             {
-                label:'Cj Pr',
+                label:'CJ PR',
                 backgroundColor:'#4caf50',
                 data:  cjPr.map(item => {
                     return {
@@ -57,7 +57,7 @@ function PrChart(){
                 pointRadius: 4
             },
             {
-                label:'Total Pr',
+                label:'Total PR',
                 backgroundColor:'#ffc107',
                 data:  totalPr.map(item => {
                     return {    
