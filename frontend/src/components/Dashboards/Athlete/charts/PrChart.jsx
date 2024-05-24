@@ -5,6 +5,7 @@ import 'chartjs-adapter-date-fns';
 import ChartjsPluginWatermark from 'chartjs-plugin-watermark'
 import { enUS } from 'date-fns/locale';
 import watermark from '../../../../assets/avatar_face_navy.png' 
+import PaywallOverlay from '../../../Widgets/PaywallOverlay';
 
 function PrChart(){
     const data = useSelector((state)=>state.athlete.data.meet_history)
@@ -131,9 +132,11 @@ function PrChart(){
     ChartJS.register(ChartjsPluginWatermark);
     
     return (
+        <PaywallOverlay buttonText='Unlock More Charts with Lift Oracle Pro'>
         <div className="chart-wrapper">
             <Chart  type="scatter" data={PrData}  options={options}/>
         </div>
+        </PaywallOverlay>
     )
 }
 
