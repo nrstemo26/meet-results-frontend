@@ -7,6 +7,7 @@ import MarkerCard from './MarkerCard';
 
 const mapId ='888af732c21aac3d'
 const markerUrl = `${baseUrl}/v1/gymfinder/markers`
+const placeUrl = `${baseUrl}/v1/gymfinder/place-details`
 
 
 const debounce = (func, delay) => {
@@ -64,7 +65,7 @@ const MapComponent = () => {
 
     const fetchPlaceDetails = async (placeId) => {
       try {
-        const response = await axios.get(`${baseUrl}/v1/gymfinder/place-details`, {
+        const response = await axios.get(placeUrl, {
           params: {
             place_id: placeId,
           },
