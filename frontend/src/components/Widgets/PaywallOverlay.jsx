@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { account } from '../../features/authSlice';
 import { proLink } from "../../config"
 
-function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro' }) {
+function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro', blur ='blur-sm' }) {
   const user = useSelector((state) => state.auth);
   const { isSubscribed } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -17,10 +17,9 @@ function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro' }
 
   
   const enhancedChildren = isSubscribed 
-
     ? children 
     : React.cloneElement(children, {
-        className: `${children.props.className || ''} blur-sm`,
+        className: `${children.props.className || ''} ${blur}`,
       });
 
   return (

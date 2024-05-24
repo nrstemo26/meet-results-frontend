@@ -13,11 +13,11 @@ import { useNavigate } from 'react-router-dom'
 import { updateMetaTags } from '../../../lib/seo_utils';
 import ChartWrapper from './ChartWrapper';
 
+import MakeRateDonut from './charts/MakeRateDonut';
 
 import { toast } from 'react-toastify'
 import WatchlistBtn from './WatchlistBtn';
 import WatchlistIcon from './WatchlistIcon';
-
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const Dashboard = () => {
   const watchlist = useSelector((state) => state.watchlist.athletes)
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
 
+  
   const pageTitle = data ? `${data['_athlete_id']} - Lift Oracle`: 'Lift Oracle';
   const descriptionContent = data ? `Olympic weightlifting competition history and statistics for ${data['_athlete_id']}. Snatch, clean and jerk, total, sinclair, completion percentages, and more.`: 'Loading athlete information';
 
@@ -68,7 +69,6 @@ const Dashboard = () => {
       }
       // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
       
-      
       // setId(_athlete_id)
       // setMeetHistory(meet_history)
       // setStats(stats)
@@ -77,7 +77,7 @@ const Dashboard = () => {
       getUserData()
       setRequestSent(true)
     }
-  },[dispatch, isError, isSuccess, message, requestSent])
+  },[dispatch, isError, isSuccess, message, requestSent,])
   
   if(isLoading){
     return <Spinner/>
@@ -108,7 +108,10 @@ const Dashboard = () => {
           { data ?
           (
             <>
+              
               <BestLifts />
+              <MakeRateDonut data={data.advanced_stats.Snatch} />  
+              <MakeRateDonut data={data.advanced_stats["C&J"]} exercise={'C&J'}/>
               <AllTotals />
               <Insights />
             </>
