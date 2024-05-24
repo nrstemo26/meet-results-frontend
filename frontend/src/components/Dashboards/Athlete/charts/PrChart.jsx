@@ -76,7 +76,7 @@ function PrChart(){
         plugins:{
             title:{
                 display: true,
-                text: "Prs Over Time",
+                text: "Personal Records Over Time",
             },
             legend:{
                 position: 'bottom'
