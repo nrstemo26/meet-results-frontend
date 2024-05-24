@@ -1,10 +1,28 @@
 import { Doughnut } from 'react-chartjs-2'
+// import {Chart as ChartJS,} from 'chart.js';
 import 'chartjs-adapter-date-fns'; 
 import PaywallOverlay from '../../../Widgets/PaywallOverlay';
 
 
-function MakeRateDonut ({data, exercise="Snatch"}) {
-    let chartData = {
+
+function MakeRateDonut ({data, average, exercise="Snatch"}) {
+    const donutLabel = {
+        id: 'donutLabel',
+        afterDatasetsDraw: function(chart, args, plugins) {
+            const {ctx, data} = chart;
+            const centerX = chart.getDatasetMeta(0).data[0].x;
+            const centerY = chart.getDatasetMeta(0).data[0].y;
+
+            ctx.save();
+            ctx.font = '1.15rem Open sans, Helvetica, Arial, sans-serif';
+            ctx.fillStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`Avg. ${average}`, centerX, centerY);
+        }
+    }
+
+    const chartData = {
         type: 'doughnut',
         data: {
             labels:['Make %','Miss %'],
@@ -34,8 +52,8 @@ function MakeRateDonut ({data, exercise="Snatch"}) {
                     font:{
                         size:20
                     }
-                
-                }
+                },
+              
             }
         },
     }
@@ -43,10 +61,10 @@ function MakeRateDonut ({data, exercise="Snatch"}) {
     return (
         <PaywallOverlay buttonText='Unlock Make Rate Charts with Lift Oracle Pro' blur='blur-lg'>
             <div className="donut-wrapper">
-                <Doughnut data={chartData.data} options={chartData.options} />
+                <Doughnut data={chartData.data} options={chartData.options} plugins={[donutLabel]} />
             </div>
         </PaywallOverlay>
     );
-};
+}
 
 export default MakeRateDonut;

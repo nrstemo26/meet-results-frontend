@@ -25,7 +25,6 @@ const Dashboard = () => {
   const [requestSent, setRequestSent] = useState(false)
   const watchlist = useSelector((state) => state.watchlist.athletes)
   const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
-
   
   const pageTitle = data ? `${data['_athlete_id']} - Lift Oracle`: 'Lift Oracle';
   const descriptionContent = data ? `Olympic weightlifting competition history and statistics for ${data['_athlete_id']}. Snatch, clean and jerk, total, sinclair, completion percentages, and more.`: 'Loading athlete information';
@@ -108,8 +107,8 @@ const Dashboard = () => {
           { data ?
           (
             <>
-              <MakeRateDonut data={data.advanced_stats.Snatch} />  
-              <MakeRateDonut data={data.advanced_stats["C&J"]} exercise={'C&J'}/>
+              <MakeRateDonut data={data.advanced_stats.Snatch} average={data.stats["Snatch Make %"]}/>  
+              <MakeRateDonut data={data.advanced_stats["C&J"]} average={data.stats["C&J Make %"]} exercise={'C&J'}/>
               <BestLifts />
               <AllTotals />
               <Insights />
