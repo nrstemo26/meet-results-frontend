@@ -22,7 +22,7 @@ function ChartWrapper({toggleWatchlist, inWatchlist, name}){
                         <option value="all">All</option> 
                         <option value="cj">Clean and Jerk</option> 
                         <option value="sn">Snatch </option> 
-                        <option value="prs">PRs Over Time(PRO)</option>
+                        <option value="prs">PRs Over Time</option>
                     </select>
                 </div>
             </div>
