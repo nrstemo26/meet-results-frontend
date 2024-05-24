@@ -16,7 +16,7 @@ function TopSinclairs(){
                         <tr className="bg-gray-100 text-primary-950">
                             <th className="px-4 py-2 text-left"></th>
                             <th className="px-4 py-2 text-left">Athlete</th>
-                            <th className="px-4 py-2 text-left">Sinclair Total (kg)</th>
+                            <th className="px-4 py-2 text-left">Sinclair Total</th>
                         </tr>
                         </thead>
                         <tbody className="text-gray-700">
@@ -37,7 +37,7 @@ function TopSinclairs(){
                         <tr className="bg-gray-100 text-primary-950">
                             <th className="px-4 py-2 text-left"></th>
                             <th className="px-4 py-2 text-left">Athlete</th>
-                            <th className="px-4 py-2 text-left">Sinclair Total (kg)</th>
+                            <th className="px-4 py-2 text-left">Sinclair Total</th>
                         </tr>
                         </thead>
                         <tbody className="text-gray-700">
