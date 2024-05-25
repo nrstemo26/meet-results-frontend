@@ -10,6 +10,7 @@ const predefinedTags = [
   { label: "Can't Drop Weights ❌", value: "cant_drop_weights" },
   { label: "Exquisite vibes 🤙🏼", value: "exquisite_vibes" },
   { label: "Nat'l Coach 🧠", value: "national_coach" },
+  { label: "Kilo Plates 🧿", value: "kilo_plates" },
 ];
 
 const AddGym = () => {
