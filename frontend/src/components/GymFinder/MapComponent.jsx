@@ -9,6 +9,7 @@ import FilterForm from './FilterForm'; // Import the FilterForm component
 const mapId = '888af732c21aac3d';
 const markerUrl = `${baseUrl}/v1/gymfinder/markers`;
 const placeUrl = `${baseUrl}/v1/gymfinder/place-details`;
+const rangeUrl = `${baseUrl}/v1/gymfinder/markers/range`;
 
 const debounce = (func, delay) => {
     let debounceTimer;
@@ -26,10 +27,16 @@ const MapComponent = () => {
     const [mapCenter, setMapCenter] = useState(defaultCenter);
     const [filters, setFilters] = useState({
         gymType: '',
-        maxMonthlyRate: '250', // Default value for slider
-        maxDropInRate: '50',   // Default value for slider
+        maxMonthlyRate: '150', // Default value for slider
+        maxDropInRate: '20',   // Default value for slider
         usawClub: true,        // Default value for USAW Club
         tags: []
+    });
+    const [ranges, setRanges] = useState({
+        minMonthlyRate: 0,
+        maxMonthlyRate: 250,
+        minDropInRate: 0,
+        maxDropInRate: 50
     });
     const mapRef = useRef(null);
     const markerRefs = useRef([]); // Reference to keep track of markers
@@ -83,6 +90,20 @@ const MapComponent = () => {
                 }
             );
         }
+    }, []);
+
+    useEffect(() => {
+        // Fetch range values on page load
+        const fetchRanges = async () => {
+            try {
+                const response = await axios.get(rangeUrl);
+                setRanges(response.data);
+            } catch (error) {
+                console.error('Error fetching ranges:', error);
+            }
+        };
+
+        fetchRanges();
     }, []);
 
     const fetchPlaceDetails = async (placeId) => {
@@ -208,6 +229,7 @@ const MapComponent = () => {
                 filters={filters}
                 onFilterChange={handleFilterChange}
                 onTagsChange={handleTagsChange}
+                ranges={ranges}
             />
             <GoogleMap
                 mapContainerStyle={mapStyles}
