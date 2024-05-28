@@ -36,7 +36,7 @@ function PrChart(){
         datasets:[
             {
                 label:'Snatch PR',
-                backgroundColor:'#069af3',
+                backgroundColor:'#ffc107',
                 data: snatchPr.map(item => {
                     return {
                     x: new Date(item.date),
@@ -58,7 +58,7 @@ function PrChart(){
             },
             {
                 label:'Total PR',
-                backgroundColor:'#ffc107',
+                backgroundColor:'#069af3',
                 data:  totalPr.map(item => {
                     return {    
                     x: new Date(item.date),
