@@ -23,7 +23,7 @@ const predefinedTags = [
   { label: "Head Coach 🏅", value: "head_coach" },
 ];
 
-const AddGym = () => {
+const AddGym = ({ closeModal }) => {
   const [placeDetails, setPlaceDetails] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [dropInFee, setDropInFee] = useState('');
@@ -90,6 +90,7 @@ const AddGym = () => {
       try {
         const response = await axios.post(`${baseUrl}/v1/gymfinder/add-gym`, gymDetails);
         toast.success(response.data.message);
+        closeModal();
         console.log('Gym saved:', response.data);
       } catch (error) {
         toast.error(error.response.data.error || 'Error saving gym');

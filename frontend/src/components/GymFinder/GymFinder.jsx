@@ -1,22 +1,50 @@
+import React, { useState } from 'react';
 import MapComponent from './MapComponent';
 import AddGym from './AddGym';
 import GoogleMapsLoader from './GoogleMapsLoader';
+import Modal from 'react-modal';
 
 const GymFinder = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <GoogleMapsLoader>
       <div className="flex flex-col items-center">
         <h1 className="text-2xl font-bold mt-8 m-2 mb-4">Find an Olympic Weightlifting Gym Near You</h1>
         <p className="text-gray-700 m-4 text-sm">Going on vacation, traveling for work, or moving and need to find a place to train? Do your due dili on cost, coaching, vibes, and more.</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full">
-          <div className="col-span-2">
+        <div className="col-span-1 flex flex-col items-center">
+          <button
+            onClick={openModal}
+            className="bg-primary-950 text-white px-4 py-2 rounded-md hover:bg-primary-500"
+          >
+            Add Your Gym!
+          </button>
+        </div>
+        <div className="flex justify-center w-full p-4">
+          <div className="w-full sm:w-3/4">
             <MapComponent />
-          </div>
-          <div className="col-span-1">
-            <AddGym />
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Add Gym"
+        className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50"
+      >
+        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+          <button
+            onClick={closeModal}
+            className="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700"
+          >
+            X
+          </button>
+          <AddGym closeModal={closeModal} />
+        </div>
+      </Modal>
     </GoogleMapsLoader>
   );
 };

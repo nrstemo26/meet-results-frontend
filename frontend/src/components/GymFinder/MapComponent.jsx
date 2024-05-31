@@ -224,43 +224,46 @@ const MapComponent = () => {
     };
 
     return (
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full">
             <FilterForm
                 filters={filters}
                 onFilterChange={handleFilterChange}
                 onTagsChange={handleTagsChange}
                 ranges={ranges}
             />
-            <GoogleMap
-                mapContainerStyle={mapStyles}
-                zoom={13}
-                center={mapCenter}
-                options={{
-                    tilt: 0,
-                    heading: 0,
-                    mapId,
-                    draggable: true,
-                    zoomControl: true,
-                    scrollwheel: true,
-                    disableDoubleClickZoom: false,
-                    fullscreenControl: true,
-                }}
-                onLoad={(map) => {
-                    mapRef.current = map;
-                    handleBoundsChanged(); // Fetch markers after map load
-                }}
-                onDragEnd={handleCenterChanged}
-                onZoomChanged={handleBoundsChanged} // Fetch markers on zoom change
-            >
-                {selectedMarker && (
-                    <InfoWindow
-                        position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-                        onCloseClick={() => setSelectedMarker(null)}
-                    >
-                        <MarkerCard marker={selectedMarker} />
-                    </InfoWindow>
-                )}
-            </GoogleMap>
+            <div className="col-span-2">
+                <GoogleMap
+                    mapContainerStyle={mapStyles}
+                    zoom={13}
+                    center={mapCenter}
+                    options={{
+                        tilt: 0,
+                        heading: 0,
+                        mapId,
+                        draggable: true,
+                        zoomControl: true,
+                        scrollwheel: true,
+                        disableDoubleClickZoom: false,
+                        fullscreenControl: true,
+                    }}
+                    onLoad={(map) => {
+                        mapRef.current = map;
+                        handleBoundsChanged(); // Fetch markers after map load
+                    }}
+                    onDragEnd={handleCenterChanged}
+                    onZoomChanged={handleBoundsChanged} // Fetch markers on zoom change
+                >
+                    {selectedMarker && (
+                        <InfoWindow
+                            position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+                            onCloseClick={() => setSelectedMarker(null)}
+                        >
+                            <MarkerCard marker={selectedMarker} />
+                        </InfoWindow>
+                    )}
+                </GoogleMap>
+            </div>
+            
         </div>
     );
 };
