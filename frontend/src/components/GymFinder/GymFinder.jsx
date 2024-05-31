@@ -28,17 +28,26 @@ const GymFinder = () => {
             <MapComponent />
           </div>
         </div>
+        <div className="col-span-1 flex flex-col items-center mt-4">
+          <div
+            onClick={openModal}
+            className="text-primary-950 font-semibold hover:text-primary-500 cursor-pointer"
+          >
+            Missing/Incorrect data? Update Your Gym!
+          </div>
+        </div>
       </div>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
+        ariaHideApp={false}
         contentLabel="Add Gym"
         className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50"
       >
         <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
           <button
             onClick={closeModal}
-            className="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700"
+            className="absolute top-0 right-0 mt-4 mr-4 sm:mt-8 sm:mr-8 text-primary-950 hover:text-primary-500"
           >
             X
           </button>
@@ -46,6 +55,7 @@ const GymFinder = () => {
         </div>
       </Modal>
     </GoogleMapsLoader>
+    
   );
 };
 
