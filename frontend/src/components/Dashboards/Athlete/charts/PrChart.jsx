@@ -4,6 +4,7 @@ import {useSelector } from  'react-redux'
 import 'chartjs-adapter-date-fns'; 
 import ChartjsPluginWatermark from 'chartjs-plugin-watermark'
 import { enUS } from 'date-fns/locale';
+import { format } from 'date-fns';
 import watermark from '../../../../assets/avatar_face_navy.png' 
 
 function PrChart(){
@@ -84,7 +85,10 @@ function PrChart(){
             tooltip:{
                 callbacks: {
                     title: function(context) {
-                        // console.log(context)
+                        return context[0].dataset.label;
+                    },
+                    beforeLabel: function (context) {
+                        return format(new Date(context.parsed.x), 'MMM dd, yyyy');
                     },
                     label: function (context) {
                         return `${context.parsed.y}kg`;
