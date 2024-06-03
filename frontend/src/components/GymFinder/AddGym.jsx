@@ -227,7 +227,9 @@ const AddGym = ({ closeModal }) => {
           options={predefinedTags}
           value={selectedTags}
           onChange={setSelectedTags}
-          className="w-full"
+          className="basic-multi-select"
+          classNamePrefix="select"
+          menuPlacement="top"
         />
       </div>
       {placeDetails && (
