@@ -88,7 +88,7 @@ const AddGym = ({ closeModal }) => {
         tags: selectedTags
       };
       try {
-        const response = await axios.post(`${baseUrl}/v1/gymfinder/add-gym`, gymDetails);
+        const response = await axios.post(`${baseUrl}/v1/gymfinder/gym-form-submit`, gymDetails);
         toast.success(response.data.message);
         closeModal();
         console.log('Gym saved:', response.data);
