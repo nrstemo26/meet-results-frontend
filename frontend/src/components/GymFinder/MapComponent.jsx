@@ -225,12 +225,7 @@ const MapComponent = () => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full">
-            <FilterForm
-                filters={filters}
-                onFilterChange={handleFilterChange}
-                onTagsChange={handleTagsChange}
-                ranges={ranges}
-            />
+            
             <div className="col-span-2">
                 <GoogleMap
                     mapContainerStyle={mapStyles}
@@ -263,7 +258,12 @@ const MapComponent = () => {
                     )}
                 </GoogleMap>
             </div>
-            
+            <FilterForm
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                onTagsChange={handleTagsChange}
+                ranges={ranges}
+            />
         </div>
     );
 };
