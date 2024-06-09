@@ -1,4 +1,3 @@
-// MapComponent.jsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleMap, InfoWindow } from '@react-google-maps/api';
 import axios from 'axios';
@@ -44,6 +43,7 @@ const MapComponent = () => {
     const fetchMarkers = useCallback(
         debounce(async (bounds) => {
             const { north, east, south, west } = bounds;
+            console.log('Fetching markers with bounds:', bounds);
             try {
                 const response = await axios.get(markerUrl, {
                     params: {
@@ -68,6 +68,7 @@ const MapComponent = () => {
                             .join('&');
                     }
                 });
+                console.log('Markers fetched:', response.data);
                 setMarkers(response.data);
             } catch (error) {
                 console.error('Error fetching markers:', error);
@@ -87,8 +88,11 @@ const MapComponent = () => {
                 },
                 () => {
                     setMapCenter(defaultCenter);
+                    fetchInitialMarkers(defaultCenter); // Fallback to default center
                 }
             );
+        } else {
+            fetchInitialMarkers(defaultCenter); // Fallback to default center
         }
     }, []);
 
@@ -105,6 +109,26 @@ const MapComponent = () => {
 
         fetchRanges();
     }, []);
+
+    const fetchInitialMarkers = (center) => {
+        if (mapRef.current) {
+            const map = mapRef.current;
+            const bounds = new window.google.maps.LatLngBounds();
+            bounds.extend(new window.google.maps.LatLng(center.lat + 0.05, center.lng + 0.05));
+            bounds.extend(new window.google.maps.LatLng(center.lat - 0.05, center.lng - 0.05));
+            map.fitBounds(bounds);
+            const ne = bounds.getNorthEast();
+            const sw = bounds.getSouthWest();
+            const currentBounds = {
+                north: ne.lat(),
+                east: ne.lng(),
+                south: sw.lat(),
+                west: sw.lng(),
+            };
+            console.log('Initial fetch with bounds:', currentBounds);
+            fetchMarkers(currentBounds);
+        }
+    };
 
     const fetchPlaceDetails = async (placeId) => {
         try {
@@ -139,6 +163,7 @@ const MapComponent = () => {
                     west: sw.lng(),
                 };
                 if (!lastBounds || hasBoundsChanged(lastBounds, currentBounds)) {
+                    console.log('Bounds changed:', currentBounds);
                     setLastBounds(currentBounds);
                     fetchMarkers(currentBounds);
                 }
@@ -243,6 +268,7 @@ const MapComponent = () => {
                     }}
                     onLoad={(map) => {
                         mapRef.current = map;
+                        console.log('Map loaded, fetching initial markers');
                         handleBoundsChanged(); // Fetch markers after map load
                     }}
                     onDragEnd={handleCenterChanged}

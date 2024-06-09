@@ -4,7 +4,11 @@ import React from 'react';
 
 const MarkerCard = ({ marker }) => {
     const website = `https://${marker.website}`
+    const ctaLink = marker.email ? `mailto:${marker.email}` : website;
+    const ratingPercentage = (marker.rating / 5) * 100;
+
     console.log(marker)
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-lg max-w-xs">
       <h2 className="text-lg font-semibold mb-1 text-primary-950">{marker.name}</h2>
@@ -30,7 +34,15 @@ const MarkerCard = ({ marker }) => {
         </>
       )}
       {marker.rating && (
-        <p className="text-sm text-gray-600 mb-1"><strong>Google Rating:</strong> <span className="font-mono">{marker.rating}/5</span></p>
+          <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-1"><strong>Google Rating:</strong> <span className="font-mono">{marker.rating}</span></p>
+              <div className="relative h-3 rounded-full overflow-hidden bg-gray-300">
+                  <div
+                      className="absolute top-0 bottom-0 left-0 rounded-full bg-gradient-to-r from-blue-500 to-blue-950"
+                      style={{ width: `${ratingPercentage}%` }}
+                  ></div>
+              </div>
+          </div>
       )}
       <div className="mt-4 flex flex-wrap gap-2">
         <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-600 ring-1 ring-inset ring-yellow-500/10">
@@ -46,6 +58,16 @@ const MarkerCard = ({ marker }) => {
             {tag.label}
           </span>
         ))}
+      </div>
+      <div className="mt-4">
+          <a
+              href={ctaLink}
+              target={marker.email ? "_self" : "_blank"}
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-950 hover:bg-primary-500"
+          >
+              Train Here
+          </a>
       </div>
     </div>
   );
