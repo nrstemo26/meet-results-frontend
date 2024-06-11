@@ -3,6 +3,7 @@ import MapComponent from './MapComponent';
 import AddGym from './AddGym';
 import GoogleMapsLoader from './GoogleMapsLoader';
 import Modal from 'react-modal';
+import { updateMetaTags } from '../../lib/seo_utils';
 import { AiOutlineClose } from 'react-icons/ai';
 
 const GymFinder = () => {
@@ -11,9 +12,13 @@ const GymFinder = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const pageTitle = 'Olympic Weightlifting Gyms Near You - Lift Oracle';
+  const descriptionContent = 'Discover Olympic Weightlifting gyms near you with GymFinder by Lift Oracle. Easily find gyms by cost, coaching quality, vibes, and amenities. Explore detailed profiles with drop-in fees and rates.';
+
   return (
     <GoogleMapsLoader>
       <div className="flex flex-col items-center">
+        {updateMetaTags(pageTitle, descriptionContent)}
         <h1 className="text-2xl font-bold m-4 mt-8 text-primary-950">Find an Olympic Weightlifting Gym Near You</h1>
         <p className="text-gray-700 m-4 text-sm">Going on vacation, traveling for work, or moving and need to find a place to train? Do your due dili on cost, coaching, vibes, and more.</p>
         <div className="col-span-1 flex flex-col items-center mt-4">
