@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 function TopSinclairs(){
     const {data: stats } = useSelector((state)=>state.meet)
+    console.log(stats.mens.sinclairs)
 
     return(
         <div className="sm:w-full flex flex-col">
@@ -23,7 +25,11 @@ function TopSinclairs(){
                         {stats.mens.sinclairs.map((data, index) => (
                             <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                             <td className="px-4 py-2">{index + 1}</td>
-                            <td className="px-4 py-2">{data[0]}</td>
+                            <td className="px-4 py-2">
+                                <Link to={`/athlete/${encodeURIComponent(data[0])}`} className="text-primary-950 hover:underline">
+                                    {data[0]}
+                                </Link>
+                            </td>
                             <td className="px-4 py-2 font-mono">{data[1]}</td>
                             </tr>
                         ))}
@@ -44,7 +50,11 @@ function TopSinclairs(){
                         {stats.womens.sinclairs.map((data, index) => (
                             <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                             <td className="px-4 py-2">{index + 1}</td>
-                            <td className="px-4 py-2">{data[0]}</td>
+                            <td className="px-4 py-2">
+                                <Link to={`/athlete/${encodeURIComponent(data[0])}`} className="text-primary-950 hover:underline">
+                                    {data[0]}
+                                </Link>
+                            </td>
                             <td className="px-4 py-2 font-mono">{data[1]}</td>
                             </tr>
                         ))}
