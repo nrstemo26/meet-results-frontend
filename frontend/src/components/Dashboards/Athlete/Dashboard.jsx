@@ -12,7 +12,7 @@ import { removeFromWatchlist,addToWatchlist } from '../../../features/watchlistS
 import { useNavigate } from 'react-router-dom'
 import { updateMetaTags } from '../../../lib/seo_utils';
 import ChartWrapper from './ChartWrapper';
-
+import RelatedAthletes from './RelatedAthletes';
 import MakeRateDonut from './charts/MakeRateDonut';
 
 import { toast } from 'react-toastify'
@@ -22,17 +22,16 @@ import WatchlistIcon from './WatchlistIcon';
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const urlArray = window.location.pathname.split('/')
+  const name = urlArray[urlArray.length - 1].split('%20').join(' ')
   const [requestSent, setRequestSent] = useState(false)
   const watchlist = useSelector((state) => state.watchlist.athletes)
-  const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete  )
+  const {data, isLoading, isError, isSuccess, message} = useSelector( (state) => state.athlete )
 
-  
   const pageTitle = data ? `${data['_athlete_id']} - Lift Oracle`: 'Lift Oracle';
   const descriptionContent = data ? `Olympic weightlifting competition history and statistics for ${data['_athlete_id']}. Snatch, clean and jerk, total, sinclair, completion percentages, and more.`: 'Loading athlete information';
 
   const [inWatchlist, setInWatchlist]= useState(()=>{
-    const urlArray = window.location.pathname.split('/')
-    const name = urlArray[urlArray.length - 1].split('%20').join(' ')
     return watchlist.includes(name)
   })
 
@@ -67,17 +66,17 @@ const Dashboard = () => {
         console.log('getting athlete')
         dispatch(getAthlete(athleteName))
       }
-      // const {_athlete_id, meet_history, stats} = (await dispatch(getAthlete(athleteName))).payload
-      
-      // setId(_athlete_id)
-      // setMeetHistory(meet_history)
-      // setStats(stats)
+
     }
     if(!requestSent){
       getUserData()
       setRequestSent(true)
     }
-  },[dispatch, isError, isSuccess, message, requestSent,])
+  },[dispatch, isError, isSuccess, message, name])
+
+  useEffect(() => {
+    setRequestSent(false);
+  }, [name]);
   
   if(isLoading){
     return <Spinner/>
@@ -114,6 +113,7 @@ const Dashboard = () => {
               <MakeRateDonut data={data.advanced_stats["C&J"]} exercise={'C&J'}/>
               <AllTotals />
               <Insights />
+              <RelatedAthletes athleteName={data['_athlete_id']} />
             </>
           ):
           'no data'
