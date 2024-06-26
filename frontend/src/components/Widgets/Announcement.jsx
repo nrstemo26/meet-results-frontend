@@ -9,7 +9,9 @@ const Announcement = () => {
     setIsVisible(false);
   };
 
-  if (!isVisible || location.pathname === '/weightlifting-gym-near-me') return null;
+  const isGymFinderRoute = location.pathname === '/weightlifting-gym-near-me' || location.pathname.startsWith('/weightlifting-gym/');
+
+  if (!isVisible || isGymFinderRoute) return null;
 
   return (
     <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
