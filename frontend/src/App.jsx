@@ -10,7 +10,6 @@ import { updateMetaTags } from './lib/seo_utils';
 import Main from './components/Main';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Widgets/Footer';
-import ProCard from './components/Widgets/ProCard'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)

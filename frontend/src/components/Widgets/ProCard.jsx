@@ -49,14 +49,14 @@ const UpgradeProCard = () => {
   if (isSubscribed || !isVisible) return null;
 
   return (
-    <div className="relative rounded-xl bg-primary-100 dark:bg-primary-950 border border-primary-200 dark:border-primary-800 text-primary-800 dark:text-primary-200">
+    <div className="relative rounded-md bg-primary-100 dark:bg-primary-950 border border-primary-200 dark:border-primary-800 text-primary-800 dark:text-primary-200">
       <div className="p-4 pt-3 pb-0 font-bold text-lg text-primary-900 dark:text-white">
         Upgrade to Lift Oracle PRO
       </div>
       <div className="p-4 pt-2">
         <p className="text-sm font-medium">Subscribe to unlock all features and support on-going development of the platform.</p>
       </div>
-      <ul className="px-4 font-medium leading-7 mb-6">
+      <ul className="px-4 text-sm font-medium leading-7 mb-6">
         {features.map((feature, index) => (
           <li key={index}>{feature}</li>
         ))}

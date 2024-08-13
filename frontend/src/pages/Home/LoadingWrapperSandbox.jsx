@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Spinner } from "../Spinners/Spinner"
 import FeatureRequest from "../../components/Widgets/FeatureRequest"
 import Trending from '../../components/SearchBars/Trending'
+import UpgradeProCard from "../../components/Widgets/ProCard";
 import OracleRatings from "../../components/Widgets/OracleRatings"
 import OracleSleeveless from '../../assets/oracle_sleeveless.png';
 
@@ -92,8 +93,14 @@ const HomeComponent = ()=>{
         <WrappedComponent isLoading={isLoading} data={data} />
       </div>
       {/* Trending component will be shown below the WrappedComponent on small screens */}
-      <div className="w-full md:w-1/4 mt-8 md:ml-8">
-        <Trending />
+      <div className="w-full md:w-1/4 mt-8 md:ml-8 p-4">
+        <div className="mb-4 mt-16">
+            <Trending />
+        </div>
+        <div className="mb-4 mt-16">
+            <UpgradeProCard />
+        </div>
+        
         {/* <OracleRatings /> */}
       </div>
       {/* FeatureRequest will be shown on the right side, below the Trending on small screens */}
