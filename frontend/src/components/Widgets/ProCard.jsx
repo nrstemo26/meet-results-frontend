@@ -47,6 +47,11 @@ const UpgradeProCard = () => {
 
   const handleDismiss = (e) => {
     e.preventDefault();
+    
+    if (window.umami) {
+      window.umami.track('Dismiss PRO Upgrade', { source: 'upgrade_card' });
+    }
+
     setIsVisible(false);
     localStorage.setItem('upgradeProCardDismissed', 'true');
   };
