@@ -37,6 +37,11 @@ const UpgradeProCard = () => {
 
   const handleUpgrade = (e) => {
     e.preventDefault();
+
+    if (window.umami) {
+      window.umami.track('Upgrade to PRO', { source: 'upgrade_card' });
+    }
+
     window.location.href = proLink;
   };
 
