@@ -49,8 +49,8 @@ const UpgradeProCard = () => {
   if (isSubscribed || !isVisible) return null;
 
   return (
-    <div className="relative rounded-md bg-primary-100 dark:bg-primary-950 border border-primary-200 dark:border-primary-800 text-primary-800 dark:text-primary-200">
-      <div className="p-4 pt-3 pb-0 font-bold text-lg text-primary-900 dark:text-white">
+    <div className="relative rounded-md bg-primary-100 border border-primary-200 hover:border-primary-500 text-primary-800 text-left">
+      <div className="p-4 pt-3 pb-0 font-bold text-lg text-primary-800">
         Upgrade to Lift Oracle PRO
       </div>
       <div className="p-4 pt-2">
@@ -64,13 +64,13 @@ const UpgradeProCard = () => {
       <div className="flex gap-2 p-4 pt-0">
         <button
           onClick={handleUpgrade}
-          className="block grow text-center text-base rounded-full bg-primary-700 hover:bg-primary-600 dark:bg-primary-600 dark:hover:bg-primary-500 text-white font-bold px-3 py-2"
+          className="block grow text-center text-base rounded-full bg-primary-700 hover:bg-primary-500 text-white font-bold px-3 py-2"
         >
           Upgrade
         </button>
         <button
           onClick={handleDismiss}
-          className="block grow text-center text-base rounded-full text-primary-700 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 bg-primary-300 hover:bg-primary-400 dark:bg-primary-800 dark:hover:bg-primary-700 font-bold px-3 py-2"
+          className="block grow text-center text-base rounded-full text-primary-700 hover:text-primary-800 bg-primary-300 hover:bg-primary-400 font-bold px-3 py-2"
         >
           Not now
         </button>

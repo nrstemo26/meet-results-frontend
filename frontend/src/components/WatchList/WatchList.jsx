@@ -136,11 +136,8 @@ function WatchList(){
     return(
       <div className='sm:flex w-100 p-4'>
         {updateMetaTags(pageTitle, descriptionContent)}
-          <div className='sm:w-2/4' >
-              <Search isWatchlist={true} ></Search>
-          </div>
-
-          <div className='sm:w-2/4'>
+          
+          <div className='sm:w-1/3 mt-8'>
             <h1 className="font-bold text-xl text-primary-950 text-center">Athlete Watchlist</h1>
             {WatchListAthletes.length > 0 && (
               <div className="">
@@ -158,6 +155,10 @@ function WatchList(){
               )
               )}
             </ul>
+          </div>
+
+          <div className='sm:w-2/3' >
+              <Search isWatchlist={true} ></Search>
           </div>
       </div>
     )

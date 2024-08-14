@@ -97,7 +97,7 @@ const HomeComponent = ()=>{
         <div className="mb-4 mt-16">
             <Trending />
         </div>
-        <div className="mb-4 mt-16">
+        <div className="mb-4 mt-16 sm:mt-48">
             <UpgradeProCard />
         </div>
         
