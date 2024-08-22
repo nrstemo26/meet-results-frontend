@@ -56,7 +56,7 @@ const GymFinder = () => {
         <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto relative">
           <button
             onClick={closeModal}
-            className="absolute top-0 right-0 mt-4 mr-4 sm:mt-8 sm:mr-8 text-primary-950 sm:text-white hover:text-primary-500"
+            className="absolute top-0 right-0 mt-4 mr-4 text-primary-950 hover:text-primary-500"
           >
             <FaTimes />
           </button>
