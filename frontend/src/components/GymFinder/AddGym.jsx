@@ -19,6 +19,7 @@ const AddGym = ({ closeModal }) => {
   const [gymType, setGymType] = useState('');
   const [usawClub, setUsawClub] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [isExistingGym, setIsExistingGym] = useState(false);
   const autocompleteRef = useRef(null);
 
   const fetchGymDetails = async (placeId) => {
@@ -35,8 +36,10 @@ const AddGym = ({ closeModal }) => {
       setGymType(gymDetails.gymType);
       setUsawClub(gymDetails.usawClub);
       setSelectedTags(gymDetails.tags);
+      setIsExistingGym(true);
     } catch (error) {
       console.error('Error fetching gym details:', error);
+      setIsExistingGym(false);
     }
   };
 
@@ -88,7 +91,9 @@ const AddGym = ({ closeModal }) => {
 
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white rounded-lg shadow-lg max-w-md text-sm mt-8">
-      <h2 className="text-lg font-semibold mb-4 text text-primary-950">Add Your Gym</h2>
+      <h2 className="text-lg font-semibold mb-4 text text-primary-950">
+        {isExistingGym ? 'Update Your Gym' : 'Add Your Gym'}
+      </h2>
       <Autocomplete
         onLoad={(autocomplete) => {
           autocompleteRef.current = autocomplete;
@@ -223,7 +228,9 @@ const AddGym = ({ closeModal }) => {
           <p><strong></strong> {placeDetails.address}</p>
         </div>
       )}
-      <button type="submit" className="mt-4 px-4 py-2 bg-primary-950 hover:bg-primary-500 text-white rounded-md">Add Gym</button>
+      <button type="submit" className="mt-4 px-4 py-2 bg-primary-950 hover:bg-primary-500 text-white rounded-md">
+        {isExistingGym ? 'Update Gym' : 'Add Gym'}
+      </button>
     </form>
   );
 };
