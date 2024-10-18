@@ -28,6 +28,7 @@ const UpgradeProCard = () => {
 
   const features = [
     "🫶 Support Lift Oracle",
+    "💳 20% all MB+Oracle Gear",
     "🔢 Custom queries and analytics.",
     "🧮 Advanced athlete statistics.",
     "🏆 Upcoming meet startlists.",
