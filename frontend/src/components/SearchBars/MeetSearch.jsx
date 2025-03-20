@@ -5,6 +5,7 @@ import { updateMetaTags } from "../../lib/seo_utils";
 import MeetList from "./MeetList"
 import SearchBar from "./SearchBar"
 import MeetTable from "../../components/Widgets/MeetTable"
+import UpgradeProCard from "../Widgets/ProCard";
 
 
 function MeetSearch(){
@@ -37,12 +38,21 @@ function MeetSearch(){
   };
 
   return (
-      <div className="text-center">
+      <div className="text-center mt-4">
         {updateMetaTags(pageTitle, descriptionContent)}
         <SearchBar onSearch={handleSearch} placeholderText={"Start typing an competition by year or name..."}/>
-        {searchQuery.length > 0 ? 
-        <MeetList meets={meets} />
-        : <div className="shadow-lg text-left"><MeetTable tableType="upcoming"/><MeetTable tableType="recent"/></div>}
+        <div className="sm:flex sm:flex-row">
+          <div className="sm:w-3/4 mt-4">
+            
+            {searchQuery.length > 0 ? 
+            <MeetList meets={meets} />
+            : <div className="text-left"><MeetTable tableType="upcoming"/><MeetTable tableType="recent"/></div>}
+          </div>
+          <div className="mb-4 mt-4 sm:w-1/4 mx-auto p-4">
+              <UpgradeProCard />
+          </div>
+        </div>
+        
       </div>
   )
 }

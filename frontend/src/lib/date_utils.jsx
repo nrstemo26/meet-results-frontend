@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 
 function formatDate(inputDateStr) {
     const inputDate = new Date(inputDateStr);
@@ -57,13 +58,20 @@ export const renderTotalResults = (arr, meetHistory) => {
     return arr.map((meet)=>{
         let meetData = meetHistory[meet]
         const formattedDateStr = formatDate(meetData["Date"]);
+        const year = new Date(meetData["Date"]).getFullYear();
+        const meetUrl = `/meet/${encodeURIComponent(meetData["Meet"])} (${year})`;
+
         return (
         <>    
             <div className="mt-4">
-                <h2 className="text-sm sm:text-lg font-bold text-primary-950">{meetData["Meet"]} -- {formattedDateStr}</h2>
+                <h2 className="text-sm sm:text-lg font-bold text-primary-950">
+                    <Link to={meetUrl} className="hover:underline">
+                        {meetData["Meet"]} -- {formattedDateStr}
+                    </Link>
+                </h2>
                 <div className="flex justify-between p-2">
-                    <span class="text-xs sm:text-sm">{meetData["Age Category"]}</span>
-                    <span class="text-xs sm:text-sm">Bodyweight: {meetData["Body Weight (Kg)"]}kg</span>
+                    <span className="text-xs sm:text-sm">{meetData["Age Category"]}</span>
+                    <span className="text-xs sm:text-sm">Bodyweight: {meetData["Body Weight (Kg)"]}kg</span>
                 </div>
                 <div className="text-center flex flex-col gap-2">
                     <a className="bg-white border-2 p-1 px-1 border-primary-950 text-gray-700 rounded-lg font-mono text-xl" key={meet}>{meetData["Best Snatch"]} / {meetData["Best C&J"]} / {meetData["Total"]}</a>

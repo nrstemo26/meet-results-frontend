@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 function TopSinclairs(){
     const {data: stats } = useSelector((state)=>state.meet)
+    console.log(stats.mens.sinclairs)
 
     return(
         <div className="sm:w-full flex flex-col">
@@ -16,14 +18,18 @@ function TopSinclairs(){
                         <tr className="bg-gray-100 text-primary-950">
                             <th className="px-4 py-2 text-left"></th>
                             <th className="px-4 py-2 text-left">Athlete</th>
-                            <th className="px-4 py-2 text-left">Sinclair Total (kg)</th>
+                            <th className="px-4 py-2 text-left">Sinclair Total</th>
                         </tr>
                         </thead>
                         <tbody className="text-gray-700">
                         {stats.mens.sinclairs.map((data, index) => (
                             <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                             <td className="px-4 py-2">{index + 1}</td>
-                            <td className="px-4 py-2">{data[0]}</td>
+                            <td className="px-4 py-2">
+                                <Link to={`/athlete/${encodeURIComponent(data[0])}`} className="text-primary-950 hover:underline">
+                                    {data[0]}
+                                </Link>
+                            </td>
                             <td className="px-4 py-2 font-mono">{data[1]}</td>
                             </tr>
                         ))}
@@ -37,14 +43,18 @@ function TopSinclairs(){
                         <tr className="bg-gray-100 text-primary-950">
                             <th className="px-4 py-2 text-left"></th>
                             <th className="px-4 py-2 text-left">Athlete</th>
-                            <th className="px-4 py-2 text-left">Sinclair Total (kg)</th>
+                            <th className="px-4 py-2 text-left">Sinclair Total</th>
                         </tr>
                         </thead>
                         <tbody className="text-gray-700">
                         {stats.womens.sinclairs.map((data, index) => (
                             <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                             <td className="px-4 py-2">{index + 1}</td>
-                            <td className="px-4 py-2">{data[0]}</td>
+                            <td className="px-4 py-2">
+                                <Link to={`/athlete/${encodeURIComponent(data[0])}`} className="text-primary-950 hover:underline">
+                                    {data[0]}
+                                </Link>
+                            </td>
                             <td className="px-4 py-2 font-mono">{data[1]}</td>
                             </tr>
                         ))}

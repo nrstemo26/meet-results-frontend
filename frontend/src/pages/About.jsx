@@ -99,6 +99,7 @@ const About = () => {
         <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
             <li>🔢 User-defined queries and analytics. Slice and dice our data to your hearts content.</li>
             <li>🧮 Advanced athlete statistics. Gain an edge on your competition.</li>
+            <li>🏆 Upcoming meet startlists. Get a jump on due dili for your session.</li>
             <li>💾 Build and save unlimited watchlists. Keep the competition at your fingertips.</li>
             <li>📲 Export watchlists and athlete statistics to Excel or Google Sheets. Level up your meet coaching.</li>
             <li>🔢 Automated meet coaching cards. Warm up your athletes on time, every time. (Coming soon)</li>

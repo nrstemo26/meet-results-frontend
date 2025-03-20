@@ -11,7 +11,7 @@ const SearchBar = ({ onSearch, placeholderText }) => {
       type="text"
       onChange={handleSearch}
           placeholder={placeholderText}
-          className="search-bar"
+          className="search-bar text-sm sm:text-base"
           />
           );
 }

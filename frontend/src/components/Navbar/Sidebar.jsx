@@ -29,8 +29,8 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
         </div>
       )}
       <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About</div></Link>
-      <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
-        <div className='sidebar-element'>Merch</div>
+      <a href="https://milwaukeebarbell.com/collections/lift-oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
+          <div className='sidebar-element'>Merch</div>
       </a>
       {user ? (
         <>

@@ -33,7 +33,7 @@ function Insights() {
                     
                     
                     <a className="text-primary-950 border-2 border-secondary rounded-lg">Best Total: <span className="font-mono text-gray-700 text-l">{stats.mens.stats["Best Total"]}kg</span></a>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Best Sinclair Total: <span className="font-mono text-gray-700 text-l">{stats.mens.stats["Best Sinclair Total"]}kg</span></a>
+                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Best Sinclair Total: <span className="font-mono text-gray-700 text-l">{stats.mens.stats["Best Sinclair Total"]}</span></a>
                     <a className="text-primary-950 border-2 border-secondary rounded-lg">Number of Athletes: <span className="font-mono text-gray-700 text-l">{stats.mens.stats["Number of Athletes"]}</span></a>                    
                     <a className="text-primary-950 border-2 border-secondary rounded-lg">Overall Make Rate: <span className="font-mono text-gray-700 text-l">{stats.mens.stats["Overall Make %"]}</span></a>
                 </div>
@@ -56,7 +56,7 @@ function Insights() {
                 <h1 className="text-center text-l text-primary-950 font-bold m-2 border-b border-primary-100">Women</h1>
                 <div className="text-left flex flex-col gap-1 mb-2">
                     <a className="text-primary-950 border-2 border-secondary rounded-lg">Best Total: <span className="font-mono text-gray-700 text-l">{stats.womens.stats["Best Total"]}kg</span></a>
-                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Best Sinclair Total: <span className="font-mono text-gray-700 text-l">{stats.womens.stats["Best Sinclair Total"]}kg</span></a>
+                    <a className="text-primary-950 border-2 border-secondary rounded-lg">Best Sinclair Total: <span className="font-mono text-gray-700 text-l">{stats.womens.stats["Best Sinclair Total"]}</span></a>
                     <a className="text-primary-950 border-2 border-secondary rounded-lg">Number of Athletes: <span className="font-mono text-gray-700 text-l">{stats.womens.stats["Number of Athletes"]}</span></a>                    
                     <a className="text-primary-950 border-2 border-secondary rounded-lg">Overall Make Rate: <span className="font-mono text-gray-700 text-l">{stats.womens.stats["Overall Make %"]}</span></a>
                 </div>
