@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../config';
+import { MbSpinnerGradient } from '../../pages/Spinners/MbSpinnerGradient';
 
 const CityLinksByState = () => {
   const [citiesByState, setCitiesByState] = useState({});
@@ -46,9 +47,9 @@ const CityLinksByState = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-950"></div>
-        <span className="ml-2 text-gray-600">Loading cities...</span>
+      <div className="flex justify-center items-center p-8 flex-col">
+        <h1 className="text-xl font-bold mb-4 text-primary-950">Consulting the Oracle...</h1>
+        <MbSpinnerGradient />
       </div>
     );
   }

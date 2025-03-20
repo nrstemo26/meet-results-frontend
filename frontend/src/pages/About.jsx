@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { baseUrl, coffeeLink, buttonId, pubKey } from '../config'
+import { baseUrl, coffeeLink, buttonId, fetchStripeConfig } from '../config'
 import { updateMetaTags } from '../lib/seo_utils';
 import axios from 'axios';
 
@@ -11,47 +11,71 @@ const About = () => {
   const [accountId, setAccountId] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const [coffeeURL, setCoffeeURL] = useState('');
+  const [stripeConfig, setStripeConfig] = useState({
+    buttonId: '',
+    coffeeLink: '',
+    proLink: ''
+  });
 
   const pageTitle = 'About - Lift Oracle';
   const descriptionContent = 'Lift Oracle origin story, feature breakdown, and product roadmap. From the minds of Milwaukee Barbell.';
   
   useEffect(() => {
+    const loadStripeConfig = async () => {
+      try {
+        const config = await fetchStripeConfig();
+        setStripeConfig(config);
+      } catch (error) {
+        console.error('Error loading Stripe config:', error);
+      }
+    };
+    
+    loadStripeConfig();
+  }, []); // Empty dependency array means this runs once on mount
+  
+  useEffect(() => {
     const getAccount = async () => {
-      if (user) {
-        const token = localStorage.getItem('token');
-        const credentials = btoa(`${token}:unused`);
-
-        try {
-          const response = await axios.get(`${apiUrl}user/account`, {
-
-            headers: {
-              Authorization: `Basic ${credentials}`,
-            },
-          });
-
-          setAccountEmail(response.data.email);
-          setAccountId(response.data.user_id);
-          // console.log(accountEmail);
-          const encodedEmail = encodeURIComponent(response.data.email);
-          const clientRef = `&client_reference_id=${response.data.user_id}`
-          console.log(`${coffeeLink}?prefilled_email=${encodedEmail}${clientRef}`);
-          setCoffeeURL(`${coffeeLink}?prefilled_email=${encodedEmail}${clientRef}`);
-          
-        } catch (error) {
-          console.error(error);
-          setCoffeeURL(`${coffeeLink}`);
-          setAccountEmail('');
-          // Handle the error
-        }
-      } else {
-        setCoffeeURL(`${coffeeLink}`);
+      if (!user) {
+        setCoffeeURL(stripeConfig.coffeeLink || coffeeLink);
         setAccountEmail('');
+        return;
       }
       
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setCoffeeURL(stripeConfig.coffeeLink || coffeeLink);
+        setAccountEmail('');
+        return;
+      }
+      
+      const credentials = btoa(`${token}:unused`);
+
+      try {
+        const response = await axios.get(`${apiUrl}user/account`, {
+          headers: {
+            Authorization: `Basic ${credentials}`,
+          },
+        });
+
+        setAccountEmail(response.data.email);
+        setAccountId(response.data.user_id);
+        
+        const encodedEmail = encodeURIComponent(response.data.email);
+        const clientRef = `&client_reference_id=${response.data.user_id}`;
+        setCoffeeURL(`${stripeConfig.coffeeLink || coffeeLink}?prefilled_email=${encodedEmail}${clientRef}`);
+        
+      } catch (error) {
+        console.error(error);
+        setCoffeeURL(stripeConfig.coffeeLink || coffeeLink);
+        setAccountEmail('');
+      }
     };
 
-    getAccount();
-  }, [user]); // Empty dependency array to run the effect only once
+    // Only run this effect if we have stripe config values and user changes
+    if (stripeConfig.coffeeLink || coffeeLink) {
+      getAccount();
+    }
+  }, [user, stripeConfig.coffeeLink]); // Only depend on user and coffeeLink
 
   return(
     <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
@@ -82,13 +106,13 @@ const About = () => {
           </ul>
           <div>
               <stripe-buy-button
-                  buy-button-id={buttonId}
-                  publishable-key={pubKey}
+                  buy-button-id={stripeConfig.buttonId || buttonId}
+                  publishable-key="pk_placeholder"
                   customer-email={accountEmail}
                   client-reference-id={accountId}
                   data-umami-event="pro-checkout"
                   >
-              </stripe-buy-button> {/* add link to annual under this? */}
+              </stripe-buy-button>
           </div>
       </div>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">You can also support Lift Oracle by:</p>

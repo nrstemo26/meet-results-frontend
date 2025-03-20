@@ -17,7 +17,7 @@ const usawClubOptions = [
 
 const formatCurrency = value => `$${Number(value).toFixed(0)}`;
 
-const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
+const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges, isDarkMode = false }) => {
     const [isExpanded, setIsExpanded] = useState({
         pricing: true,
         features: true
@@ -41,48 +41,78 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
     const customSelectStyles = {
         control: (provided, state) => ({
             ...provided,
-            borderColor: state.isFocused ? '#3b82f6' : '#e5e7eb',
-            boxShadow: state.isFocused ? '0 0 0 1px #3b82f6' : 'none',
+            backgroundColor: isDarkMode ? '#1f2937' : 'white',
+            borderColor: state.isFocused 
+                ? isDarkMode ? '#3b82f6' : '#3b82f6' 
+                : isDarkMode ? '#4b5563' : '#e5e7eb',
+            boxShadow: state.isFocused ? `0 0 0 1px ${isDarkMode ? '#3b82f6' : '#3b82f6'}` : 'none',
             '&:hover': {
-                borderColor: state.isFocused ? '#3b82f6' : '#cbd5e1',
-            }
+                borderColor: state.isFocused 
+                    ? isDarkMode ? '#3b82f6' : '#3b82f6' 
+                    : isDarkMode ? '#6b7280' : '#cbd5e1',
+            },
+            color: isDarkMode ? '#e5e7eb' : '#334155'
         }),
         option: (provided, state) => ({
             ...provided,
             backgroundColor: state.isSelected 
-                ? '#1e293b' 
+                ? isDarkMode ? '#2563eb' : '#1e293b'
                 : state.isFocused 
-                    ? '#f1f5f9' 
-                    : null,
-            color: state.isSelected ? 'white' : '#334155',
+                    ? isDarkMode ? '#374151' : '#f1f5f9'
+                    : isDarkMode ? '#1f2937' : null,
+            color: state.isSelected 
+                ? 'white' 
+                : isDarkMode ? '#e5e7eb' : '#334155',
             '&:active': {
-                backgroundColor: '#1e293b'
+                backgroundColor: isDarkMode ? '#3b82f6' : '#1e293b'
             }
+        }),
+        menu: (provided) => ({
+            ...provided,
+            backgroundColor: isDarkMode ? '#1f2937' : 'white',
+            borderColor: isDarkMode ? '#4b5563' : '#e5e7eb',
+            boxShadow: isDarkMode ? '0 4px 6px -1px rgba(0, 0, 0, 0.5)' : provided.boxShadow
         }),
         multiValue: (provided) => ({
             ...provided,
-            backgroundColor: '#f1f5f9'
+            backgroundColor: isDarkMode ? '#374151' : '#f1f5f9'
         }),
         multiValueLabel: (provided) => ({
             ...provided,
-            color: '#334155'
+            color: isDarkMode ? '#e5e7eb' : '#334155'
         }),
         multiValueRemove: (provided) => ({
             ...provided,
             '&:hover': {
-                backgroundColor: '#e2e8f0',
-                color: '#ef4444'
+                backgroundColor: isDarkMode ? '#4b5563' : '#e2e8f0',
+                color: isDarkMode ? '#f87171' : '#ef4444'
             }
+        }),
+        input: (provided) => ({
+            ...provided,
+            color: isDarkMode ? '#e5e7eb' : provided.color
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: isDarkMode ? '#e5e7eb' : provided.color
         })
     };
 
     return (
-        <form className="space-y-2 p-4 bg-white shadow-md rounded-lg border border-gray-200">
-            <h3 className="text-sm font-semibold text-primary-950 uppercase tracking-wider mb-4">Filters</h3>
+        <form className={`space-y-2 p-4 shadow-md rounded-lg border ${
+            isDarkMode 
+                ? 'bg-gray-800 text-gray-200 border-gray-700' 
+                : 'bg-white text-gray-800 border-gray-200'
+        }`}>
+            <h3 className={`text-sm font-semibold uppercase tracking-wider mb-4 ${
+                isDarkMode ? 'text-gray-200' : 'text-primary-950'
+            }`}>Filters</h3>
             
             {/* Gym Type */}
             <div className="mb-5">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-sm font-medium mb-2 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                     Gym Type
                 </label>
                 <Select
@@ -102,10 +132,14 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
                     className="flex justify-between items-center cursor-pointer mb-2" 
                     onClick={() => toggleSection('pricing')}
                 >
-                    <h4 className="text-sm font-medium text-gray-700">Pricing</h4>
+                    <h4 className={`text-sm font-medium ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                    }`}>Pricing</h4>
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 
-                        className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${isExpanded.pricing ? 'transform rotate-180' : ''}`} 
+                        className={`h-5 w-5 transition-transform duration-200 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-400'
+                        } ${isExpanded.pricing ? 'transform rotate-180' : ''}`} 
                         viewBox="0 0 20 20" 
                         fill="currentColor"
                     >
@@ -117,17 +151,27 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
                     <>
                         <div className="mb-4">
                             <div className="flex items-center justify-between mb-1">
-                                <label className="block text-xs font-medium text-gray-700">
+                                <label className={`block text-xs font-medium ${
+                                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                                }`}>
                                     Max Monthly Rate
                                 </label>
-                                <span className="text-xs text-primary-950 font-semibold bg-gray-100 px-2 py-1 rounded">
+                                <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                                    isDarkMode 
+                                        ? 'text-blue-300 bg-gray-700' 
+                                        : 'text-primary-950 bg-gray-100'
+                                }`}>
                                     {formatCurrency(filters.maxMonthlyRate)}
                                 </span>
                             </div>
                             <div className="px-1">
                                 <div className="flex items-center justify-between mb-1">
-                                    <span className="text-xs text-gray-500 font-mono">{formatCurrency(ranges.minMonthlyRate)}</span>
-                                    <span className="text-xs text-gray-500 font-mono">{formatCurrency(ranges.maxMonthlyRate)}</span>
+                                    <span className={`text-xs font-mono ${
+                                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                    }`}>{formatCurrency(ranges.minMonthlyRate)}</span>
+                                    <span className={`text-xs font-mono ${
+                                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                    }`}>{formatCurrency(ranges.maxMonthlyRate)}</span>
                                 </div>
                                 <input 
                                     type="range" 
@@ -137,24 +181,36 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
                                     step="5"
                                     value={filters.maxMonthlyRate} 
                                     onChange={onFilterChange} 
-                                    className="w-full mt-1 accent-primary-950"
+                                    className={`w-full mt-1 ${
+                                        isDarkMode ? 'accent-blue-500' : 'accent-primary-950'
+                                    }`}
                                 />
                             </div>
                         </div>
                         
                         <div>
                             <div className="flex items-center justify-between mb-1">
-                                <label className="block text-xs font-medium text-gray-700">
+                                <label className={`block text-xs font-medium ${
+                                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                                }`}>
                                     Max Drop-In Rate
                                 </label>
-                                <span className="text-xs text-primary-950 font-semibold bg-gray-100 px-2 py-1 rounded">
+                                <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                                    isDarkMode 
+                                        ? 'text-blue-300 bg-gray-700' 
+                                        : 'text-primary-950 bg-gray-100'
+                                }`}>
                                     {formatCurrency(filters.maxDropInRate)}
                                 </span>
                             </div>
                             <div className="px-1">
                                 <div className="flex items-center justify-between mb-1">
-                                    <span className="text-xs text-gray-500 font-mono">{formatCurrency(ranges.minDropInRate)}</span>
-                                    <span className="text-xs text-gray-500 font-mono">{formatCurrency(ranges.maxDropInRate)}</span>
+                                    <span className={`text-xs font-mono ${
+                                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                    }`}>{formatCurrency(ranges.minDropInRate)}</span>
+                                    <span className={`text-xs font-mono ${
+                                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                    }`}>{formatCurrency(ranges.maxDropInRate)}</span>
                                 </div>
                                 <input 
                                     type="range" 
@@ -164,7 +220,9 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
                                     step="5"
                                     value={filters.maxDropInRate} 
                                     onChange={onFilterChange} 
-                                    className="w-full mt-1 accent-primary-950"
+                                    className={`w-full mt-1 ${
+                                        isDarkMode ? 'accent-blue-500' : 'accent-primary-950'
+                                    }`}
                                 />
                             </div>
                         </div>
@@ -178,10 +236,14 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
                     className="flex justify-between items-center cursor-pointer mb-2" 
                     onClick={() => toggleSection('features')}
                 >
-                    <h4 className="text-sm font-medium text-gray-700">Features & Amenities</h4>
+                    <h4 className={`text-sm font-medium ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                    }`}>Features & Amenities</h4>
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 
-                        className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${isExpanded.features ? 'transform rotate-180' : ''}`} 
+                        className={`h-5 w-5 transition-transform duration-200 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-400'
+                        } ${isExpanded.features ? 'transform rotate-180' : ''}`} 
                         viewBox="0 0 20 20" 
                         fill="currentColor"
                     >
@@ -192,7 +254,9 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
                 {isExpanded.features && (
                     <>
                         <div className="mb-4">
-                            <label className="block text-xs font-medium text-gray-700 mb-2">
+                            <label className={`block text-xs font-medium mb-2 ${
+                                isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                            }`}>
                                 USAW Club
                             </label>
                             <Select
@@ -207,7 +271,9 @@ const FilterForm = ({ filters, onFilterChange, onTagsChange, ranges }) => {
                         </div>
                         
                         <div>
-                            <label className="block text-xs font-medium text-gray-700 mb-2">
+                            <label className={`block text-xs font-medium mb-2 ${
+                                isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                            }`}>
                                 Gym Features
                             </label>
                             <Select

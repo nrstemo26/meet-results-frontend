@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { tagOptions } from '../../config/tagOptions';
 import { baseUrl } from '../../config';
+import { MbSpinnerGradient } from '../../pages/Spinners/MbSpinnerGradient';
 
 const customSelectStyles = {
   control: (provided, state) => ({
@@ -54,7 +55,18 @@ const AddGym = ({ closeModal }) => {
   const autocompleteRef = useRef(null);
   const formRef = useRef(null);
 
+  useEffect(() => {
+    if (window.google && window.google.maps && window.google.maps.places) {
+      console.log('Google Maps Places API is available for Autocomplete');
+    }
+  }, []);
+
   const handlePlaceChanged = () => {
+    if (!autocompleteRef.current) {
+      console.error('Autocomplete not loaded yet');
+      return;
+    }
+    
     const place = autocompleteRef.current.getPlace();
     if (place && place.place_id) {
       setPlaceDetails({
@@ -196,21 +208,35 @@ const AddGym = ({ closeModal }) => {
               <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
                 Gym Location
               </label>
-              <Autocomplete
-                onLoad={(autocomplete) => {
-                  autocompleteRef.current = autocomplete;
-                }}
-                onPlaceChanged={handlePlaceChanged}
-              >
-                <input
-                  id="location"
-                  type="text"
-                  placeholder="Search for your gym..."
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  className={`w-full px-4 py-2 border ${errors.location ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
-                />
-              </Autocomplete>
+              {window.google && window.google.maps && window.google.maps.places ? (
+                <Autocomplete
+                  onLoad={(autocomplete) => {
+                    autocompleteRef.current = autocomplete;
+                  }}
+                  onPlaceChanged={handlePlaceChanged}
+                >
+                  <input
+                    id="location"
+                    type="text"
+                    placeholder="Search for your gym..."
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    className={`w-full px-4 py-2 border ${errors.location ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                  />
+                </Autocomplete>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="text" 
+                    placeholder="Loading Google Maps..." 
+                    disabled 
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-500"
+                  />
+                  <div className="w-5 h-5 flex items-center justify-center">
+                    <div className="w-5 h-5 text-primary-500 animate-spin">⟳</div>
+                  </div>
+                </div>
+              )}
               {errors.location && (
                 <p className="mt-1 text-sm text-red-600">{errors.location}</p>
               )}
@@ -430,10 +456,7 @@ const AddGym = ({ closeModal }) => {
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <div className="mr-2 w-4 h-4 text-white animate-spin">⟳</div>
                     Submitting...
                   </>
                 ) : (
