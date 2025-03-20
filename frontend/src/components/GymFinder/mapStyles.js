@@ -32,7 +32,7 @@ export const mapStyles = [
     elementType: "geometry.fill",
     stylers: [
       { color: "#1c1e37" }, // primary-950 equivalent
-      { lightness: 60 }
+      { lightness: 75 }     // Increased from 70 to 75 for better visibility
     ]
   },
   {
@@ -41,8 +41,27 @@ export const mapStyles = [
     elementType: "geometry.stroke",
     stylers: [
       { color: "#1c1e37" }, // primary-950 equivalent
-      { lightness: 30 },
-      { weight: 0.2 }
+      { lightness: 45 },    // Increased from 40 to 45
+      { weight: 0.1 }       // Reduced from 0.2 to 0.1
+    ]
+  },
+  {
+    // Road labels
+    featureType: "road",
+    elementType: "labels.text.fill",
+    stylers: [
+      { color: "#333333" },
+      { lightness: 5 }
+    ]
+  },
+  {
+    // Road labels outline
+    featureType: "road",
+    elementType: "labels.text.stroke",
+    stylers: [
+      { color: "#ffffff" },
+      { lightness: 0 },
+      { weight: 3 }  // Increased from 2 to 3
     ]
   },
   {
@@ -101,19 +120,39 @@ export const mapStyles = [
     ]
   },
   {
-    // Labels and text
+    // All text labels - improve contrast
     featureType: "all",
-    elementType: "labels.text",
+    elementType: "labels.text.fill",
     stylers: [
       { color: "#333333" }
     ]
   },
   {
-    // Points of interest labels
+    // All text strokes - ensure readability
+    featureType: "all",
+    elementType: "labels.text.stroke",
+    stylers: [
+      { color: "#ffffff" },
+      { lightness: 0 },
+      { weight: 3 }  // Increased from 2 to 3
+    ]
+  },
+  {
+    // Points of interest labels - ensure visibility
     featureType: "poi",
     elementType: "labels",
     stylers: [
       { visibility: "simplified" }
+    ]
+  },
+  {
+    // Road signs and other icons
+    featureType: "road",
+    elementType: "labels.icon",
+    stylers: [
+      { visibility: "on" },
+      { saturation: -80 },  // Changed from -100 to -80
+      { lightness: 5 }      // Changed from 10 to 5 for better contrast
     ]
   }
 ];
@@ -132,7 +171,7 @@ export const nightModeStyles = [
     elementType: "geometry",
     stylers: [
       { color: "#1c1e37" }, // primary-950
-      { lightness: 5 }
+      { lightness: 15 }     // Increased from 10 to 15
     ]
   },
   {
@@ -155,7 +194,17 @@ export const nightModeStyles = [
     featureType: "all",
     elementType: "labels.text.fill",
     stylers: [
-      { color: "#d1d5db" } // Light text for dark mode
+      { color: "#f9fafb" } // Lighter text for better contrast in dark mode
+    ]
+  },
+  {
+    // Text outline for better readability in dark mode
+    featureType: "all",
+    elementType: "labels.text.stroke",
+    stylers: [
+      { color: "#000000" },
+      { lightness: 0 },
+      { weight: 3 }  // Increased from 2 to 3
     ]
   },
   {
@@ -163,6 +212,34 @@ export const nightModeStyles = [
     elementType: "geometry",
     stylers: [
       { color: "#2d3748" }
+    ]
+  },
+  {
+    // Road signs and icons in dark mode
+    featureType: "road",
+    elementType: "labels.icon",
+    stylers: [
+      { visibility: "on" },
+      { lightness: 60 } // Increased from 50 to 60 for better visibility
+    ]
+  },
+  {
+    // Road labels in dark mode
+    featureType: "road",
+    elementType: "labels.text.fill",
+    stylers: [
+      { color: "#f9fafb" },
+      { lightness: 0 }
+    ]
+  },
+  {
+    // Road labels outline in dark mode
+    featureType: "road",
+    elementType: "labels.text.stroke",
+    stylers: [
+      { color: "#000000" },
+      { lightness: 0 },
+      { weight: 3 }
     ]
   }
 ];

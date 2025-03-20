@@ -212,8 +212,19 @@ const AddGym = ({ closeModal }) => {
                 <Autocomplete
                   onLoad={(autocomplete) => {
                     autocompleteRef.current = autocomplete;
+                    // Set some options for the autocomplete
+                    if (autocomplete) {
+                      autocomplete.setFields(['name', 'geometry', 'formatted_address', 'place_id']);
+                      // Restrict to just gym-like places where possible
+                      autocomplete.setTypes(['gym', 'establishment']);
+                    }
                   }}
                   onPlaceChanged={handlePlaceChanged}
+                  options={{
+                    // Helps with performance and relevance
+                    types: ['establishment'],
+                    componentRestrictions: { country: ['us', 'ca'] } // Limit to US and Canada for now
+                  }}
                 >
                   <input
                     id="location"
@@ -222,6 +233,7 @@ const AddGym = ({ closeModal }) => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     className={`w-full px-4 py-2 border ${errors.location ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                    autoComplete="new-gymfinder-location" // Prevents browser autocomplete from interfering
                   />
                 </Autocomplete>
               ) : (

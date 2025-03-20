@@ -32,8 +32,8 @@ const MapComponent = ({ cityName }) => {
     const [mapCenter, setMapCenter] = useState(defaultCenter);
     const [filters, setFilters] = useState({
         gymType: '',
-        maxMonthlyRate: '150',
-        maxDropInRate: '20',
+        maxMonthlyRate: '',
+        maxDropInRate: '',
         usawClub: true,
         tags: []
     });
@@ -57,6 +57,9 @@ const MapComponent = ({ cityName }) => {
     
     const mapRef = useRef(null);
     const advancedMarkersRef = useRef([]);
+
+    // Add a state to track if the user has manually interacted with the map
+    const [userHasInteracted, setUserHasInteracted] = useState(false);
 
     useEffect(() => {
         const fetchCityInfo = async () => {
@@ -135,7 +138,21 @@ const MapComponent = ({ cityName }) => {
         const fetchRanges = async () => {
             try {
                 const response = await axios.get(rangeUrl);
+                // Update the ranges state
                 setRanges(response.data);
+                
+                // Set the filter values based on the fetched ranges
+                setFilters(prev => ({
+                    ...prev,
+                    maxMonthlyRate: response.data.maxMonthlyRate.toString(),
+                    maxDropInRate: response.data.maxDropInRate.toString()
+                }));
+                
+                console.log("Ranges updated:", response.data);
+                console.log("Filters updated with max values:", {
+                    monthlyRate: response.data.maxMonthlyRate.toString(),
+                    dropInRate: response.data.maxDropInRate.toString()
+                });
             } catch (error) {
                 console.error('Error fetching ranges:', error);
             }
@@ -145,7 +162,7 @@ const MapComponent = ({ cityName }) => {
     }, []);
 
     const fetchInitialMarkers = useCallback(() => {
-        if (mapRef.current && !loading) {
+        if (mapRef.current && !loading && !userHasInteracted) {
             const map = mapRef.current;
             const bounds = new window.google.maps.LatLngBounds();
             bounds.extend(new window.google.maps.LatLng(mapCenter.latitude + 0.05, mapCenter.longitude + 0.05));
@@ -166,7 +183,7 @@ const MapComponent = ({ cityName }) => {
             setLastBounds(currentBounds);
             fetchMarkers(currentBounds);
         }
-    }, [mapCenter, loading, fetchMarkers]);
+    }, [mapCenter, loading, fetchMarkers, userHasInteracted]);
 
     useEffect(() => {
         fetchInitialMarkers();
@@ -247,7 +264,7 @@ const MapComponent = ({ cityName }) => {
         setIsMobileFilterVisible(!isMobileFilterVisible);
     };
 
-    // Replace the handleDragEnd function with a more comprehensive handleIdle function
+    // Update the handleIdle function to respect user interaction
     const handleIdle = useCallback(() => {
         const map = mapRef.current;
         if (!map) return;
@@ -260,14 +277,17 @@ const MapComponent = ({ cityName }) => {
                 longitude: center.lng()
             };
             
-            // Only update if center has actually changed
-            if (newCenter.latitude !== mapCenter.latitude || 
-                newCenter.longitude !== mapCenter.longitude) {
+            // Check if the center has changed significantly
+            const significant = Math.abs(newCenter.latitude - mapCenter.latitude) > 0.001 || 
+                               Math.abs(newCenter.longitude - mapCenter.longitude) > 0.001;
+                               
+            if (significant) {
                 setMapCenter(newCenter);
+                setUserHasInteracted(true); // Mark that the user has interacted
             }
         }
         
-        // Also handle bounds update here instead of in a separate handler
+        // Handle bounds update here instead of in a separate handler
         const bounds = map.getBounds();
         if (bounds) {
             const ne = bounds.getNorthEast();
@@ -279,7 +299,7 @@ const MapComponent = ({ cityName }) => {
                 west: sw.lng(),
             };
             
-            // Only update if bounds actually changed
+            // Only update if bounds changed significantly
             if (!lastBounds || hasBoundsChanged(lastBounds, currentBounds)) {
                 setLastBounds(currentBounds);
                 fetchMarkers(currentBounds);
@@ -383,6 +403,15 @@ const MapComponent = ({ cityName }) => {
             });
         }
     }, [markers, isDarkMode, handleMarkerClick]);
+
+    // Add handlers for user interaction with the map
+    const handleMapDragStart = useCallback(() => {
+        setUserHasInteracted(true);
+    }, []);
+
+    const handleZoomChanged = useCallback(() => {
+        setUserHasInteracted(true);
+    }, []);
 
     return (
         <div className="flex flex-col md:flex-row h-[80vh] w-full rounded-lg overflow-hidden shadow-md">
@@ -553,9 +582,16 @@ const MapComponent = ({ cityName }) => {
                                     ...(!useMapId || isDarkMode ? { styles: isDarkMode ? nightModeStyles : mapStyles } : {}),
                                     zoomControlOptions: {
                                         position: window.google?.maps?.ControlPosition?.RIGHT_TOP
-                                    }
+                                    },
+                                    // Add gesture handling options to prevent auto-zooming behavior
+                                    gestureHandling: "greedy", // Changed from "cooperative" to "greedy" for better control
+                                    minZoom: 3,
+                                    maxZoom: 18,
+                                    scrollwheel: true
                                 }}
                                 onIdle={handleIdle}
+                                onDragStart={handleMapDragStart}
+                                onZoomChanged={handleZoomChanged}
                             >
                                 {/* Render markers - only if not using AdvancedMarkerElement */}
                                 {!window.google?.maps?.marker?.AdvancedMarkerElement && markers.map((marker) => (
