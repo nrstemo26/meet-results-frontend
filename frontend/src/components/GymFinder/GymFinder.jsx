@@ -71,13 +71,14 @@ const GymFinder = () => {
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         contentLabel="Add Gym"
-        className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+        className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[9999]"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[9998]"
+        shouldCloseOnOverlayClick={true}
       >
-        <div className="bg-white rounded-lg shadow-xl p-4 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+        <div className="bg-white rounded-lg shadow-xl p-4 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative m-4">
           <button
             onClick={closeModal}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute md:top-4 md:right-4 top-2 right-2 text-gray-400 hover:text-gray-600 transition-colors p-2 bg-white rounded-full shadow-sm"
             aria-label="Close"
           >
             <FaTimes className="h-5 w-5" />

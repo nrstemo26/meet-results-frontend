@@ -178,8 +178,8 @@ const AddGym = ({ closeModal }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="mb-6">
+    <div className="max-w-2xl mx-auto relative">
+      <div className="mb-6 md:mt-0 mt-6">
         <div className="flex items-center">
           <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-primary-950 text-white' : 'bg-gray-200 text-gray-600'}`}>
             1

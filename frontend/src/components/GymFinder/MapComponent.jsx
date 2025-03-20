@@ -402,7 +402,7 @@ const MapComponent = ({ cityName }) => {
             {/* Map and List View Container */}
             <div className="flex-grow relative">
                 {/* Mobile Controls */}
-                <div className={`md:hidden flex justify-between items-center p-2 border-b ${
+                <div className={`md:hidden flex justify-between items-center p-2 border-b z-20 relative ${
                     isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
                 }`}>
                     {/* Add a back button when a marker is selected in map view on mobile */}
@@ -464,7 +464,7 @@ const MapComponent = ({ cityName }) => {
                 )}
                 
                 {/* Desktop View Controls */}
-                <div className={`hidden md:flex absolute top-4 right-4 z-10 rounded-md shadow-md ${
+                <div className={`hidden md:flex absolute top-4 right-4 z-20 rounded-md shadow-md ${
                     isDarkMode ? 'bg-gray-800' : 'bg-white'
                 }`}>
                     <button
@@ -514,7 +514,8 @@ const MapComponent = ({ cityName }) => {
                                 )}
                             </button>
                             */}
-                            {/* Toggle for mapId (for development testing only) */}
+                            {/* Toggle for mapId (for development testing only) - commented out for production */}
+                            {/* 
                             <button 
                                 onClick={() => setUseMapId(!useMapId)} 
                                 className={`px-3 py-2 rounded-md shadow-md text-sm font-medium ${
@@ -526,6 +527,7 @@ const MapComponent = ({ cityName }) => {
                             >
                                 {useMapId ? 'Using Google Cloud Styling' : 'Using Custom Map Styling'}
                             </button>
+                            */}
                         </div>
                         
                         {loading ? (

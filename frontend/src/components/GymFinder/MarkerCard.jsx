@@ -1,5 +1,18 @@
 // MarkerCard.jsx
 import React, { useEffect, useState } from 'react';
+import { tagOptions } from '../../config/tagOptions';
+
+// Helper function to get tag label from value
+const getTagLabel = (tagValue) => {
+    // If it's already an object with a label, return it
+    if (tagValue && typeof tagValue === 'object' && tagValue.label) {
+        return tagValue.label;
+    }
+    
+    // Find the tag in tagOptions
+    const tag = tagOptions.find(t => t.value === tagValue);
+    return tag ? tag.label : tagValue; // Fall back to the value if not found
+};
 
 const MarkerCard = ({ marker, isMobile }) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -199,7 +212,7 @@ const MarkerCard = ({ marker, isMobile }) => {
                 </div>
             )}
             
-            {/* Tags - Simplified for mobile */}
+            {/* Tags */}
             <div className={isMobile ? "mb-2" : "mb-4"}>
                 <p className={labelClasses}>Features</p>
                 <div className="flex flex-wrap gap-1">
@@ -219,15 +232,30 @@ const MarkerCard = ({ marker, isMobile }) => {
                             USAW Club 🇺🇸
                         </span>
                     )}
-                    {marker.tags && !isMobile && marker.tags.map((tag, index) => (
-                        <span key={index} className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+                    {marker.tags && marker.tags.map((tag, index) => {
+                        // For mobile, limit to first 2 tags to save space
+                        if (isMobile && index > 1) return null;
+                        
+                        return (
+                            <span key={index} className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+                                isDarkMode 
+                                    ? "bg-gray-700 text-gray-300 ring-1 ring-inset ring-gray-500/30" 
+                                    : "bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                            }`}>
+                                {getTagLabel(tag)}
+                            </span>
+                        );
+                    })}
+                    {/* Show count of hidden tags on mobile if there are more than 2 */}
+                    {isMobile && marker.tags && marker.tags.length > 2 && (
+                        <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
                             isDarkMode 
                                 ? "bg-gray-700 text-gray-300 ring-1 ring-inset ring-gray-500/30" 
                                 : "bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10"
                         }`}>
-                            {tag.label || tag}
+                            +{marker.tags.length - 2} more
                         </span>
-                    ))}
+                    )}
                 </div>
             </div>
             
