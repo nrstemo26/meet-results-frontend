@@ -1,6 +1,7 @@
 import AllLiftsChart from "./charts/AllLiftsChart";
 import CjHistChart from "./charts/CjHistChart";
 import SnatchHistChart from "./charts/SnatchHistChart";
+import PrChart from "./charts/PrChart";
 import WatchlistBtn from "./WatchlistBtn";
 import { useState } from "react";
 import { useViewport } from "../../../hooks/useViewport";
@@ -21,6 +22,7 @@ function ChartWrapper({toggleWatchlist, inWatchlist, name}){
                         <option value="all">All</option> 
                         <option value="cj">Clean and Jerk</option> 
                         <option value="sn">Snatch </option> 
+                        <option value="prs">PRs Over Time</option>
                     </select>
                 </div>
             </div>
@@ -28,6 +30,7 @@ function ChartWrapper({toggleWatchlist, inWatchlist, name}){
             {selected === 'all' && <AllLiftsChart/>}
             {selected === 'sn' && <SnatchHistChart/>}
             {selected === 'cj' && <CjHistChart/>}
+            {selected === 'prs' && <PrChart/>}
         </div>
     )
 }

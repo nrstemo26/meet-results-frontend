@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { getAllAthletes } from "../../features/athleteSlice";
 import { updateMetaTags } from "../../lib/seo_utils";
 import PropTypes from 'prop-types';
-
+import UpgradeProCard from "../Widgets/ProCard";
 import SearchBar from "./SearchBar";
 import UserList from "./UserList";
 import Trending from './Trending'
@@ -15,7 +15,7 @@ const Search = ({ isWatchlist }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const pageTitle = 'Lifter Search - Lift Oracle';
-  const descriptionContent = 'Search our database of over 5,000 Olympic weightlifting athletes.';
+  const descriptionContent = 'Search our database of over 6,000 Olympic weightlifting athletes.';
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -41,12 +41,27 @@ const Search = ({ isWatchlist }) => {
 
   
   return (
-        <div className="text-center">
+        <div className="text-center mt-4">
           {updateMetaTags(pageTitle, descriptionContent)}
-            <SearchBar onSearch={handleSearch} placeholderText={"Start typing an athlete's name..."}/>
-            {searchQuery.length > 0 ? 
-            <UserList users={users} isWatchlist={isWatchlist}  />
-            : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"><Trending  isWatchlist={isWatchlist} /></div>}
+          <div className="sm:flex sm:flex-row">
+            <div className="w-full md:w-2/4 mt-4">
+              <SearchBar onSearch={handleSearch} placeholderText={"Start typing an athlete's name..."}/>
+              {searchQuery.length > 0 ? 
+              <UserList users={users} isWatchlist={isWatchlist}  />
+              : <div className="m:fixed m:left-0 m:bottom-0 mb-8 m:ml-8 text-left"></div>}
+            </div>
+            <div className="mb-4 mt-4 w-full sm:w-1/3 mx-auto p-4">
+              <div className="mb-8 text-left">
+                <Trending  isWatchlist={isWatchlist} />
+              </div>
+              
+              <div className="mb-4">
+                <UpgradeProCard />
+              </div>
+            </div>
+          </div>
+            
+            
         </div>
     )
   }

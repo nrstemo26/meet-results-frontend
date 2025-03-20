@@ -37,7 +37,7 @@ function MeetTable({ tableType }) {
   }, [currentPage, tableType, dispatch]);
 
   return (
-    <div className="shadow-lg m-2 p-4 m-4">
+    <div className="shadow-lg m-2 p-4 m-4 rounded-md">
       <h1 className="text-lg text-primary-950 font-bold text-center border-b border-primary-100">
         {tableType === "upcoming" ? "Upcoming Meets" : "Recent Meets"}
       </h1>
