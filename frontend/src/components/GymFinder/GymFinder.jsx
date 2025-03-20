@@ -9,6 +9,11 @@ import { FaTimes } from 'react-icons/fa';
 import Helmet from 'react-helmet';
 import { updateMetaTags } from '../../lib/seo_utils';
 
+// Set app element for accessibility
+if (typeof window !== 'undefined') {
+  Modal.setAppElement('#root');
+}
+
 const GymFinder = () => {
   const { cityName } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,39 +31,56 @@ const GymFinder = () => {
 
   return (
     <GoogleMapsLoader>
-      <div className="flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {updateMetaTags(pageTitle, pageDescription)}
-        <h1 className="text-2xl font-bold mt-8 m-2 mb-4 text-primary-950">
-          {cityName ? `Find an Olympic Weightlifting Gym in ${cityName}` : 'Find an Olympic Weightlifting Gym Near You'}
-        </h1>
-        <p className="text-gray-700 m-4 text-sm">
-          {cityName ? `Going on vacation, traveling for work, or moving to ${cityName} and need a place to train? Do your due dili on cost, coaching, vibes, and more.` : 'Going on vacation, traveling for work, or moving and need a place to train? Do your due dili on cost, coaching, vibes, and more.'}</p>
-        <div className="col-span-1 flex flex-col items-center">
+        
+        {/* Hero Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-primary-950 mb-4">
+            {cityName ? `Find an Olympic Weightlifting Gym in ${cityName}` : 'Find an Olympic Weightlifting Gym Near You'}
+          </h1>
+          <p className="text-gray-600 max-w-3xl mx-auto mb-6">
+            {cityName 
+              ? `Going on vacation, traveling for work, or moving to ${cityName} and need a place to train? Find the perfect Olympic weightlifting gym with information on cost, coaching, equipment, and more.` 
+              : 'Going on vacation, traveling for work, or moving and need a place to train? Find the perfect Olympic weightlifting gym with information on cost, coaching, equipment, and more.'}
+          </p>
           <button
             onClick={openModal}
-            className="bg-primary-950 text-white px-4 py-2 rounded-md hover:bg-primary-500"
+            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-950 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
           >
-            Add Your Gym!
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+            </svg>
+            Add Your Gym
           </button>
         </div>
-        <div className="p-4 w-full">
+        
+        {/* Map Component */}
+        <div className="mb-12">
           <MapComponent cityName={cityName} />
         </div>
-        <CityLinksByState />
+        
+        {/* City Links Section */}
+        <div className="bg-gray-50 py-8 px-4 rounded-lg shadow-inner">
+          <CityLinksByState />
+        </div>
       </div>
+      
+      {/* Add Gym Modal */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
-        ariaHideApp={false}
         contentLabel="Add Gym"
         className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50"
       >
-        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md max-h-full overflow-y-auto relative">
+        <div className="bg-white rounded-lg shadow-xl p-4 w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
           <button
             onClick={closeModal}
-            className="absolute top-0 right-0 mt-4 mr-4 text-primary-950 hover:text-primary-500"
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Close"
           >
-            <FaTimes />
+            <FaTimes className="h-5 w-5" />
           </button>
           <AddGym closeModal={closeModal} />
         </div>

@@ -42,33 +42,35 @@ function DesktopNav({ handleLogout }) {
         <Link to="/">
           <div>Home</div>
         </Link>
-        <Link to="/meets">
-          <div>Meets</div>
-        </Link>
-        <Link to="/athletes">
-          <div>Lifters</div>
-        </Link>
-        <Link to="/watchlist">
-          <div>Watchlist</div>
-        </Link>
-        <Link to="/query">
-          <div>Query</div>
-        </Link>
+        
+        
+        <div className="relative" ref={toolsMenuRef}>
+          <div className="cursor-pointer" onClick={toggleToolsMenu}>Start</div>
+          {isToolsMenuOpen && (
+            <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg rounded-lg hover:rounded-lg overflow-hidden">
+              <Link to="/meets" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">
+                <div>Meets</div>
+              </Link>
+              <Link to="/athletes" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">
+                <div>Lifters</div>
+              </Link>
+              <Link to="/watchlist" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">
+                <div>Watchlist</div>
+              </Link>
+              <Link to="/query" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">
+                <div>Query</div>
+              </Link>
+              <Link to="/weightlifting-gym-near-me" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">GymFinder</Link>
+              {/* Add more submenu items here if needed */}
+            </div>
+          )}
+        </div>
         <Link to="/about">
           <div>About</div>
         </Link>
         <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
           <div>Merch</div>
         </a>
-        <div className="relative" ref={toolsMenuRef}>
-          <div className="cursor-pointer" onClick={toggleToolsMenu}>Tools</div>
-          {isToolsMenuOpen && (
-            <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg rounded-lg hover:rounded-lg overflow-hidden">
-              <Link to="/weightlifting-gym-near-me" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm">GymFinder</Link>
-              {/* Add more submenu items here if needed */}
-            </div>
-          )}
-        </div>
       </div>
 
       {user ? (

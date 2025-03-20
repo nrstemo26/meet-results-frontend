@@ -17,21 +17,21 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
     <div className="absolute z-40 top-0 left-0 h-[120vh] w-full m-0 flex flex-col gap-3 bg-white text-black shadow-lg overflow-hidden text-primary-950">
       <FiX className="cursor-pointer self-end mt-4 mr-4" size={30} color= "black" onClick={toggleMenu}/>
       <Link onClick={toggleMenu} to='/'><div className='sidebar-element'>Home</div></Link>
-      <Link onClick={toggleMenu} to='/meets'><div className='sidebar-element'>Meets</div></Link>
-      <Link onClick={toggleMenu} to='/athletes'><div className='sidebar-element'>Lifters</div></Link>
-      <Link onClick={toggleMenu} to='/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
-      <Link onClick={toggleMenu} to='/query'><div className='sidebar-element'>Query</div></Link>
-      <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About</div></Link>
-      <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
-        <div className='sidebar-element'>Merch</div>
-      </a>
-      <div className='sidebar-element cursor-pointer' onClick={toggleToolsMenu}>Tools</div>
+      <div className='sidebar-element cursor-pointer' onClick={toggleToolsMenu}>Start</div>
       {isToolsMenuOpen && (
         <div className="ml-4 flex flex-col">
+          <Link onClick={toggleMenu} to='/meets'><div className='sidebar-element'>Meets</div></Link>
+          <Link onClick={toggleMenu} to='/athletes'><div className='sidebar-element'>Lifters</div></Link>
+          <Link onClick={toggleMenu} to='/watchlist'><div className='sidebar-element'>Watchlist</div></Link>
+          <Link onClick={toggleMenu} to='/query'><div className='sidebar-element'>Query</div></Link>
           <Link onClick={toggleMenu} to='/weightlifting-gym-near-me'><div className='sidebar-element'>GymFinder</div></Link>
           {/* Add more submenu items here if needed */}
         </div>
       )}
+      <Link onClick={toggleMenu} to='/about'><div className='sidebar-element'>About</div></Link>
+      <a href="https://www.milwaukeebarbell.com/gear?tag=oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
+        <div className='sidebar-element'>Merch</div>
+      </a>
       {user ? (
         <>
           <Link onClick={toggleMenu} to="/account"><div className="sidebar-element">Account</div></Link>

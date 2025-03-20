@@ -1,5 +1,5 @@
 // AddGym.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Select from 'react-select';
 import { Autocomplete } from '@react-google-maps/api';
 import axios from 'axios';
@@ -7,6 +7,33 @@ import { toast } from 'react-toastify';
 import { tagOptions } from '../../config/tagOptions';
 import { baseUrl } from '../../config';
 
+const customSelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    borderColor: state.isFocused ? '#3b82f6' : '#e5e7eb',
+    boxShadow: state.isFocused ? '0 0 0 1px #3b82f6' : 'none',
+    '&:hover': {
+      borderColor: '#cbd5e1',
+    }
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected 
+      ? '#1e293b' 
+      : state.isFocused 
+        ? '#f1f5f9' 
+        : null,
+    color: state.isSelected ? 'white' : '#334155',
+  }),
+  multiValue: (provided) => ({
+    ...provided,
+    backgroundColor: '#f1f5f9'
+  }),
+  multiValueLabel: (provided) => ({
+    ...provided,
+    color: '#334155'
+  })
+};
 
 const AddGym = ({ closeModal }) => {
   const [placeDetails, setPlaceDetails] = useState(null);
@@ -20,8 +47,33 @@ const AddGym = ({ closeModal }) => {
   const [usawClub, setUsawClub] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [isExistingGym, setIsExistingGym] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [errors, setErrors] = useState({});
+  
   const autocompleteRef = useRef(null);
+  const formRef = useRef(null);
 
+  const handlePlaceChanged = () => {
+    const place = autocompleteRef.current.getPlace();
+    if (place && place.place_id) {
+      setPlaceDetails({
+        name: place.name,
+        address: place.formatted_address,
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+        placeId: place.place_id,
+      });
+      setInputValue(place.formatted_address);
+
+      // Fetch and populate existing gym details if available
+      fetchGymDetails(place.place_id);
+      
+      // Clear any location error
+      setErrors(prev => ({ ...prev, location: null }));
+    }
+  };
+  
   const fetchGymDetails = async (placeId) => {
     try {
       const response = await axios.get(`${baseUrl}/v1/gymfinder/gym-details`, {
@@ -30,12 +82,12 @@ const AddGym = ({ closeModal }) => {
       const gymDetails = response.data;
       setDropInFee(gymDetails.dropInFee);
       setMonthlyRate(gymDetails.monthlyRate);
-      setWebsite(`https://${gymDetails.website}`);
-      setEmail(gymDetails.email);
-      setInstagram(gymDetails.instagram);
-      setGymType(gymDetails.gymType);
-      setUsawClub(gymDetails.usawClub);
-      setSelectedTags(gymDetails.tags);
+      setWebsite(gymDetails.website ? (gymDetails.website.startsWith('http') ? gymDetails.website : `https://${gymDetails.website}`) : 'https://');
+      setEmail(gymDetails.email || '');
+      setInstagram(gymDetails.instagram || '');
+      setGymType(gymDetails.gymType || '');
+      setUsawClub(gymDetails.usawClub || false);
+      setSelectedTags(gymDetails.tags || []);
       setIsExistingGym(true);
     } catch (error) {
       console.error('Error fetching gym details:', error);
@@ -43,195 +95,356 @@ const AddGym = ({ closeModal }) => {
     }
   };
 
-  const handlePlaceChanged = () => {
-    const place = autocompleteRef.current.getPlace();
-    if (place) {
-      const placeId = place.place_id;
-      setPlaceDetails({
-        name: place.name,
-        address: place.formatted_address,
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-        placeId: placeId,
-      });
-      setInputValue(place.formatted_address);
-
-      // Fetch and populate existing gym details if available
-      fetchGymDetails(placeId);
+  const validateStep = (step) => {
+    const newErrors = {};
+    
+    if (step === 1) {
+      if (!placeDetails) {
+        newErrors.location = 'Please select a valid gym location';
+      }
+    } else if (step === 2) {
+      if (!gymType) {
+        newErrors.gymType = 'Please select a gym type';
+      }
+      if (!dropInFee) {
+        newErrors.dropInFee = 'Please enter a drop-in fee';
+      }
+      if (!monthlyRate) {
+        newErrors.monthlyRate = 'Please enter a monthly rate';
+      }
+      if (!website || website === 'https://') {
+        newErrors.website = 'Please enter a website';
+      }
     }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const goToNextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const goToPreviousStep = () => {
+    setCurrentStep(currentStep - 1);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (placeDetails && gymType && dropInFee && monthlyRate && website) {
-      const gymDetails = {
-        ...placeDetails,
-        dropInFee,
-        monthlyRate,
-        website,
-        email,
-        instagram,
-        gymType,
-        usawClub,
-        tags: selectedTags
-      };
-      try {
-        const response = await axios.post(`${baseUrl}/v1/gymfinder/gym-form-submit`, gymDetails);
-        toast.success(response.data.message);
-        closeModal();
-        console.log('Gym saved:', response.data);
-      } catch (error) {
-        toast.error(error.response.data.error || 'Error saving gym');
-        console.error('Error saving gym:', error);
-      }
-    } else {
-      toast.error('Please fill in all required fields.');
+    
+    if (!validateStep(currentStep)) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    const gymDetails = {
+      ...placeDetails,
+      dropInFee,
+      monthlyRate,
+      website: website.startsWith('http') ? website : `https://${website}`,
+      email,
+      instagram: instagram.startsWith('@') ? instagram.substring(1) : instagram,
+      gymType,
+      usawClub,
+      tags: selectedTags.map(tag => tag.value)
+    };
+    
+    try {
+      const response = await axios.post(`${baseUrl}/v1/gymfinder/gym-form-submit`, gymDetails);
+      toast.success(response.data.message || 'Gym added successfully!');
+      closeModal();
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || 'Error saving gym. Please try again.';
+      toast.error(errorMessage);
+      console.error('Error saving gym:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-white rounded-lg shadow-lg max-w-md text-sm mt-8">
-      <h2 className="text-lg font-semibold mb-4 text text-primary-950">
-        {isExistingGym ? 'Update Your Gym' : 'Add Your Gym'}
-      </h2>
-      <Autocomplete
-        onLoad={(autocomplete) => {
-          autocompleteRef.current = autocomplete;
-        }}
-        onPlaceChanged={handlePlaceChanged}
-      >
-        <input
-          type="text"
-          placeholder="Start typing your gym"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
-        />
-      </Autocomplete>
-      <div className="grid grid-cols-2 gap-2 justify-items-start">
-        <div className="mb-4">
-          <label htmlFor="gym-type" className="block text-sm font-medium text-gray-700 mb-2">Gym Type</label>
-          <select
-            id="gym-type"
-            value={gymType}
-            onChange={(e) => setGymType(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700"
-            required
-          >
-            <option value="" disabled>Select gym type</option>
-            <option value="Weightlifting-only">Weightlifting-only</option>
-            <option value="CrossFit">CrossFit</option>
-            <option value="Globo-gym/Other">Globo-gym/Other</option>
-          </select>
-        </div>
-        <div className="mb-4 flex items-center mt-8">
-          <input
-            id="usaw-club"
-            type="checkbox"
-            checked={usawClub}
-            onChange={(e) => setUsawClub(e.target.checked)}
-            className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-primary-500"
-          />
-          <label htmlFor="usaw-club" className="ml-2 block text-sm font-medium text-gray-700">USAW Club</label>
+    <div className="max-w-2xl mx-auto">
+      <div className="mb-6">
+        <div className="flex items-center">
+          <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-primary-950 text-white' : 'bg-gray-200 text-gray-600'}`}>
+            1
+          </div>
+          <div className={`flex-1 h-1 mx-2 ${currentStep >= 2 ? 'bg-primary-950' : 'bg-gray-200'}`}></div>
+          <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-primary-950 text-white' : 'bg-gray-200 text-gray-600'}`}>
+            2
+          </div>
+          <div className={`flex-1 h-1 mx-2 ${currentStep >= 3 ? 'bg-primary-950' : 'bg-gray-200'}`}></div>
+          <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-primary-950 text-white' : 'bg-gray-200 text-gray-600'}`}>
+            3
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2 justify-items-start">
-        <div className="mb-4">
-          <label htmlFor="drop-in" className="block text-sm font-medium text-gray-700 mb-2">Drop-in Fee</label>
-          <div className="relative rounded-md shadow-sm">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <span className="text-gray-500 sm:text-sm">$</span>
+
+      <form ref={formRef} onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm">
+        {/* Step 1: Location */}
+        {currentStep === 1 && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-4 text-primary-950">
+              {isExistingGym ? 'Update Your Gym' : 'Add Your Gym'}
+            </h2>
+            <p className="text-gray-600 mb-6">Start by entering your gym's location</p>
+            
+            <div className="mb-4">
+              <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+                Gym Location
+              </label>
+              <Autocomplete
+                onLoad={(autocomplete) => {
+                  autocompleteRef.current = autocomplete;
+                }}
+                onPlaceChanged={handlePlaceChanged}
+              >
+                <input
+                  id="location"
+                  type="text"
+                  placeholder="Search for your gym..."
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  className={`w-full px-4 py-2 border ${errors.location ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                />
+              </Autocomplete>
+              {errors.location && (
+                <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+              )}
             </div>
-            <input
-              id="drop-in"
-              type="number"
-              placeholder="Drop-in Fee"
-              value={dropInFee}
-              onChange={(e) => setDropInFee(e.target.value)}
-              className="block w-full py-1.5 pl-7 pr-4 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
-              required
-            />
-          </div>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="monthly" className="block text-sm font-medium text-gray-700 mb-2">Monthly Rate</label>
-          <div className="relative rounded-md shadow-sm">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <span className="text-gray-500 sm:text-sm">$</span>
+            
+            {placeDetails && (
+              <div className="mt-4 p-4 bg-gray-50 rounded-md">
+                <h3 className="font-medium text-gray-900">{placeDetails.name}</h3>
+                <p className="text-gray-600 mt-1">{placeDetails.address}</p>
+              </div>
+            )}
+            
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={goToNextStep}
+                disabled={!placeDetails}
+                className={`px-4 py-2 ${!placeDetails ? 'bg-gray-300 cursor-not-allowed' : 'bg-primary-950 hover:bg-primary-700'} text-white rounded-md transition-colors`}
+              >
+                Next
+              </button>
             </div>
-            <input
-              id="monthly"
-              type="number"
-              placeholder="Monthly Rate"
-              value={monthlyRate}
-              onChange={(e) => setMonthlyRate(e.target.value)}
-              className="block w-full py-1.5 pl-7 pr-4 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
-              required
-            />
           </div>
-        </div>
-      </div>
-      <div className="mb-4">
-        <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-2">Website</label>
-        <input
-          id="url"
-          type="url"
-          placeholder="Website"
-          value={website}
-          onChange={(e) => setWebsite(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="Email (optional)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="ig" className="block text-sm font-medium text-gray-700 mb-2">Instagram</label>
-        <div className="relative rounded-md shadow-sm">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <span className="text-gray-500 sm:text-sm">@</span>
+        )}
+        
+        {/* Step 2: Basic Info */}
+        {currentStep === 2 && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-4 text-primary-950">Gym Details</h2>
+            <p className="text-gray-600 mb-6">Enter information about the gym</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <label htmlFor="gym-type" className="block text-sm font-medium text-gray-700 mb-1">
+                  Gym Type*
+                </label>
+                <select
+                  id="gym-type"
+                  value={gymType}
+                  onChange={(e) => setGymType(e.target.value)}
+                  className={`w-full px-4 py-2 border ${errors.gymType ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                >
+                  <option value="" disabled>Select gym type</option>
+                  <option value="Weightlifting-only">Weightlifting-only</option>
+                  <option value="CrossFit">CrossFit</option>
+                  <option value="Globo-gym/Other">Globo-gym/Other</option>
+                </select>
+                {errors.gymType && (
+                  <p className="mt-1 text-sm text-red-600">{errors.gymType}</p>
+                )}
+              </div>
+              
+              <div className="mb-4 flex items-center">
+                <input
+                  id="usaw-club"
+                  type="checkbox"
+                  checked={usawClub}
+                  onChange={(e) => setUsawClub(e.target.checked)}
+                  className="h-4 w-4 text-primary-950 border-gray-300 rounded focus:ring-primary-500"
+                />
+                <label htmlFor="usaw-club" className="ml-2 block text-sm font-medium text-gray-700">
+                  USAW Club
+                </label>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <label htmlFor="drop-in" className="block text-sm font-medium text-gray-700 mb-1">
+                  Drop-in Fee*
+                </label>
+                <div className="relative rounded-md">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span className="text-gray-500 sm:text-sm">$</span>
+                  </div>
+                  <input
+                    id="drop-in"
+                    type="number"
+                    placeholder="20"
+                    value={dropInFee}
+                    onChange={(e) => setDropInFee(e.target.value)}
+                    className={`block w-full py-2 pl-7 pr-4 border ${errors.dropInFee ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                  />
+                </div>
+                {errors.dropInFee && (
+                  <p className="mt-1 text-sm text-red-600">{errors.dropInFee}</p>
+                )}
+              </div>
+              
+              <div className="mb-4">
+                <label htmlFor="monthly" className="block text-sm font-medium text-gray-700 mb-1">
+                  Monthly Rate*
+                </label>
+                <div className="relative rounded-md">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <span className="text-gray-500 sm:text-sm">$</span>
+                  </div>
+                  <input
+                    id="monthly"
+                    type="number"
+                    placeholder="150"
+                    value={monthlyRate}
+                    onChange={(e) => setMonthlyRate(e.target.value)}
+                    className={`block w-full py-2 pl-7 pr-4 border ${errors.monthlyRate ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
+                  />
+                </div>
+                {errors.monthlyRate && (
+                  <p className="mt-1 text-sm text-red-600">{errors.monthlyRate}</p>
+                )}
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-1">
+                Website*
+              </label>
+              <input
+                id="url"
+                type="url"
+                placeholder="https://yourgym.com"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                className={`w-full px-4 py-2 border ${errors.website ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500`}
+              />
+              {errors.website && (
+                <p className="mt-1 text-sm text-red-600">{errors.website}</p>
+              )}
+            </div>
+            
+            <div className="mt-6 flex justify-between">
+              <button
+                type="button"
+                onClick={goToPreviousStep}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                onClick={goToNextStep}
+                className="px-4 py-2 bg-primary-950 text-white rounded-md hover:bg-primary-700 transition-colors"
+              >
+                Next
+              </button>
+            </div>
           </div>
-          <input
-            id="ig"
-            type="text"
-            placeholder="Instagram (optional)"
-            value={instagram}
-            onChange={(e) => setInstagram(e.target.value)}
-            className="block w-full py-1.5 pl-7 pr-4 border border-gray-300 rounded-md sm:text-sm sm:leading-6"
-          />
-        </div>
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
-        <Select
-          isMulti
-          options={tagOptions}
-          value={selectedTags}
-          onChange={setSelectedTags}
-          className="basic-multi-select"
-          classNamePrefix="select"
-          menuPlacement="top"
-        />
-      </div>
-      {placeDetails && (
-        <div className="mt-4 text-sm text-gray-600">
-          <p><strong></strong> {placeDetails.name}</p>
-          <p><strong></strong> {placeDetails.address}</p>
-        </div>
-      )}
-      <button type="submit" className="mt-4 px-4 py-2 bg-primary-950 hover:bg-primary-500 text-white rounded-md">
-        {isExistingGym ? 'Update Gym' : 'Add Gym'}
-      </button>
-    </form>
+        )}
+        
+        {/* Step 3: Additional Info */}
+        {currentStep === 3 && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-4 text-primary-950">Additional Information</h2>
+            <p className="text-gray-600 mb-6">Add more details about the gym (optional)</p>
+            
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email (optional)
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="info@yourgym.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+            </div>
+            
+            <div className="mb-4">
+              <label htmlFor="ig" className="block text-sm font-medium text-gray-700 mb-1">
+                Instagram (optional)
+              </label>
+              <div className="relative rounded-md">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <span className="text-gray-500 sm:text-sm">@</span>
+                </div>
+                <input
+                  id="ig"
+                  type="text"
+                  placeholder="yourgymaccount"
+                  value={instagram}
+                  onChange={(e) => setInstagram(e.target.value)}
+                  className="block w-full py-2 pl-7 pr-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+              </div>
+            </div>
+            
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Features & Amenities (optional)
+              </label>
+              <Select
+                isMulti
+                options={tagOptions}
+                value={selectedTags}
+                onChange={setSelectedTags}
+                styles={customSelectStyles}
+                className="basic-multi-select"
+                classNamePrefix="select"
+                placeholder="Select gym features..."
+              />
+              <p className="mt-1 text-xs text-gray-500">Select all features that apply to this gym</p>
+            </div>
+            
+            <div className="flex justify-between">
+              <button
+                type="button"
+                onClick={goToPreviousStep}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`px-6 py-2 ${isSubmitting ? 'bg-gray-400' : 'bg-primary-950 hover:bg-primary-700'} text-white rounded-md transition-colors flex items-center`}
+              >
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </>
+                ) : (
+                  isExistingGym ? 'Update Gym' : 'Add Gym'
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+      </form>
+    </div>
   );
 };
 
