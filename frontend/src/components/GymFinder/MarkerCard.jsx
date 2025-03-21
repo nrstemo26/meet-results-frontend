@@ -1,17 +1,18 @@
 // MarkerCard.jsx
 import React, { useEffect, useState } from 'react';
 import { tagOptions } from '../../config/tagOptions';
+import { sanitizeText, sanitizeUrl, sanitizeEmail, sanitizeNumber, sanitizeStyle } from '../../utils/sanitize';
 
 // Helper function to get tag label from value
 const getTagLabel = (tagValue) => {
     // If it's already an object with a label, return it
     if (tagValue && typeof tagValue === 'object' && tagValue.label) {
-        return tagValue.label;
+        return sanitizeText(tagValue.label);
     }
     
     // Find the tag in tagOptions
     const tag = tagOptions.find(t => t.value === tagValue);
-    return tag ? tag.label : tagValue; // Fall back to the value if not found
+    return sanitizeText(tag ? tag.label : tagValue); // Fall back to the value if not found
 };
 
 const MarkerCard = ({ marker, isMobile }) => {
@@ -35,9 +36,24 @@ const MarkerCard = ({ marker, isMobile }) => {
         };
     }, []);
     
-    const website = marker.website ? (marker.website.startsWith('http') ? marker.website : `https://${marker.website}`) : '#';
-    const ctaLink = marker.email ? `mailto:${marker.email}` : website;
-    const ratingPercentage = marker.rating ? (marker.rating / 5) * 100 : 0;
+    // Sanitize all marker data
+    const safeMarker = {
+        name: sanitizeText(marker.name, 'Unknown Gym'),
+        address: sanitizeText(marker.address, 'No address available'),
+        website: marker.website ? sanitizeUrl(marker.website, '#') : '#',
+        email: marker.email ? sanitizeEmail(marker.email) : null,
+        instagram: sanitizeText(marker.instagram, ''),
+        dropInFee: sanitizeNumber(marker.dropInFee, 0),
+        monthlyRate: sanitizeNumber(marker.monthlyRate, 0),
+        rating: sanitizeNumber(marker.rating, 0),
+        gymType: sanitizeText(marker.gymType, 'Other'),
+        usawClub: !!marker.usawClub,
+        tags: Array.isArray(marker.tags) ? marker.tags : []
+    };
+    
+    const website = safeMarker.website;
+    const ctaLink = safeMarker.email ? `mailto:${safeMarker.email}` : website;
+    const ratingPercentage = safeMarker.rating ? (safeMarker.rating / 5) * 100 : 0;
 
     // Theme-aware styling
     const cardClasses = `${isMobile 
@@ -104,8 +120,10 @@ const MarkerCard = ({ marker, isMobile }) => {
         <div className={cardClasses}>
             {/* Header */}
             <div className={sectionClasses}>
-                <h2 className={nameTextClasses}>{marker.name}</h2>
-                <p className={addressTextClasses}>{marker.address}</p>
+                <h2 className={nameTextClasses} 
+                    dangerouslySetInnerHTML={{ __html: safeMarker.name }}></h2>
+                <p className={addressTextClasses}
+                    dangerouslySetInnerHTML={{ __html: safeMarker.address }}></p>
             </div>
             
             {/* Price Section */}
@@ -114,11 +132,11 @@ const MarkerCard = ({ marker, isMobile }) => {
                 <div className="flex space-x-2">
                     <div className={pricingItemClasses}>
                         <p className={`text-xs ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}>Drop-in</p>
-                        <p className={`${isMobile ? "text-base" : "text-lg"} font-bold ${isDarkMode ? "text-white" : "text-primary-950"}`}>${marker.dropInFee}</p>
+                        <p className={`${isMobile ? "text-base" : "text-lg"} font-bold ${isDarkMode ? "text-white" : "text-primary-950"}`}>${safeMarker.dropInFee}</p>
                     </div>
                     <div className={pricingItemClasses}>
                         <p className={`text-xs ${isDarkMode ? "text-gray-300" : "text-gray-500"}`}>Monthly</p>
-                        <p className={`${isMobile ? "text-base" : "text-lg"} font-bold ${isDarkMode ? "text-white" : "text-primary-950"}`}>${marker.monthlyRate}</p>
+                        <p className={`${isMobile ? "text-base" : "text-lg"} font-bold ${isDarkMode ? "text-white" : "text-primary-950"}`}>${safeMarker.monthlyRate}</p>
                     </div>
                 </div>
             </div>
@@ -132,28 +150,28 @@ const MarkerCard = ({ marker, isMobile }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
                         </svg>
                         <a href={website} className={`${linkClasses} truncate`} target="_blank" rel="noopener noreferrer">
-                            {marker.website || 'Website unavailable'}
+                            {safeMarker.website !== '#' ? safeMarker.website.replace(/^https?:\/\//, '') : 'Website unavailable'}
                         </a>
                     </p>
                     
-                    {marker.email && (
+                    {safeMarker.email && (
                         <p className="text-sm flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-2 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <a href={`mailto:${marker.email}`} className={linkClasses}>
-                                {marker.email}
+                            <a href={`mailto:${safeMarker.email}`} className={linkClasses}>
+                                {safeMarker.email}
                             </a>
                         </p>
                     )}
                     
-                    {marker.instagram && (
+                    {safeMarker.instagram && (
                         <p className="text-sm flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-2 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
                             </svg>
-                            <a href={`https://www.instagram.com/${marker.instagram}`} className={linkClasses} target="_blank" rel="noopener noreferrer">
-                                @{marker.instagram}
+                            <a href={`https://www.instagram.com/${safeMarker.instagram}`} className={linkClasses} target="_blank" rel="noopener noreferrer">
+                                @{safeMarker.instagram}
                             </a>
                         </p>
                     )}
@@ -175,9 +193,9 @@ const MarkerCard = ({ marker, isMobile }) => {
                         Website
                     </a>
                     
-                    {marker.email && (
+                    {safeMarker.email && (
                         <a 
-                            href={`mailto:${marker.email}`} 
+                            href={`mailto:${safeMarker.email}`} 
                             className={`p-1 rounded-md flex items-center ${isDarkMode ? "bg-gray-700 border-gray-600 text-blue-300" : "bg-blue-50 border-blue-100 text-blue-600"} border`}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -190,7 +208,7 @@ const MarkerCard = ({ marker, isMobile }) => {
             )}
             
             {/* Rating */}
-            {marker.rating && (
+            {safeMarker.rating > 0 && (
                 <div className={isMobile ? "mb-2" : "mb-4"}>
                     <p className={labelClasses}>Rating</p>
                     <div className="flex items-center">
@@ -199,7 +217,7 @@ const MarkerCard = ({ marker, isMobile }) => {
                                 <svg 
                                     key={star} 
                                     xmlns="http://www.w3.org/2000/svg" 
-                                    className={`h-4 w-4 ${star <= Math.round(marker.rating) ? 'text-yellow-400' : isDarkMode ? 'text-gray-600' : 'text-gray-300'}`} 
+                                    className={`h-4 w-4 ${star <= Math.round(safeMarker.rating) ? 'text-yellow-400' : isDarkMode ? 'text-gray-600' : 'text-gray-300'}`} 
                                     viewBox="0 0 20 20" 
                                     fill="currentColor"
                                 >
@@ -207,7 +225,7 @@ const MarkerCard = ({ marker, isMobile }) => {
                                 </svg>
                             ))}
                         </div>
-                        <span className={`${isMobile ? "text-xs" : "text-sm"} font-medium ${isDarkMode ? "text-gray-300" : ""}`}>{marker.rating.toFixed(1)}</span>
+                        <span className={`${isMobile ? "text-xs" : "text-sm"} font-medium ${isDarkMode ? "text-gray-300" : ""}`}>{safeMarker.rating.toFixed(1)}</span>
                     </div>
                 </div>
             )}
@@ -221,9 +239,9 @@ const MarkerCard = ({ marker, isMobile }) => {
                             ? "bg-blue-900 text-blue-300 ring-1 ring-inset ring-blue-700/30" 
                             : "bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10"
                     }`}>
-                        {marker.gymType} 💪
+                        {safeMarker.gymType} 💪
                     </span>
-                    {marker.usawClub && (
+                    {safeMarker.usawClub && (
                         <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
                             isDarkMode 
                                 ? "bg-red-900 text-red-300 ring-1 ring-inset ring-red-700/30" 
@@ -232,7 +250,7 @@ const MarkerCard = ({ marker, isMobile }) => {
                             USAW Club 🇺🇸
                         </span>
                     )}
-                    {marker.tags && marker.tags.map((tag, index) => {
+                    {safeMarker.tags && safeMarker.tags.map((tag, index) => {
                         // For mobile, limit to first 2 tags to save space
                         if (isMobile && index > 1) return null;
                         
@@ -247,29 +265,27 @@ const MarkerCard = ({ marker, isMobile }) => {
                         );
                     })}
                     {/* Show count of hidden tags on mobile if there are more than 2 */}
-                    {isMobile && marker.tags && marker.tags.length > 2 && (
+                    {isMobile && safeMarker.tags && safeMarker.tags.length > 2 && (
                         <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
                             isDarkMode 
-                                ? "bg-gray-700 text-gray-300 ring-1 ring-inset ring-gray-500/30" 
-                                : "bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10"
+                                ? "bg-gray-700 text-gray-400" 
+                                : "bg-gray-50 text-gray-500"
                         }`}>
-                            +{marker.tags.length - 2} more
+                            +{safeMarker.tags.length - 2} more
                         </span>
                     )}
                 </div>
             </div>
             
-            {/* CTA Button */}
-            <div className={isMobile ? "mt-2" : ""}>
-                <a
-                    href={ctaLink}
-                    target={marker.email ? "_self" : "_blank"}
-                    rel="noopener noreferrer"
-                    className={buttonClasses}
-                >
-                    Train Here
-                </a>
-            </div>
+            {/* CTA */}
+            <a 
+                href={ctaLink}
+                className={buttonClasses}
+                target={safeMarker.email ? undefined : "_blank"}
+                rel={safeMarker.email ? undefined : "noopener noreferrer"}
+            >
+                {safeMarker.email ? "Contact via Email" : "Visit Website"}
+            </a>
         </div>
     );
 };
