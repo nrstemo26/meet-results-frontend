@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../config';
@@ -9,6 +9,7 @@ const CityLinksByState = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedState, setExpandedState] = useState(null);
+  const [expandedStates, setExpandedStates] = useState(new Set());
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -27,11 +28,57 @@ const CityLinksByState = () => {
   }, []);
 
   const toggleState = (state) => {
-    setExpandedState(expandedState === state ? null : state);
+    // If we're using multi-expansion mode (with search)
+    if (searchTerm) {
+      setExpandedStates(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(state)) {
+          newSet.delete(state);
+        } else {
+          newSet.add(state);
+        }
+        return newSet;
+      });
+    } else {
+      // Traditional single-state expansion when not searching
+      setExpandedState(expandedState === state ? null : state);
+      setExpandedStates(new Set()); // Clear multi-expansion set
+    }
   };
   
+  // Find states with matching cities for auto-expansion
+  const findStatesWithMatchingCities = useCallback((term) => {
+    if (!term) return new Set();
+    
+    const matchingStates = new Set();
+    Object.keys(citiesByState).forEach(state => {
+      // Check if any city in this state matches the search term
+      const hasMatchingCity = citiesByState[state].some(city => 
+        city.city.toLowerCase().includes(term.toLowerCase())
+      );
+      
+      // Only add states that have matching cities but don't match the state name itself
+      // This way, we only auto-expand when cities are matching but state names aren't
+      if (hasMatchingCity && !state.toLowerCase().includes(term.toLowerCase())) {
+        matchingStates.add(state);
+      }
+    });
+    
+    return matchingStates;
+  }, [citiesByState]);
+  
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    
+    // Auto-expand states with matching cities when searching
+    if (newSearchTerm) {
+      const statesToExpand = findStatesWithMatchingCities(newSearchTerm);
+      setExpandedStates(statesToExpand);
+    } else {
+      // When search is cleared, revert to single state expansion mode
+      setExpandedStates(new Set());
+    }
   };
   
   const filterStates = () => {
@@ -91,14 +138,22 @@ const CityLinksByState = () => {
           {filteredStates.map((state) => (
             <div
               key={state}
-              className={`bg-white shadow-md rounded-lg p-4 cursor-pointer transition-all duration-200 ${expandedState === state ? 'ring-2 ring-primary-950' : 'hover:shadow-lg'}`}
+              className={`bg-white shadow-md rounded-lg p-4 cursor-pointer transition-all duration-200 ${
+                (searchTerm && expandedStates.has(state)) || expandedState === state 
+                  ? 'ring-2 ring-primary-950' 
+                  : 'hover:shadow-lg'
+              }`}
               onClick={() => toggleState(state)}
             >
               <div className="flex justify-between items-center">
                 <h3 className="text-md font-semibold text-primary-950">{state}</h3>
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
-                  className={`h-4 w-4 text-gray-500 transition-transform duration-300 ${expandedState === state ? 'transform rotate-180' : ''}`} 
+                  className={`h-4 w-4 text-gray-500 transition-transform duration-300 ${
+                    (searchTerm && expandedStates.has(state)) || expandedState === state 
+                      ? 'transform rotate-180' 
+                      : ''
+                  }`} 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"
@@ -107,7 +162,11 @@ const CityLinksByState = () => {
                 </svg>
               </div>
               
-              <div className={`mt-2 overflow-hidden transition-all duration-300 ${expandedState === state ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className={`mt-2 overflow-hidden transition-all duration-300 ${
+                (searchTerm && expandedStates.has(state)) || expandedState === state 
+                  ? 'max-h-96 opacity-100' 
+                  : 'max-h-0 opacity-0'
+              }`}>
                 <div className="pt-2 border-t border-gray-100">
                   <ul className="space-y-1">
                     {citiesByState[state]
