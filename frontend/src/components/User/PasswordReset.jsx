@@ -1,96 +1,94 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 
-import { baseUrl } from '../../config';
-
-import {toast} from 'react-toastify'
-
-const ResetPassword = () => {
-  const searchParams = new URLSearchParams(location.search);
-  const token = searchParams.get('token');
-  const [userData, setUserData] = useState({
-    password: '',
-    confirmPassword: '',
-  });
-
-  const updateUser = (e, property) => {
-    e.preventDefault();
-    setUserData((userData) => ({
-      ...userData,
-      [property]: e.target.value,
-    }));
-  };
-  
+const PasswordReset = () => {
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { token } = useParams();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (userData.password !== userData.confirmPassword) {
-      toast.error('Password and password confirmation do not match.')
-    } else {
-      try {
-        const response = await axios.put(baseUrl + `/v1/user/reset-password/${token}`, userData);
-        console.log(response.data); // Handle the response as needed
-        toast.success('Password reset successful')
-        navigate('/login');
-      } catch (error) {
-        console.error(error);
-        toast.error(error.response.data.message);
-      }
+    
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
     }
 
-    console.log(userData);
+    setIsLoading(true);
+    try {
+      await axios.put(`/v1/user/reset-password/${token}`, { password });
+      toast.success('Password reset successful');
+      navigate('/login');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to reset password');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
-        <h2 className="text-2xl text-primary-950 font-bold mb-4">Reset Password</h2>
-        <form onSubmit={handleSubmit}>
-
-          <div className="mb-4">
-            <label htmlFor="password" className="block font-medium mb-1">
-              New Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              value={userData.password}
-              onChange={(e) => updateUser(e, 'password')}
-              required
-            />
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-primary-950">Set new password</h2>
+            <p className="mt-2 text-sm text-gray-600">Enter your new password below</p>
           </div>
-          <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block font-medium mb-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              value={userData.confirmPassword}
-              onChange={(e) => updateUser(e, 'confirmPassword')}
-              required
-            />
-          </div>
-          <div className="flex justify-between">
-            <button type="submit" className="btn-alt">
-              Reset Password
-            </button>
-            <p className="text-center text-gray-600 mt-4 p-2">
-              Remember your password?{' '}
-              <Link to="/login" className="text-primary-950 hover:text-primary-500">
-                Log in here.
-              </Link>
-            </p>
-          </div>
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                New password
+              </label>
+              <div className="mt-1">
+                <input
+                  type="password"
+                  id="password"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                Confirm new password
+              </label>
+              <div className="mt-1">
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-4">
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className="w-full px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? 'Resetting...' : 'Reset password'}
+              </button>
+              <p className="text-center text-sm text-gray-600">
+                Remember your password?{' '}
+                <Link to="/login" className="text-primary-500 hover:text-primary-600">
+                  Sign in
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ResetPassword;
+export default PasswordReset;

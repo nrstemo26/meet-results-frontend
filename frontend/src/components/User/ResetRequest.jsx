@@ -1,72 +1,77 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { baseUrl } from '../../config';
-import {toast} from 'react-toastify'
+import {toast} from 'react-toastify';
 
-const RequestReset = () => {
+const ResetRequest = () => {
   const [email, setEmail] = useState('');
-  const location = useLocation();
-  
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const emailParam = searchParams.get('email');
+  const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const emailParam = params.get('email');
     if (emailParam) {
       setEmail(emailParam);
     }
-  }, [location.search]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
-      const response = await axios.post(baseUrl + '/v1/user/reset-request', { email: email });
-      console.log(response.data); // Handle the response as needed
-      toast.success(response.data.message);
-    
+      const response = await axios.post('/v1/user/reset-request', { email });
+      toast.success('Password reset instructions sent to your email');
     } catch (error) {
-      console.error(error);
-      toast.error(error.response.data.message);
-    
+      toast.error(error.response?.data?.message || 'Failed to send reset instructions');
+    } finally {
+      setIsLoading(false);
     }
-
-    setEmail('');
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
-        <h2 className="text-2xl text-primary-950 font-bold mb-4">Request Password Reset</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-primary-950">Reset your password</h2>
+            <p className="mt-2 text-sm text-gray-600">Enter your email to receive reset instructions</p>
           </div>
-          <div className="flex justify-between">
-            <button type="submit" className="btn-alt">
-              Request Reset
-            </button>
-            <p className="text-center text-gray-600 mt-4 p-2">
-              Remember your password?{' '}
-              <Link to="/login" className="text-primary-950 hover:text-primary-500">
-                Log in here.
-              </Link>
-            </p>
-          </div>
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email address
+              </label>
+              <div className="mt-1">
+                <input
+                  type="email"
+                  id="email"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-4">
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className="w-full px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? 'Sending...' : 'Send reset instructions'}
+              </button>
+              <p className="text-center text-sm text-gray-600">
+                Remember your password?{' '}
+                <Link to="/login" className="text-primary-500 hover:text-primary-600">
+                  Sign in
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default RequestReset;
+export default ResetRequest;
