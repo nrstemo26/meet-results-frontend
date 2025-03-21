@@ -22,8 +22,8 @@ const MyComponent = ({ data })=>{
         <div className="w-full sm:w-3/4 mx-auto">
             <div className="flex flex-col md:flex-row items-center justify-between gap-12 p-4 pt-16">
                 <div className="flex-1 text-center md:text-left max-w-2xl">
-                    <h1 className="text-primary-950 font-bold text-4xl md:text-5xl mb-4">{data.title}</h1>
-                    <h2 className="text-primary-950 font-bold text-2xl md:text-3xl mb-6 leading-relaxed">{data.subtitle}</h2>
+                    <h1 className="text-primary-950 font-bold text-3xl md:text-4xl lg:text-4xl mb-3 leading-tight">{data.title}</h1>
+                    <h2 className="text-primary-950 font-semibold text-lg md:text-xl mb-6 leading-relaxed text-primary-800">{data.subtitle}</h2>
                     <p className="text-primary-950 leading-relaxed font-medium text-lg mb-8">{data.description}</p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                         <Link 
@@ -57,7 +57,7 @@ const MyComponent = ({ data })=>{
                             <h3 className="text-lg font-semibold text-primary-950">Visualize</h3>
                         </div>
                         <p className="text-gray-600">
-                            Competition results database covering 51,000+ athletes & 4,500+ local and national events.
+                            Competition results database covering 51,000+ athletes & 4,500+ local and national events. Track performance trends across meets and seasons.
                         </p>
                     </div>
 
@@ -69,7 +69,7 @@ const MyComponent = ({ data })=>{
                             <h3 className="text-lg font-semibold text-primary-950">Analyze</h3>
                         </div>
                         <p className="text-gray-600">
-                            Tap into historical trends and advanced stats across 10+ years of American weightlifting.
+                            Tap into historical trends and advanced stats across 10+ years of American weightlifting. Identify patterns and predict future performance.
                         </p>
                     </div>
 
@@ -81,7 +81,7 @@ const MyComponent = ({ data })=>{
                             <h3 className="text-lg font-semibold text-primary-950">Build</h3>
                         </div>
                         <p className="text-gray-600">
-                            Create a watchlist to track your favorite weightlifters (or competition).
+                            Create a watchlist to track your favorite weightlifters (or competition). Get notified of new results and personal bests.
                         </p>
                     </div>
 
@@ -93,7 +93,7 @@ const MyComponent = ({ data })=>{
                             <h3 className="text-lg font-semibold text-primary-950">Elevate</h3>
                         </div>
                         <p className="text-gray-600">
-                            Dial in your competition coaching with unique and on-demand insights.
+                            Dial in your competition coaching with unique and on-demand insights. Make data-driven decisions with confidence.
                         </p>
                     </div>
                 </div>
@@ -111,9 +111,9 @@ const HomeComponent = ()=>{
     
     const [isLoading, setIsLoading] = useState(true)
     const data = {
-        title: 'Consult the Lift Oracle.',
-        subtitle: 'Weightlifting statistics & intelligence.',
-        description: "Powered by accomplished Olympic weightlifting coaches and massive data nerds, Lift Oracle is your new destination for historical competition results and statistics."
+        title: 'Unlock the Secrets of American Weightlifting',
+        subtitle: 'Competition Results, Performance Insights & Strategic Intelligence',
+        description: "Your complete competition database, enhanced with advanced analytics. Whether you're a coach, athlete, or fan, Lift Oracle helps you understand performance patterns and make data-driven decisions. Where your coach's coach does their due dili."
     }
 
     useEffect(()=>{
