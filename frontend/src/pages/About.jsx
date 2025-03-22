@@ -24,6 +24,7 @@ const About = () => {
     const loadStripeConfig = async () => {
       try {
         const config = await fetchStripeConfig();
+        console.log('Stripe config:', config);
         setStripeConfig(config);
       } catch (error) {
         console.error('Error loading Stripe config:', error);
@@ -108,7 +109,7 @@ const About = () => {
           <div>
               <stripe-buy-button
                   buy-button-id={stripeConfig.buttonId || buttonId}
-                  publishable-key="pk_placeholder"
+                  publishable-key={stripeConfig.publishableKeyId || "pk_placeholder"}
                   customer-email={accountEmail}
                   client-reference-id={accountId}
                   data-umami-event="pro-checkout"
