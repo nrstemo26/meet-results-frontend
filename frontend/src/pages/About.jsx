@@ -14,7 +14,7 @@ const About = () => {
   const [stripeConfig, setStripeConfig] = useState({
     buttonId: '',
     coffeeLink: '',
-    proLink: ''
+    publishableKeyId: ''
   });
 
   const pageTitle = 'About - Lift Oracle';
@@ -24,7 +24,6 @@ const About = () => {
     const loadStripeConfig = async () => {
       try {
         const config = await fetchStripeConfig();
-        console.log('Stripe config:', config);
         setStripeConfig(config);
       } catch (error) {
         console.error('Error loading Stripe config:', error);
@@ -32,8 +31,8 @@ const About = () => {
     };
     
     loadStripeConfig();
-  }, []); // Empty dependency array means this runs once on mount
-  
+  }, []);
+
   useEffect(() => {
     const getAccount = async () => {
       if (!user) {
@@ -72,11 +71,10 @@ const About = () => {
       }
     };
 
-    // Only run this effect if we have stripe config values and user changes
     if (stripeConfig.coffeeLink || coffeeLink) {
       getAccount();
     }
-  }, [user, stripeConfig.coffeeLink]); // Only depend on user and coffeeLink
+  }, [user, stripeConfig.coffeeLink]);
 
   return(
     <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
@@ -95,27 +93,27 @@ const About = () => {
           <li>🌍 International competition results and statistics. (Coming Soon)</li>
         </ul>
       </div>
-      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">If you'd like to support current and future development of this project, consider upgrading to our Lift Oracle Pro tier. For the cost of one monthly latte, Pro-tier members can take advantage of the following features:</p>
+      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">If you'd like to support current and future development of this project, consider upgrading to our Lift Oracle Pro tier. For less than $1 per week, Pro-tier members can take advantage of the following features:</p>
       <div className="m-8">
         <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
-            <li>🔢 User-defined queries and analytics. Slice and dice our data to your hearts content.</li>
-            <li>🧮 Advanced athlete statistics. Gain an edge on your competition.</li>
-            <li>🏆 Upcoming meet startlists. Get a jump on due dili for your session.</li>
-            <li>💾 Build and save unlimited watchlists. Keep the competition at your fingertips.</li>
-            <li>📲 Export watchlists and athlete statistics to Excel or Google Sheets. Level up your meet coaching.</li>
-            <li>🔢 Automated meet coaching cards. Warm up your athletes on time, every time. (Coming soon)</li>
-            <li>🏗️ & many more to come...</li>
-          </ul>
-          <div>
-              <stripe-buy-button
-                  buy-button-id={stripeConfig.buttonId || buttonId}
-                  publishable-key={stripeConfig.publishableKeyId || "pk_placeholder"}
-                  customer-email={accountEmail}
-                  client-reference-id={accountId}
-                  data-umami-event="pro-checkout"
-                  >
-              </stripe-buy-button>
-          </div>
+          <li>🔢 User-defined queries and analytics. Slice and dice our data to your hearts content.</li>
+          <li>🧮 Advanced athlete statistics. Gain an edge on your competition.</li>
+          <li>🏆 Upcoming meet startlists. Get a jump on due dili for your session.</li>
+          <li>💾 Build and save unlimited watchlists. Keep the competition at your fingertips.</li>
+          <li>📲 Export watchlists and athlete statistics to Excel or Google Sheets. Level up your meet coaching.</li>
+          <li>🔢 Automated meet coaching cards. Warm up your athletes on time, every time. (Coming soon)</li>
+          <li>🏗️ & many more to come...</li>
+        </ul>
+        <div>
+          <stripe-buy-button
+            buy-button-id={stripeConfig.buttonId || buttonId}
+            publishable-key={stripeConfig.publishableKeyId}
+            customer-email={accountEmail}
+            client-reference-id={accountId}
+            data-umami-event="pro-checkout"
+          >
+          </stripe-buy-button>
+        </div>
       </div>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">You can also support Lift Oracle by:</p>
       <div className="m-8">
