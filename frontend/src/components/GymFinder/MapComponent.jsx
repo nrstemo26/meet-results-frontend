@@ -61,6 +61,13 @@ const MapComponent = ({ cityName }) => {
     // Add a state to track if the user has manually interacted with the map
     const [userHasInteracted, setUserHasInteracted] = useState(false);
 
+    // Close the selected marker when cityName changes
+    useEffect(() => {
+        if (selectedMarker) {
+            setSelectedMarker(null);
+        }
+    }, [cityName]);
+
     useEffect(() => {
         const fetchCityInfo = async () => {
             setLoading(true);
