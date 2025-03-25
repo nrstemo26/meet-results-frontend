@@ -19,11 +19,15 @@ const GymFinder = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
 
+  // Add diagnostic logging for render
+  console.log(`[DIAGNOSTIC] GymFinder RENDER: cityName=${cityName}, viewMode=${viewMode}`);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   
   // Switch to map view when city changes
   useEffect(() => {
+    console.log(`[DIAGNOSTIC] GymFinder cityName changed to: ${cityName}`);
     if (cityName) {
       setViewMode('map');
     }
@@ -65,6 +69,7 @@ const GymFinder = () => {
         
         {/* Map Component */}
         <div className="mb-12">
+          {console.log(`[DIAGNOSTIC] Rendering MapComponent with key: map-${cityName || 'default'}`)}
           <MapComponent 
             key={`map-${cityName || 'default'}`} 
             cityName={cityName}

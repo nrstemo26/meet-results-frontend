@@ -26,6 +26,9 @@ const debounce = (func, delay) => {
 const defaultCenter = { latitude: 43.034538, longitude: -87.9328348 };
 
 const MapComponent = ({ cityName, viewMode, setViewMode }) => {
+    // Diagnostic logging - Component mount/render
+    console.log(`[DIAGNOSTIC] MapComponent RENDER: cityName=${cityName}, viewMode=${viewMode}`);
+    
     // Use a key derived from cityName to force component remount when city changes
     // This can be set in the parent component
     
@@ -65,14 +68,29 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
     // Add a state to track if the user has manually interacted with the map
     const [userHasInteracted, setUserHasInteracted] = useState(false);
     
+    // Generate a unique instance ID for this component instance
+    const instanceId = useRef(`map-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`);
+    
+    // Log component mount/unmount
+    useEffect(() => {
+        console.log(`[DIAGNOSTIC] MapComponent MOUNTED: instanceId=${instanceId.current}, cityName=${cityName}`);
+        
+        return () => {
+            console.log(`[DIAGNOSTIC] MapComponent UNMOUNTING: instanceId=${instanceId.current}, cityName=${cityName}`);
+        };
+    }, []);
+    
     // Reset component state on mount - this helps with browser session persistence issues
     useEffect(() => {
         setSelectedMarker(null);
         setUserHasInteracted(false);
+        console.log(`[DIAGNOSTIC] Reset state on mount: instanceId=${instanceId.current}`);
     }, []);
 
     // Close the selected marker when cityName changes
     useEffect(() => {
+        console.log(`[DIAGNOSTIC] cityName CHANGED to: ${cityName}, selectedMarker=${selectedMarker ? 'exists' : 'null'}`);
+        
         // Force reset key state values when city changes
         setSelectedMarker(null);
         setUserHasInteracted(false);
@@ -84,6 +102,7 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
                     const mapContainer = document.querySelector('.flex-grow.relative');
                     if (mapContainer) {
                         mapContainer.scrollIntoView({ behavior: 'smooth' });
+                        console.log(`[DIAGNOSTIC] Scrolled map into view for city: ${cityName}`);
                     }
                 } catch (error) {
                     console.error('Error scrolling map into view:', error);
@@ -263,6 +282,7 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
     );
 
     const handleMarkerClick = useCallback(async (marker) => {
+        console.log(`[DIAGNOSTIC] Marker clicked: ${marker.name}, instanceId=${instanceId.current}`);
         const placeDetails = await fetchPlaceDetails(marker.placeId);
         
         // On mobile, when a marker is selected in list view, switch to map view 
@@ -288,7 +308,9 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
     };
 
     const toggleViewMode = () => {
-        setViewMode(viewMode === 'map' ? 'list' : 'map');
+        const newMode = viewMode === 'map' ? 'list' : 'map';
+        console.log(`[DIAGNOSTIC] toggleViewMode called: ${viewMode} -> ${newMode}, instanceId=${instanceId.current}`);
+        setViewMode(newMode);
     };
 
     const toggleMobileFilter = () => {
@@ -443,6 +465,16 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
     const handleZoomChanged = useCallback(() => {
         setUserHasInteracted(true);
     }, []);
+
+    // Add a useEffect to track selectedMarker changes
+    useEffect(() => {
+        console.log(`[DIAGNOSTIC] selectedMarker CHANGED: ${selectedMarker ? selectedMarker.name : 'null'}, instanceId=${instanceId.current}`);
+    }, [selectedMarker]);
+    
+    // Track viewMode changes
+    useEffect(() => {
+        console.log(`[DIAGNOSTIC] viewMode CHANGED to: ${viewMode}, instanceId=${instanceId.current}`);
+    }, [viewMode]);
 
     return (
         <div className="flex flex-col md:flex-row h-[80vh] w-full rounded-lg overflow-hidden shadow-md">

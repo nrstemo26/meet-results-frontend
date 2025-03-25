@@ -176,7 +176,10 @@ const CityLinksByState = () => {
                           <Link
                             to={`/weightlifting-gym/${city.city}`}
                             className="text-blue-600 hover:text-blue-800 hover:underline transition-colors block py-1"
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                              console.log(`[DIAGNOSTIC] City link clicked: ${city.city}`);
+                              e.stopPropagation();
+                            }}
                           >
                             {city.city}
                           </Link>
