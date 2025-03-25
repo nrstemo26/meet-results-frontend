@@ -66,6 +66,24 @@ const MapComponent = ({ cityName }) => {
         if (selectedMarker) {
             setSelectedMarker(null);
         }
+        
+        // Reset user interaction flag when city changes
+        // This will allow the map to recenter properly
+        setUserHasInteracted(false);
+        
+        // Ensure map is in view when city changes, especially on mobile
+        if (cityName) {
+            // Switch to map view if in list view
+            setViewMode('map');
+            
+            // Scroll the map container into view
+            setTimeout(() => {
+                const mapContainer = document.querySelector('.flex-grow.relative');
+                if (mapContainer) {
+                    mapContainer.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
     }, [cityName]);
 
     useEffect(() => {
