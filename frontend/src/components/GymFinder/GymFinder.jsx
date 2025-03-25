@@ -17,9 +17,17 @@ if (typeof window !== 'undefined') {
 const GymFinder = () => {
   const { cityName } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  
+  // Switch to map view when city changes
+  useEffect(() => {
+    if (cityName) {
+      setViewMode('map');
+    }
+  }, [cityName]);
 
   const pageTitle = cityName
     ? `Find Weightlifting Gyms in ${cityName} - Lift Oracle`
@@ -57,7 +65,12 @@ const GymFinder = () => {
         
         {/* Map Component */}
         <div className="mb-12">
-          <MapComponent cityName={cityName} />
+          <MapComponent 
+            key={`map-${cityName || 'default'}`} 
+            cityName={cityName}
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+          />
         </div>
         
         {/* City Links Section */}

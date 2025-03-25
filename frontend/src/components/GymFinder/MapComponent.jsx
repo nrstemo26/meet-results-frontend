@@ -25,7 +25,10 @@ const debounce = (func, delay) => {
 
 const defaultCenter = { latitude: 43.034538, longitude: -87.9328348 };
 
-const MapComponent = ({ cityName }) => {
+const MapComponent = ({ cityName, viewMode, setViewMode }) => {
+    // Use a key derived from cityName to force component remount when city changes
+    // This can be set in the parent component
+    
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [markers, setMarkers] = useState([]);
     const [lastBounds, setLastBounds] = useState(null);
@@ -44,7 +47,8 @@ const MapComponent = ({ cityName }) => {
         maxDropInRate: 50
     });
     const [loading, setLoading] = useState(true);
-    const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
+    // Use props instead of internal state for viewMode
+    // const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
     const [isMobileFilterVisible, setIsMobileFilterVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -60,29 +64,31 @@ const MapComponent = ({ cityName }) => {
 
     // Add a state to track if the user has manually interacted with the map
     const [userHasInteracted, setUserHasInteracted] = useState(false);
+    
+    // Reset component state on mount - this helps with browser session persistence issues
+    useEffect(() => {
+        setSelectedMarker(null);
+        setUserHasInteracted(false);
+    }, []);
 
     // Close the selected marker when cityName changes
     useEffect(() => {
-        if (selectedMarker) {
-            setSelectedMarker(null);
-        }
-        
-        // Reset user interaction flag when city changes
-        // This will allow the map to recenter properly
+        // Force reset key state values when city changes
+        setSelectedMarker(null);
         setUserHasInteracted(false);
         
         // Ensure map is in view when city changes, especially on mobile
         if (cityName) {
-            // Switch to map view if in list view
-            setViewMode('map');
-            
-            // Scroll the map container into view
             setTimeout(() => {
-                const mapContainer = document.querySelector('.flex-grow.relative');
-                if (mapContainer) {
-                    mapContainer.scrollIntoView({ behavior: 'smooth' });
+                try {
+                    const mapContainer = document.querySelector('.flex-grow.relative');
+                    if (mapContainer) {
+                        mapContainer.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } catch (error) {
+                    console.error('Error scrolling map into view:', error);
                 }
-            }, 100);
+            }, 200);
         }
     }, [cityName]);
 
