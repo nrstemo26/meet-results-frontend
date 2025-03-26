@@ -11,6 +11,8 @@ import Main from './components/Main';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Widgets/Footer';
 import Announcement from './components/Widgets/Announcement';
+import PaymentSuccessHandler from './components/Widgets/PaymentSuccessHandler';
+import CheckoutStepHandler from './components/Widgets/CheckoutStepHandler';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -24,6 +26,18 @@ function App() {
         <meta property="og:image" content={ogImageUrl} />
       </Helmet> */}
       {updateMetaTags(pageTitle, descriptionContent)}
+      
+      {/* Minimal styling for Stripe button */}
+      <style jsx="true">{`
+        /* Only styling that can't be handled by Tailwind classes */
+        stripe-buy-button {
+          display: inline-block !important;
+          margin: 0 auto !important;
+          width: auto !important;
+          max-width: 100% !important;
+        }
+      `}</style>
+      
       <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
         {/* get rid of is logged in by having the user slice? */}
         <Navbar setIsSidebarOpen={setIsSidebarOpen}  />
@@ -44,6 +58,12 @@ function App() {
         theme="light"
       />
       <Footer/>
+      
+      {/* Payment success handler - checks for payment success events and shows the success modal */}
+      <PaymentSuccessHandler />
+      
+      {/* Checkout step handler - listens for checkout events and shows the intermediate checkout step */}
+      <CheckoutStepHandler />
     </Router>
   )
 }

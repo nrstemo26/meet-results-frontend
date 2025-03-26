@@ -4,6 +4,7 @@ import { baseUrl, coffeeLink, buttonId, fetchStripeConfig } from '../config'
 import { updateMetaTags } from '../lib/seo_utils';
 import axios from 'axios';
 import { FiUsers, FiTrendingUp, FiList, FiBarChart2, FiSearch, FiCoffee, FiShoppingBag, FiMail, FiShare2 } from 'react-icons/fi';
+import IntermediateCheckoutStep from '../components/Widgets/IntermediateCheckoutStep';
 
 const apiUrl = baseUrl+'/v1/'
 
@@ -18,6 +19,7 @@ const About = () => {
     proLink: '',
     publishableKeyId: ''
   });
+  const [showCheckoutStep, setShowCheckoutStep] = useState(false);
   
   const pageTitle = 'About - Lift Oracle';
   const descriptionContent = 'Lift Oracle origin story, feature breakdown, and product roadmap. From the minds of Milwaukee Barbell.';
@@ -80,6 +82,19 @@ const About = () => {
     }
   }, [user, stripeConfig.coffeeLink]);
 
+  const handleUpgradeClick = () => {
+    setShowCheckoutStep(true);
+    
+    // Track the event if analytics are available
+    if (window.umami) {
+      window.umami.track('Upgrade to PRO', { source: 'about_page' });
+    }
+  };
+
+  const handleCloseCheckoutStep = () => {
+    setShowCheckoutStep(false);
+  };
+
   // Render Pro button
   const renderProButton = () => {
     if (!stripeConfig.proLink && !stripeConfig.buttonId) {
@@ -88,26 +103,12 @@ const About = () => {
     
     return (
       <div className="flex flex-col items-center space-y-4">
-        {stripeConfig.buttonId && stripeConfig.publishableKeyId ? (
-          <stripe-buy-button
-            buy-button-id={stripeConfig.buttonId}
-            publishable-key={stripeConfig.publishableKeyId}
-            customer-email={accountEmail}
-            client-reference-id={accountId}
-            data-umami-event="pro-checkout"
-          >
-          </stripe-buy-button>
-        ) : (
-          <a 
-            href={stripeConfig.proLink}
-            className="inline-flex items-center justify-center px-8 py-3 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors text-lg font-medium"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-umami-event="pro-checkout"
-          >
-            Upgrade to Pro - $49/year
-          </a>
-        )}
+        <button
+          onClick={handleUpgradeClick}
+          className="inline-flex items-center justify-center px-8 py-3 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors text-lg font-medium"
+        >
+          Upgrade to Pro - $49/year
+        </button>
         <p className="text-sm text-primary-700">Cancel anytime • Secure payment via Stripe</p>
       </div>
     );
@@ -220,6 +221,18 @@ const About = () => {
           {renderProButton()}
         </div>
       </div>
+      
+      {/* Intermediate checkout step modal */}
+      {showCheckoutStep && (
+        <IntermediateCheckoutStep
+          email={accountEmail}
+          checkoutUrl={stripeConfig.proLink}
+          hasStripeButton={Boolean(stripeConfig.buttonId && stripeConfig.publishableKeyId)}
+          stripeConfig={stripeConfig}
+          userId={accountId}
+          onClose={handleCloseCheckoutStep}
+        />
+      )}
 
       {/* Support Section */}
       <div className="bg-white rounded-lg shadow-sm p-8">
