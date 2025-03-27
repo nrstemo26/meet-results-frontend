@@ -24,7 +24,6 @@ const About = () => {
     const loadStripeConfig = async () => {
       try {
         const config = await fetchStripeConfig();
-        console.log(config)
         setStripeConfig(config);
       } catch (error) {
         console.error('Error loading Stripe config:', error);

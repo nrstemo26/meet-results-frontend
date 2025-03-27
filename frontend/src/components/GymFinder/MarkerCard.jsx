@@ -12,7 +12,12 @@ const getTagLabel = (tagValue) => {
     
     // Find the tag in tagOptions
     const tag = tagOptions.find(t => t.value === tagValue);
-    return sanitizeText(tag ? tag.label : tagValue); // Fall back to the value if not found
+    const labelText = sanitizeText(tag ? tag.label : tagValue); // Fall back to the value if not found
+    
+    // Simple HTML entity decoder for apostrophes and other common entities
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = labelText;
+    return tempDiv.textContent;
 };
 
 const MarkerCard = ({ marker, isMobile }) => {
