@@ -13,7 +13,7 @@ lerna-debug.log*
 .env.development
 .env.production
 
-src/config.js
+
 
 node_modules
 dist
@@ -34,5 +34,4 @@ dist-ssr
 
 /python
 
-# baseUrl config
-src/config.js
+

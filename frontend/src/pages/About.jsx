@@ -24,6 +24,7 @@ const About = () => {
     const loadStripeConfig = async () => {
       try {
         const config = await fetchStripeConfig();
+        console.log(config)
         setStripeConfig(config);
       } catch (error) {
         console.error('Error loading Stripe config:', error);
@@ -105,14 +106,16 @@ const About = () => {
           <li>🏗️ & many more to come...</li>
         </ul>
         <div>
-          <stripe-buy-button
-            buy-button-id={stripeConfig.buttonId || buttonId}
-            publishable-key={stripeConfig.publishableKeyId}
-            customer-email={accountEmail}
-            client-reference-id={accountId}
-            data-umami-event="pro-checkout"
-          >
-          </stripe-buy-button>
+          {stripeConfig.publishableKeyId && (
+            <stripe-buy-button
+              buy-button-id={stripeConfig.buttonId || buttonId}
+              publishable-key={stripeConfig.publishableKeyId}
+              customer-email={accountEmail}
+              client-reference-id={accountId}
+              data-umami-event="pro-checkout"
+            >
+            </stripe-buy-button>
+          )}
         </div>
       </div>
       <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">You can also support Lift Oracle by:</p>
