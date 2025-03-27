@@ -106,7 +106,7 @@ const About = () => {
           <li>🏗️ & many more to come...</li>
         </ul>
         <div>
-          {stripeConfig.publishableKeyId && (
+          {stripeConfig && stripeConfig.publishableKeyId && stripeConfig.buttonId && (
             <stripe-buy-button
               buy-button-id={stripeConfig.buttonId || buttonId}
               publishable-key={stripeConfig.publishableKeyId}
