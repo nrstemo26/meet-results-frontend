@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { tagOptions } from '../../config/tagOptions';
 import { baseUrl } from '../../config';
 import { MbSpinnerGradient } from '../../pages/Spinners/MbSpinnerGradient';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
 const customSelectStyles = {
   control: (provided, state) => ({
@@ -37,6 +38,7 @@ const customSelectStyles = {
 };
 
 const AddGym = ({ closeModal }) => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [placeDetails, setPlaceDetails] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [dropInFee, setDropInFee] = useState('');
@@ -99,7 +101,19 @@ const AddGym = ({ closeModal }) => {
       setInstagram(gymDetails.instagram || '');
       setGymType(gymDetails.gymType || '');
       setUsawClub(gymDetails.usawClub || false);
-      setSelectedTags(gymDetails.tags || []);
+      
+      // Convert the tags array from strings to objects using tagOptions
+      const formattedTags = Array.isArray(gymDetails.tags) ? 
+        gymDetails.tags.map(tagValue => {
+          // Find the matching tag option with the full label
+          const match = tagOptions.find(option => option.value === tagValue);
+          return match || { value: tagValue, label: tagValue };
+        }) : [];
+      
+      console.log('Original tags:', gymDetails.tags);
+      console.log('Formatted tags for select:', formattedTags);
+      
+      setSelectedTags(formattedTags);
       setIsExistingGym(true);
     } catch (error) {
       console.error('Error fetching gym details:', error);
@@ -152,25 +166,93 @@ const AddGym = ({ closeModal }) => {
     
     setIsSubmitting(true);
     
-    const gymDetails = {
-      ...placeDetails,
-      dropInFee,
-      monthlyRate,
-      website: website.startsWith('http') ? website : `https://${website}`,
-      email,
-      instagram: instagram.startsWith('@') ? instagram.substring(1) : instagram,
-      gymType,
-      usawClub,
-      tags: selectedTags.map(tag => tag.value)
-    };
+    // Check if recaptcha is available
+    if (!executeRecaptcha) {
+      toast.error('reCAPTCHA not available. Please try again later.');
+      console.error('executeRecaptcha is not available', executeRecaptcha);
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
-      const response = await axios.post(`${baseUrl}/v1/gymfinder/gym-form-submit`, gymDetails);
+      console.log('Executing reCAPTCHA verification...');
+      
+      // Execute recaptcha with a timeout to prevent hanging
+      const recaptchaPromise = executeRecaptcha('gym_submission');
+      
+      // Add a timeout to handle potential issues
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('reCAPTCHA verification timed out')), 10000)
+      );
+      
+      // Race the promises to handle timeouts
+      const recaptchaToken = await Promise.race([recaptchaPromise, timeoutPromise]);
+      
+      if (!recaptchaToken) {
+        console.error('Failed to get reCAPTCHA token - token is empty');
+        toast.error('Failed to verify you are human. Please try again later.');
+        setIsSubmitting(false);
+        return;
+      }
+      
+      console.log('reCAPTCHA token obtained successfully:', recaptchaToken.substring(0, 10) + '...');
+      
+      // Get authentication token
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        toast.error('Please log in to add or update gym information');
+        closeModal();
+        // Redirect to login page
+        window.location.href = '/login?redirect=gymfinder';
+        return;
+      }
+      
+      const gymDetails = {
+        ...placeDetails,
+        dropInFee,
+        monthlyRate,
+        website: website.startsWith('http') ? website : `https://${website}`,
+        email,
+        instagram: instagram.startsWith('@') ? instagram.substring(1) : instagram,
+        gymType,
+        usawClub,
+        tags: selectedTags && selectedTags.length ? 
+          selectedTags.map(tag => (typeof tag === 'string' ? tag : tag?.value)).filter(Boolean) : 
+          [],
+        recaptchaToken // Include the reCAPTCHA token
+      };
+      
+      console.log('Submitting gym details with reCAPTCHA token', {
+        ...gymDetails,
+        recaptchaToken: gymDetails.recaptchaToken ? 'Token present' : 'Token missing'
+      });
+      
+      // Create credentials for Basic Auth
+      const credentials = btoa(`${token}:unused`);
+      
+      const response = await axios.post(`${baseUrl}/v1/gymfinder/gym-form-submit`, gymDetails, {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        }
+      });
+      
       toast.success(response.data.message || 'Gym added successfully!');
       closeModal();
     } catch (error) {
       const errorMessage = error.response?.data?.error || 'Error saving gym. Please try again.';
-      toast.error(errorMessage);
+      console.error('Error details:', error.response?.data);
+      
+      // Handle different types of errors
+      if (error.message === 'reCAPTCHA verification timed out') {
+        toast.error('reCAPTCHA verification timed out. Please try again.');
+      } else if (error.name === 'TypeError' && error.message.includes('executeRecaptcha')) {
+        toast.error('reCAPTCHA service is not responding. Please refresh the page and try again.');
+      } else if (errorMessage.includes('reCAPTCHA')) {
+        toast.error(`reCAPTCHA verification failed. Please try again. (Details: ${errorMessage})`);
+      } else {
+        toast.error(errorMessage);
+      }
       console.error('Error saving gym:', error);
     } finally {
       setIsSubmitting(false);

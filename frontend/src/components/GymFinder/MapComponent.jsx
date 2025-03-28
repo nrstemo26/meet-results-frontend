@@ -25,7 +25,13 @@ const debounce = (func, delay) => {
 
 const defaultCenter = { latitude: 43.034538, longitude: -87.9328348 };
 
-const MapComponent = ({ cityName }) => {
+const MapComponent = ({ cityName, viewMode, setViewMode }) => {
+    // Diagnostic logging - Component mount/render
+    console.log(`[DIAGNOSTIC] MapComponent RENDER: cityName=${cityName}, viewMode=${viewMode}`);
+    
+    // Use a key derived from cityName to force component remount when city changes
+    // This can be set in the parent component
+    
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [markers, setMarkers] = useState([]);
     const [lastBounds, setLastBounds] = useState(null);
@@ -44,7 +50,8 @@ const MapComponent = ({ cityName }) => {
         maxDropInRate: 50
     });
     const [loading, setLoading] = useState(true);
-    const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
+    // Use props instead of internal state for viewMode
+    // const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
     const [isMobileFilterVisible, setIsMobileFilterVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -60,6 +67,49 @@ const MapComponent = ({ cityName }) => {
 
     // Add a state to track if the user has manually interacted with the map
     const [userHasInteracted, setUserHasInteracted] = useState(false);
+    
+    // Generate a unique instance ID for this component instance
+    const instanceId = useRef(`map-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`);
+    
+    // Log component mount/unmount
+    useEffect(() => {
+        console.log(`[DIAGNOSTIC] MapComponent MOUNTED: instanceId=${instanceId.current}, cityName=${cityName}`);
+        
+        return () => {
+            console.log(`[DIAGNOSTIC] MapComponent UNMOUNTING: instanceId=${instanceId.current}, cityName=${cityName}`);
+        };
+    }, []);
+    
+    // Reset component state on mount - this helps with browser session persistence issues
+    useEffect(() => {
+        setSelectedMarker(null);
+        setUserHasInteracted(false);
+        console.log(`[DIAGNOSTIC] Reset state on mount: instanceId=${instanceId.current}`);
+    }, []);
+
+    // Close the selected marker when cityName changes
+    useEffect(() => {
+        console.log(`[DIAGNOSTIC] cityName CHANGED to: ${cityName}, selectedMarker=${selectedMarker ? 'exists' : 'null'}`);
+        
+        // Force reset key state values when city changes
+        setSelectedMarker(null);
+        setUserHasInteracted(false);
+        
+        // Ensure map is in view when city changes, especially on mobile
+        if (cityName) {
+            setTimeout(() => {
+                try {
+                    const mapContainer = document.querySelector('.flex-grow.relative');
+                    if (mapContainer) {
+                        mapContainer.scrollIntoView({ behavior: 'smooth' });
+                        console.log(`[DIAGNOSTIC] Scrolled map into view for city: ${cityName}`);
+                    }
+                } catch (error) {
+                    console.error('Error scrolling map into view:', error);
+                }
+            }, 200);
+        }
+    }, [cityName]);
 
     useEffect(() => {
         const fetchCityInfo = async () => {
@@ -232,6 +282,7 @@ const MapComponent = ({ cityName }) => {
     );
 
     const handleMarkerClick = useCallback(async (marker) => {
+        console.log(`[DIAGNOSTIC] Marker clicked: ${marker.name}, instanceId=${instanceId.current}`);
         const placeDetails = await fetchPlaceDetails(marker.placeId);
         
         // On mobile, when a marker is selected in list view, switch to map view 
@@ -257,7 +308,9 @@ const MapComponent = ({ cityName }) => {
     };
 
     const toggleViewMode = () => {
-        setViewMode(viewMode === 'map' ? 'list' : 'map');
+        const newMode = viewMode === 'map' ? 'list' : 'map';
+        console.log(`[DIAGNOSTIC] toggleViewMode called: ${viewMode} -> ${newMode}, instanceId=${instanceId.current}`);
+        setViewMode(newMode);
     };
 
     const toggleMobileFilter = () => {
@@ -412,6 +465,16 @@ const MapComponent = ({ cityName }) => {
     const handleZoomChanged = useCallback(() => {
         setUserHasInteracted(true);
     }, []);
+
+    // Add a useEffect to track selectedMarker changes
+    useEffect(() => {
+        console.log(`[DIAGNOSTIC] selectedMarker CHANGED: ${selectedMarker ? selectedMarker.name : 'null'}, instanceId=${instanceId.current}`);
+    }, [selectedMarker]);
+    
+    // Track viewMode changes
+    useEffect(() => {
+        console.log(`[DIAGNOSTIC] viewMode CHANGED to: ${viewMode}, instanceId=${instanceId.current}`);
+    }, [viewMode]);
 
     return (
         <div className="flex flex-col md:flex-row h-[80vh] w-full rounded-lg overflow-hidden shadow-md">
@@ -634,7 +697,20 @@ const MapComponent = ({ cityName }) => {
                 
                 {/* List View */}
                 {viewMode === 'list' && (
-                    <div className={`h-full overflow-y-auto p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+                    <div 
+                        className={`h-full overflow-y-auto p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
+                        style={{
+                            height: isMobile ? 'calc(80vh - 50px)' : '100%', // Adjust based on header height
+                            overscrollBehavior: 'contain',
+                            WebkitOverflowScrolling: 'touch', // For iOS smooth scrolling
+                            position: 'absolute',
+                            top: isMobileFilterVisible ? '240px' : '50px', // Adjust based on header/filter heights
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            zIndex: 10
+                        }}
+                    >
                         {loading ? (
                             <div className={`h-full flex items-center justify-center flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
                                 <h1 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-primary-950'}`}>Consulting the Oracle...</h1>
