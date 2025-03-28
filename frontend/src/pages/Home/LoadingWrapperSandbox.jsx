@@ -5,6 +5,7 @@ import FeatureRequest from "../../components/Widgets/FeatureRequest"
 import Trending from '../../components/SearchBars/Trending'
 import UpgradeProCard from "../../components/Widgets/ProCard";
 import OracleRatings from "../../components/Widgets/OracleRatings"
+import YearlyTotalsChart from "../../components/Widgets/YearlyTotalsChart" 
 import OracleSleeveless from '../../assets/oracle_sleeveless.png';
 import { FiSearch, FiTrendingUp, FiList, FiBarChart2 } from 'react-icons/fi';
 
@@ -128,6 +129,9 @@ const HomeComponent = ()=>{
                 <div className="flex flex-col lg:flex-row gap-8 py-8">
                     <div className="flex-1">
                         <WrappedComponent isLoading={isLoading} data={data} />
+                        <div className="mt-8">
+                            <YearlyTotalsChart />
+                        </div>
                     </div>
                     <div className="lg:w-80 space-y-6">
                         <div className="sticky top-8">
