@@ -697,7 +697,20 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
                 
                 {/* List View */}
                 {viewMode === 'list' && (
-                    <div className={`h-full overflow-y-auto p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+                    <div 
+                        className={`h-full overflow-y-auto p-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
+                        style={{
+                            height: isMobile ? 'calc(80vh - 50px)' : '100%', // Adjust based on header height
+                            overscrollBehavior: 'contain',
+                            WebkitOverflowScrolling: 'touch', // For iOS smooth scrolling
+                            position: 'absolute',
+                            top: isMobileFilterVisible ? '240px' : '50px', // Adjust based on header/filter heights
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            zIndex: 10
+                        }}
+                    >
                         {loading ? (
                             <div className={`h-full flex items-center justify-center flex-col ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
                                 <h1 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-primary-950'}`}>Consulting the Oracle...</h1>
