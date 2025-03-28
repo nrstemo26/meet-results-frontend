@@ -57,7 +57,7 @@ const MyComponent = ({ data })=>{
                             <h3 className="text-lg font-semibold text-primary-950">Visualize</h3>
                         </div>
                         <p className="text-gray-600">
-                            Competition results database covering 51,000+ athletes & 4,500+ local and national events. Track performance trends across meets and seasons.
+                            Competition results database covering 59,000+ athletes & 4,700+ local and national events. Track performance trends across meets and seasons.
                         </p>
                     </div>
 
