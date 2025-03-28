@@ -1,0 +1,16 @@
+export const tagOptions = [
+    { label: "Can't Drop Weights ❌", value: "cant_drop_weights" },
+    { label: "Exquisite vibes 🤙🏼", value: "exquisite_vibes" },
+    { label: "Nat'l Coach 🧠", value: "national_coach" },
+    { label: "Kilo Plates 🧿", value: "kilo_plates" },
+    { label: "Easy Parking 🅿️", value: "easy_parking" },
+    { label: "Parking Nightmare 🤬", value: "nightmare_parking" },
+    { label: "Showers 🚿", value: "showers" },
+    { label: "n00b Friendly 👶🏼", value: "noob_friendly" },
+    { label: "24/7 🌚🌞", value: "247_access" },
+    { label: "Women's Bars 🏋️‍♀️", value: "womens_bars" },
+    { label: "Pro-chalk ⬜", value: "pro_chalk" },
+    { label: "Snacks 🍿", value: "snacks" },
+    { label: "Jerk Blocks 🧱", value: "jerk_blocks" },
+    { label: "Head Coach 🏅", value: "head_coach" },
+];

@@ -10,14 +10,38 @@
   padding: 0;
 }
 
+/* Google Places Autocomplete fix for modals */
+.pac-container {
+  z-index: 10000 !important;
+  font-family: inherit !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(209, 213, 219, 0.5) !important;
+  margin-top: 2px !important;
+}
+
+.pac-item {
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+}
+
+.pac-item:hover {
+  background-color: #f3f4f6 !important;
+}
+
+.pac-item-selected,
+.pac-item-selected:hover {
+  background-color: #e5e7eb !important;
+}
+
+/* End Google Places Autocomplete styles */
 
 /* how you could style the toasts  */
 /* there has to be a better way than slapping !importants tho */
 /* :root{
   --toastify-color-info: #172554 !important;
 } */
-
-
 
 @layer components{
   .btn { 

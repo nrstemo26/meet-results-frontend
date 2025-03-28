@@ -14,6 +14,7 @@ import ResetRequest from './User/ResetRequest'
 import PasswordReset from './User/PasswordReset'
 import Account from './User/Account'
 import Confirmation from './User/Confirmation'
+import GymFinder from './GymFinder/GymFinder'
 
 import { Home } from '../pages/Home/Home'
 import { Insights } from '../pages/Insights'
@@ -51,6 +52,8 @@ return (
           <Route path="/meet/:id" element={<MeetDashboard/>}/>
           <Route path="/upcoming/:id" element={<UpcomingMeetDashboard/>}/>
           
+          <Route path="/weightlifting-gym-near-me" element={<GymFinder/>}/>
+          <Route path="/weightlifting-gym/:cityName" element={<GymFinder/>} />
 
           <Route path="/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>

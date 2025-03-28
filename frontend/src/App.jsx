@@ -10,6 +10,7 @@ import { updateMetaTags } from './lib/seo_utils';
 import Main from './components/Main';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Widgets/Footer';
+import Announcement from './components/Widgets/Announcement';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -26,7 +27,7 @@ function App() {
       <div className={`${isSidebarOpen ? 'overflow-hidden':""} font-serif h-full `}>
         {/* get rid of is logged in by having the user slice? */}
         <Navbar setIsSidebarOpen={setIsSidebarOpen}  />
-        
+        <Announcement />
         {/* this can get passed props if we need stuff to go from navbar---> main */}
         <Main />
       </div>
