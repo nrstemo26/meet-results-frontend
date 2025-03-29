@@ -20,6 +20,21 @@ const getTagLabel = (tagValue) => {
     return tempDiv.textContent;
 };
 
+// Helper function to format the verification date
+const formatVerificationDate = (timestamp) => {
+    if (!timestamp) return null;
+    
+    const date = new Date(timestamp);
+    // Check if date is valid
+    if (isNaN(date.getTime())) return null;
+    
+    return date.toLocaleDateString(undefined, { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+    });
+};
+
 const MarkerCard = ({ marker, isMobile }) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     
@@ -53,8 +68,29 @@ const MarkerCard = ({ marker, isMobile }) => {
         rating: sanitizeNumber(marker.rating, 0),
         gymType: sanitizeText(marker.gymType, 'Other'),
         usawClub: !!marker.usawClub,
-        tags: Array.isArray(marker.tags) ? marker.tags : []
+        tags: Array.isArray(marker.tags) ? marker.tags : [],
+        created: marker.created || null,
+        updated: marker.updated || null
+
     };
+
+    // Determine verification status
+    const createdDate = safeMarker.created ? new Date(safeMarker.created) : null;
+    const updatedDate = safeMarker.updated ? new Date(safeMarker.updated) : null;
+    
+    // Get the most recent timestamp
+    let verificationDate = null;
+    if (createdDate && updatedDate) {
+        verificationDate = createdDate > updatedDate ? createdDate : updatedDate;
+    } else if (createdDate) {
+        verificationDate = createdDate;
+    } else if (updatedDate) {
+        verificationDate = updatedDate;
+    }
+    
+    // Format the verification date
+    const formattedVerificationDate = formatVerificationDate(verificationDate);
+    const isVerified = !!formattedVerificationDate;
     
     const website = safeMarker.website;
     const ctaLink = safeMarker.email ? `mailto:${safeMarker.email}` : website;
@@ -121,14 +157,44 @@ const MarkerCard = ({ marker, isMobile }) => {
             : "bg-primary-950 hover:bg-primary-700"
     } transition-colors shadow-sm`;
 
+    // Define verification badge styles
+    const verificationBadgeClasses = `inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+        isVerified 
+            ? (isDarkMode 
+                ? "bg-blue-900 text-blue-300 ring-1 ring-inset ring-blue-700/30" 
+                : "bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-700/10")
+            : (isDarkMode 
+                ? "bg-yellow-900 text-yellow-300 ring-1 ring-inset ring-yellow-700/30" 
+                : "bg-yellow-50 text-yellow-700 ring-1 ring-inset ring-yellow-700/10")
+    }`;
+
     return (
         <div className={cardClasses}>
             {/* Header */}
             <div className={sectionClasses}>
-                <h2 className={nameTextClasses} 
-                    dangerouslySetInnerHTML={{ __html: safeMarker.name }}></h2>
-                <p className={addressTextClasses}
-                    dangerouslySetInnerHTML={{ __html: safeMarker.address }}></p>
+                <div>
+                    <h2 className={nameTextClasses} 
+                        dangerouslySetInnerHTML={{ __html: safeMarker.name }}></h2>
+                    <p className={addressTextClasses}
+                        dangerouslySetInnerHTML={{ __html: safeMarker.address }}></p>
+                </div>
+                <div className={verificationBadgeClasses}>
+                    {isVerified ? (
+                        <div className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {isMobile ? "Updated" : `Updated: ${formattedVerificationDate}`}
+                        </div>
+                    ) : (
+                        <div className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            Unverified
+                        </div>
+                    )}
+                </div>
             </div>
             
             {/* Price Section */}
