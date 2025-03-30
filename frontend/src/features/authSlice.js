@@ -10,7 +10,7 @@ const storedToken = localStorage.getItem('token');
 
 const initialState = {
   token: storedToken || null,
-  user: null,
+  user: storedToken ? { token: storedToken } : null, // Initialize user if token exists
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -89,7 +89,7 @@ export const verify = createAsyncThunk(
       
       //consider user already logged in
       if(valid){
-        return token;
+        return { token }; // Return token in an object to set user correctly
       }else{
         //token invalid remove from local storage and log user out
         localStorage.removeItem('token');
@@ -138,6 +138,18 @@ export const logout = createAsyncThunk(
         await localStorage.removeItem('token')
     }
 )
+
+// Add a debug helper that's available in the browser console
+if (typeof window !== 'undefined') {
+  window.debugLiftOracleAuth = () => {
+    const token = localStorage.getItem('token');
+    return {
+      tokenInLocalStorage: !!token,
+      tokenLength: token ? token.length : 0,
+      tokenFirstChars: token ? token.substring(0, 5) + '...' : 'none'
+    };
+  };
+}
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -188,7 +200,8 @@ export const authSlice = createSlice({
       .addCase(verify.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.token = action.payload
+        state.token = action.payload.token
+        state.user = action.payload // Set user with token to display Account/Logout
       })
       .addCase(verify.rejected, (state, action) => {
         state.isLoading = false

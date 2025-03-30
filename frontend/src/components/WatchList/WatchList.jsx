@@ -27,8 +27,7 @@ function WatchList(){
     }
   }, [user, dispatch]); // Run the effect when 'user' changes
    
-    const handleExport = () => {
-
+    const handleExport = async () => {
       if (!isSubscribed) {
         toast(
           <>
@@ -41,37 +40,58 @@ function WatchList(){
         );
         return; // User is not subscribed
       }
-
       
-      const token = localStorage.getItem('token');
-      // const token = localStorage.getItem('user');
-      const credentials = btoa(`${token}:unused`);
-
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', `${baseUrl}/v1/export`);
-      xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.responseType = 'blob';
-  
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          const contentDisposition = xhr.getResponseHeader('Content-Disposition');
-          const filename = getFilenameFromContentDisposition(contentDisposition);
-          const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          saveAs(blob, filename);
+      try {
+        const token = localStorage.getItem('token');
+        const credentials = btoa(`${token}:unused`);
+        
+        const response = await axios({
+          method: 'POST',
+          url: `${baseUrl}/v1/export`,
+          headers: {
+            'Authorization': `Basic ${credentials}`,
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          data: { athletes: WatchListAthletes },
+          responseType: 'blob'
+        });
+        
+        // Get filename from content-disposition header
+        const contentDisposition = response.headers['content-disposition'];
+        const filename = getFilenameFromContentDisposition(contentDisposition) || 'watchlist.xlsx';
+        
+        // Create a blob and save the file
+        const blob = new Blob([response.data], { 
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+        });
+        saveAs(blob, filename);
+        
+        toast('Watchlist exported successfully!', { type: 'success' });
+      } catch (error) {
+        console.error('Export failed:', error);
+        let errorMessage = 'Failed to export watchlist.';
+        
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error('Response data:', error.response.data);
+          console.error('Response status:', error.response.status);
+          console.error('Response headers:', error.response.headers);
+          
+          errorMessage = `Export failed with status ${error.response.status}`;
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error('Request made but no response received:', error.request);
+          errorMessage = 'No response received from server. Check your network connection.';
         } else {
-          console.error(xhr.statusText);
-          // Handle the error
+          // Something happened in setting up the request that triggered an Error
+          console.error('Error setting up request:', error.message);
+          errorMessage = error.message;
         }
-      };
-  
-      xhr.onerror = function () {
-        console.error('Request failed');
-        // Handle the error
-      };
-  
-      xhr.send(JSON.stringify({ athletes: WatchListAthletes }));
-      
+        
+        toast(errorMessage, { type: 'error' });
+      }
     };
     
     const getFilenameFromContentDisposition = (contentDisposition) => {

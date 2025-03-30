@@ -72,7 +72,7 @@ const UserGym = () => {
             You haven't set your home gym yet. Find a gym in GymFinder and click "I train here!"
           </p>
           <Link 
-            to="/gymfinder" 
+            to="/weightlifting-gym-near-me" 
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-950 hover:bg-primary-700"
           >
             Find a Gym
@@ -127,7 +127,7 @@ const UserGym = () => {
           
           {userGym.athlete_count > 0 && (
             <div className="mt-3 text-sm text-gray-600">
-              {userGym.athlete_count} {userGym.athlete_count === 1 ? 'athlete' : 'athletes'} train here
+              {userGym.athlete_count} {userGym.athlete_count === 1 ? 'user' : 'users'} trains here
             </div>
           )}
         </div>
