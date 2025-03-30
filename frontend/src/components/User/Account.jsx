@@ -9,7 +9,7 @@ import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
 import { rankToTitle } from '../../lib/account_utils';
 import OracleRatings from '../Widgets/OracleRatings';
-
+import UserGym from './UserGym';
 
 const Account = () => {
   const user = useSelector((state)=> state.auth.user)
@@ -294,6 +294,11 @@ const Account = () => {
             {showWatchlists && watchlistData.length === 0 && (
               <p className="text-gray-700">You have no saved watchlists.</p>
             )}
+            
+            <div className="mt-8 border-t pt-6">
+              <UserGym />
+            </div>
+            
             <div className="mt-8">
               <OracleRatings />
             </div>
