@@ -193,6 +193,9 @@ const Account = () => {
                 </>
               )}
             </div>
+            <div className="">
+              <UserGym />
+            </div>
             <div className="flex flex-col">
               {accountData.pro ? (
                 <>
@@ -295,9 +298,9 @@ const Account = () => {
               <p className="text-gray-700">You have no saved watchlists.</p>
             )}
             
-            <div className="mt-8 border-t pt-6">
+            {/* <div className="mt-8 border-t pt-6">
               <UserGym />
-            </div>
+            </div> */}
             
             <div className="mt-8">
               <OracleRatings />

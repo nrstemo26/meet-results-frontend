@@ -63,8 +63,8 @@ const UserGym = () => {
   }
 
   return (
-    <div className="mt-6">
-      <h2 className="text-xl font-semibold mb-4">My Home Gym</h2>
+    <div className="">
+      <h2 className="text-xl text-primary-950 font-bold mb-4">My Home Gym:</h2>
       
       {!userGym ? (
         <div>
@@ -82,7 +82,21 @@ const UserGym = () => {
         <div className="border rounded-lg p-4 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="font-medium text-lg">{userGym.name}</h3>
+              {/* <h3 className="font-medium text-lg">{userGym.name}</h3> */}
+              {userGym.website ? (
+                <a 
+                  href={userGym.website} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-950 font-semibold text-lg"
+                >
+                  {userGym.name}
+                </a>
+              ) : (
+                <h3 className="font-semibold text-primary-950 text-lg">
+                  {userGym.name}
+                </h3>
+              )}
               <p className="text-sm text-gray-600">{userGym.address}</p>
             </div>
             <button 
@@ -92,38 +106,6 @@ const UserGym = () => {
               Remove Gym
             </button>
           </div>
-          
-          <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-            <div>
-              <span className="text-gray-500">Drop-in Fee:</span> ${userGym.drop_in_fee}
-            </div>
-            <div>
-              <span className="text-gray-500">Monthly Rate:</span> ${userGym.monthly_rate}
-            </div>
-            {userGym.gym_type && (
-              <div>
-                <span className="text-gray-500">Type:</span> {userGym.gym_type}
-              </div>
-            )}
-            {userGym.usaw_club && (
-              <div>
-                <span className="text-gray-500">USAW Club:</span> Yes
-              </div>
-            )}
-          </div>
-          
-          {userGym.website && (
-            <div className="mt-3">
-              <a 
-                href={userGym.website} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 text-sm underline"
-              >
-                Visit Website
-              </a>
-            </div>
-          )}
           
           {userGym.athlete_count > 0 && (
             <div className="mt-3 text-sm text-gray-600">
