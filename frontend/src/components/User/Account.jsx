@@ -9,6 +9,7 @@ import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
 import { rankToTitle } from '../../lib/account_utils';
 import OracleRatings from '../Widgets/OracleRatings';
+import UserGym from './UserGym';
 
 const Account = () => {
   const user = useSelector((state)=> state.auth.user)
