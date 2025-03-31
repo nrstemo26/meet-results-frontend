@@ -127,12 +127,12 @@ const HomeComponent = ()=>{
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col lg:flex-row gap-8 py-8">
-                    <div className="flex-1">
+                    {/* <div className="flex-1">
                         <WrappedComponent isLoading={isLoading} data={data} />
                         <div className="mt-8">
                             <YearlyTotalsChart />
                         </div>
-                    </div>
+                    </div> */}
                     <div className="lg:w-80 space-y-6">
                         <div className="sticky top-8">
                             <Trending />
