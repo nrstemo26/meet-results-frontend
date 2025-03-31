@@ -64,7 +64,7 @@ const UserGym = () => {
 
   return (
     <div className="">
-      <h2 className="text-xl text-primary-950 font-bold mb-4">My Home Gym:</h2>
+      <h2 className="lg:text-xl text-primary-950 font-bold mb-4">My Home Gym:</h2>
       
       {!userGym ? (
         <div>
@@ -88,7 +88,7 @@ const UserGym = () => {
                   href={userGym.website} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-950 font-semibold text-lg"
+                  className="text-blue-400 hover:text-blue-950 font-semibold lg:text-lg"
                 >
                   {userGym.name}
                 </a>

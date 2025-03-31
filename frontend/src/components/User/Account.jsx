@@ -166,7 +166,7 @@ const Account = () => {
             </div>
             <div className="flex items-center">
               <p className="lg:text-xl text-primary-950 font-bold mr-2">🧙‍♂️ Oracle Rating:</p>
-              <span role="img" aria-label="Bearded Wizard" className="text-l">
+              <span role="img" aria-label="Bearded Wizard" className="text-base">
                 {accountData.rank} 
               </span>
               <span className="ml-2 px-2 py-1 bg-primary-100 text-primary-950 text-xs font-bold rounded">
@@ -185,11 +185,11 @@ const Account = () => {
               </p>
               {accountData.pro ? (
                 <>
-                  <span className="text-primary-950 text-m mr-2">Pro</span>
+                  <span className="text-primary-950 text-base mr-2">Pro</span>
                 </>
               ) : (
                 <>
-                  <span className="text-primary-950 text-md">Free</span>
+                  <span className="text-primary-950 text-base">Free</span>
                 </>
               )}
             </div>
