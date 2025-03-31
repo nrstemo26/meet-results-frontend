@@ -9,7 +9,7 @@ import { baseUrl } from '../../config';
 import { useSelector } from 'react-redux';
 import { rankToTitle } from '../../lib/account_utils';
 import OracleRatings from '../Widgets/OracleRatings';
-
+import UserGym from './UserGym';
 
 const Account = () => {
   const user = useSelector((state)=> state.auth.user)
@@ -166,7 +166,7 @@ const Account = () => {
             </div>
             <div className="flex items-center">
               <p className="lg:text-xl text-primary-950 font-bold mr-2">🧙‍♂️ Oracle Rating:</p>
-              <span role="img" aria-label="Bearded Wizard" className="text-l">
+              <span role="img" aria-label="Bearded Wizard" className="text-base">
                 {accountData.rank} 
               </span>
               <span className="ml-2 px-2 py-1 bg-primary-100 text-primary-950 text-xs font-bold rounded">
@@ -185,13 +185,16 @@ const Account = () => {
               </p>
               {accountData.pro ? (
                 <>
-                  <span className="text-primary-950 text-m mr-2">Pro</span>
+                  <span className="text-primary-950 text-base mr-2">Pro</span>
                 </>
               ) : (
                 <>
-                  <span className="text-primary-950 text-md">Free</span>
+                  <span className="text-primary-950 text-base">Free</span>
                 </>
               )}
+            </div>
+            <div className="">
+              <UserGym />
             </div>
             <div className="flex flex-col">
               {accountData.pro ? (
@@ -294,6 +297,11 @@ const Account = () => {
             {showWatchlists && watchlistData.length === 0 && (
               <p className="text-gray-700">You have no saved watchlists.</p>
             )}
+            
+            {/* <div className="mt-8 border-t pt-6">
+              <UserGym />
+            </div> */}
+            
             <div className="mt-8">
               <OracleRatings />
             </div>

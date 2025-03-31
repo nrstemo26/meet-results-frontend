@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { tagOptions } from '../../config/tagOptions';
 import { sanitizeText, sanitizeUrl, sanitizeEmail, sanitizeNumber, sanitizeStyle } from '../../utils/sanitize';
+import axios from 'axios';
+import { baseUrl } from '../../config';
 
 // Helper function to get tag label from value
 const getTagLabel = (tagValue) => {
@@ -37,6 +39,8 @@ const formatVerificationDate = (timestamp) => {
 
 const MarkerCard = ({ marker, isMobile }) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isAssociating, setIsAssociating] = useState(false);
+    const [associationError, setAssociationError] = useState(null);
     
     // Listen for theme changes
     useEffect(() => {
@@ -58,6 +62,7 @@ const MarkerCard = ({ marker, isMobile }) => {
     
     // Sanitize all marker data
     const safeMarker = {
+        id: marker.id || 0,
         name: sanitizeText(marker.name, 'Unknown Gym'),
         address: sanitizeText(marker.address, 'No address available'),
         website: marker.website ? sanitizeUrl(marker.website, '#') : '#',
@@ -70,8 +75,59 @@ const MarkerCard = ({ marker, isMobile }) => {
         usawClub: !!marker.usawClub,
         tags: Array.isArray(marker.tags) ? marker.tags : [],
         created: marker.created || null,
-        updated: marker.updated || null
+        updated: marker.updated || null,
+        isUserGym: !!marker.isUserGym,
+        athleteCount: marker.athleteCount || 0
+    };
 
+    // Function to handle the "I train here" button click
+    const handleAssociateWithGym = async (e) => {
+        e.stopPropagation(); // Prevent triggering the card click event
+        
+        // Get token from localStorage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // If not logged in, redirect to login page
+            window.location.href = '/login';
+            return;
+        }
+        
+        // Reset any previous errors
+        setAssociationError(null);
+        setIsAssociating(true);
+        
+        try {
+            // Encode the token for Basic Auth
+            const credentials = btoa(`${token}:unused`);
+            
+            // Make the API call to associate with gym
+            const response = await axios.post(
+                `${baseUrl}/v1/user/gym-association`, 
+                { gym_id: safeMarker.id },
+                {
+                    headers: {
+                        'Authorization': `Basic ${credentials}`,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            
+            // Show success (you might want to handle this differently)
+            if (response.status === 200 || response.status === 201) {
+                // Update the UI to show this is now the user's gym
+                // Typically you'd want to refresh the data or update state in a parent component
+                window.location.reload(); // Simple refresh for now
+            }
+        } catch (error) {
+            console.error('Error associating with gym:', error);
+            setAssociationError(
+                error.response?.data?.message || 
+                'Failed to associate with gym. Please try again.'
+            );
+        } finally {
+            setIsAssociating(false);
+        }
     };
 
     // Determine verification status
@@ -96,13 +152,19 @@ const MarkerCard = ({ marker, isMobile }) => {
     const ctaLink = safeMarker.email ? `mailto:${safeMarker.email}` : website;
     const ratingPercentage = safeMarker.rating ? (safeMarker.rating / 5) * 100 : 0;
 
-    // Theme-aware styling
+    // Theme-aware styling with more subtle user gym styling
     const cardClasses = `${isMobile 
         ? "p-3 rounded-lg shadow-sm max-w-full transition-all duration-200 border" 
         : "p-5 rounded-lg shadow-lg max-w-xs transition-all duration-200 border hover:shadow-xl"} ${
         isDarkMode 
             ? "bg-gray-800 border-gray-700 text-white" 
             : "bg-white border-gray-100 text-gray-900"
+    } ${
+        safeMarker.isUserGym 
+            ? isDarkMode 
+                ? "border-l-4 border-l-green-600" 
+                : "border-l-4 border-l-green-500"
+            : ""
     }`;
     
     const sectionClasses = `${isMobile 
@@ -177,6 +239,20 @@ const MarkerCard = ({ marker, isMobile }) => {
                         dangerouslySetInnerHTML={{ __html: safeMarker.name }}></h2>
                     <p className={addressTextClasses}
                         dangerouslySetInnerHTML={{ __html: safeMarker.address }}></p>
+                    
+                    {/* Add user gym indicator with more subtle styling */}
+                    {safeMarker.isUserGym && (
+                        <div className={`mt-1 inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ${
+                            isDarkMode 
+                                ? "bg-gray-700 text-green-300" 
+                                : "bg-gray-50 text-green-700"
+                        }`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            Your Home Gym
+                        </div>
+                    )}
                 </div>
                 <div className={verificationBadgeClasses}>
                     {isVerified ? (
@@ -196,6 +272,20 @@ const MarkerCard = ({ marker, isMobile }) => {
                     )}
                 </div>
             </div>
+            
+            {/* Add athlete count section */}
+            {safeMarker.athleteCount > 0 && (
+                <div className={isMobile ? "mb-2" : "mb-4"}>
+                    <div className="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-2 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span className={`text-sm ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}>
+                            {safeMarker.athleteCount} {safeMarker.athleteCount === 1 ? 'user trains' : 'users train'} here
+                        </span>
+                    </div>
+                </div>
+            )}
             
             {/* Price Section */}
             <div className={isMobile ? "mb-2" : "mb-4"}>
@@ -357,6 +447,45 @@ const MarkerCard = ({ marker, isMobile }) => {
             >
                 {safeMarker.email ? "Contact via Email" : "Visit Website"}
             </a>
+            
+            {/* "I train here" button - only show if not already user's gym */}
+            {!safeMarker.isUserGym && (
+                <button
+                    className={`mt-2 inline-flex items-center justify-center w-full py-${isMobile ? "1" : "1.5"} px-${isMobile ? "2" : "3"} text-sm border rounded-md transition-colors ${
+                        isDarkMode 
+                            ? "border-purple-700 bg-transparent text-purple-400 hover:bg-purple-900" 
+                            : "border-purple-300 bg-transparent text-purple-600 hover:bg-purple-50"
+                    } ${isAssociating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={handleAssociateWithGym}
+                    disabled={isAssociating}
+                >
+                    {isAssociating ? (
+                        <>
+                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Processing...
+                        </>
+                    ) : (
+                        <>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            I train here
+                        </>
+                    )}
+                </button>
+            )}
+            
+            {/* Show error message if any */}
+            {associationError && (
+                <div className={`mt-2 text-xs text-center ${
+                    isDarkMode ? "text-red-400" : "text-red-600"
+                }`}>
+                    {associationError}
+                </div>
+            )}
         </div>
     );
 };

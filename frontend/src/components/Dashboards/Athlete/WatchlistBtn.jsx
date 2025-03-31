@@ -9,6 +9,8 @@ import { TiDownload } from 'react-icons/ti'
 import { useViewport } from "../../../hooks/useViewport";
 import { baseUrl, proLink } from '../../../config';
 import { account } from '../../../features/authSlice'
+import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 
 const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
@@ -28,10 +30,10 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
         if (matches != null && matches[1]) {
           return matches[1].replace(/['"]/g, '');
         }
-        return 'watchlist.xlsx'; // Default filename if unable to extract from header
+        return `${name}_history.xlsx`; // Default filename if unable to extract from header
       };
       
-    const handleExport = () => {
+    const handleExport = async () => {
       if (!isSubscribed) {
         toast(
           <>
@@ -45,34 +47,87 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
         return; // User is not subscribed
       }
 
-      const token = localStorage.getItem('token');
-      const credentials = btoa(`${token}:unused`);
-
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', `${baseUrl}/v1/export`);
-      xhr.setRequestHeader('Authorization', `Basic ${credentials}`);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.responseType = 'blob';
-  
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          const contentDisposition = xhr.getResponseHeader('Content-Disposition');
-          const filename = getFilenameFromContentDisposition(contentDisposition);
-          const blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          saveAs(blob, filename);
+      try {
+        const token = localStorage.getItem('token');
+        const credentials = btoa(`${token}:unused`);
+        
+        const response = await axios({
+          method: 'POST',
+          url: `${baseUrl}/v1/export`,
+          headers: {
+            'Authorization': `Basic ${credentials}`,
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          data: { athlete: name },
+          responseType: 'blob'
+        });
+        
+        // Get filename from content-disposition header
+        const contentDisposition = response.headers['content-disposition'];
+        const filename = getFilenameFromContentDisposition(contentDisposition);
+        
+        // Create a blob and save the file
+        const blob = new Blob([response.data], { 
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+        });
+        
+        // Detect if user is on mobile device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+          // For mobile devices, try to handle download more explicitly
+          try {
+            // First attempt using saveAs from file-saver
+            saveAs(blob, filename);
+            
+            // Fallback to creating a direct download link if needed
+            setTimeout(() => {
+              // Create an invisible download link as fallback
+              const tempLink = document.createElement('a');
+              const tempUrl = window.URL.createObjectURL(blob);
+              
+              tempLink.href = tempUrl;
+              tempLink.download = filename;
+              tempLink.style.display = 'none';
+              document.body.appendChild(tempLink);
+              tempLink.click();
+              
+              // Clean up
+              setTimeout(() => {
+                document.body.removeChild(tempLink);
+                window.URL.revokeObjectURL(tempUrl);
+              }, 100);
+            }, 300); // Small delay to check if saveAs worked
+          } catch (innerError) {
+            console.error('Error in mobile download:', innerError);
+            toast('Download started. Check your downloads folder if not prompted.', { type: 'info' });
+          }
         } else {
-          console.error(xhr.statusText);
-          // Handle the error
+          // For desktop, use standard saveAs
+          saveAs(blob, filename);
         }
-      };
-  
-      xhr.onerror = function () {
-        console.error('Request failed');
-        // Handle the error
-      };
-  
-      xhr.send(JSON.stringify({ athlete: name }));
-      };
+        
+        toast('Athlete data exported successfully!', { type: 'success' });
+      } catch (error) {
+        console.error('Export failed:', error);
+        let errorMessage = 'Failed to export athlete data.';
+        
+        if (error.response) {
+          console.error('Response data:', error.response.data);
+          console.error('Response status:', error.response.status);
+          errorMessage = `Export failed with status ${error.response.status}`;
+        } else if (error.request) {
+          console.error('Request made but no response received:', error.request);
+          errorMessage = 'No response received from server. Check your network connection.';
+        } else {
+          console.error('Error setting up request:', error.message);
+          errorMessage = error.message;
+        }
+        
+        toast(errorMessage, { type: 'error' });
+      }
+    };
     
     return (
     <>
