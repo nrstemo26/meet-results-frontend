@@ -87,8 +87,9 @@ const MarkerCard = ({ marker, isMobile }) => {
         // Get token from localStorage
         const token = localStorage.getItem('token');
         if (!token) {
-            // If not logged in, redirect to login page
-            window.location.href = '/login';
+            // If not logged in, redirect to login page using a different method
+            // Using window.location.replace to avoid adding to browser history
+            window.location.replace('/login');
             return;
         }
         
@@ -121,6 +122,16 @@ const MarkerCard = ({ marker, isMobile }) => {
             }
         } catch (error) {
             console.error('Error associating with gym:', error);
+        
+            // Check if this is an authentication error (401)
+            if (error.response && error.response.status === 401) {
+                // Token might be invalid or expired - redirect to login
+                localStorage.removeItem('token'); // Clear the invalid token
+                window.location.replace('/login');
+                return;
+            }
+            
+            // Handle other errors
             setAssociationError(
                 error.response?.data?.message || 
                 'Failed to associate with gym. Please try again.'
