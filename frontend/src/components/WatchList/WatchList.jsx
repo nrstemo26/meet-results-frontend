@@ -65,7 +65,42 @@ function WatchList(){
         const blob = new Blob([response.data], { 
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
         });
-        saveAs(blob, filename);
+        
+        // Detect if user is on mobile device
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+          // For mobile devices, try to handle download more explicitly
+          try {
+            // First attempt using saveAs from file-saver
+            saveAs(blob, filename);
+            
+            // Fallback to creating a direct download link if needed
+            setTimeout(() => {
+              // Create an invisible download link as fallback
+              const tempLink = document.createElement('a');
+              const tempUrl = window.URL.createObjectURL(blob);
+              
+              tempLink.href = tempUrl;
+              tempLink.download = filename;
+              tempLink.style.display = 'none';
+              document.body.appendChild(tempLink);
+              tempLink.click();
+              
+              // Clean up
+              setTimeout(() => {
+                document.body.removeChild(tempLink);
+                window.URL.revokeObjectURL(tempUrl);
+              }, 100);
+            }, 300); // Small delay to check if saveAs worked
+          } catch (innerError) {
+            console.error('Error in mobile download:', innerError);
+            toast('Download started. Check your downloads folder if not prompted.', { type: 'info' });
+          }
+        } else {
+          // For desktop, use standard saveAs
+          saveAs(blob, filename);
+        }
         
         toast('Watchlist exported successfully!', { type: 'success' });
       } catch (error) {
