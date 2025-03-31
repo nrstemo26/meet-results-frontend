@@ -240,6 +240,10 @@ const Account = () => {
                 </div>
               </div>
             </div>
+            {/* Gym Association */}
+            <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
+              <UserGym />
+            </div>
 
             {/* Watchlists Section */}
             <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
