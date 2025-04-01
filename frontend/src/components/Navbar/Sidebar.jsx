@@ -3,6 +3,7 @@ import { FiX } from "react-icons/fi";
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { FiChevronDown } from 'react-icons/fi';
 
 const Sidebar = ({toggleMenu,  handleLogout}) =>{
   const user = useSelector((state)=> state.auth.user);
@@ -17,7 +18,10 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
     <div className="absolute z-40 top-0 left-0 h-[120vh] w-full m-0 flex flex-col gap-3 bg-white text-black shadow-lg overflow-hidden text-primary-950">
       <FiX className="cursor-pointer self-end mt-4 mr-4" size={30} color= "black" onClick={toggleMenu}/>
       <Link onClick={toggleMenu} to='/'><div className='sidebar-element'>Home</div></Link>
-      <div className='sidebar-element cursor-pointer' onClick={toggleToolsMenu}>Stats + Tools</div>
+      <div className='sidebar-element cursor-pointer flex items-center space-x-1' onClick={toggleToolsMenu}>
+        <span>Stats + Tools</span>
+        <FiChevronDown className={`w-4 h-4 transition-transform duration-200 ${isToolsMenuOpen ? 'transform rotate-180' : ''}`} />
+      </div>
       {isToolsMenuOpen && (
         <div className="ml-4 flex flex-col">
           <Link onClick={toggleMenu} to='/meets'><div className='sidebar-element'>Meets</div></Link>
