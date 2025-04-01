@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify'
@@ -7,10 +7,21 @@ import { BsFillClipboardCheckFill } from 'react-icons/bs';
 import {AiFillPlusCircle as AddCircle} from 'react-icons/ai';
 
 const AthleteDashboard = ({ meetData }) => {
+
   const [gender, setGender] = useState('female');
+  const [isDataReady, setIsDataReady] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const watchlist = useSelector(selectWatchlist);
+
+  // Check if data is ready
+  useEffect(() => {
+    if (meetData && meetData[gender] && meetData[gender].athletes) {
+      setIsDataReady(true);
+    } else {
+      setIsDataReady(false);
+    }
+  }, [meetData, gender]);
 
   // Add athletes to watchlist
   const handleAddToWatchlist = (names, weightClass) => {
@@ -52,8 +63,6 @@ const AthleteDashboard = ({ meetData }) => {
                 <div className="flex justify-between">
                     <p className="text-primary-950 text-lg font-semibold">{athlete.master_lifter_name} </p>
                     <span className="font-mono text-xs align-middlefont-normal"> ({athlete.birth_year}) </span>
-                    {/* <p> {athlete.division}</p> */}
-                    
                 </div>
                 
                 <p className="font-semibold">{athlete.club} ({athlete.state}) </p>
@@ -91,7 +100,10 @@ const AthleteDashboard = ({ meetData }) => {
         Male
       </button>
       <div className="mt-4">
-        {renderAthletesByWeightClass(meetData[gender].athletes)}
+        {isDataReady ? 
+          renderAthletesByWeightClass(meetData[gender].athletes) : 
+          <div>Loading athlete data...</div>
+        }
       </div>
     </div>
   );
