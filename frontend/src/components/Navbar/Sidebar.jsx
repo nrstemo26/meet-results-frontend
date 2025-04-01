@@ -17,7 +17,7 @@ const Sidebar = ({toggleMenu,  handleLogout}) =>{
     <div className="absolute z-40 top-0 left-0 h-[120vh] w-full m-0 flex flex-col gap-3 bg-white text-black shadow-lg overflow-hidden text-primary-950">
       <FiX className="cursor-pointer self-end mt-4 mr-4" size={30} color= "black" onClick={toggleMenu}/>
       <Link onClick={toggleMenu} to='/'><div className='sidebar-element'>Home</div></Link>
-      <div className='sidebar-element cursor-pointer' onClick={toggleToolsMenu}>Start</div>
+      <div className='sidebar-element cursor-pointer' onClick={toggleToolsMenu}>Stats + Tools</div>
       {isToolsMenuOpen && (
         <div className="ml-4 flex flex-col">
           <Link onClick={toggleMenu} to='/meets'><div className='sidebar-element'>Meets</div></Link>

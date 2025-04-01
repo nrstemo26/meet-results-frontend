@@ -55,7 +55,7 @@ function DesktopNav({ handleLogout }) {
             onClick={toggleToolsMenu}
             className="flex items-center space-x-1 text-white hover:text-primary-200 transition-colors"
           >
-            <span>Start</span>
+            <span>Stats</span>
             <FiChevronDown className={`w-4 h-4 transition-transform duration-200 ${isToolsMenuOpen ? 'transform rotate-180' : ''}`} />
           </button>
           

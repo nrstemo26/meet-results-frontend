@@ -53,7 +53,7 @@ return (
           <Route path="/upcoming/:id" element={<UpcomingMeetDashboard/>}/>
           
           <Route path="/weightlifting-gym-near-me" element={<GymFinder/>}/>
-          <Route path="/weightlifting-gym/:cityName" element={<GymFinder/>} />
+          <Route path="/gym/:stateName/:cityName" element={<GymFinder/>} />
 
           <Route path="/insights"  element={<Insights/>}/>
           <Route path="/" element={<Home/>}/>
