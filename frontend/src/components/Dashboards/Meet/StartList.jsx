@@ -65,7 +65,10 @@ const AthleteDashboard = ({ meetData }) => {
                     <span className="font-mono text-xs align-middlefont-normal"> ({athlete.birth_year}) </span>
                 </div>
                 
-                <p className="font-semibold">{athlete.club} ({athlete.state}) </p>
+                <p className="font-semibold">
+                  {athlete.club} 
+                  {athlete.state && `(${athlete.state})`}
+                </p>
                 <div className="grid grid-cols-2">
                     <p className="font-mono font-semibold"><strong className="font-sans font-bold">Entry Total:</strong> {athlete.entry_total}</p>
                     <p className="font-mono font-semibold"><strong className="font-sans font-bold">Max Total:</strong> {athlete.max_total}</p>
