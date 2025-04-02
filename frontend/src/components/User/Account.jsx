@@ -6,13 +6,16 @@ import { FiUser } from 'react-icons/fi'
 import {toast} from 'react-toastify'
 import { updateMetaTags } from '../../lib/seo_utils';
 import { baseUrl } from '../../config';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { rankToTitle } from '../../lib/account_utils';
 import OracleRatings from '../Widgets/OracleRatings';
 import UserGym from './UserGym';
+import { addToWatchlist } from '../../features/watchlistSlice';
 
 const Account = () => {
-  const user = useSelector((state)=> state.auth.user)
+  const user = useSelector((state)=> state.auth.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [accountData, setAccountData] = useState(null);
   const [watchlistData, setWatchlistData] = useState([]);
@@ -24,8 +27,6 @@ const Account = () => {
 
   const pageTitle = 'Account - Lift Oracle';
   const descriptionContent = 'Your Lift Oracle account. Manage subscription, load saved watchlists, track your Oracle Rating, and more.';
-  
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getAccount = async () => {
@@ -74,17 +75,15 @@ const Account = () => {
           },
         });
 
-        setWatchlistData(response.data.data);
-        console.log(response.data);
-        console.log(watchlistData);
+        console.log("Watchlist API Response:", JSON.stringify(response.data, null, 2));
+        setWatchlistData(response.data.data || []);
       } catch (error) {
-        console.error(error);
-        // Handle the error
+        console.error("Error fetching watchlists:", error);
       }
     };
 
     getAccount();
-  }, [navigate]); // Empty dependency array to run the effect only once
+  }, [navigate, user]); // Empty dependency array to run the effect only once
 
   const handleUsernameChange = async (e) => {
     e.preventDefault();
@@ -113,7 +112,7 @@ const Account = () => {
     setShowWatchlists(!showWatchlists);
   };
 
-  const handleDelete = (watchlistId) =>{
+  const handleDelete = (watchlistId) => {
     const updatedWatchlistData = watchlistData.filter(
       (watchlist) => watchlist.watchlist_id !== watchlistId
     );
@@ -128,20 +127,79 @@ const Account = () => {
       },
     })
       .then((response) => {
-        // Handle the successful delete response
-        toast(response.data.message)
+        toast(response.data.message);
       })
       .catch((error) => {
         console.error(error);
-        // Handle the error
       });
-    }
+  };
 
   const handleWatchlistClick = (watchlist) => {
     if (selectedWatchlist === watchlist) {
       setSelectedWatchlist(null);
     } else {
       setSelectedWatchlist(watchlist);
+      
+      // If the watchlist has athletes, fetch its detailed data
+      if (watchlist.athletes && watchlist.athletes.length > 0) {
+        console.log("Athletes already in watchlist data:", watchlist.athletes);
+      } else {
+        // If needed, fetch the detailed watchlist data
+        fetchWatchlistDetails(watchlist.watchlist_id);
+      }
+    }
+  };
+
+  const fetchWatchlistDetails = async (watchlistId) => {
+    const token = localStorage.getItem('token');
+    const credentials = btoa(`${token}:unused`);
+    
+    try {
+      const response = await axios.get(`${baseUrl}/v1/watchlist/${watchlistId}`, {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      });
+      
+      console.log("Watchlist details:", response.data);
+      
+      // Update the watchlist in the state with the detailed data
+      const updatedWatchlists = watchlistData.map(w => 
+        w.watchlist_id === watchlistId 
+          ? { ...w, athletes: response.data.athletes || [] }
+          : w
+      );
+      
+      setWatchlistData(updatedWatchlists);
+      
+      // Update the selected watchlist
+      const updatedWatchlist = updatedWatchlists.find(w => w.watchlist_id === watchlistId);
+      if (updatedWatchlist) {
+        setSelectedWatchlist(updatedWatchlist);
+      }
+    } catch (error) {
+      console.error("Failed to fetch watchlist details:", error);
+      toast.error("Failed to load watchlist details");
+    }
+  };
+  
+  const handleLoadWatchlist = (watchlist) => {
+    // Clear existing watchlist and add all athletes from the selected watchlist
+    if (watchlist.athletes && watchlist.athletes.length > 0) {
+      // First, clear existing watchlist (would need an action for this)
+      // dispatch(clearWatchlist());
+      
+      // Then add each athlete to the watchlist
+      watchlist.athletes.forEach(athlete => {
+        dispatch(addToWatchlist(athlete));
+      });
+      
+      // Navigate to the watchlist page
+      navigate('/watchlist');
+      
+      toast.success(`Loaded watchlist: ${watchlist.watchlist_name || 'Unnamed Watchlist'}`);
+    } else {
+      toast.info("This watchlist doesn't contain any athletes");
     }
   };
 
@@ -259,28 +317,62 @@ const Account = () => {
               
               {showWatchlists && (
                 <div className="space-y-4">
-                  {watchlistData.map((watchlist) => (
-                    <div
-                      key={watchlist.watchlist_id}
-                      className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div
-                          className="flex-1 cursor-pointer"
-                          onClick={() => handleWatchlistClick(watchlist)}
-                        >
-                          <h4 className="font-medium text-primary-950">{watchlist.name}</h4>
-                          <p className="text-sm text-gray-600">{watchlist.description}</p>
+                  {watchlistData.length === 0 ? (
+                    <p className="text-gray-500 italic">No watchlists found.</p>
+                  ) : (
+                    watchlistData.map((watchlist) => (
+                      <div
+                        key={watchlist.watchlist_id}
+                        className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div
+                            className="flex-1 cursor-pointer"
+                            onClick={() => handleWatchlistClick(watchlist)}
+                          >
+                            <h4 className="font-medium text-primary-950">
+                              {watchlist.watchlist_name || "Unnamed Watchlist"}
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              Created: {watchlist.created_on || "Unknown date"}
+                            </p>
+                            
+                            {/* Display athletes if available */}
+                            {watchlist.athletes && watchlist.athletes.length > 0 && (
+                              <div className="mt-2">
+                                <p className="text-xs text-gray-500">Athletes:</p>
+                                <ul className="text-sm text-gray-600 ml-4">
+                                  {watchlist.athletes.map((athlete, index) => (
+                                    <li key={index}>{athlete}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => handleDelete(watchlist.watchlist_id)}
+                            className="text-red-400 hover:text-red-600"
+                          >
+                            <TiDeleteOutline className="w-5 h-5" />
+                          </button>
                         </div>
-                        <button
-                          onClick={() => handleDelete(watchlist.watchlist_id)}
-                          className="text-red-400 hover:text-red-600"
-                        >
-                          <TiDeleteOutline className="w-5 h-5" />
-                        </button>
+                        
+                        {/* Display additional details when selected */}
+                        {selectedWatchlist === watchlist && (
+                          <div className="mt-4 pt-4 border-t border-gray-200">
+                            <div className="mt-2 flex justify-end space-x-2">
+                              <button
+                                onClick={() => handleLoadWatchlist(watchlist)}
+                                className="px-3 py-1 bg-primary-500 text-white rounded text-sm hover:bg-primary-600"
+                              >
+                                Load into Watchlist
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               )}
             </div>
