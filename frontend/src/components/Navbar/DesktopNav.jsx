@@ -19,6 +19,10 @@ function DesktopNav({ handleLogout }) {
     }
   };
 
+  const handleMenuItemClick = () => {
+    setIsToolsMenuOpen(false);
+  };
+
   useEffect(() => {
     if (isToolsMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);

@@ -174,7 +174,7 @@ const CityLinksByState = () => {
                       .map((city) => (
                         <li key={city.city} className="text-sm">
                           <Link
-                            to={`/gym/${state.toLowerCase()}/${city.city.toLowerCase()}`}
+                            to={`/gyms/${state.toLowerCase()}/${city.city}`}
                             className="text-blue-600 hover:text-blue-800 hover:underline transition-colors block py-1"
                             onClick={(e) => {
                               console.log(`[DIAGNOSTIC] City link clicked: ${city.city}`);
