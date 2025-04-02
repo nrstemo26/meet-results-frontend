@@ -11,6 +11,7 @@ import { rankToTitle } from '../../lib/account_utils';
 import OracleRatings from '../Widgets/OracleRatings';
 import UserGym from './UserGym';
 import { addToWatchlist } from '../../features/watchlistSlice';
+import FeatureRequest from "../../components/Widgets/FeatureRequest"
 
 const Account = () => {
   const user = useSelector((state)=> state.auth.user);
@@ -415,6 +416,9 @@ const Account = () => {
                   >
                     Reset Password
                   </Link>
+                </div>
+                <div className="mt-2">
+                    <FeatureRequest />
                 </div>
               </div>
             </div>

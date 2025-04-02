@@ -100,7 +100,7 @@ const MyComponent = ({ data })=>{
                 </div>
             </div>
 
-            <div className="mt-8 p-4">
+            <div className="mt-8 p-6">
                 <FeatureRequest />
             </div>
         </div>
