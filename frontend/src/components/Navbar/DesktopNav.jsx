@@ -73,6 +73,7 @@ function DesktopNav({ handleLogout }) {
                 key={item.to}
                 to={item.to}
                 className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors"
+                onClick={handleMenuItemClick}
               >
                 <span className="text-gray-400 group-hover:text-primary-500">{item.icon}</span>
                 <span>{item.label}</span>
