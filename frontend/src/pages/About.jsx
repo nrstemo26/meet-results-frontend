@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { baseUrl, coffeeLink, buttonId, fetchStripeConfig } from '../config'
 import { updateMetaTags } from '../lib/seo_utils';
 import axios from 'axios';
-import { FiUsers, FiTrendingUp, FiList, FiBarChart2, FiSearch, FiCoffee, FiShoppingBag, FiMail, FiShare2 } from 'react-icons/fi';
+import { FiUsers, FiTrendingUp, FiList, FiBarChart2, FiSearch, FiCoffee, FiShoppingBag, FiMail, FiInstagram, FiShare2 } from 'react-icons/fi';
 import IntermediateCheckoutStep from '../components/Widgets/IntermediateCheckoutStep';
 
 const apiUrl = baseUrl+'/v1/'
@@ -244,7 +244,7 @@ const About = () => {
             </div>
             <div>
               <h3 className="font-semibold text-primary-950 mb-2">Shop Gear</h3>
-              <p className="text-primary-800">Visit the <a className="text-primary-600 hover:text-primary-700" href="https://milwaukeebarbell.com/gear">Milwaukee Barbell Gear Shop</a></p>
+              <p className="text-primary-800"><a className="text-primary-600 hover:text-primary-700" href="https://milwaukeebarbell.com/collections/all">Pillage the Milwaukee Barbell Gear Shop</a></p>
             </div>
           </div>
           <div className="flex items-start space-x-4">
@@ -264,20 +264,20 @@ const About = () => {
           </div>
           <div className="flex items-start space-x-4">
             <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
-              <FiMail className="w-6 h-6 text-primary-600" />
+              <FiInstagram className="w-6 h-6 text-primary-600" />
             </div>
-            {/* <div>
-              <h3 className="font-semibold text-primary-950 mb-2">Newsletter</h3>
-              <p className="text-primary-800">Subscribe to <a className="text-primary-600 hover:text-primary-700" href="https://milwaukeebarbell.com/links">Five Lift Friday</a></p>
-            </div> */}
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Follow Lift Oracle</h3>
+              <p className="text-primary-800"><a className="text-primary-600 hover:text-primary-700" href="https://instagram.com/liftoracle">Updates from the devs</a></p>
+            </div>
           </div>
           <div className="flex items-start space-x-4">
             <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
-              <FiShare2 className="w-6 h-6 text-primary-600" />
+              <FiInstagram className="w-6 h-6 text-primary-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-primary-950 mb-2">Follow Us</h3>
-              <p className="text-primary-800">Connect with Lift Oracle & Milwaukee Barbell</p>
+              <h3 className="font-semibold text-primary-950 mb-2">Follow Milwaukee Barbell</h3>
+              <p className="text-primary-800"><a className="text-primary-600 hover:text-primary-700" href="https://instagram.com/mkebarbell">Proud Purveyors of the Barbell Lifestyle</a></p>
             </div>
           </div>
         </div>
