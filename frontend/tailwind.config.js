@@ -1,5 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require('tailwindcss/colors')
+const defaultColors = require('tailwindcss/colors')
+
+// Remove deprecated color references
+const { 
+  lightBlue, warmGray, trueGray, coolGray, blueGray, 
+  ...colors 
+} = defaultColors
 
 export default {
   content: [

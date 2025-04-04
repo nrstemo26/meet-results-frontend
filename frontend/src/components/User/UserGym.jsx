@@ -64,7 +64,7 @@ const UserGym = () => {
 
   return (
     <div className="">
-      <h2 className="lg:text-xl text-primary-950 font-bold mb-4">My Home Gym:</h2>
+      <h2 className="text-xl font-semibold text-primary-950 mb-4">Home Gym</h2>
       
       {!userGym ? (
         <div>

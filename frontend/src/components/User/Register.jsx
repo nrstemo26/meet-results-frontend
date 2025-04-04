@@ -36,7 +36,6 @@ const Register = () => {
       ...userData,
       [property]: e.target.value
     }))
-    
   }
   
   const handleSubmit = async (e) => {
@@ -60,79 +59,74 @@ const Register = () => {
       navigate('/login')
     }
 
-
-    //resets state so we can attempt again and so login can work too
     dispatch(reset())
   },[user, isError, isSuccess, message, navigate, dispatch])
   
   return (
     <div className="flex justify-center items-center h-screen">
       {updateMetaTags(pageTitle, descriptionContent)}
-      <div className="w-full sm:w-auto p-8 bg-white rounded shadow">
+      <div className="w-full sm:w-auto p-8 bg-white rounded-lg shadow-sm">
         <h2 className="text-2xl text-primary-950 font-bold mb-4">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block font-medium mb-1">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
               Username
             </label>
             <input
               type="text"
               id="username"
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              // value={username}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
               value={userData.username}
-              // onChange={(e) => setUsername(e.target.value)}
               onChange={(e) => updateUser(e, 'username')}
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block font-medium mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
               type="email"
               id="email"
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
               value={userData.email}
-              // onChange={(e) => setEmail(e.target.value)}
               onChange={(e) => updateUser(e,'email')}
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block font-medium mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
             <input
               type="password"
               id="password"
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
               value={userData.password}
               onChange={(e) => updateUser(e, 'password')}
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block font-medium mb-1">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
               Confirm Password
             </label>
             <input
               type="password"
               id="confirmPassword"
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
               value={userData.confirmPassword}
               onChange={(e) => updateUser(e, 'confirmPassword')}
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="role" className="block font-medium mb-1">
+            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
               Role
             </label>
             <select
               id="role"
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
               value={userData.role}
               onChange={(e) => updateUser(e, 'role')}
               required
@@ -147,27 +141,27 @@ const Register = () => {
             <input
               type="checkbox"
               id="agreeTerms"
-              className="mr-2"
+              className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
               checked={userData.agreeTerms}
               value={userData.agreeTerms}
               onChange={(e) => updateCheckbox(e)}
               required
             />
-            <label htmlFor="agreeTerms">
+            <label htmlFor="agreeTerms" className="ml-2 text-sm text-gray-700">
               I agree to the terms and conditions
             </label>
           </div>
-          <div className="flex justify-between">
+          <div className="space-y-4">
             <button
               type="submit"
-              className="btn-alt"
+              className="w-full px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
             >
               Register
             </button>
-            <p className="text-center text-gray-600 mt-4 p-2">
+            <p className="text-center text-sm text-gray-600">
               Already registered?{' '}
-              <Link to="/login" className="text-primary-950 hover:text-primary-500">
-                Log in here.
+              <Link to="/login" className="text-primary-500 hover:text-primary-600">
+                Log in here
               </Link>
             </p>
           </div>

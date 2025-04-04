@@ -41,70 +41,80 @@ const Login = () => {
       navigate('/watchlist')
     }
 
-
-    //allows for multiple attempts
     dispatch(reset())
   },[user, isError, isSuccess, message, navigate, dispatch])
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       {updateMetaTags(pageTitle, descriptionContent)}
-      <div className="w-full sm:w-auto p-8 bg-transparent rounded shadow">
-        <h2 className="text-2xl text-primary-950 font-bold mb-4">Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="username" className="block font-medium mb-1">
-              Username or email
-            </label>
-            <input
-              type="username"
-              id="username"
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-primary-950">Welcome back</h2>
+            <p className="mt-2 text-sm text-gray-600">Sign in to your account</p>
           </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block font-medium mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className="flex justify-between mb-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <input
-                type="checkbox"
-                id="rememberMe"
-                className="mr-2"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label htmlFor="rememberMe">Remember Me</label>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                Username or email
+              </label>
+              <div className="mt-1">
+                <input
+                  type="username"
+                  id="username"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-            <Link to="/reset-request" className="text-primary-950 hover:text-primary-500">
-               Forgot your password?
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <div className="mt-1">
+                <input
+                  type="password"
+                  id="password"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary-500 focus:border-primary-500"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label htmlFor="rememberMe" className="ml-2 text-sm text-gray-700">Remember me</label>
+              </div>
+              <Link to="/reset-request" className="text-sm text-primary-500 hover:text-primary-600">
+                Forgot password?
               </Link>
-          </div>
-          <div className="flex justify-between">
-            <button type="submit" className="btn-alt">
-              Login
-            </button>
-            <p className="text-center text-gray-600 mt-4 p-2">
-              Need an account?{' '}
-              <Link to="/register" className="text-primary-950 hover:text-primary-500">
-                Register here.
-              </Link>
-            </p>
-          </div>
-        </form>
+            </div>
+            <div className="space-y-4">
+              <button 
+                type="submit" 
+                className="w-full px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              >
+                Sign in
+              </button>
+              <p className="text-center text-sm text-gray-600">
+                Don't have an account?{' '}
+                <Link to="/register" className="text-primary-500 hover:text-primary-600">
+                  Sign up
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

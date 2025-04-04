@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { account } from '../../features/authSlice';
-import { proLink } from "../../config"
+import { proLink } from "../../config";
+import { showCheckoutStep } from '../../services/checkoutService';
 
 function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro', blur ='blur-sm' }) {
   const user = useSelector((state) => state.auth);
@@ -15,6 +16,19 @@ function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro', 
     // Assuming 'user' holds the user's token or some identifier; adjust according to your state structure
   }, [dispatch, user]);
 
+  const handleUpgradeClick = (e) => {
+    e.preventDefault();
+    
+    // Track the event if analytics are available
+    if (window.umami) {
+      window.umami.track('Upgrade to PRO', { source: 'paywall_overlay' });
+    }
+    
+    // Show the intermediate checkout step
+    showCheckoutStep({
+      source: 'paywall_overlay'
+    });
+  };
   
   const enhancedChildren = isSubscribed 
     ? children 
@@ -33,11 +47,12 @@ function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro', 
           opacity-50
           flex items-center justify-center z-0
           "></div>
-          <a href={proLink} className="z-20">
-            <button className="bg-primary-950 hover:bg-primary-400 text-white font-bold py-2 px-4 rounded">
-              {buttonText}
-            </button>
-          </a>
+          <button 
+            onClick={handleUpgradeClick}
+            className="bg-primary-950 hover:bg-primary-400 text-white font-bold py-2 px-4 rounded z-20"
+          >
+            {buttonText}
+          </button>
         </div>
       )}
     </div>

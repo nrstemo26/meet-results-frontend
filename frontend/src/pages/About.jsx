@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { baseUrl, coffeeLink, buttonId, fetchStripeConfig } from '../config'
 import { updateMetaTags } from '../lib/seo_utils';
 import axios from 'axios';
+import { FiUsers, FiTrendingUp, FiList, FiBarChart2, FiSearch, FiCoffee, FiShoppingBag, FiMail, FiShare2 } from 'react-icons/fi';
+import IntermediateCheckoutStep from '../components/Widgets/IntermediateCheckoutStep';
 
 const apiUrl = baseUrl+'/v1/'
 
@@ -14,12 +16,15 @@ const About = () => {
   const [stripeConfig, setStripeConfig] = useState({
     buttonId: '',
     coffeeLink: '',
+    proLink: '',
     publishableKeyId: ''
   });
-
+  const [showCheckoutStep, setShowCheckoutStep] = useState(false);
+  
   const pageTitle = 'About - Lift Oracle';
   const descriptionContent = 'Lift Oracle origin story, feature breakdown, and product roadmap. From the minds of Milwaukee Barbell.';
   
+  // Fetch Stripe config
   useEffect(() => {
     const loadStripeConfig = async () => {
       try {
@@ -32,7 +37,8 @@ const About = () => {
     
     loadStripeConfig();
   }, []);
-
+  
+  // Fetch user account info
   useEffect(() => {
     const getAccount = async () => {
       if (!user) {
@@ -76,69 +82,216 @@ const About = () => {
     }
   }, [user, stripeConfig.coffeeLink]);
 
-  return(
-    <div className="sm:w-2/3 bg-gradient-to-r from-transparent via-cyan-50 to-transparent">
-      {updateMetaTags(pageTitle, descriptionContent)}
-      {/* <h1 className="text-primary-950 font-bold text-3xl p-2 mt-4 mx-8 leading-relaxed">About</h1> */}
-      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">Lift Oracle was conceived and forged from the keyboards of <a className="url" href="https://milwaukeebarbell.com">Milwaukee Barbell</a>. We are massive weightlifting nerds who have been coaching and competing in this sport for over a decade.</p>
-      <p className="m-8 p-2 text-primary-950 leading-loose">One crisp spring morning early in 2023, we found ourselves reminiscing and mourning the loss of the pioneering weightlifting data site, OlyStats. Inspired to carry on and advance in its spirit, we started on our quest to build out a modern intelligence platform for weightlifting. Athletes, competitions, advanced statistics. <span className="font-semibold">The Lift Oracle.</span></p>
-      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">The core features of Lift Oracle will remain free forever.</p>
-      <div className="m-8">
-        <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
-          <li>🏋️‍♂️ Historical results for 51,000+ athletes and counting</li>
-          <li>💡 Competition results for 4,000+ local and national events.</li>
-          <li>🔎 Build session watchlists to compare athletes head-to-head.</li>
-          <li>👩‍💻 Basic statistics by athlete, competition, & beyond.</li>
-          <li>🛗 Remote coach board. Shop smarter for a new coach with verified listings and reviews. (Coming Soon)</li>
-          <li>🌍 International competition results and statistics. (Coming Soon)</li>
-        </ul>
+  const handleUpgradeClick = () => {
+    setShowCheckoutStep(true);
+    
+    // Track the event if analytics are available
+    if (window.umami) {
+      window.umami.track('Upgrade to PRO', { source: 'about_page' });
+    }
+  };
+
+  const handleCloseCheckoutStep = () => {
+    setShowCheckoutStep(false);
+  };
+
+  // Render Pro button
+  const renderProButton = () => {
+    if (!stripeConfig.proLink && !stripeConfig.buttonId) {
+      return <p className="text-primary-800">Loading payment options...</p>;
+    }
+    
+    return (
+      <div className="flex flex-col items-center space-y-4">
+        <button
+          onClick={handleUpgradeClick}
+          className="inline-flex items-center justify-center px-8 py-3 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors text-lg font-medium"
+        >
+          Upgrade to Pro - $49/year
+        </button>
+        <p className="text-sm text-primary-700">Cancel anytime • Secure payment via Stripe</p>
       </div>
-      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">If you'd like to support current and future development of this project, consider upgrading to our Lift Oracle Pro tier. For less than $1 per week, Pro-tier members can take advantage of the following features:</p>
-      <div className="m-8">
-        <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
-          <li>🔢 User-defined queries and analytics. Slice and dice our data to your hearts content.</li>
-          <li>🧮 Advanced athlete statistics. Gain an edge on your competition.</li>
-          <li>🏆 Upcoming meet startlists. Get a jump on due dili for your session.</li>
-          <li>💾 Build and save unlimited watchlists. Keep the competition at your fingertips.</li>
-          <li>📲 Export watchlists and athlete statistics to Excel or Google Sheets. Level up your meet coaching.</li>
-          <li>🔢 Automated meet coaching cards. Warm up your athletes on time, every time. (Coming soon)</li>
-          <li>🏗️ & many more to come...</li>
-        </ul>
-        <div>
-          {stripeConfig && stripeConfig.publishableKeyId && stripeConfig.buttonId && (
-            <stripe-buy-button
-              buy-button-id={stripeConfig.buttonId || buttonId}
-              publishable-key={stripeConfig.publishableKeyId}
-              customer-email={accountEmail}
-              client-reference-id={accountId}
-              data-umami-event="pro-checkout"
-            >
-            </stripe-buy-button>
-          )}
+    );
+  };
+
+  return(
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {updateMetaTags(pageTitle, descriptionContent)}
+      
+      {/* Origin Story */}
+      <div className="bg-white rounded-lg shadow-sm p-8 mb-12">
+        <h2 className="text-2xl font-bold text-primary-950 mb-6">Our Story</h2>
+        <div className="space-y-6 text-primary-800">
+          <p className="leading-relaxed">
+            Lift Oracle was conceived and forged from the keyboards of <a className="text-primary-600 hover:text-primary-700 font-medium" href="https://milwaukeebarbell.com">Milwaukee Barbell</a>. We are massive weightlifting nerds who have been coaching and competing in this sport for over a decade.
+          </p>
+          <p className="leading-relaxed">
+            One crisp spring morning early in 2023, we found ourselves reminiscing and mourning the loss of the pioneering weightlifting data site, OlyStats. Inspired to carry on and advance in its spirit, we started on our quest to build out a modern intelligence platform for weightlifting. Athletes, competitions, advanced statistics. <span className="font-semibold">The Lift Oracle.</span>
+          </p>
         </div>
       </div>
-      <p className="m-8 p-2 text-primary-950 leading-loose font-semibold">You can also support Lift Oracle by:</p>
-      <div className="m-8">
-        <ul className="list-none m-8 p-2 text-gray-700 text-sm md:text-m space-y-2">
-          <li>🎽 Scooping some gear at the <a className="url" href="https://milwaukeebarbell.com/gear">Milwaukee Barbell Gear Shop</a></li>
-          <li>
-            {coffeeURL && (
-              <a className="url" href={coffeeURL}>
-                ☕️ Buying us a coffee.
-              </a>
-            )}
-          </li>
-          <li>📨 Signing up for our weekly newsletter, <a className="url" href="https://milwaukeebarbell.com/links">Five Lift Friday</a>.</li>
-          <li>🤝 Following Lift Oracle & Milwaukee Barbell around the web.</li>
-        </ul>
+
+      {/* Core Features */}
+      <div className="bg-white rounded-lg shadow-sm p-8 mb-12">
+        <h2 className="text-2xl font-bold text-primary-950 mb-6">Core Features</h2>
+        <p className="text-primary-800 mb-8">The core features of Lift Oracle will remain free forever.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiUsers className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Historical Results</h3>
+              <p className="text-primary-800">Access data for 51,000+ athletes and counting</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiTrendingUp className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Competition Data</h3>
+              <p className="text-primary-800">Results from 4,000+ local and national events</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiList className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Watchlists</h3>
+              <p className="text-primary-800">Compare athletes head-to-head</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiBarChart2 className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Basic Statistics</h3>
+              <p className="text-primary-800">By athlete, competition, & beyond</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <p className="ml-8 mb-8 mt-2 p-2 text-primary-950 leading-loose font-semibold">Cheers!</p>
-      <p className="ml-8 mb-8 mt-2 p-2 text-primary-950 leading-loose font-semibold">
-        <span>- </span>
-        <a href="https://murphdevane.com" target="_blank">Murph</a>
-        <span> & </span>
-        <a href="https://natestemo.com" target="_blank">Nate</a>
-      </p>
+
+      {/* Pro Features */}
+      <div className="bg-white rounded-lg shadow-sm p-8 mb-12">
+        <h2 className="text-2xl font-bold text-primary-950 mb-6">Pro Features</h2>
+        <p className="text-primary-800 mb-8">For less than $1 per week, Pro-tier members get access to advanced features:</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiSearch className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Custom Analytics</h3>
+              <p className="text-primary-800">User-defined queries and data slicing</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiBarChart2 className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Advanced Stats</h3>
+              <p className="text-primary-800">Gain an edge on your competition</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiList className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Unlimited Lists</h3>
+              <p className="text-primary-800">Save and export watchlists</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiBarChart2 className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Meet Tools</h3>
+              <p className="text-primary-800">Startlists and coaching cards</p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 text-center">
+          {renderProButton()}
+        </div>
+      </div>
+      
+      {/* Intermediate checkout step modal */}
+      {showCheckoutStep && (
+        <IntermediateCheckoutStep
+          email={accountEmail}
+          checkoutUrl={stripeConfig.proLink}
+          hasStripeButton={Boolean(stripeConfig.buttonId && stripeConfig.publishableKeyId)}
+          stripeConfig={stripeConfig}
+          userId={accountId}
+          onClose={handleCloseCheckoutStep}
+        />
+      )}
+
+      {/* Support Section */}
+      <div className="bg-white rounded-lg shadow-sm p-8">
+        <h2 className="text-2xl font-bold text-primary-950 mb-6">Support Lift Oracle</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiShoppingBag className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Shop Gear</h3>
+              <p className="text-primary-800">Visit the <a className="text-primary-600 hover:text-primary-700" href="https://milwaukeebarbell.com/gear">Milwaukee Barbell Gear Shop</a></p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiCoffee className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Buy a Coffee</h3>
+              <p className="text-primary-800">
+                {coffeeURL && (
+                  <a className="text-primary-600 hover:text-primary-700" href={coffeeURL}>
+                    Support our development
+                  </a>
+                )}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiMail className="w-6 h-6 text-primary-600" />
+            </div>
+            {/* <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Newsletter</h3>
+              <p className="text-primary-800">Subscribe to <a className="text-primary-600 hover:text-primary-700" href="https://milwaukeebarbell.com/links">Five Lift Friday</a></p>
+            </div> */}
+          </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiShare2 className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Follow Us</h3>
+              <p className="text-primary-800">Connect with Lift Oracle & Milwaukee Barbell</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Signature */}
+      <div className="text-center mt-12 text-primary-800">
+        <p className="font-semibold mb-4">Cheers!</p>
+        <p>
+          <a href="https://murphdevane.com" target="_blank" className="text-primary-600 hover:text-primary-700">Murph</a>
+          <span className="mx-2">&</span>
+          <a href="https://natestemo.com" target="_blank" className="text-primary-600 hover:text-primary-700">Nate</a>
+        </p>
+      </div>
     </div>
   )
 };

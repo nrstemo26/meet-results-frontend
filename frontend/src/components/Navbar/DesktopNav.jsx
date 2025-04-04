@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LiftOracleLogo from '../../assets/lift_oracle_lo_res.svg';
+import { FiChevronDown, FiUsers, FiCalendar, FiList, FiSearch, FiMapPin } from 'react-icons/fi';
 
 function DesktopNav({ handleLogout }) {
   const user = useSelector((state) => state.auth.user);
@@ -34,69 +35,93 @@ function DesktopNav({ handleLogout }) {
     };
   }, [isToolsMenuOpen]);
 
+  const menuItems = [
+    { to: '/meets', label: 'Meets', icon: <FiCalendar className="w-4 h-4" /> },
+    { to: '/athletes', label: 'Lifters', icon: <FiUsers className="w-4 h-4" /> },
+    { to: '/watchlist', label: 'Watchlist', icon: <FiList className="w-4 h-4" /> },
+    { to: '/query', label: 'Query', icon: <FiSearch className="w-4 h-4" /> },
+    { to: '/weightlifting-gym-near-me', label: 'GymFinder', icon: <FiMapPin className="w-4 h-4" /> },
+  ];
+
   return (
-    <>
-      <Link to='/'>
-        <div className=''>
-          <img src={LiftOracleLogo} alt="Lift Oracle Logo" className="h-8 w-auto" />
-        </div>
+    <div className="flex items-center justify-between w-full max-w-7xl mx-auto px-4">
+      <Link to='/' className="flex-shrink-0">
+        <img src={LiftOracleLogo} alt="Lift Oracle Logo" className="h-8 w-auto" />
       </Link>
 
-      <div className="flex gap-2">
-        <Link to="/">
-          <div>Home</div>
+      <div className="flex items-center space-x-6">
+        <Link to="/" className="text-white hover:text-primary-200 transition-colors">
+          Home
         </Link>
-        
         
         <div className="relative" ref={toolsMenuRef}>
-          <div className="cursor-pointer" onClick={toggleToolsMenu}>Start</div>
-          {isToolsMenuOpen && (
-            <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg rounded-lg hover:rounded-lg overflow-hidden">
-              <Link to="/meets" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm" onClick={handleMenuItemClick}>
-                <div>Meets</div>
+          <button 
+            onClick={toggleToolsMenu}
+            className="flex items-center space-x-1 text-white hover:text-primary-200 transition-colors"
+          >
+            <span>Stats</span>
+            <FiChevronDown className={`w-4 h-4 transition-transform duration-200 ${isToolsMenuOpen ? 'transform rotate-180' : ''}`} />
+          </button>
+          
+          <div 
+            className={`absolute z-10 mt-2 w-56 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-200 transform origin-top ${
+              isToolsMenuOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'
+            }`}
+          >
+            {menuItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors"
+                onClick={handleMenuItemClick}
+              >
+                <span className="text-gray-400 group-hover:text-primary-500">{item.icon}</span>
+                <span>{item.label}</span>
               </Link>
-              <Link to="/athletes" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm" onClick={handleMenuItemClick}>
-                <div>Lifters</div>
-              </Link>
-              <Link to="/watchlist" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm" onClick={handleMenuItemClick}>
-                <div>Watchlist</div>
-              </Link>
-              <Link to="/query" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm" onClick={handleMenuItemClick}>
-                <div>Query</div>
-              </Link>
-              <Link to="/weightlifting-gym-near-me" className="block px-4 py-2 text-primary-950 hover:bg-gradient-to-r hover:from-primary-400 hover:to-primary-50 hover:text-white hover:border-transparent shadow-sm" onClick={handleMenuItemClick}>GymFinder</Link>
-              {/* Add more submenu items here if needed */}
-            </div>
-          )}
+            ))}
+          </div>
         </div>
-        <Link to="/about">
-          <div>About</div>
+
+        <Link to="/about" className="text-white hover:text-primary-200 transition-colors">
+          About
         </Link>
-        <a href="https://milwaukeebarbell.com/collections/lift-oracle" data-umami-event="merch" target="_blank" rel="noopener noreferrer">
-          <div>Merch</div>
+        
+        <a 
+          href="https://milwaukeebarbell.com/collections/lift-oracle" 
+          data-umami-event="merch" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white hover:text-primary-200 transition-colors"
+        >
+          Merch
         </a>
       </div>
 
-      {user ? (
-        // Show account button when user is logged in
-        <div className="flex gap-2">
-          <Link to="/account">
-            <div>Account</div>
-          </Link>
-          <div className="cursor-pointer" onClick={handleLogout}>Logout</div>
-        </div>
-      ) : (
-        // Show login/register buttons when user is not logged in
-        <div className="flex gap-2">
-          <Link to="/login">
-            <div>Login</div>
-          </Link>
-          <Link to="/register">
-            <div>Register</div>
-          </Link>
-        </div>
-      )}
-    </>
+      <div className="flex items-center space-x-6">
+        {user ? (
+          <>
+            <Link to="/account" className="text-white hover:text-primary-200 transition-colors">
+              Account
+            </Link>
+            <button 
+              onClick={handleLogout}
+              className="text-white hover:text-primary-200 transition-colors"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="text-white hover:text-primary-200 transition-colors">
+              Login
+            </Link>
+            <Link to="/register" className="text-white hover:text-primary-200 transition-colors">
+              Register
+            </Link>
+          </>
+        )}
+      </div>
+    </div>
   );
 }
 

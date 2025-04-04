@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import MapComponent from './MapComponent';
 import AddGym from './AddGym';
 import CityLinksByState from './CityLinksByState';
+import CityGymStats from './CityGymStats';
 import GoogleMapsLoader from './GoogleMapsLoader';
 import Modal from 'react-modal';
 import { FaTimes } from 'react-icons/fa';
@@ -11,6 +12,7 @@ import Helmet from 'react-helmet';
 import { updateMetaTags } from '../../lib/seo_utils';
 import { toast } from 'react-toastify';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { toTitleCase } from '../../utils/stringUtils';
 import { baseUrl, recaptchaSiteKey } from '../../config';
 
 // Set app element for accessibility
@@ -20,12 +22,14 @@ if (typeof window !== 'undefined') {
 
 const GymFinder = () => {
   const { cityName } = useParams();
+  const { stateName } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   
   // Get user state from Redux
   const { user } = useSelector((state) => state.auth);
+
 
   // Add diagnostic logging for render
   console.log(`[DIAGNOSTIC] GymFinder RENDER: cityName=${cityName}, viewMode=${viewMode}`);
@@ -51,12 +55,16 @@ const GymFinder = () => {
     }
   }, [cityName]);
 
-  const pageTitle = cityName
-    ? `Find Weightlifting Gyms in ${cityName} - Lift Oracle`
+  // Then in your render function
+  const formattedCityName = cityName ? toTitleCase(cityName) : '';
+  const formattedStateName = stateName ? toTitleCase(stateName) : '';
+
+  const pageTitle = formattedCityName
+    ? `Find Weightlifting Gyms in ${formattedCityName}, ${formattedStateName} - Lift Oracle`
     : 'Find an Olympic Weightlifting Gym Near You - Lift Oracle';
 
-  const pageDescription = cityName
-    ? `Discover the best weightlifting gyms in ${cityName}. Find the perfect place to train with GymFinder by Lift Oracle.`
+  const pageDescription = formattedCityName
+    ? `Discover the best weightlifting gyms in ${formattedCityName}, ${formattedStateName}. Find the perfect place to train with GymFinder by Lift Oracle.`
     : 'Looking for a weightlifting gym near you? Use GymFinder by Lift Oracle to find the best gyms in your area.';
 
   return (
@@ -88,13 +96,17 @@ const GymFinder = () => {
           {/* Hero Section */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-primary-950 mb-4">
-              {cityName ? `Find an Olympic Weightlifting Gym in ${cityName}` : 'Find an Olympic Weightlifting Gym Near You'}
+              {cityName ? `Find an Olympic Weightlifting Gym in ${formattedCityName}, ${formattedStateName}` : 'Find an Olympic Weightlifting Gym Near You'}
             </h1>
             <p className="text-gray-600 max-w-3xl mx-auto mb-6">
               {cityName 
-                ? `Going on vacation, traveling for work, or moving to ${cityName} and need a place to train? Find the perfect Olympic weightlifting gym with information on cost, coaching, equipment, and more.` 
+                ? `Going on vacation, traveling for work, or moving to ${formattedCityName} and need a place to train? Find the perfect Olympic weightlifting gym with information on cost, coaching, equipment, and more.` 
                 : 'Going on vacation, traveling for work, or moving and need a place to train? Find the perfect Olympic weightlifting gym with information on cost, coaching, equipment, and more.'}
             </p>
+
+            {/* Add CityGymStats component when city is specified */}
+            {cityName && <CityGymStats cityName={formattedCityName} stateName={formattedStateName} />}
+
             <button
               onClick={openModal}
               className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-950 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
