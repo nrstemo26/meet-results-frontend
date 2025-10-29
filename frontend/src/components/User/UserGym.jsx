@@ -8,21 +8,17 @@ import { Link } from 'react-router-dom';
 const UserGym = () => {
   const [userGym, setUserGym] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { token } = useSelector((state) => state.auth);
 
-  // Function to encode credentials for Basic Auth
-  const getCredentials = () => {
-    return btoa(`${token}:unused`);
-  };
+  // UPDATED: No longer need token from Redux - using cookie-based auth
 
   useEffect(() => {
     const fetchUserGym = async () => {
       try {
         const response = await axios.get(`${baseUrl}/v1/user/gym`, {
-          headers: { 
-            Authorization: `Basic ${getCredentials()}`,
+          headers: {
             "X-Requested-With": "XMLHttpRequest"
-          }
+          },
+          withCredentials: true  // Send auth cookie
         });
         setUserGym(response.data.data);
       } catch (error) {
@@ -33,20 +29,19 @@ const UserGym = () => {
       }
     };
 
-    if (token) {
-      fetchUserGym();
-    }
-  }, [token]);
+    fetchUserGym();
+  }, []);
 
   const handleRemoveGym = async () => {
     if (!userGym) return;
     
     try {
+      // UPDATED: Use cookies instead of Basic Auth
       await axios.delete(`${baseUrl}/v1/user/gym-association/${userGym.id}`, {
-        headers: { 
-          Authorization: `Basic ${getCredentials()}`,
+        headers: {
           "X-Requested-With": "XMLHttpRequest"
-        }
+        },
+        withCredentials: true  // Send auth cookie
       });
       
       // Remove the gym from state

@@ -11,6 +11,7 @@ const apiUrl = baseUrl+'/v1/'
 const About = () => {
   const [accountEmail, setAccountEmail] = useState(null);
   const [accountId, setAccountId] = useState(null);
+  const [isPro, setIsPro] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const [coffeeURL, setCoffeeURL] = useState('');
   const [stripeConfig, setStripeConfig] = useState({
@@ -47,33 +48,25 @@ const About = () => {
         return;
       }
       
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setCoffeeURL(stripeConfig.coffeeLink || coffeeLink);
-        setAccountEmail('');
-        return;
-      }
-      
-      const credentials = btoa(`${token}:unused`);
-
+      // UPDATED: Use cookies instead of localStorage token
       try {
         const response = await axios.get(`${apiUrl}user/account`, {
-          headers: {
-            Authorization: `Basic ${credentials}`,
-          },
+          withCredentials: true,  // Send auth cookie
         });
 
         setAccountEmail(response.data.email);
         setAccountId(response.data.user_id);
-        
+        setIsPro(response.data.pro || false);
+
         const encodedEmail = encodeURIComponent(response.data.email);
         const clientRef = `&client_reference_id=${response.data.user_id}`;
         setCoffeeURL(`${stripeConfig.coffeeLink || coffeeLink}?prefilled_email=${encodedEmail}${clientRef}`);
-        
+
       } catch (error) {
         console.error(error);
         setCoffeeURL(stripeConfig.coffeeLink || coffeeLink);
         setAccountEmail('');
+        setIsPro(false);
       }
     };
 
@@ -95,12 +88,24 @@ const About = () => {
     setShowCheckoutStep(false);
   };
 
-  // Render Pro button
+  // Render Pro button or thank you message
   const renderProButton = () => {
+    // Show thank you message if user is already a Pro subscriber
+    if (isPro) {
+      return (
+        <div className="flex flex-col items-center space-y-4 p-6 bg-primary-50 rounded-lg border-2 border-primary-200">
+          <div className="text-center">
+            <h3 className="text-xl font-semibold text-primary-950 mb-2">Thank you for your support!</h3>
+            <p className="text-primary-800">You're already a Pro member. We appreciate you helping us build the Oracle.</p>
+          </div>
+        </div>
+      );
+    }
+
     if (!stripeConfig.proLink && !stripeConfig.buttonId) {
       return <p className="text-primary-800">Loading payment options...</p>;
     }
-    
+
     return (
       <div className="flex flex-col items-center space-y-4">
         <button

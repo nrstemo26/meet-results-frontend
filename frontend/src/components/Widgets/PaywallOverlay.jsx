@@ -13,8 +13,9 @@ function PaywallOverlay({ children, buttonText = 'Unlock with Lift Oracle Pro', 
     if (user && user !== null) {
       dispatch(account());
     }
-    // Assuming 'user' holds the user's token or some identifier; adjust according to your state structure
-  }, [dispatch, user]);
+    // Only run once on mount to check subscription status
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleUpgradeClick = (e) => {
     e.preventDefault();

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { login, reset } from '../../features/authSlice';
@@ -18,6 +18,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const {user, isLoading, isError, isSuccess, message} = useSelector((state)=>state.auth)
 
   const handleSubmit = async (e) => {
@@ -33,16 +34,19 @@ const Login = () => {
 
   useEffect(()=>{
     if(isError){
-      toast.error('wrong username or password')
+      // Show the actual error message from backend
+      toast.error(message || 'Login failed. Please try again.')
     }
 
     if(isSuccess){
-      toast.success('welcome bruv')
-      navigate('/watchlist')
+      toast.success('Welcome back!')
+      // Redirect to intended destination, or default to /watchlist
+      const from = location.state?.from?.pathname || '/watchlist'
+      navigate(from, { replace: true })
     }
 
     dispatch(reset())
-  },[user, isError, isSuccess, message, navigate, dispatch])
+  },[user, isError, isSuccess, message, navigate, dispatch, location])
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

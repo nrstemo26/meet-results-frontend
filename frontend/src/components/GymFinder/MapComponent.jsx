@@ -71,35 +71,8 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
     
     // Generate a unique instance ID for this component instance
     const instanceId = useRef(`map-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`);
-    
-    // Get the authentication token from Redux store
-    const { token } = useSelector((state) => state.auth);
-    
-    // Add a state to track if auth is ready to use
-    const [authChecked, setAuthChecked] = useState(false);
-    
-    // Add an effect to handle auth initialization
-    useEffect(() => {
-        // If token state has been determined (either we have a token or we know we don't)
-        // mark auth as checked
-        setAuthChecked(true);
-    }, [token]);
-    
-    // Function to encode credentials for Basic Auth
-    const getCredentials = () => {
-        // Check if token exists in redux state
-        if (!token) {
-            return null;
-        }
-        
-        try {
-            // Encode the token for Basic Auth
-            return btoa(`${token}:unused`);
-        } catch (error) {
-            console.error('Error encoding credentials:', error);
-            return null;
-        }
-    };
+
+    // UPDATED: No longer need token from Redux - using cookie-based auth
     
     // Log component mount/unmount
     useEffect(() => {
@@ -180,30 +153,9 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
 
     const fetchMarkers = useCallback(
         debounce(async (bounds) => {
-            // Only proceed if authentication status has been determined
-            if (!authChecked) {
-                return;
-            }
-            
             const { north, east, south, west } = bounds;
             try {
-                // Prepare headers with auth token if available
-                const headers = {};
-                let credentials = getCredentials();
-                
-                // BACKUP: If no token in Redux state, try directly from localStorage
-                if (!credentials) {
-                    const localToken = localStorage.getItem('token');
-                    if (localToken) {
-                        credentials = btoa(`${localToken}:unused`);
-                    }
-                }
-                
-                if (credentials) {
-                    headers['Authorization'] = `Basic ${credentials}`;
-                    headers['X-Requested-With'] = 'XMLHttpRequest';
-                }
-                
+                // UPDATED: Use cookies instead of Basic Auth
                 const response = await axios.get(markerUrl, {
                     params: {
                         sw_lat: south,
@@ -216,7 +168,7 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
                         usawClub: filters.usawClub,
                         tags: filters.tags
                     },
-                    headers,
+                    withCredentials: true,  // Send auth cookie
                     paramsSerializer: params => {
                         return Object.keys(params)
                             .map(key => {
@@ -237,22 +189,17 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
                 }
             }
         }, 500),
-        [filters, token, authChecked]
+        [filters]  // UPDATED: Removed token and authChecked dependencies
     );
 
     useEffect(() => {
         // Fetch range values on page load
         const fetchRanges = async () => {
             try {
-                // Prepare headers with auth token if available
-                const headers = {};
-                const credentials = getCredentials();
-                if (credentials) {
-                    headers['Authorization'] = `Basic ${credentials}`;
-                    headers['X-Requested-With'] = 'XMLHttpRequest';
-                }
-                
-                const response = await axios.get(rangeUrl, { headers });
+                // UPDATED: Use cookies instead of Basic Auth
+                const response = await axios.get(rangeUrl, {
+                    withCredentials: true  // Send auth cookie
+                });
                 // Update the ranges state
                 setRanges(response.data);
                 
@@ -268,7 +215,7 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
         };
 
         fetchRanges();
-    }, [token]);
+    }, []);
 
     const fetchInitialMarkers = useCallback(() => {
         if (mapRef.current && !loading && !userHasInteracted) {
@@ -300,26 +247,10 @@ const MapComponent = ({ cityName, viewMode, setViewMode }) => {
 
     const fetchPlaceDetails = async (placeId) => {
         try {
-            // Prepare headers with auth token if available
-            const headers = {};
-            let credentials = getCredentials();
-            
-            // BACKUP: If no token in Redux state, try directly from localStorage
-            if (!credentials) {
-                const localToken = localStorage.getItem('token');
-                if (localToken) {
-                    credentials = btoa(`${localToken}:unused`);
-                }
-            }
-            
-            if (credentials) {
-                headers['Authorization'] = `Basic ${credentials}`;
-                headers['X-Requested-With'] = 'XMLHttpRequest';
-            }
-            
+            // UPDATED: Use cookies instead of Basic Auth
             const response = await axios.get(placeUrl, {
                 params: { place_id: placeId },
-                headers
+                withCredentials: true  // Send auth cookie
             });
             
             return response.data;

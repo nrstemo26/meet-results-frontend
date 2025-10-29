@@ -6,6 +6,8 @@ import { baseUrl } from './config';
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router} from 'react-router-dom';
 import { ToastContainer} from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { verify } from './features/authSlice'
 import { updateMetaTags } from './lib/seo_utils';
 import Main from './components/Main';
 import Navbar from './components/Navbar/Navbar';
@@ -15,10 +17,16 @@ import PaymentSuccessHandler from './components/Widgets/PaymentSuccessHandler';
 import CheckoutStepHandler from './components/Widgets/CheckoutStepHandler';
 
 function App() {
+  const dispatch = useDispatch()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   // const ogImageUrl = `${baseUrl}/static/images/oracle_sleeveless.png`;
   const pageTitle = 'Lift Oracle';
   const descriptionContent = 'Olympic weightlifting competition results and statistics. Snatch, clean and jerk, and total stats covering 54,000+ events and 5,000+ athletes.';
+
+  // Verify authentication on app mount (check for existing cookie)
+  useEffect(() => {
+    dispatch(verify())
+  }, [dispatch])
 
   return (
     <Router>

@@ -5,15 +5,12 @@ import { baseUrl } from '../config'
 
 const API_URL = baseUrl + '/v1/user/'
 
-// Get token from localStorage
-const storedToken = localStorage.getItem('token');
-
+// REMOVED: localStorage initialization (cookie-based auth now)
 const initialState = {
-  token: storedToken || null,
-  user: storedToken ? { token: storedToken } : null, // Initialize user if token exists
+  user: null,                    // Changed: no longer initialize from localStorage
   isError: false,
   isSuccess: false,
-  isLoading: false,
+  isLoading: true,               // Start true - auth verification happens on mount
   isSubscribed: false,
   message: '',
 }
@@ -22,19 +19,13 @@ const initialState = {
 export const register = createAsyncThunk(
   'user/register',
   async (userData, thunkAPI) => {
-      try {     
-        const response = await axios.post(API_URL + 'register', userData)
-        
-        
-        //data is probably not the right property tho
-        //needs to have the token as property
-        //can be deleted if we want there to be the verification email
-        // if (response.data) {
-        //     localStorage.setItem('user', JSON.stringify(response.data))
-        // }
-        
+      try {
+        const response = await axios.post(API_URL + 'register', userData, {
+          withCredentials: true  // ADDED: Enable cookies
+        })
+
         return response.data
-        
+
       } catch (error) {
         const message =
         (error.response &&
@@ -46,26 +37,23 @@ export const register = createAsyncThunk(
     }
   }
 )
-              
-              
-              
+
+
+
 // Login user
 export const login = createAsyncThunk(
   'auth/login',
-  async (user, thunkAPI) => {
+  async (userData, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + 'login', user)
-    
-    if (response.data.token) {
-      const { token } = response.data
-      localStorage.setItem('token', token)
-      
-      // boilerplate code 
-      // localStorage.setItem('user', JSON.stringify(response.data))
-    }
-    
-    return response.data
-    
+    const response = await axios.post(API_URL + 'login', userData, {
+      withCredentials: true  // ADDED: Enable cookies
+    })
+
+    // REMOVED: localStorage.setItem('token', token)
+    // Backend sets HttpOnly cookie; frontend just returns user data
+
+    return response.data  // Returns { success: true, username: '...', email: '...' }
+
   } catch (error) {
     const message =
     (error.response && error.response.data && error.response.data.message) ||
@@ -76,80 +64,92 @@ export const login = createAsyncThunk(
 })
 
 
-
+// Verify authentication session
 export const verify = createAsyncThunk(
   'auth/verify',
   async (_, thunkAPI) => {
   try {
-    const token = localStorage.getItem('token')
-    
-    if(token){
-      const res = await axios.post(`${API_URL}verify-token`, {token})
-      const { valid } = res.data;
-      
-      //consider user already logged in
-      if(valid){
-        return { token }; // Return token in an object to set user correctly
-      }else{
-        //token invalid remove from local storage and log user out
-        localStorage.removeItem('token');
-        throw new Error('error')
-      }
+    // REMOVED: localStorage.getItem('token')
+    // Cookie is automatically sent by browser
+
+    const response = await axios.post(`${API_URL}verify-token`, {}, {
+      withCredentials: true  // ADDED: Cookie sent automatically
+    })
+
+    const { valid, user } = response.data
+
+    if (valid) {
+      return user  // Returns user object from backend
+    } else {
+      throw new Error('Invalid session')
     }
-  
-  throw new Error('error')
 
   } catch (error) {
-    const message = 'token verification rejected'
+    const message = 'Session verification failed'
     return thunkAPI.rejectWithValue(message)
   }
 })
 
 
+// Get account info (subscription status)
 export const account = createAsyncThunk(
   'auth/account',
   async (_, thunkAPI) => {
-    const token = localStorage.getItem('token');
-    const credentials = btoa(`${token}:unused`);
     try {
+      // REMOVED: localStorage.getItem('token') and Basic Auth header
+      // Cookie is automatically sent by browser
+
       const response = await axios.get(API_URL + 'account', {
-        headers: {
-          Authorization: `Basic ${credentials}`,
-          "X-Requested-With": "XMLHttpRequest",
-        },
-      });
-      return response.data.pro;
+        withCredentials: true  // ADDED: Cookie sent automatically
+      })
+
+      return response.data.pro
     } catch (error) {
       const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
     }
   }
-);
+)
 
 
+// Logout user
 export const logout = createAsyncThunk(
     'auth/logout',
-    async () => {
-        await localStorage.removeItem('token')
+    async (_, thunkAPI) => {
+      try {
+        // ADDED: Backend call to clear cookie
+        await axios.post(API_URL + 'logout', {}, {
+          withCredentials: true
+        })
+
+        // REMOVED: localStorage.removeItem('token')
+        // Backend clears cookie; frontend just clears Redux state
+
+        // Clear any legacy tokens (migration cleanup)
+        try {
+          localStorage.removeItem('token')
+        } catch (e) {
+          // Ignore errors
+        }
+
+        return null
+      } catch (error) {
+        // Always clear local state even if server request fails
+        try {
+          localStorage.removeItem('token')
+        } catch (e) {
+          // Ignore errors
+        }
+        return null
+      }
     }
 )
 
-// Add a debug helper that's available in the browser console
-if (typeof window !== 'undefined') {
-  window.debugLiftOracleAuth = () => {
-    const token = localStorage.getItem('token');
-    return {
-      tokenInLocalStorage: !!token,
-      tokenLength: token ? token.length : 0,
-      tokenFirstChars: token ? token.substring(0, 5) + '...' : 'none'
-    };
-  };
-}
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -164,13 +164,13 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Register
       .addCase(register.pending, (state) => {
         state.isLoading = true
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.user = action.payload
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false
@@ -178,47 +178,48 @@ export const authSlice = createSlice({
         state.message = action.payload
         state.user = null
       })
+      // Login
       .addCase(login.pending, (state) => {
         state.isLoading = true
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.token = action.payload.token
-        state.user = action.payload
+        state.user = action.payload.username  // Store username
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload
-        state.token = null
         state.user = null
       })
+      // Verify
       .addCase(verify.pending, (state) => {
         state.isLoading = true
       })
       .addCase(verify.fulfilled, (state, action) => {
         state.isLoading = false
-        state.isSuccess = true
-        state.token = action.payload.token
-        state.user = action.payload // Set user with token to display Account/Logout
+        state.user = action.payload  // User object from backend
       })
       .addCase(verify.rejected, (state, action) => {
         state.isLoading = false
-        // state.isError = true
-        // state.message = action.payload
-        state.token = null
         state.user = null
       })
-      .addCase(logout.fulfilled, (state) => {
-        state.token = null
-        state.user = null
+      // Account - Don't set isLoading to avoid blocking UI
+      // isLoading should only be true during login/verify, not subscription checks
+      .addCase(account.pending, (state) => {
+        // Don't set isLoading - let components render while checking subscription
       })
       .addCase(account.fulfilled, (state, action) => {
-        state.isSubscribed = action.payload; // Update the is_subscribed state
+        state.isSubscribed = action.payload
       })
       .addCase(account.rejected, (state) => {
-        state.isSubscribed = false; // Reset is_subscribed if fetch fails
+        state.isSubscribed = false
+      })
+      // Logout
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null
+        state.isSubscribed = false
       })
   },
 })

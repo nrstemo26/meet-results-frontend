@@ -22,7 +22,9 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
       if (user) {
         dispatch(account()); // Dispatch the action to fetch account info
       }
-    }, [user, dispatch]); // Run the effect when 'user' changes
+      // Only run once on mount to check subscription status
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Run only once on mount
 
     const getFilenameFromContentDisposition = (contentDisposition) => {
         const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
@@ -48,19 +50,17 @@ const WatchlistBtn = ({toggleWatchlist, inWatchlist, name}) =>{
       }
 
       try {
-        const token = localStorage.getItem('token');
-        const credentials = btoa(`${token}:unused`);
-        
+        // UPDATED: Use cookies instead of localStorage token
         const response = await axios({
           method: 'POST',
           url: `${baseUrl}/v1/export`,
           headers: {
-            'Authorization': `Basic ${credentials}`,
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
           },
           data: { athlete: name },
-          responseType: 'blob'
+          responseType: 'blob',
+          withCredentials: true  // Send auth cookie
         });
         
         // Get filename from content-disposition header

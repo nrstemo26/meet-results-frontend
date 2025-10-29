@@ -22,19 +22,16 @@ const FeatureRequest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    const credentials = btoa(`${token}:unused`);
     const feature_request = requestText;
 
+    // UPDATED: Use cookies instead of localStorage token
     if (user) {
       try {
         const response = await axios.post(
           baseUrl + '/v1/user/feature-request',
           { feature_request },
           {
-            headers: {
-              Authorization: `Basic ${credentials}`,
-            },
+            withCredentials: true,  // Send auth cookie
           }
         );
         console.log(response.data); // Handle the response as needed

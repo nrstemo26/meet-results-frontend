@@ -41,20 +41,10 @@ const Footer = () => {
                 return;
             }
             
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setCoffeeURL(stripeConfig.coffeeLink || coffeeLink);
-                setAccountEmail('');
-                return;
-            }
-            
-            const credentials = btoa(`${token}:unused`);
-    
+            // UPDATED: Use cookies instead of localStorage token
             try {
                 const response = await axios.get(`${apiUrl}user/account`, {
-                    headers: {
-                        Authorization: `Basic ${credentials}`,
-                    },
+                    withCredentials: true,  // Send auth cookie
                 });
     
                 setAccountEmail(response.data.email);

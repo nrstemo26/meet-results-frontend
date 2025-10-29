@@ -38,8 +38,10 @@ export const getUpcomingMeet = createAsyncThunk(
   'upcoming-meet',
   async(name, thunkAPI) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${apiUrl}meets/upcoming/${name}`, { token });
+      // UPDATED: Use cookies instead of localStorage token
+      const response = await axios.get(`${apiUrl}meets/upcoming/${name}`, {
+        withCredentials: true  // Send auth cookie
+      });
       
       // Handle string response or raw response
       if (typeof response.data === 'string') {

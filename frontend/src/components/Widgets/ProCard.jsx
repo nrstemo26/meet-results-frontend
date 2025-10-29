@@ -23,7 +23,9 @@ const UpgradeProCard = () => {
             setAccountId(user.id);
           }
         }
-      }, [dispatch, user]);
+        // Only run once on mount to check subscription status
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
     
     useEffect(() => {
         if (!isSubscribed) {
