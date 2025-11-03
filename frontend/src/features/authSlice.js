@@ -39,6 +39,30 @@ export const register = createAsyncThunk(
 )
 
 
+// Resend confirmation email
+export const resendConfirmation = createAsyncThunk(
+  'user/resendConfirmation',
+  async (identifier, thunkAPI) => {
+    try {
+      const response = await axios.post(API_URL + 'resend-confirmation',
+        { identifier },
+        { withCredentials: true }
+      )
+
+      return response.data
+
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 
 // Login user
 export const login = createAsyncThunk(
@@ -177,6 +201,20 @@ export const authSlice = createSlice({
         state.isError = true
         state.message = action.payload
         state.user = null
+      })
+      // Resend Confirmation
+      .addCase(resendConfirmation.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(resendConfirmation.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.message = action.payload.message
+      })
+      .addCase(resendConfirmation.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
       })
       // Login
       .addCase(login.pending, (state) => {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { login, reset } from '../../features/authSlice';
+import { login, reset, resendConfirmation } from '../../features/authSlice';
 import { updateMetaTags } from '../../lib/seo_utils';
 
 import {toast} from 'react-toastify'
@@ -12,6 +12,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [showResendConfirmation, setShowResendConfirmation] = useState(false);
 
   const pageTitle = 'Login - Lift Oracle';
   const descriptionContent = 'Securely access your account access exclusive Lift Oracle features. View saved watchlists, your Oracle Rating, and more.';
@@ -24,6 +25,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Reset resend confirmation UI on new login attempt
+    setShowResendConfirmation(false);
+
     const userData = {
           username,
           password,
@@ -32,8 +36,22 @@ const Login = () => {
     await dispatch(login(userData))
   };
 
+  const handleResendConfirmation = async () => {
+    try {
+      await dispatch(resendConfirmation(username)).unwrap();
+      toast.success('Confirmation email sent! Please check your inbox.');
+      setShowResendConfirmation(false);
+    } catch (error) {
+      toast.error(error || 'Failed to send confirmation email.');
+    }
+  };
+
   useEffect(()=>{
     if(isError){
+      // Check if error is about unconfirmed email
+      if (message && message.toLowerCase().includes('confirm your email')) {
+        setShowResendConfirmation(true);
+      }
       // Show the actual error message from backend
       toast.error(message || 'Login failed. Please try again.')
     }
@@ -104,12 +122,26 @@ const Login = () => {
               </Link>
             </div>
             <div className="space-y-4">
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="w-full px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
               >
                 Sign in
               </button>
+              {showResendConfirmation && (
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-md">
+                  <p className="text-sm text-amber-800 mb-2">
+                    Didn't receive the confirmation email?
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleResendConfirmation}
+                    className="text-sm text-primary-600 hover:text-primary-700 font-medium underline"
+                  >
+                    Resend confirmation email
+                  </button>
+                </div>
+              )}
               <p className="text-center text-sm text-gray-600">
                 Don't have an account?{' '}
                 <Link to="/register" className="text-primary-500 hover:text-primary-600">
