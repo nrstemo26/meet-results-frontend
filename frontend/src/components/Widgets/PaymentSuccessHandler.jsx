@@ -84,7 +84,10 @@ const PaymentSuccessHandler = () => {
     };
     
     checkForEvents();
-  }, [dispatch, user, location]);
+    // Only check once on mount or when location changes (e.g., URL params)
+    // Don't re-run when user changes to avoid infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   const handleCloseModal = () => {
     setShowModal(false);

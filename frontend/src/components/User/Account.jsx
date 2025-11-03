@@ -37,14 +37,10 @@ const Account = () => {
         return;
       }
 
-      const token = localStorage.getItem('token');
-      const credentials = btoa(`${token}:unused`);
-
+      // UPDATED: Use cookies instead of localStorage token
       try {
         const response = await axios.get(`${baseUrl}/v1/user/account`, {
-          headers: {
-            Authorization: `Basic ${credentials}`,
-          },
+          withCredentials: true,  // Send auth cookie
         });
 
         setAccountData(response.data);
@@ -52,11 +48,9 @@ const Account = () => {
         if (response.data.pro) {
           try {
             const billingResponse = await axios.get(`${baseUrl}/v1/user/create-customer-portal-session`, {
-              headers: {
-                Authorization: `Basic ${credentials}`,
-              },
+              withCredentials: true,  // Send auth cookie
             });
-            
+
             setBillingPortalUrl(billingResponse.data.billing_portal_url);
           } catch (billingError) {
             console.error(billingError);
@@ -71,9 +65,7 @@ const Account = () => {
 
       try {
         const response = await axios.get(`${baseUrl}/v1/watchlists`, {
-          headers: {
-            Authorization: `Basic ${credentials}`,
-          },
+          withCredentials: true,  // Send auth cookie
         });
 
         console.log("Watchlist API Response:", JSON.stringify(response.data, null, 2));
@@ -88,16 +80,13 @@ const Account = () => {
 
   const handleUsernameChange = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    const credentials = btoa(`${token}:unused`);
-    
+
+    // UPDATED: Use cookies instead of localStorage token
     try {
       const response = await axios.put(`${baseUrl}/v1/user/update-username/`, {
         username: newUsername,
       }, {
-        headers: {
-          Authorization: `Basic ${credentials}`,
-        },
+        withCredentials: true,  // Send auth cookie
       });
 
       // Update local state if necessary
@@ -119,13 +108,9 @@ const Account = () => {
     );
     setWatchlistData(updatedWatchlistData);
 
-    const token = localStorage.getItem('token');
-    const credentials = btoa(`${token}:unused`);
-
+    // UPDATED: Use cookies instead of localStorage token
     axios.delete(`${baseUrl}/v1/watchlist/${watchlistId}`, {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
+      withCredentials: true,  // Send auth cookie
     })
       .then((response) => {
         toast(response.data.message);
@@ -152,14 +137,10 @@ const Account = () => {
   };
 
   const fetchWatchlistDetails = async (watchlistId) => {
-    const token = localStorage.getItem('token');
-    const credentials = btoa(`${token}:unused`);
-    
+    // UPDATED: Use cookies instead of localStorage token
     try {
       const response = await axios.get(`${baseUrl}/v1/watchlist/${watchlistId}`, {
-        headers: {
-          Authorization: `Basic ${credentials}`,
-        },
+        withCredentials: true,  // Send auth cookie
       });
       
       console.log("Watchlist details:", response.data);

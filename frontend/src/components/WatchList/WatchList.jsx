@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { saveAs } from 'file-saver';
 import Search from '../SearchBars/Search'
 import WatchListAthlete from './WatchListAthlete';
@@ -25,7 +25,9 @@ function WatchList(){
     if (user) {
       dispatch(account()); // Dispatch the action to fetch account info
     }
-  }, [user, dispatch]); // Run the effect when 'user' changes
+    // Only run once on mount to check subscription status
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run only once on mount
    
     const handleExport = async () => {
       if (!isSubscribed) {
@@ -42,19 +44,17 @@ function WatchList(){
       }
       
       try {
-        const token = localStorage.getItem('token');
-        const credentials = btoa(`${token}:unused`);
-        
+        // UPDATED: Use cookies instead of localStorage token
         const response = await axios({
           method: 'POST',
           url: `${baseUrl}/v1/export`,
           headers: {
-            'Authorization': `Basic ${credentials}`,
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
           },
           data: { athletes: WatchListAthletes },
-          responseType: 'blob'
+          responseType: 'blob',
+          withCredentials: true  // Send auth cookie
         });
         
         // Get filename from content-disposition header
@@ -159,21 +159,16 @@ function WatchList(){
         return; // User is not subscribed
       }
       
-      const token = localStorage.getItem('token');
-      
-      //token could be defined like this too
-      //const token = user.token;
-      const credentials = btoa(`${token}:unused`);
-
+      // UPDATED: Use cookies instead of localStorage token
       try {
         const response = await axios.post(
           `${baseUrl}/v1/watchlist`,
           data,
           {
             headers: {
-              Authorization: `Basic ${credentials}`,
               'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true  // Send auth cookie
           }
         )
         // console.log(response.data); // Handle the response as needed

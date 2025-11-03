@@ -18,8 +18,10 @@ export const getAthlete = createAsyncThunk(
     'athlete',
     async(name, thunkAPI) => {
         try{
-            const token = localStorage.getItem('token');
-            const response =  await axios.post(athleteUrl + 'athlete/' + name, { token } )
+            // UPDATED: Use cookies instead of localStorage token
+            const response =  await axios.post(athleteUrl + 'athlete/' + name, {}, {
+                withCredentials: true  // Send auth cookie
+            })
             return response.data
 
         }catch(error){

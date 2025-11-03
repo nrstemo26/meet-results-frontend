@@ -15,6 +15,7 @@ import PasswordReset from './User/PasswordReset'
 import Account from './User/Account'
 import Confirmation from './User/Confirmation'
 import GymFinder from './GymFinder/GymFinder'
+import ProtectedRoute from './Auth/ProtectedRoute'
 
 import { Home } from '../pages/Home/Home'
 import { Insights } from '../pages/Insights'
@@ -42,35 +43,61 @@ function Main() {
 return (
     <div >
       <Routes>
-          <Route path="*" element={<NotFound/>}/>
-          {/* this route will need to change...needs an id? */}
-          <Route path="/watchlist" element={<WatchList />} />
+          {/* Public Routes */}
+          <Route path="/" element={<Home/>}/>
+          <Route path="/about" element={<About/>}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/reset-request" element={<ResetRequest/>}/>
+          <Route path="/reset-password" element={<PasswordReset/>}/>
+          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path='/pro-redirect' element={<ProRedirect/>} />
+          <Route path='/cheers' element={<Cheers/>} />
+
+          {/* Public Search Routes */}
           <Route path="/athletes" element={<Search/>}/>
           <Route path="/athlete/:id" element={<AthleteDashboard/>}/>
-          
           <Route path="/meets" element={<MeetSearch/>}/>
           <Route path="/meet/:id" element={<MeetDashboard/>}/>
           <Route path="/upcoming/:id" element={<UpcomingMeetDashboard/>}/>
-          
+          <Route path="/insights"  element={<Insights/>}/>
+
+          {/* Public Gym Routes */}
           <Route path="/weightlifting-gym-near-me" element={<GymFinder/>}/>
           <Route path="/gyms/:stateName/:cityName" element={<GymFinder/>} />
 
-          <Route path="/insights"  element={<Insights/>}/>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/about" element={<About/>}/>
-          <Route path="/reset-request" element={<ResetRequest/>}/>
-          <Route path="/reset-password" element={<PasswordReset/>}/>
-          <Route path="/login" element={<Login />} /> 
-          <Route path="/register" element={<Register />} /> 
-          <Route path='/account' element={<Account />}/>
-          <Route path="/confirmation" element={<Confirmation />} />
-          <Route path='/pro-redirect' element={<ProRedirect/>} />
-          <Route path='/query' element={<ResultsFilterForm/>} />
-          <Route path='/cheers' element={<Cheers/>} />
+          {/* Protected Routes - Require Authentication */}
+          <Route
+            path='/account'
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/watchlist"
+            element={
+              <ProtectedRoute>
+                <WatchList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/query'
+            element={
+              <ProtectedRoute>
+                <ResultsFilterForm/>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 404 Catch-all */}
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
 
     </div>
-      
+
   )
 }
 

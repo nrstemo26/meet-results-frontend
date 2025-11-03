@@ -83,37 +83,29 @@ const MarkerCard = ({ marker, isMobile }) => {
     // Function to handle the "I train here" button click
     const handleAssociateWithGym = async (e) => {
         e.stopPropagation(); // Prevent triggering the card click event
-        
-        // Get token from localStorage
-        const token = localStorage.getItem('token');
-        if (!token) {
-            // If not logged in, redirect to login page using a different method
-            // Using window.location.replace to avoid adding to browser history
-            window.location.replace('/login');
-            return;
-        }
-        
+
+        // UPDATED: Cookie-based auth - no need to check localStorage
+        // Backend will verify auth cookie
+
         // Reset any previous errors
         setAssociationError(null);
         setIsAssociating(true);
-        
+
         try {
-            // Encode the token for Basic Auth
-            const credentials = btoa(`${token}:unused`);
-            
+            // UPDATED: Use cookies instead of Basic Auth
             // Make the API call to associate with gym
             const response = await axios.post(
-                `${baseUrl}/v1/user/gym-association`, 
+                `${baseUrl}/v1/user/gym-association`,
                 { gym_id: safeMarker.id },
                 {
                     headers: {
-                        'Authorization': `Basic ${credentials}`,
                         'X-Requested-With': 'XMLHttpRequest',
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    withCredentials: true  // Send auth cookie
                 }
             );
-            
+
             // Show success (you might want to handle this differently)
             if (response.status === 200 || response.status === 201) {
                 // Update the UI to show this is now the user's gym
@@ -122,18 +114,17 @@ const MarkerCard = ({ marker, isMobile }) => {
             }
         } catch (error) {
             console.error('Error associating with gym:', error);
-        
+
             // Check if this is an authentication error (401)
             if (error.response && error.response.status === 401) {
-                // Token might be invalid or expired - redirect to login
-                localStorage.removeItem('token'); // Clear the invalid token
+                // Not authenticated - redirect to login
                 window.location.replace('/login');
                 return;
             }
-            
+
             // Handle other errors
             setAssociationError(
-                error.response?.data?.message || 
+                error.response?.data?.message ||
                 'Failed to associate with gym. Please try again.'
             );
         } finally {

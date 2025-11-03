@@ -196,18 +196,10 @@ const AddGym = ({ closeModal }) => {
       }
       
       console.log('reCAPTCHA token obtained successfully:', recaptchaToken.substring(0, 10) + '...');
-      
-      // Get authentication token
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        toast.error('Please log in to add or update gym information');
-        closeModal();
-        // Redirect to login page
-        window.location.href = '/login?redirect=gymfinder';
-        return;
-      }
-      
+
+      // UPDATED: Cookie-based auth - no need to check localStorage
+      // Auth will be handled by withCredentials in axios call
+
       const gymDetails = {
         ...placeDetails,
         dropInFee,
@@ -228,13 +220,9 @@ const AddGym = ({ closeModal }) => {
         recaptchaToken: gymDetails.recaptchaToken ? 'Token present' : 'Token missing'
       });
       
-      // Create credentials for Basic Auth
-      const credentials = btoa(`${token}:unused`);
-      
+      // UPDATED: Use cookies instead of Basic Auth
       const response = await axios.post(`${baseUrl}/v1/gymfinder/gym-form-submit`, gymDetails, {
-        headers: {
-          Authorization: `Basic ${credentials}`,
-        }
+        withCredentials: true  // Send auth cookie
       });
       
       toast.success(response.data.message || 'Gym added successfully!');
