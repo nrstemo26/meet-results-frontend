@@ -3,7 +3,8 @@ import TopSinclairs from "./TopSinclairs";
 // import AllTotals from "./AllTotals";
 import { Spinner } from '../../../pages/Spinners/Spinner';
 import { Error } from '../../../pages/Error';
-import { updateMetaTags } from '../../../lib/seo_utils';
+import { updateMetaTags, generateMeetSchema } from '../../../lib/seo_utils';
+import { siteUrl } from '../../../config';
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getMeet } from '../../../features/meetSlice'
@@ -19,6 +20,15 @@ const MeetDashboard = () => {
   const pageTitle = data?.headline?._metadata ? `${data.headline._metadata.Meet} (${data.headline._metadata.Year}) - Lift Oracle` : 'Lift Oracle';
   const meetTitle = data?.headline?._metadata ? `${data.headline._metadata.Meet} (${data.headline._metadata.Year})` : 'Lift Oracle';
   const descriptionContent = data?.headline?._metadata ? `Olympic weightlifting competition results and statistics for ${data.headline._metadata.Meet} (${data.headline._metadata.Year}). Snatch, clean and jerk, total, sinclair, etc.` : 'Loading meet information';
+
+  // Generate JSON-LD schema for meet
+  const meetSchema = data?.headline?._metadata ? generateMeetSchema({
+    name: data.headline._metadata.Meet,
+    year: data.headline._metadata.Year
+  }) : null;
+
+  // Generate canonical URL - format: /meet/{Meet Name} ({Year})
+  const canonicalUrl = data?.headline?._metadata ? `${siteUrl}/meet/${encodeURIComponent(`${data.headline._metadata.Meet} (${data.headline._metadata.Year})`)}` : null;
   
   useEffect(()=>{
     if(isError){
@@ -48,9 +58,13 @@ const MeetDashboard = () => {
   }
 
     return (
-      
+
       <div className='dashboard-container'>
-        {updateMetaTags(pageTitle, descriptionContent)}
+        {updateMetaTags(pageTitle, descriptionContent, {
+          canonical: canonicalUrl,
+          ogType: 'article',
+          jsonLd: meetSchema
+        })}
           <div className='bg-secondary-500 p-5 rounded-xl'>
             <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{meetTitle}</h1>
             {

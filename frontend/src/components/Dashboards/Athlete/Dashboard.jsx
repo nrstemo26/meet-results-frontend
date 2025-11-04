@@ -10,7 +10,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAthlete } from '../../../features/athleteSlice'
 import { removeFromWatchlist,addToWatchlist } from '../../../features/watchlistSlice';
 import { useNavigate } from 'react-router-dom'
-import { updateMetaTags } from '../../../lib/seo_utils';
+import { updateMetaTags, generateAthleteSchema } from '../../../lib/seo_utils';
+import { siteUrl } from '../../../config';
 import ChartWrapper from './ChartWrapper';
 import RelatedAthletes from './RelatedAthletes';
 import MakeRateDonut from './charts/MakeRateDonut';
@@ -30,6 +31,14 @@ const Dashboard = () => {
 
   const pageTitle = data ? `${data['_athlete_id']} - Lift Oracle`: 'Lift Oracle';
   const descriptionContent = data ? `Olympic weightlifting competition history and statistics for ${data['_athlete_id']}. Snatch, clean and jerk, total, sinclair, completion percentages, and more.`: 'Loading athlete information';
+
+  // Generate JSON-LD schema for athlete
+  const athleteSchema = data ? generateAthleteSchema({
+    name: data['_athlete_id']
+  }) : null;
+
+  // Generate canonical URL
+  const canonicalUrl = data ? `${siteUrl}/athlete/${encodeURIComponent(data['_athlete_id'])}` : null;
 
   const [inWatchlist, setInWatchlist]= useState(()=>{
     return watchlist.includes(name)
@@ -87,7 +96,11 @@ const Dashboard = () => {
 
     return (
       <div className='dashboard-container'>
-        {updateMetaTags(pageTitle, descriptionContent)}
+        {updateMetaTags(pageTitle, descriptionContent, {
+          canonical: canonicalUrl,
+          ogType: 'profile',
+          jsonLd: athleteSchema
+        })}
         <div className='bg-secondary-500 p-5 rounded-xl'>
             {data ? <WatchlistIcon name={data['_athlete_id']} toggleWatchlist={toggleWatchlist} inWatchlist={inWatchlist}/>: 'loading'}
             {/* <h1 className="text-center text-primary-950 text-4xl font-bold m-2">

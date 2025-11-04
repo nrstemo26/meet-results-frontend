@@ -1,6 +1,9 @@
 // Read environment variables from Vite
 export const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://192.168.86.27:5000/api'; // Default fallback if env var not set
 
+// Site URL for SEO (canonical tags, schema.org URLs, Open Graph)
+export const siteUrl = import.meta.env.VITE_SITE_URL || 'https://liftoracle.com';
+
 // reCAPTCHA config
 export const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfjywErAAAAAOg6EHwyf2Xee21kgwdRgOK7hrvj'; // Site key for localhost
 

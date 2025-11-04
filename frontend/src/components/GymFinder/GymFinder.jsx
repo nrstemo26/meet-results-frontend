@@ -13,7 +13,7 @@ import { updateMetaTags } from '../../lib/seo_utils';
 import { toast } from 'react-toastify';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { toTitleCase } from '../../utils/stringUtils';
-import { baseUrl, recaptchaSiteKey } from '../../config';
+import { baseUrl, recaptchaSiteKey, siteUrl } from '../../config';
 
 // Set app element for accessibility
 if (typeof window !== 'undefined') {
@@ -67,6 +67,11 @@ const GymFinder = () => {
     ? `Discover the best weightlifting gyms in ${formattedCityName}, ${formattedStateName}. Find the perfect place to train with GymFinder by Lift Oracle.`
     : 'Looking for a weightlifting gym near you? Use GymFinder by Lift Oracle to find the best gyms in your area.';
 
+  // Generate canonical URL
+  const canonicalUrl = cityName && stateName
+    ? `${siteUrl}/gyms/${encodeURIComponent(stateName)}/${encodeURIComponent(cityName)}`
+    : `${siteUrl}/weightlifting-gym-near-me`;
+
   return (
     <GoogleReCaptchaProvider
       reCaptchaKey={recaptchaSiteKey}
@@ -91,7 +96,10 @@ const GymFinder = () => {
     >
       <GoogleMapsLoader>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {updateMetaTags(pageTitle, pageDescription)}
+          {updateMetaTags(pageTitle, pageDescription, {
+            canonical: canonicalUrl,
+            ogType: 'website'
+          })}
           
           {/* Hero Section */}
           <div className="text-center mb-8">

@@ -1,6 +1,7 @@
 import { Spinner } from '../../../pages/Spinners/Spinner';
 import { Error } from '../../../pages/Error';
-import { updateMetaTags } from '../../../lib/seo_utils';
+import { updateMetaTags, generateMeetSchema } from '../../../lib/seo_utils';
+import { siteUrl } from '../../../config';
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUpcomingMeet } from '../../../features/upcomingSlice'
@@ -46,10 +47,24 @@ const UpcomingMeetDashboard = () => {
   const meetTitle = data?.metadata?.meet_name ? `${data.metadata.meet_name}` : 'Lift Oracle';
   const description = data?.metadata?.meet_name ? `Olympic weightlifting meet startlist - ${data.metadata.meet_name}. Preview weight classes, entry totals, etc.` : 'Loading meet information';
 
-  updateMetaTags(title, description);
+  // Generate canonical URL from current path
+  const urlArray = window.location.pathname.split('/');
+  const meetId = urlArray[urlArray.length - 1];
+  const canonicalUrl = meetId ? `${siteUrl}/upcoming/${meetId}` : null;
+
+  // Generate schema if we have year data
+  const meetSchema = data?.metadata?.meet_name && data?.metadata?.year ? generateMeetSchema({
+    name: data.metadata.meet_name,
+    year: data.metadata.year
+  }) : null;
 
   return (
     <div className='dashboard-container'>
+      {updateMetaTags(title, description, {
+        canonical: canonicalUrl,
+        ogType: 'article',
+        jsonLd: meetSchema
+      })}
       <div className='bg-secondary-500 p-5 rounded-xl'>
         <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{title}</h1>
       </div>
