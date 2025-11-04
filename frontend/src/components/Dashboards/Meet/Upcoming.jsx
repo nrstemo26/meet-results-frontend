@@ -1,6 +1,6 @@
 import { Spinner } from '../../../pages/Spinners/Spinner';
 import { Error } from '../../../pages/Error';
-import { updateMetaTags, generateMeetSchema } from '../../../lib/seo_utils';
+import { updateMetaTags } from '../../../lib/seo_utils';
 import { siteUrl } from '../../../config';
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -52,18 +52,14 @@ const UpcomingMeetDashboard = () => {
   const meetId = urlArray[urlArray.length - 1];
   const canonicalUrl = meetId ? `${siteUrl}/upcoming/${meetId}` : null;
 
-  // Generate schema if we have year data
-  const meetSchema = data?.metadata?.meet_name && data?.metadata?.year ? generateMeetSchema({
-    name: data.metadata.meet_name,
-    year: data.metadata.year
-  }) : null;
+  // Note: SportsEvent schema requires location field for validation
+  // Since we don't have reliable location data, we skip schema to avoid validation errors
 
   return (
     <div className='dashboard-container'>
       {updateMetaTags(title, description, {
         canonical: canonicalUrl,
-        ogType: 'article',
-        jsonLd: meetSchema
+        ogType: 'article'
       })}
       <div className='bg-secondary-500 p-5 rounded-xl'>
         <h1 className="text-center text-primary-950 text-2xl font-bold m-2">{title}</h1>
