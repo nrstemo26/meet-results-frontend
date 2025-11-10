@@ -285,6 +285,15 @@ const About = () => {
               <p className="text-primary-800"><a className="text-primary-600 hover:text-primary-700" href="https://instagram.com/mkebarbell">Proud Purveyors of the Barbell Lifestyle</a></p>
             </div>
           </div>
+          <div className="flex items-start space-x-4">
+            <div className="flex-shrink-0 p-2 bg-primary-100 rounded-lg">
+              <FiShare2 className="w-6 h-6 text-primary-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-primary-950 mb-2">Check out FilmPrices</h3>
+              <p className="text-primary-800"><a className="text-primary-600 hover:text-primary-700" href="https://filmprices.net" target="_blank" rel="noopener noreferrer">Our sister data project for the 🎞️ community</a></p>
+            </div>
+          </div>
         </div>
       </div>
 
