@@ -9,9 +9,7 @@ const Announcement = () => {
     setIsVisible(false);
   };
 
-  const isGymFinderRoute = location.pathname === '/weightlifting-gym-near-me' || location.pathname.startsWith('/weightlifting-gym/');
-
-  if (!isVisible || isGymFinderRoute) return null;
+  if (!isVisible) return null;
 
   return (
     <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
@@ -35,17 +33,19 @@ const Announcement = () => {
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
         <p className="text-sm leading-6 text-gray-900">
-          <strong className="font-semibold">New Tool! </strong>
+          <strong className="font-semibold">Fuel your training</strong>
           <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
             <circle cx="1" cy="1" r="1" />
           </svg>
-          Looking for a place to train?
+          35% off new subscriptions, 14% entire order
         </p>
         <a
-          href="/weightlifting-gym-near-me"
+          href="https://crrnt.app/MOME/pmnbzWOY"
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
         >
-          Search GymFinder 🌎 <span aria-hidden="true">&rarr;</span>
+          Shop Momentous <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
       <div className="flex flex-1 justify-end">
