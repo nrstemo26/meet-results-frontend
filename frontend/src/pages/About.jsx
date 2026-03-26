@@ -300,7 +300,7 @@ const About = () => {
             </div>
             <div>
               <h3 className="font-semibold text-primary-950 mb-2">Shop Momentous Supplements</h3>
-              <p className="text-primary-800"><a className="text-primary-600 hover:text-primary-700" href="https://crrnt.app/MOME/pmnbzWOY" target="_blank" rel="noopener noreferrer">35% off new subscriptions, 14% entire order</a></p>
+              <p className="text-primary-800"><a className="text-primary-600 hover:text-primary-700" href="https://crrnt.app/MOME/pmnbzWOY" target="_blank" rel="noopener noreferrer" data-umami-event="momentous-about">14% off your order · 35% off new subscriptions · discount auto-applied (or use code ORACLE)</a></p>
             </div>
           </div>
         </div>
