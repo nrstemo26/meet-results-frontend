@@ -15,6 +15,7 @@ import { siteUrl } from '../../../config';
 import ChartWrapper from './ChartWrapper';
 import RelatedAthletes from './RelatedAthletes';
 import MakeRateDonut from './charts/MakeRateDonut';
+import MomentousAffiliate from '../../Widgets/MomentousAffiliate';
 
 import { toast } from 'react-toastify'
 import WatchlistBtn from './WatchlistBtn';
@@ -126,6 +127,7 @@ const Dashboard = () => {
               <MakeRateDonut data={data.advanced_stats["C&J"]} exercise={'C&J'}/>
               <AllTotals />
               <Insights />
+              <MomentousAffiliate />
               <RelatedAthletes athleteName={data['_athlete_id']} />
             </>
           ):
