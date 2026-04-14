@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 
@@ -7,7 +7,8 @@ const PasswordReset = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { token } = useParams();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
