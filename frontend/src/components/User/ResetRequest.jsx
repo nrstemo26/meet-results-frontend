@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import { baseUrl } from '../../config';
 
 const ResetRequest = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const ResetRequest = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('/v1/user/reset-request', { email });
+      const response = await axios.post(`${baseUrl}/v1/user/reset-request`, { email });
       toast.success('Password reset instructions sent to your email');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to send reset instructions');

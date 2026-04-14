@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import { baseUrl } from '../../config';
 
 const PasswordReset = () => {
   const [password, setPassword] = useState('');
@@ -21,7 +22,7 @@ const PasswordReset = () => {
 
     setIsLoading(true);
     try {
-      await axios.put(`/v1/user/reset-password/${token}`, { password, confirmPassword });
+      await axios.put(`${baseUrl}/v1/user/reset-password/${token}`, { password, confirmPassword });
       toast.success('Password reset successful');
       navigate('/login');
     } catch (error) {
