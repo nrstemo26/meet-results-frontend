@@ -21,7 +21,7 @@ const PasswordReset = () => {
 
     setIsLoading(true);
     try {
-      await axios.put(`/v1/user/reset-password/${token}`, { password });
+      await axios.put(`/v1/user/reset-password/${token}`, { password, confirmPassword });
       toast.success('Password reset successful');
       navigate('/login');
     } catch (error) {
